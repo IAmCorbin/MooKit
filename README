@@ -1,0 +1,56 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--  MooKit V 0.5																							--
+--  																									--
+--  My Object Oriented Toolkit																				--
+--  																									--
+--  Febuary 22, 2010																					--
+--																									--
+--  Cody By Corbin																						--
+--  http://www.IAmCorbin.net																				--
+--																									--
+--  This code is free to use and share, but must be passed on in turn. Don't be greedy, help each other, we are all One.		--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MooKit is a web development toolkit using:
+	
+	mySQL - The worlds most popular open source database ( http://www.mysql.com/ )
+	php - A widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTM ( http://php.net )
+	javascript - The most popular scripting language on the internet, and works in all major browsers ( http://www.w3schools.com/js/js_intro.asp )
+	Mootools - A compact, modular, Object-Oriented JavaScript framework designed for the intermediate to advanced JavaScript developer( http://mootools.net/ )
+	
+Goals:
+																							--
+	- The MooKit is a robust and scalable solution to any webDevelopment challange.							--
+																							--
+	- The Mookit eliminates redundant data and creates a nice organized, readable structure					--
+																							--
+	- The MooKit provides object oriented pieces you can snap together to create a site 						--
+																							--
+	- The MooKit allows for the creation of a solid structure(context), that can then be filled with dynamic content	--
+																							--
+         ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 
+
+-----------
+| Files |
+________________________________________________________________________________________________________
+
+img/			| contains site images
+js/ 			| contains site javascript
+	Lightbox.js		| Lightbox class - adds "toggleable" layers to the page
+	main.js			| mootools domready event code
+	mootools-*core.js 	| latest mootools core 
+	mootools-*more.js	| latest mootools more
+php/ 		| contains site php code other than index.php
+	includes.php		| class includes and session initialization
+	login.php			| simple php login script using the User and Database classes
+	signup.php		| simple php signup script using the User and Database classes
+phpClasses/ 	| contains php classes
+	Database			| DatabaseConnection class
+	Filters			| User input filtering class
+	User				| Class for user management (add, authenticate, update or remove)
+SQL/ 		| for reference: any SQL statements needed for site database
+style/ 		| CSS style file(s)
+index.php		| main site
+README		| this file
+__________________________________________________________________________________________________________
