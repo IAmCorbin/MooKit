@@ -27,7 +27,7 @@ window.addEvent('domready', function() {
 	
 	
 	//SETUP LOGIN BOX
-	loginValidator = new FormValidator($('loginForm'));
+	loginValidator = new Form.Validator.Inline($('loginForm'));
 	login = new LightBox('login', {
 		onShow: function() { 
 			this.content.set('tween',{duration: 'long', transition: Fx.Transitions.Bounce.easeOut });
@@ -35,10 +35,15 @@ window.addEvent('domready', function() {
 			$('loginForm').getElements('input')[0].focus();
 		},
 		onHide: function() { 
+			if(!loginValidator.validate())
+				//show form errors
+				$$('.formError').setStyle('display','block');
 			//don't close if input is not valid
 			if(loginValidator.validate() || $('CLOSE')) {
 				//make sure php validated user input
 				if($('phpValidated') || $('CLOSE')) {
+					//hide form errors
+					$$('.formError').setStyle('display','none');
 					this.content.set('tween',{duration: 'short', transition: 'quad' });
 					this.content.tween('top','-300px'); 
 					login.fadeLightbox.delay('200',this); 
@@ -90,7 +95,7 @@ window.addEvent('domready', function() {
 	});
 	
 	//SETUP SIGNUP BOX
-	signupValidator = new FormValidator($('signupForm'));
+	signupValidator = new Form.Validator.Inline($('signupForm'));
 	signup = new LightBox('signup', {
 		onShow: function() { 
 			this.content.setStyle('top','-350px');
@@ -99,10 +104,17 @@ window.addEvent('domready', function() {
 			$('signupForm').getElements('input')[0].focus();
 		},
 		onHide: function() { 
+			if(!signupValidator.validate()) {
+				//show form errors
+				$$('.formError').setStyle('display','block');
+			}
 			//don't close if input is not valid
 			if(signupValidator.validate() || $('CLOSE')) {
 				//make sure php validated user input
 				if($('phpValidated') || $('CLOSE')) {
+					//hide form errors
+					console.log("hide formerrors");
+					$$('.formError').setStyle('display','none');
 					this.content.set('tween', { duration: '500', transition: 'quad' });
 					this.content.tween('top','1600%');
 					login.fadeLightbox.delay('500',this);

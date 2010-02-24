@@ -15,6 +15,8 @@ body {
 	.loginContent { position: fixed; left: 40%; top: -200px; width: 270px; height: 200px; padding: 10px; border: solid black 8px; background: #AFA;  z-index: 1001; display: none;}
 	.loginContent div.X { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; }
 	#loginClose { z-index: 1001; display: none;}
+	#loginForm div div {  position: relative; width: 175px; height: 50px;}
+	#loginForm div div div { position: absolute; }
 /* END LOGIN FORM */
 
 /* SIGNUP FORM */
@@ -23,7 +25,9 @@ body {
 	.signupContent div.X { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; }
 	.signupContent div { width: 300px; height: 220px; overflow: hidden; }
 	#signupClose { z-index: 1001; display: none;}
+	#signupForm div div {  position: relative; width: 250px; height: 50px;}
 /* END LOGIN FORM */
+.formError { position: relative: top: -25px; left: 40px; width: 100px; height: 15px; border: solid red 1px; font-weight: bold; background: #F00; color: #000; display: none; border: solid: #000 2px; }  
 
 /* SLIDE BUTTONS */
 	.login_buttonWrap, .signup_buttonWrap { width:245px; height:36px; overflow:hidden; font-weight:bold; font-size:11px; margin:10px; }

@@ -34,8 +34,8 @@ isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 	<div class="loginContent curved"><div class="curved X button">X</div>
 		<form id="loginForm" method="post" action="php/login.php">
 			<div>
-				<label for="loginUser">Username:</label><input class="required" name="user" id="loginUser" type="text" size="25" />
-				<label>Password:<input class="required" name="pass" id="loginPass" type="password" size="25" /></label>
+				<div><label for="loginUser">Username:</label><input class="required msgPos:'loginUserError'" name="user" id="loginUser" type="text" size="25" /><div class="formError" id="loginUserError"></div></div>
+				<div><label>Password:<input class="required  msgPos:'loginPassError'" name="pass" id="loginPass" type="password" size="25" /></label><div class="formError" id="loginPassError"></div></div>
 				<input type="submit" id="loginClose" class="button" value="Login" />
 			</div>
 		</form>
@@ -46,14 +46,14 @@ isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 	<div class="signupContent curved"><div class="curved X button">X</div>
 		<form id="signupForm" method="post" action="php/signup.php">
 			<div class="floatLeft">
-				<label>Username:<input class="required" name="user" type="text" size="30" /></label>
-				<label>First Name:<input class="required" name="first" type="text" size="30" /></label>
-				<label>Last Name:<input class="required" name="last" type="text" size="30" /></label>
+				<div><label>Username:<input id="signupUser" class="required  msgPos:'signupUserError'" name="user" type="text" size="30" /></label><div class="formError" id="signupUserError"></div></div>
+				<div><label>First Name:<input class="required  msgPos:'signupFirstError'" name="first" type="text" size="30" /></label><div class="formError" id="signupFirstError"></div></div>
+				<div><label>Last Name:<input class="required msgPos:'signupLastError'" name="last" type="text" size="30" /></label><div class="formError" id="signupLastError"></div></div>
 			</div>
 			<div class="floatLeft">
-				<label>Password:<input class="required" name="pass" type="password" size="30" /></label>
-				<label>Verify Password:<input class="required" name="vpass" type="password"" size="30" /></label>
-				<label>Email:<input class="required validate-email " name="email" type="text" size="30" /></label>
+				<div><label>Password:<input class="required msgPos:'signupPassError'" name="pass" type="password" size="30" /></label><div class="formError" id="signupPassError"></div></div>
+				<div><label>Verify Password:<input class="required msgPos:'signupVPassError'" name="vpass" type="password"" size="30" /></label><div class="formError" id="signupVPassError"></div></div>
+				<div><label>Email:<input class="required validate-email msgPos:'signupEmailError'" name="email" type="text" size="30" /></label><div class="formError" id="signupEmailError"></div></div>
 			</div>
 			<div class="clearBoth">
 				<input type="submit" id="signupClose" class="button" value="Signup" />
