@@ -26,6 +26,13 @@ isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 </head>
 <body>
 
+	<?  //If Authorized, display authArea
+	if($_SESSION['auth'] === 1) { ?>
+		<div id="authArea">
+			<? require 'php/auth.php'; ?>
+		</div>
+	<? } ?>
+	
 	<div id="loginOpen"></div>
 	<div id="login"></div>
 	<div class="loginContent curved"><div class="curved X button">X</div>
@@ -58,14 +65,6 @@ isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 		</form>
 	</div>
 
-	<?php
-	if($_SESSION['auth'] === 1) {
-	?>
-	YIPPY!!!!!!
-	<?
-	}
-	?>
-
 	<div class="login_buttonWrap">
 	    <a class="curved login_buttonSlide" id="login_buttonSlide"><span>It's Fun!</span></a>
 	    <a class="curved login_buttonText slideBtn" id="login_buttonText">Log <span>In</span></a>
@@ -81,9 +80,9 @@ isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 	</div>
 
 	<p id="w3_validated">
-	<a href="http://validator.w3.org/check?uri=referer"><img
-        src="http://www.w3.org/Icons/valid-xhtml10-blue"
-        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+		<a href="http://validator.w3.org/check?uri=referer">
+			<img src="http://www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Strict" height="31" width="88" />
+		</a>
 	</p>
 </body>
 </html>

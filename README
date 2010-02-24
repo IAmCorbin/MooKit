@@ -11,6 +11,9 @@
 --  This code is free to use and share, but must be passed on in turn. Don't be greedy, help each other, we are all One.		--
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Purpose:
+	This is a learning experience, and is currently a very basic skeleton of a site, the kit shall expand as my web development skill base does.
+
 MooKit is a web development toolkit using:
 	
 	mySQL - The worlds most popular open source database ( http://www.mysql.com/ )
