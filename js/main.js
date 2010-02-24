@@ -1,5 +1,10 @@
 window.addEvent('domready', function() {
 	
+	if($('LOGGEDIN')) {
+		authArea = $('authArea');
+		authArea.setStyle('display','block');
+	}		
+	
 	//Sliding Buttons
 	$$('.slideBtn').each(function(btn) {
 		var prev = btn.getPrevious('a').set('tween',{ duration: 200 });
@@ -62,7 +67,21 @@ window.addEvent('domready', function() {
 					login.trigger();
 					//kill ajax loader bar
 					$('loginProcessing').destroy(); 
-						
+					//display or destroy auth area
+					if($('LOGGEDIN')) {
+						console.log("LOGGEDIN!");
+						if($('LOGGEDOUT'))
+							$('LOGGEDOUT').destroy();
+						authArea = $$('.authArea');
+						authArea.setStyle('display','block');
+						authArea.load('./php/auth.php');
+					} else if($('LOGGEDOUT')) {
+						console.log("LOGGEDOUT!");
+						if($('LOGGEDIN'))
+							$('LOGGEDIN').destroy();
+						$$('.authArea').setStyle('display','none');
+					}
+					$('loginForm').reset();
 				}
 			}).send();
 		}
@@ -109,7 +128,7 @@ window.addEvent('domready', function() {
 						$('debugBox').set('html',response); 
 						$('signupProcessing').destroy(); 
 						signup.trigger(); 
-						//$('loginForm').reset();
+						$('signupForm').reset();
 				} 
 			}).send();
 		}

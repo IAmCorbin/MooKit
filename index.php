@@ -1,10 +1,5 @@
 <?
-require  'phpClasses/Filters.php';
-require  'phpClasses/Database.php';
-require  'phpClasses/User.php';
-session_start();
-session_regenerate_id();
-
+require_once 'php/includes.php';
 new DatabaseConnection('localhost','test','test','test');
 //if session auth is not set, set it to 0
 isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
@@ -14,7 +9,7 @@ isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	
-	<title>User Login Test <? if($_SESSION['auth'] === 1) echo ' : Hi '.$_SESSION['user']; ?></title>
+	<title>User Login Test </title>
 
 	<link rel="stylesheet" type="text/css" href="style/style.php" />
 
@@ -25,13 +20,10 @@ isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 
 </head>
 <body>
-
-	<?  //If Authorized, display authArea
-	if($_SESSION['auth'] === 1) { ?>
-		<div id="authArea">
-			<? require 'php/auth.php'; ?>
-		</div>
-	<? } ?>
+	
+	<div class="authArea">
+		<? require 'php/auth.php'; ?>
+	</div>
 	
 	<div id="loginOpen"></div>
 	<div id="login"></div>

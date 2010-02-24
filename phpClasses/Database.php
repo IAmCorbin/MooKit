@@ -74,7 +74,7 @@ class DatabaseConnection {
 		$results = mysql_query($query, $this->connection) or die ("Error in query: $query. ".mysql_error());
 
 		if($display == "display") {
-			$this->displayResults();
+			$this->displayResults($results);
 		}
 		if($results)
 			return $results;
@@ -90,9 +90,9 @@ class DatabaseConnection {
 			echo "<div class=\"dataResults\">";
 			while($row = mysql_fetch_row($results)) {
 				echo "<div>";
-				echo "<span>".$row[0]."</span>";
-				echo "<span>" . $row[1]."</span>";
-				echo "<span>".$row[2]."</span>";
+				$n = 0;
+				while( $n++ < sizeof($row) )
+					echo "<span>".$row[$n]."</span>";
 				echo "</div>";
 			}
 			echo "</div>";

@@ -70,6 +70,8 @@ class User {
 	public function NOAUTH() {
 		$_SESSION['auth'] = 0;
 		unset($_SESSION['user']);
+		//flag logged out for javascript
+		echo '<div id="LOGGEDOUT" style="display:none;"></div>';
 	}
 	/**
 	 * Encrypt a password
