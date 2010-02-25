@@ -51,7 +51,7 @@ class User {
 			if(mysql_num_rows($results)>0) {
 				$_SESSION['auth'] = 1;
 				$_SESSION['user'] = $user;
-				//hidden element to flag successful login read from javascript
+				//hidden element to flag successful login read from JavaScript
 				echo '<div id="LOGGEDIN" style="display:none;"></div>';
 				return true;
 			}

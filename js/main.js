@@ -65,9 +65,11 @@ window.addEvent('domready', function() {
 				onSuccess: function(response) { 
 					$('debugBox').set('html',response); 
 					login.trigger();
+					
 					//kill ajax loader bar
 					$('loginProcessing').destroy(); 
-					//display or destroy auth area
+					
+					//read PHP flag and display or destroy auth area
 					if($('LOGGEDIN')) {
 						console.log("LOGGEDIN!");
 						if($('LOGGEDOUT'))

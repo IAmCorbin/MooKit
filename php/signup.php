@@ -10,7 +10,7 @@ $filteredInput['last'] = $inputFilter->text($_POST['last']);
 $filteredInput['pass'] = $inputFilter->text($_POST['pass']);
 $filteredInput['vpass'] = $inputFilter->text($_POST['vpass']);
 $filteredInput['email'] = $inputFilter->email($_POST['email']);
-//SEE IF ANY ERRORS WERE THROWN
+//Check for Errors
 if($errors = $inputFilter->ERRORS()) {
 	//handle filtered input errors errors
 	echo "SIZE OF FILTER \$ERRORS -> ".sizeof($errors).'<br />';
@@ -27,7 +27,7 @@ if($errors = $inputFilter->ERRORS()) {
 			echo "USER ADDED! <br />";
 			//send user an email
 			$to = $filteredInput['email'];
-			$subject = "Punisher User Login Test - Account Created";
+			$subject = "User Login Test - Account Created";
 			$message = 	"Thanks for signing up\n
 						 \n
 						 You signed up providing this information:\n
@@ -38,7 +38,6 @@ if($errors = $inputFilter->ERRORS()) {
 						 Registration Date and Time: ".$regTime."\n\n
 						 See ya Soon!\n\n
 						 ~The Management";
-			//mail not working on Punisher
 			//if(mail($to,$subject,$message)) echo "MAILED!"; else echo "ERROR with php mail function";
 		}
 	} else
