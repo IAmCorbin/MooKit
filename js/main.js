@@ -27,6 +27,8 @@ window.addEvent('domready', function() {
 	
 	
 	//SETUP LOGIN BOX
+	formErrors = $$('.formError');
+	formErrors.fade(0.4);
 	loginValidator = new Form.Validator.Inline($('loginForm'));
 	login = new LightBox('login', {
 		onShow: function() { 
@@ -37,18 +39,18 @@ window.addEvent('domready', function() {
 		onHide: function() { 
 			if(!loginValidator.validate())
 				//show form errors
-				$$('.formError').setStyle('display','block');
+				formErrors.setStyle('display','block');
 			//don't close if input is not valid
 			if(loginValidator.validate() || $('CLOSE')) {
 				//make sure php validated user input
-				if($('phpValidated') || $('CLOSE')) {
+				if($('PHPVALIDATED') || $('CLOSE')) {
 					//hide form errors
-					$$('.formError').setStyle('display','none');
+					formErrors.setStyle('display','none');
 					this.content.set('tween',{duration: 'short', transition: 'quad' });
 					this.content.tween('top','-300px'); 
 					login.fadeLightbox.delay('200',this); 
 					//remove phpValidation object
-					$('phpValidated')? $('phpValidated').destroy() : 0;
+					$('PHPVALIDATED')? $('PHPVALIDATED').destroy() : 0;
 					//remove CLOSE object
 					$('CLOSE')? $('CLOSE').destroy() : 0;
 				}
@@ -106,20 +108,19 @@ window.addEvent('domready', function() {
 		onHide: function() { 
 			if(!signupValidator.validate()) {
 				//show form errors
-				$$('.formError').setStyle('display','block');
+				formErrors.setStyle('display','block');
 			}
 			//don't close if input is not valid
 			if(signupValidator.validate() || $('CLOSE')) {
 				//make sure php validated user input
-				if($('phpValidated') || $('CLOSE')) {
+				if($('PHPVALIDATED') || $('CLOSE')) {
 					//hide form errors
-					console.log("hide formerrors");
-					$$('.formError').setStyle('display','none');
+					formErrors.setStyle('display','none');
 					this.content.set('tween', { duration: '500', transition: 'quad' });
 					this.content.tween('top','1600%');
 					login.fadeLightbox.delay('500',this);
 					//remove phpValidation object
-					$('phpValidated')? $('phpValidated').destroy() : 0;
+					$('PHPVALIDATED')? $('PHPVALIDATED').destroy() : 0;
 					//remove CLOSE object
 					$('CLOSE')? $('CLOSE').destroy() : 0;
 				}

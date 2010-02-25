@@ -71,7 +71,7 @@ Class Filters {
 			return $this->errors;
 		} else {
 			//hidden element to flag PHP Validation_ read from javascript
-			echo '<div id="phpValidated" style="display:none;"></div>';
+			echo '<div id="PHPVALIDATED" style="display:none;"></div>';
 			return NULL;
 		}
 	}

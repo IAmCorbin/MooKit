@@ -13,21 +13,28 @@ body {
 /* LOGIN FORM */
 	#login { position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; background: #000; z-index: 1000;}
 	.loginContent { position: fixed; left: 40%; top: -200px; width: 270px; height: 200px; padding: 10px; border: solid black 8px; background: #AFA;  z-index: 1001; display: none;}
-	.loginContent div.X { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; }
+	.loginContent div.X { z-index: 1001; position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; }
 	#loginClose { z-index: 1001; display: none;}
-	#loginForm div div {  position: relative; width: 175px; height: 50px;}
-	#loginForm div div div { position: absolute; }
+	#loginForm>div {  width: 100%; height: 100%;}
+        #loginForm>div>div { position: relative; }
+        #loginForm>div>div>div { position: absolute; top: -15px; left: 35%; width: 150px; height: 35px; overflow: hidden;  font-size: 12px; font-weight: bold; display: none; }
 /* END LOGIN FORM */
 
 /* SIGNUP FORM */
 	#signup { position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; background: #000; z-index: 1000;}
-	.signupContent { position: fixed; left: 20%; top: -200px; width: 600px; height: 250px; padding: 10px;  border: solid black 8px; background: #AAF;  z-index: 1001; display: none;}
+	.signupContent { position: fixed; left: 20%; top: -200px; width: 600px; height: 250px; padding: 10px; border: solid black 8px; background: #AFA; z-index: 1001; display: none;}
 	.signupContent div.X { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; }
-	.signupContent div { width: 300px; height: 220px; overflow: hidden; }
-	#signupClose { z-index: 1001; display: none;}
-	#signupForm div div {  position: relative; width: 250px; height: 50px;}
-/* END LOGIN FORM */
-.formError { position: relative: top: -25px; left: 40px; width: 100px; height: 15px; border: solid red 1px; font-weight: bold; background: #F00; color: #000; display: none; border: solid: #000 2px; }  
+	#signupClose { z-index: 1001; display: none; }
+        #signupForm>div {width: 50%;}
+        #signupForm>div>div { position: relative; height: 50px; width: 60%;}
+        #signupForm>div>div>div { position: absolute; top: -15px; left: 55%; width: 150px; height: 35px; overflow: hidden;  font-size: 12px; font-weight: bold; display: none; }
+/* END SIGNUP FORM */
+
+/* FORM VALIDATION */
+.validation-passed { background-color: #99cc99 !important; } 						/* This style is applied to input fields after successful validation */
+.validation-advice { border: solid #600 2px; background: #F88; color: #000;  }  /* This style is applied to the error messages */
+.validation-failed { background-color: #cc9999; }  								/* This style is applied to input fields after validation failed */
+/* END FORM VALIDATION */
 
 /* SLIDE BUTTONS */
 	.login_buttonWrap, .signup_buttonWrap { width:245px; height:36px; overflow:hidden; font-weight:bold; font-size:11px; margin:10px; }
