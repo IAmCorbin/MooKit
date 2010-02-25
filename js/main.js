@@ -1,7 +1,7 @@
 window.addEvent('domready', function() {
 	
 	if($('LOGGEDIN')) {
-		authArea = $('authArea');
+		authArea = $$('.authArea');
 		authArea.setStyle('display','block');
 	}		
 	

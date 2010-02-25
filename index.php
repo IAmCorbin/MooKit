@@ -22,7 +22,10 @@ isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 <body>
 	
 	<div class="authArea">
-		<? require 'php/auth.php'; ?>
+		<? require 'php/auth.php'; 
+		if($_SESSION['auth'] === 1)
+			echo '<div id="LOGGEDIN" style="display:none;"></div>';
+		?>
 	</div>
 	
 	<div id="loginOpen"></div>
