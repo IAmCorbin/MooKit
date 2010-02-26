@@ -5,7 +5,7 @@ $curved = '25px';
 ?>
 
 * { margin: 0; padding: 0; }
-
+html, body { height: 100%; }
 body { 
 	background-image : url('../img/back.jpg'); 
 }
@@ -65,7 +65,7 @@ body {
 	.floatLeft { float: left; }
 	.clearBoth { clear: both; }
 	.curved { -moz-border-radius:<?echo $curved?>; <?/* Firefox */?> -webkit-border-radius:<?echo $curved?>; <?/* Safari and chrome */?> -khtml-border-radius:<?echo $curved?>; <?/* Linux browsers */?> border-radius:<?echo $curved?>; <?/* CSS3 */?> }
-	#debugBox { width: 80%; height: 10px; position: fixed; bottom: 0px; left: 10%; background: #FFF; border: solid #000 4px; border-bottom: none; overflow: auto;}
+	#debugBox { width: 80%; height: 10px; position:fixed !important; position: absolute; /*ie6 and above*/ bottom: 0px; left: 10%; background: #FFF; border: solid #000 4px; border-bottom: none; overflow: auto;}	
 	.button { background: #AAA; border: outset #666 4px; margin: 8px;}
 	.button:hover { background: #888; border: outset 3px; cursor: pointer;}
 /*  END CUSTOM */

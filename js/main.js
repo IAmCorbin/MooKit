@@ -1,10 +1,10 @@
 window.addEvent('domready', function() {
 	
-	if($('LOGGEDIN')) {
+	/*if($('LOGGEDIN')) {
 		authArea = $$('.authArea');
 		authArea.setStyle('display','block');
 	}		
-	
+	*/
 	//Sliding Buttons
 	$$('.slideBtn').each(function(btn) {
 		var prev = btn.getPrevious('a').set('tween',{ duration: 200 });
@@ -25,7 +25,7 @@ window.addEvent('domready', function() {
 		});
 	});
 	
-	
+	/*
 	//SETUP LOGIN BOX
 	formErrors = $$('.formError');
 	formErrors.fade(0.4);
@@ -167,7 +167,7 @@ window.addEvent('domready', function() {
 		}); 
 	});
 		
-	
+	*/
 	//debug box
 	$('debugBox').set('tween',{duration: 100});
 	$('debugBox').addEvents({
@@ -177,8 +177,11 @@ window.addEvent('domready', function() {
 		},
 		//lower box on mouseleave
 		mouseleave: function() {
-			this.tween('height',this.getStyle('height').toInt()-140+'px');
-		},
+			if( this.getStyle('height').toInt() > 140 )
+				this.tween('height',this.getStyle('height').toInt()-140+'px');
+			else //prevent a negative height value for IE
+				this.tween('height','10px');
+		},	
 		//expand further and stay up if clicked, toggle back when clicked again
 		click: function() {
 			if(this.getStyle('height').toInt() < 160 )
