@@ -1,10 +1,10 @@
 window.addEvent('domready', function() {
 	
-	/*if($('LOGGEDIN')) {
+	if($('LOGGEDIN')) {
 		authArea = $$('.authArea');
 		authArea.setStyle('display','block');
 	}		
-	*/
+	
 	//Sliding Buttons
 	$$('.slideBtn').each(function(btn) {
 		var prev = btn.getPrevious('a').set('tween',{ duration: 200 });
@@ -25,12 +25,13 @@ window.addEvent('domready', function() {
 		});
 	});
 	
-	/*
+	
 	//SETUP LOGIN BOX
-	formErrors = $$('.formError');
+	var formErrors = $$('.formError');
 	formErrors.fade(0.4);
-	loginValidator = new Form.Validator.Inline($('loginForm'));
-	login = new LightBox('login', {
+	var loginValidator = new Form.Validator.Inline($('loginForm'));
+	
+	var login = new LightBox('login', {
 		onShow: function() { 
 			this.content.set('tween',{duration: 'long', transition: Fx.Transitions.Bounce.easeOut });
 			this.content.tween('top','0px');
@@ -57,6 +58,7 @@ window.addEvent('domready', function() {
 			}
 		}
 	});
+	
 	$('login_buttonText').addEvent('click',function() { login.trigger(); });
 	$('loginForm').addEvent('submit',function(e) {
 		//stop normal form processing
@@ -78,14 +80,14 @@ window.addEvent('domready', function() {
 					
 					//read PHP flag and display or destroy auth area
 					if($('LOGGEDIN')) {
-						console.log("LOGGEDIN!");
+						//console.log("LOGGEDIN!");
 						if($('LOGGEDOUT'))
 							$('LOGGEDOUT').destroy();
 						authArea = $$('.authArea');
 						authArea.setStyle('display','block');
 						authArea.load('./php/auth.php');
 					} else if($('LOGGEDOUT')) {
-						console.log("LOGGEDOUT!");
+						//console.log("LOGGEDOUT!");
 						if($('LOGGEDIN'))
 							$('LOGGEDIN').destroy();
 						$$('.authArea').setStyle('display','none');
@@ -97,8 +99,8 @@ window.addEvent('domready', function() {
 	});
 	
 	//SETUP SIGNUP BOX
-	signupValidator = new Form.Validator.Inline($('signupForm'));
-	signup = new LightBox('signup', {
+	var signupValidator = new Form.Validator.Inline($('signupForm'));
+	var signup = new LightBox('signup', {
 		onShow: function() { 
 			this.content.setStyle('top','-350px');
 			this.content.set('tween',{duration: 'long', transition: Fx.Transitions.Bounce.easeOut });
@@ -150,7 +152,7 @@ window.addEvent('domready', function() {
 	});
 	
 	//X buttons (cancel window and close)
-	loginX = login.content.getElements('.X');
+	var loginX = login.content.getElements('.X');
 	loginX.each(function(X) { 
 		X.addEvent('click',function() { 
 			//create hidden CLOSE element to bypass form validation 
@@ -158,7 +160,7 @@ window.addEvent('domready', function() {
 			login.trigger(); 
 		}); 
 	});
-	signupX = signup.content.getElements('.X');
+	var signupX = signup.content.getElements('.X');
 	signupX.each(function(X) { 
 		X.addEvent('click',function() { 
 			//create hidden CLOSE element to bypass form validation
@@ -167,7 +169,7 @@ window.addEvent('domready', function() {
 		}); 
 	});
 		
-	*/
+	
 	//debug box
 	$('debugBox').set('tween',{duration: 100});
 	$('debugBox').addEvents({
