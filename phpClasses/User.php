@@ -24,7 +24,6 @@ class User {
 		$regTime = date('Y-m-d H:i:s');
 		if($encPass = $this->encryptPassword($filteredInput['user'],$filteredInput['pass'],$regTime)) {
 			//add new user to database
-			echo "ENCODED PASSWORD => ".$encPass."<br />";
 			$_SESSION['DB']->query(
 				'INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`) 
 				VALUES(\''.$filteredInput['user'].'\',\''.$filteredInput['first'].'\',\''.$filteredInput['last'].'\',\''.$encPass.'\',\''.$filteredInput['email'].'\',\''.$regTime.'\');');
@@ -44,7 +43,6 @@ class User {
 		isset($_SESSION['auth'])? $_SESSION['auth']=0  : 0;
 		//if a valid password is returned (requires the username to be in the database)
 		if($encPass = $this->encryptPassword($user,$pass)) {
-			echo 'encoded password: '.$encPass;
 			//check user
 			$query = "SELECT * FROM $tbl WHERE `alias`='$user' AND `password`='$encPass' LIMIT 1;";
 			$results = $_SESSION['DB']->query($query);
@@ -56,7 +54,6 @@ class User {
 				return true;
 			}
 		} else {
-			echo 'nopassword returned<br />';
 			$this->NOAUTH();
 			return false;
 		}
@@ -92,7 +89,6 @@ class User {
 			} else //return NULL if no valid user alias was found in the database
 				return false;
 		}
-		echo 'REGTIME = '.$regTime.'<br />';
 		//create salt from the sha1 of the user's registration time
 		$salt = sha1($regTime);
 		//md5 encrypt the salt+password, then sha1 that whole thing and return the encrypted password

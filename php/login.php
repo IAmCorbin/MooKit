@@ -13,10 +13,12 @@ if($erros = $inputFilter->ERRORS()) {
 	foreach($errors as $error)
 		echo $error."<br />";
 } else {
-	echo "NO FILTER ERRORS!<br />";
 	//user authentication
 	$user = new User;
-	$user->authenticate($filteredInput['user'],$filteredInput['pass']);
+	if($user->authenticate($filteredInput['user'],$filteredInput['pass']))
+		echo "LOGGED IN";
+	else
+		echo "INVALID USERNAME OR PASSWORD, PLEASE TRY AGAIN";
 }
 
 

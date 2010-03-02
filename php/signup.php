@@ -13,18 +13,17 @@ $filteredInput['email'] = $inputFilter->email($_POST['email']);
 //Check for Errors
 if($errors = $inputFilter->ERRORS()) {
 	//handle filtered input errors errors
-	echo "SIZE OF FILTER \$ERRORS -> ".sizeof($errors).'<br />';
+	echo "ERRORS (Please go back and try again): <br />";
 	foreach($errors as $error)
 		echo $error."<br />";
 } else {
-	echo "NO FILTER ERRORS!<br />";
 	//make sure passwords match
 	if($_POST['pass'] === $_POST['vpass']){
 		$user = new User;
 		if(!$user->addNew($filteredInput))
 			echo "ERROR ADDING USER! <br />";
 		else {
-			echo "USER ADDED! <br />";
+			echo "User successfully added! <br />";
 			//send user an email
 			$to = $filteredInput['email'];
 			$subject = "User Login Test - Account Created";
