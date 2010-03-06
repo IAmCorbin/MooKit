@@ -1,13 +1,8 @@
 <?php
 /**
- * Filters.php
- *
- * This file contains a user input filtering class for php5
- */
-/**
  *Class to encapsulate php 5.2 filter_var for simple form validation
  *
- * @author Code by Corbin
+ * @author Corbin Tarrant
  * @copyright Febuary 19th, 2010
  * @link http://www.IAmCorbin.net
  * @package MooKit

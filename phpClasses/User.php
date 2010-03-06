@@ -1,16 +1,10 @@
 <?php
 /**
- * User.php
- *
- * This file contains a user class
- */
- 
-/**
  * User Class
  *
  * a class for adding or authenticating users against a users table in a database
  * 
- * @author Code by Corbin
+ * @author Corbin Tarrant
  * @copyright Febuary 20th, 2010
  * @link http://www.IAmCorbin.net
  * @package MooKit

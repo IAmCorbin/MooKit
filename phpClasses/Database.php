@@ -1,16 +1,10 @@
 <?php
 /**
- * Database.php
- *
- * This file contains a basic mysql database connection class
- */
- 
-/**
  * class DatabaseConnection
  *
- * Basic Database Connection class
+ * Basic MySQL Database Connection class
  * 
- * @author Code by Corbin
+ * @author Corbin Tarrant
  * @copyright Febuary 22th, 2010
  * @link http://www.IAmCorbin.net
  * @package MooKit

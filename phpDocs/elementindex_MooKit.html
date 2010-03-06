@@ -36,6 +36,8 @@
 		</a><br>
 			<a href="MooKit/_Filters.php.html">		Filters.php
 		</a><br>
+			<a href="MooKit/_Template.php.html">		Template.php
+		</a><br>
 			<a href="MooKit/_User.php.html">		User.php
 		</a><br>
 				</div>
@@ -46,6 +48,8 @@
 								<a href="MooKit/DatabaseConnection.html">		DatabaseConnection
 		</a><br>
 			<a href="MooKit/Filters.html">		Filters
+		</a><br>
+			<a href="MooKit/Template.html">		Template
 		</a><br>
 			<a href="MooKit/User.html">		User
 		</a><br>
@@ -61,13 +65,16 @@
 	<a href="elementindex_MooKit.html#d">d</a>
 	<a href="elementindex_MooKit.html#e">e</a>
 	<a href="elementindex_MooKit.html#f">f</a>
+	<a href="elementindex_MooKit.html#g">g</a>
 	<a href="elementindex_MooKit.html#h">h</a>
+	<a href="elementindex_MooKit.html#m">m</a>
 	<a href="elementindex_MooKit.html#n">n</a>
 	<a href="elementindex_MooKit.html#p">p</a>
 	<a href="elementindex_MooKit.html#q">q</a>
 	<a href="elementindex_MooKit.html#r">r</a>
 	<a href="elementindex_MooKit.html#t">t</a>
 	<a href="elementindex_MooKit.html#u">u</a>
+	<a href="elementindex_MooKit.html#v">v</a>
 	<a href="elementindex_MooKit.html#_">_</a>
 
 	<a name="_"></a>
@@ -79,6 +86,12 @@
 				<dd>in file Filters.php, method <a href="MooKit/Filters.html#method__construct">Filters::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor</dd>
 							<dt>__construct</dt>
 				<dd>in file Database.php, method <a href="MooKit/DatabaseConnection.html#method__construct">DatabaseConnection::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor - makes $_SESSION['DB'] a reference to this DatabaseConnection object and connects to database</dd>
+							<dt>__get</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#method__get">Template::__get()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Magic PHP __get</dd>
+							<dt>__set</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#method__set">Template::__set()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Magic PHP __set</dd>
+							<dt>__toString</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#method__toString">Template::__toString()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Magic PHP __toString</dd>
 					</dl>
 	</div>
 	<a name="a"></a>
@@ -135,6 +148,8 @@
 				<dd>in file User.php, method <a href="MooKit/User.html#methodencryptPassword">User::encryptPassword()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Encrypt a password</dd>
 							<dt>ERRORS</dt>
 				<dd>in file Filters.php, method <a href="MooKit/Filters.html#methodERRORS">Filters::ERRORS()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;ERRORS</dd>
+							<dt>extract</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#methodextract">Template::extract()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;take an array of (key=&gt;value) and set to $this-&gt;vars</dd>
 					</dl>
 	</div>
 	<a name="f"></a>
@@ -148,6 +163,15 @@
 				<dd>procedural page <a href="MooKit/_Filters.php.html">Filters.php</a></dd>
 					</dl>
 	</div>
+	<a name="g"></a>
+	<a href="elementindex_MooKit.html#top">top</a><br>
+	<div>
+		<h2>g</h2>
+		<dl class="lettercontents">
+							<dt>$gzip</dt>
+				<dd>in file Template.php, variable <a href="MooKit/Template.html#var$gzip">Template::$gzip</a></dd>
+					</dl>
+	</div>
 	<a name="h"></a>
 	<a href="elementindex_MooKit.html#top">top</a><br>
 	<div>
@@ -155,6 +179,15 @@
 		<dl class="lettercontents">
 							<dt>$host</dt>
 				<dd>in file Database.php, variable <a href="MooKit/DatabaseConnection.html#var$host">DatabaseConnection::$host</a></dd>
+					</dl>
+	</div>
+	<a name="m"></a>
+	<a href="elementindex_MooKit.html#top">top</a><br>
+	<div>
+		<h2>m</h2>
+		<dl class="lettercontents">
+							<dt>mergevars</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#methodmergevars">Template::mergevars()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Merge a parent template's variables to this template's scope</dd>
 					</dl>
 	</div>
 	<a name="n"></a>
@@ -171,8 +204,16 @@
 	<div>
 		<h2>p</h2>
 		<dl class="lettercontents">
+							<dt>$parent</dt>
+				<dd>in file Template.php, variable <a href="MooKit/Template.html#var$parent">Template::$parent</a></dd>
 							<dt>$pass</dt>
 				<dd>in file Database.php, variable <a href="MooKit/DatabaseConnection.html#var$pass">DatabaseConnection::$pass</a></dd>
+							<dt>$path</dt>
+				<dd>in file Template.php, variable <a href="MooKit/Template.html#var$path">Template::$path</a></dd>
+							<dt>parent</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#methodparent">Template::parent()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;set a parent template</dd>
+							<dt>path</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#methodpath">Template::path()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Set the path to the template</dd>
 					</dl>
 	</div>
 	<a name="q"></a>
@@ -189,8 +230,12 @@
 	<div>
 		<h2>r</h2>
 		<dl class="lettercontents">
+							<dt>$result</dt>
+				<dd>in file Template.php, variable <a href="MooKit/Template.html#var$result">Template::$result</a></dd>
 							<dt>regEx</dt>
 				<dd>in file Filters.php, method <a href="MooKit/Filters.html#methodregEx">Filters::regEx()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Filter against a regEx</dd>
+							<dt>run</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#methodrun">Template::run()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The Main Event</dd>
 					</dl>
 	</div>
 	<a name="t"></a>
@@ -198,6 +243,12 @@
 	<div>
 		<h2>t</h2>
 		<dl class="lettercontents">
+							<dt>Template</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#methodTemplate">Template::Template()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor</dd>
+							<dt>Template</dt>
+				<dd>in file Template.php, class <a href="MooKit/Template.html">Template</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A very simple PHP Template Class</dd>
+							<dt>Template.php</dt>
+				<dd>procedural page <a href="MooKit/_Template.php.html">Template.php</a></dd>
 							<dt>text</dt>
 				<dd>in file Filters.php, method <a href="MooKit/Filters.html#methodtext">Filters::text()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Filter text</dd>
 					</dl>
@@ -217,9 +268,18 @@
 				<dd>procedural page <a href="MooKit/_User.php.html">User.php</a></dd>
 					</dl>
 	</div>
+	<a name="v"></a>
+	<a href="elementindex_MooKit.html#top">top</a><br>
+	<div>
+		<h2>v</h2>
+		<dl class="lettercontents">
+							<dt>$vars</dt>
+				<dd>in file Template.php, variable <a href="MooKit/Template.html#var$vars">Template::$vars</a></dd>
+					</dl>
+	</div>
 	<div id="credit">
 		<hr>
-		Documentation generated on Sat, 06 Mar 2010 02:56:50 -0500 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		Documentation generated on Sat, 06 Mar 2010 04:52:43 -0500 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	</div>
 </div>
 </body>

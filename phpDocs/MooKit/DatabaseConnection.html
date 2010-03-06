@@ -36,6 +36,8 @@
 		</a><br>
 			<a href="../MooKit/_Filters.php.html">		Filters.php
 		</a><br>
+			<a href="../MooKit/_Template.php.html">		Template.php
+		</a><br>
 			<a href="../MooKit/_User.php.html">		User.php
 		</a><br>
 				</div>
@@ -46,6 +48,8 @@
 								<a href="../MooKit/DatabaseConnection.html">		DatabaseConnection
 		</a><br>
 			<a href="../MooKit/Filters.html">		Filters
+		</a><br>
+			<a href="../MooKit/Template.html">		Template
 		</a><br>
 			<a href="../MooKit/User.html">		User
 		</a><br>
@@ -59,14 +63,14 @@
 	
 
 <div class="leftcol">
-	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 18]</span></h3>
+	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 12]</span></h3>
 	<div id="classTree"><pre></pre>
 </div>
 	<div class="small">
 	<p>class DatabaseConnection</p>
 		<h4>Author(s):</h4>
 	<ul>
-								<li>Code by Corbin</li>
+								<li>Corbin Tarrant</li>
 																</ul>
 	<h4>Version:</h4>
 	<ul>
@@ -124,9 +128,9 @@
 	<h2>Class Details</h2>
 	<p align="center"><strong>class DatabaseConnection
 </strong></p>
-<p>Basic Database Connection class</p><h4>Tags:</h4>
+<p>Basic MySQL Database Connection class</p><h4>Tags:</h4>
 <ul>
-	<li><b>author</b> - Code by Corbin</li>
+	<li><b>author</b> - Corbin Tarrant</li>
 	<li><b>copyright</b> - Febuary 22th, 2010</li>
 	<li><b>link</b> - <a href="http://www.IAmCorbin.net">http://www.IAmCorbin.net</a></li>
 </ul>
@@ -139,7 +143,7 @@
 	<p></p>
 	<h4>$CONNECTED = <span class="value">&nbsp;false</span></h4>
 	<div class="indent">
-		<p class="linenumber">[line 26]</p>
+		<p class="linenumber">[line 20]</p>
 		<h4>Tags:</h4>
 <ul>
 	<li><b>var</b> - true or false connection status</li>
@@ -152,7 +156,7 @@
 	<p></p>
 	<h4>$connection = <span class="value">&nbsp;NULL</span></h4>
 	<div class="indent">
-		<p class="linenumber">[line 22]</p>
+		<p class="linenumber">[line 16]</p>
 		<h4>Tags:</h4>
 <ul>
 	<li><b>var</b> - mysql database link</li>
@@ -165,7 +169,7 @@
 	<p></p>
 	<h4>$db = <span class="value">&nbsp;NULL</span></h4>
 	<div class="indent">
-		<p class="linenumber">[line 42]</p>
+		<p class="linenumber">[line 36]</p>
 		<h4>Tags:</h4>
 <ul>
 	<li><b>var</b> - the db to use</li>
@@ -178,7 +182,7 @@
 	<p></p>
 	<h4>$host = <span class="value">&nbsp;NULL</span></h4>
 	<div class="indent">
-		<p class="linenumber">[line 30]</p>
+		<p class="linenumber">[line 24]</p>
 		<h4>Tags:</h4>
 <ul>
 	<li><b>var</b> - the db host</li>
@@ -191,7 +195,7 @@
 	<p></p>
 	<h4>$pass = <span class="value">&nbsp;NULL</span></h4>
 	<div class="indent">
-		<p class="linenumber">[line 38]</p>
+		<p class="linenumber">[line 32]</p>
 		<h4>Tags:</h4>
 <ul>
 	<li><b>var</b> - the db user password</li>
@@ -204,7 +208,7 @@
 	<p></p>
 	<h4>$user = <span class="value">&nbsp;NULL</span></h4>
 	<div class="indent">
-		<p class="linenumber">[line 34]</p>
+		<p class="linenumber">[line 28]</p>
 		<h4>Tags:</h4>
 <ul>
 	<li><b>var</b> - the db user</li>
@@ -231,7 +235,7 @@ $pass, string
 $db)</code>
 		</p>
 	
-		<p class="linenumber">[line 52]</p>
+		<p class="linenumber">[line 46]</p>
 		<p align="center"><strong>Constructor - makes $_SESSION['DB'] a reference to this DatabaseConnection object and connects to database
 </strong></p>
 		
@@ -270,7 +274,7 @@ $db)</code>
 )</code>
 		</p>
 	
-		<p class="linenumber">[line 128]</p>
+		<p class="linenumber">[line 122]</p>
 		<p align="center"><strong>Closes this connection
 </strong></p>
 <h4>Tags:</h4>
@@ -293,7 +297,7 @@ $db)</code>
 )</code>
 		</p>
 	
-		<p class="linenumber">[line 67]</p>
+		<p class="linenumber">[line 61]</p>
 		<p align="center"><strong>Connect to the database or throw an error
 </strong></p>
 <h4>Tags:</h4>
@@ -317,7 +321,7 @@ $results
 $results)</code>
 		</p>
 	
-		<p class="linenumber">[line 107]</p>
+		<p class="linenumber">[line 101]</p>
 		<p align="center"><strong>Outputs a mysql result set to the page
 </strong></p>
 <h4>Tags:</h4>
@@ -347,7 +351,7 @@ $query, [string
 $display = NULL])</code>
 		</p>
 	
-		<p class="linenumber">[line 88]</p>
+		<p class="linenumber">[line 82]</p>
 		<p align="center"><strong>Run a query on the database
 </strong></p>
 <h4>Tags:</h4>
@@ -379,7 +383,7 @@ $display = NULL])</code>
 	</div>
 	<div id="credit">
 		<hr>
-		Documentation generated on Sat, 06 Mar 2010 02:56:50 -0500 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		Documentation generated on Sat, 06 Mar 2010 04:52:43 -0500 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	</div>
 </div>
 </body>
