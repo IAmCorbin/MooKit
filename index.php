@@ -15,7 +15,7 @@ isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 
 	<script type="text/javascript" src="js/mootools-1.2.4-core-yc.js"></script>
 	<script type="text/javascript" src="js/mootools-1.2.4.4-more.js"></script>
-	<script type="text/javascript" src="js/Lightbox.js"></script>
+	<script type="text/javascript" src="jsClasses/Lightbox.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 </head>

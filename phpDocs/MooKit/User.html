@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>Docs For Class User</title>
+	<link rel="stylesheet" type="text/css" id="layout" href="../media/layout.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="../media/style.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../media/print.css" media="print">
+</head>
+
+<body>
+<div id="header">
+	<div id="navLinks">
+        
+                                    
+                            	        [ <a href="../classtrees_MooKit.html">Class Tree: MooKit</a> ]
+            [ <a href="../elementindex_MooKit.html">Index: MooKit</a> ]
+        		[ <a href="../elementindex.html">All elements</a> ]		
+	</div>
+	<div id="packagePosition">
+		<div id="packageTitle2">MooKit</div>
+		<div id="packageTitle">MooKit</div>
+		<div id="elementPath"> &middot; </div>
+	</div>
+</div>
+
+<div id="nav" class="small">
+	<div id="packages">
+		Packages:
+					<p><a href="../li_MooKit.html">MooKit</a></p>
+			</div>
+
+				<div id="index">
+			<div id="files">
+								Files:<br>
+								<a href="../MooKit/_Database.php.html">		Database.php
+		</a><br>
+			<a href="../MooKit/_Filters.php.html">		Filters.php
+		</a><br>
+			<a href="../MooKit/_User.php.html">		User.php
+		</a><br>
+				</div>
+			<div id="interfaces">
+							</div>
+			<div id="classes">
+				Classes:<br>
+								<a href="../MooKit/DatabaseConnection.html">		DatabaseConnection
+		</a><br>
+			<a href="../MooKit/Filters.html">		Filters
+		</a><br>
+			<a href="../MooKit/User.html">		User
+		</a><br>
+				</div>
+		</div>
+	</div>
+
+<div id="body">
+	    		<h1>Class: User</h1>
+	<p style="margin: 0px;">Source Location: /User.php</p>
+	
+
+<div class="leftcol">
+	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 18]</span></h3>
+	<div id="classTree"><pre></pre>
+</div>
+	<div class="small">
+	<p>User Class</p>
+		<h4>Author(s):</h4>
+	<ul>
+								<li>Code by Corbin</li>
+																</ul>
+	<h4>Version:</h4>
+	<ul>
+																		</ul>
+
+	<h4>Copyright:</h4>
+	<ul>
+													<li>Febuary 20th, 2010</li>
+											</li>
+	</div>
+</div>
+
+<div class="middlecol">
+	<h3><a href="#class_vars">Variables</a></h3>
+	<ul class="small">
+			</ul>
+	<h3><a href="#class_consts">Constants</a></h3>
+	<ul class="small">
+			</ul>
+</div>
+<div class="rightcol">
+	<h3><a href="#class_methods">Methods</a></h3>
+	<ul class="small">
+				<li><a href="../MooKit/User.html#methodaddNew">addNew</a></li>
+				<li><a href="../MooKit/User.html#methodauthenticate">authenticate</a></li>
+				<li><a href="../MooKit/User.html#methodencryptPassword">encryptPassword</a></li>
+				<li><a href="../MooKit/User.html#methodNOAUTH">NOAUTH</a></li>
+			</ul>
+</div>
+
+<div id="content">
+<hr>
+	<div class="contents">
+	</div>
+
+	<div class="leftCol">
+    	<h2>Inherited Variables</h2>
+		<h2>Inherited Constants</h2>
+		</div>
+
+	<div class="rightCol">
+	<h2>Inherited Methods</h2>
+		</div>
+	<br clear="all">
+	<hr>
+
+	<a name="class_details"></a>
+	<h2>Class Details</h2>
+	<p align="center"><strong>User Class
+</strong></p>
+<p>a class for adding or authenticating users against a users table in a database</p><h4>Tags:</h4>
+<ul>
+	<li><b>author</b> - Code by Corbin</li>
+	<li><b>copyright</b> - Febuary 20th, 2010</li>
+	<li><b>link</b> - <a href="http://www.IAmCorbin.net">http://www.IAmCorbin.net</a></li>
+</ul>
+	<p class="small" style="color: #334B66;">[ <a href="#top">Top</a> ]</p>
+
+	<hr>
+	<a name="class_vars"></a>
+	<h2>Class Variables</h2>
+	
+	<hr>
+	<a name="class_methods"></a>
+	<h2>Class Methods</h2>
+	
+	<a name="methodaddNew"></a>
+	<p></p>
+	<h3>addNew</h3>
+	<div class="indent">
+		<p>
+		<code>bool addNew(
+array
+$filteredInput)</code>
+		</p>
+	
+		<p class="linenumber">[line 24]</p>
+		<p align="center"><strong>Add a new user to the database
+</strong></p>
+<h4>Tags:</h4>
+<ul>
+	<li><b>access</b> - public</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+			<li>
+		<span class="type">array</span>
+		<b>$filteredInput</b> 
+		- 
+		- array filled with filtered user input</li>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="methodauthenticate"></a>
+	<p></p>
+	<h3>authenticate</h3>
+	<div class="indent">
+		<p>
+		<code>bool authenticate(
+string
+$user, string
+$pass, [string
+$tbl = 'users'])</code>
+		</p>
+	
+		<p class="linenumber">[line 48]</p>
+		<p align="center"><strong>Authenticates a user against database - on authorization it will set $_SESSION['auth'] = 1
+</strong></p>
+<h4>Tags:</h4>
+<ul>
+	<li><b>access</b> - public</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+			<li>
+		<span class="type">string</span>
+		<b>$user</b> 
+		- 
+		- username to test</li>
+			<li>
+		<span class="type">string</span>
+		<b>$pass</b> 
+		- 
+		- password to test</li>
+			<li>
+		<span class="type">string</span>
+		<b>$tbl</b> 
+		- 
+		- the database table to test against</li>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="methodencryptPassword"></a>
+	<p></p>
+	<h3>encryptPassword</h3>
+	<div class="indent">
+		<p>
+		<code>string encryptPassword(
+string
+$user, string
+$pass, [string
+$regTime = NULL])</code>
+		</p>
+	
+		<p class="linenumber">[line 88]</p>
+		<p align="center"><strong>Encrypt a password
+</strong></p>
+<h4>Tags:</h4>
+<ul>
+	<li><b>return</b> - encrypted password or false</li>
+	<li><b>access</b> - public</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+			<li>
+		<span class="type">string</span>
+		<b>$user</b> 
+		- 
+		username</li>
+			<li>
+		<span class="type">string</span>
+		<b>$pass</b> 
+		- 
+		password to encrypt</li>
+			<li>
+		<span class="type">string</span>
+		<b>$regTime</b> 
+		- 
+		the user's registration time, used to pass in if this is a new user and we are encrypting the password for the first time</li>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="methodNOAUTH"></a>
+	<p></p>
+	<h3>NOAUTH</h3>
+	<div class="indent">
+		<p>
+		<code>void NOAUTH(
+)</code>
+		</p>
+	
+		<p class="linenumber">[line 75]</p>
+		<p align="center"><strong>NO AUTHORIZATION
+</strong></p>
+<p>REMOVE AUTHORIZATION FLAG AND USERNAME</p><h4>Tags:</h4>
+<ul>
+	<li><b>access</b> - public</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+
+	<hr>
+	<a name="class_consts"></a>
+	<h2>Class Constants</h2>
+	</div>
+	<div id="credit">
+		<hr>
+		Documentation generated on Sat, 06 Mar 2010 02:56:50 -0500 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+	</div>
+</div>
+</body>
+</html>

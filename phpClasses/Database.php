@@ -1,34 +1,53 @@
 <?php
 /**
+ * Database.php
+ *
+ * This file contains a basic mysql database connection class
+ */
+ 
+/**
  * class DatabaseConnection
  *
  * Basic Database Connection class
  * 
- * Febuary 22th, 2010
- * Code by Corbin
- * http://www.IAmCorbin.net
+ * @author Code by Corbin
+ * @copyright Febuary 22th, 2010
+ * @link http://www.IAmCorbin.net
+ * @package MooKit
  */
 class DatabaseConnection { 
 	/**
-	 *@var $connection - a mysql database link
-	 *@var BOOL $CONNECTED - true or false connection status
-	 *@var STRING $host - the db host
-	 *@var STRING $user - the db user
-	 *@var STRING $pass - the db user password
-	 *@var STRING $db - the db to use
-	 */
-	private $connection = NULL;
-	private $CONNECTED = false;
-	private $host = NULL;
-	private $user = NULL;
-	private $pass = NULL;
-	private $db = NULL;
+	 *@var $connection		mysql database link
+	 */ 
+	var $connection = NULL;
+	/**
+	 *@var bool $CONNECTED	true or false connection status
+	 */ 
+	var $CONNECTED = false;
+	/**	
+	 *@var string $host		the db host
+	 */ 
+	 var $host = NULL; 
+	/**		
+	 *@var string $user		the db user
+	 */ 
+	var $user = NULL; 
+	/**
+	 *@var string $pass		the db user password
+	 */ 
+	var $pass = NULL; 
+	/**
+	 *@var string $db		the db to use
+	 */ 
+	var $db = NULL;
+	
 	/**
 	 * Constructor - makes $_SESSION['DB'] a reference to this DatabaseConnection object and connects to database
-	 *@param STRING $host = the db host
-	 *@param STRING $user = the db user
-	 *@param STRING $pass = the db user password
-	 *@param STRING $db = the db to use
+	 *
+	 *@param string $host 	the db host
+	 *@param string $user 	the db user
+	 *@param string $pass 	the db user password
+	 *@param string $db 	the db to use
 	 */
 	function __construct($host,$user,$pass,$db) {
 		
@@ -62,9 +81,9 @@ class DatabaseConnection {
 	}
 	/**
 	 * Run a query on the database
-	 *@param STRING $query - a valid mysql query
-	 *@param STRING $display - if "display" is passed, then output to the page
-	 *@return $results - if results are returned from the query, returns a mysql result set
+	 *@param string $query		a valid mysql query
+	 *@param string $display	if string "display" is passed, then {@link displayResults()} is called
+	 *@return $results 			returns a mysql result set or false
 	 */
 	public function query($query, $display=NULL) {
 		//if connection was lost, reconnect
@@ -78,10 +97,12 @@ class DatabaseConnection {
 		}
 		if($results)
 			return $results;
+		else
+			return false;
 	}
 	/**
 	 * Outputs a mysql result set to the page
-	 *@param $results - a mysql result set
+	 *@param $results	a mysql result set
 	 */
 	public function displayResults($results) {
 		// see if any rows were returned

@@ -1,18 +1,25 @@
 <?php
 /**
- * class User
+ * User.php
+ *
+ * This file contains a user class
+ */
+ 
+/**
+ * User Class
  *
  * a class for adding or authenticating users against a users table in a database
  * 
- * Febuary 20th, 2010
- * Code by Corbin
- * http://www.IAmCorbin.net
+ * @author Code by Corbin
+ * @copyright Febuary 20th, 2010
+ * @link http://www.IAmCorbin.net
+ * @package MooKit
  */
 class User {
 	/**
 	 * Add a new user to the database
-	 *@param: $filteredInput - array filled with filtered user input
-	 *@return: true if inserted, false if failed
+	 *@param array $filteredInput - array filled with filtered user input
+	 *@return bool
 	 */
 	public function addNew($filteredInput) {
 		//check database for duplicate username
@@ -33,10 +40,10 @@ class User {
 	}
 	/**
 	 * Authenticates a user against database - on authorization it will set $_SESSION['auth'] = 1
-	 *@param: $user - username to test
-	 *@param: $pass - password to test
-	 *@param: $tbl - the database table to test against
-	 *@return: true if authenticated, false if failed
+	 *@param string $user - username to test
+	 *@param string $pass - password to test
+	 *@param string $tbl - the database table to test against
+	 *@return bool
 	 */
 	public function authenticate($user,$pass, $tbl='users') {
 		//if authentication if set, unset it
@@ -62,6 +69,7 @@ class User {
 	}
 	/**
 	 * NO AUTHORIZATION
+	 *
 	 * REMOVE AUTHORIZATION FLAG AND USERNAME
 	 */
 	public function NOAUTH() {
@@ -72,10 +80,10 @@ class User {
 	}
 	/**
 	 * Encrypt a password
-	 *@param: $user - username 
-	 *@param: $pass - password to encrypt
-	 *@param: $regTime - the user's registration time, used to pass in if this is a new user and we are encrypting the password for the first time
-	 *@return string - encrypted password or false
+	 *@param string $user	username 
+	 *@param string $pass	password to encrypt
+	 *@param string $regTime	the user's registration time, used to pass in if this is a new user and we are encrypting the password for the first time
+	 *@return string 	encrypted password or false
 	 */
 	public function encryptPassword($user,$pass,$regTime=NULL) {
 		//addNew will pass a new regTime, so don't look for a non-existant one in the database
