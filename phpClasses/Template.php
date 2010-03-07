@@ -45,9 +45,9 @@ class Template {
 	}
 	/** take an array of (key=>value) and set to $this->vars */
 	public function extract($vars) {
-		$vars?
+		if($vars)
 			foreach ($vars as $property => $value)
-				$this->vars[$property] = $value : 0;
+				$this->vars[$property] = $value;
 	}
 	/** set a parent template */
 	public function parent($parent) {

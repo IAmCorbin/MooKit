@@ -1,0 +1,37 @@
+<style  type="text/css">
+	/* SIGNUP FORM */
+	#signup { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: none; background: #000; z-index: 1000;}
+	.signupContent { position:fixed !important; position: absolute; /*ie6 and above*/ left: 20%; top: -200px; width: 600px; height: 250px; padding: 10px; border: solid black 8px; background: #AFA; z-index: 1001; display: none;}
+	.signupContent div.X { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; }
+	#signupClose { z-index: 1001; /*display: none; */}
+        #signupForm>div {width: 50%;} /* Input Containers */
+        #signupForm>div>div { position: relative; height: 50px; width: 60%;} /* Inputs */
+        #signupForm>div>div>div { position: absolute; top: -15px; left: 55%; width: 150px; height: 35px; overflow: hidden;  font-size: 12px; font-weight: bold; display: none; } /* input errors */
+	/* END SIGNUP FORM */
+</style>
+
+<!-- SIGNUP FORM -->
+	<div class="signup_buttonWrap">
+	    <a class="curved signup_buttonSlide" id="signup_buttonSlide"><span>You know you want to</span></a>
+	    <a class="curved signup_buttonText slideBtn" id="signup_buttonText">Sign <span>Up</span></a>
+	</div>
+	<div id="signupOpen"></div>
+	<div id="signup"></div>
+	<div class="signupContent curved"><div class="curved X button">X</div>
+		<form id="signupForm" method="post" action="php/signup.php">
+			<div class="floatLeft">
+				<div><label>Username:<input id="signupUser" class="required  msgPos:'signupUserError'" name="user" type="text" size="30" /></label><div class="formError" id="signupUserError"></div></div>
+				<div><label>First Name:<input class="required  msgPos:'signupFirstError'" name="first" type="text" size="30" /></label><div class="formError" id="signupFirstError"></div></div>
+				<div><label>Last Name:<input class="required msgPos:'signupLastError'" name="last" type="text" size="30" /></label><div class="formError" id="signupLastError"></div></div>
+			</div>
+			<div class="floatLeft">
+				<div><label>Password:<input class="required msgPos:'signupPassError'" name="pass" type="password" size="30" /></label><div class="formError" id="signupPassError"></div></div>
+				<div><label>Verify Password:<input class="required msgPos:'signupVPassError'" name="vpass" type="password"" size="30" /></label><div class="formError" id="signupVPassError"></div></div>
+				<div><label>Email:<input class="required validate-email msgPos:'signupEmailError'" name="email" type="text" size="30" /></label><div class="formError" id="signupEmailError"></div></div>
+			</div>
+			<div class="clearBoth">
+				<input type="submit" id="signupClose" class="button" value="Signup" />
+			</div>
+		</form>
+	</div>
+<!-- END SIGNUP FORM -->

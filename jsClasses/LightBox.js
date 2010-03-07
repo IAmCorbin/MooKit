@@ -1,34 +1,35 @@
-/****************************************************************************************
-/Lightbox Class V1.0
-/
-/REQUIREMENTS:
-/    Mootools 1.2
-/
-/Febuary 18th, 2010
-/
-/The Lightbox Class creates a layer that can be toggled on and off and contain multiple elements of content
-/
-/To use:
-/    1. Create a div on the page with an ID of your choice
-/    2. Create as many content divs as you need with the class name <ID of div created in step 1>Content
-/    3. Create another element on the page with ID of <ID of div created in step 1>Close
-/		Ex:
-/			<div id="lightbox"></div>
-/			<div class="lightboxContent">Place Content Here</div>
-/			<span class="lightboxClose">Close Lightbox</div>
-/    4. In your mootools domready event create a new lightbox passing in the ID of div from step 1 and any of the options desired
-		Ex:
-			lightbox = new Lightbox('lightbox');
-/    5. Create a way to set off the initial trigger
-		Ex:
-			html : <div id="open"></div>
-			js: $('open').addEvent('click',function() { lightbox.trigger });
-/    6. Enjoy!
-/
-/
-/Code by Corbin
-/http://www.IAmCorbin.net
-/Free for all to use
+/**
+ * The Lightbox Class creates a layer that can be toggled on and off and contain multiple elements of content
+ * Febuary 18th, 2010
+ * 
+ * To use:
+ *   1. Create a div on the page with an ID of your choice
+ *   2. Create as many content divs as you need with the class name <ID of div created in step 1>Content
+ *   3. Create another element on the page with ID of <ID of div created in step 1>Close
+ *		Ex:
+ *			<div id="lightbox"></div>
+ *			<div class="lightboxContent">Place Content Here</div>
+ *			<span class="lightboxClose">Close Lightbox</div>
+ *   4. In your mootools domready event create a new lightbox passing in the ID of div from step 1 and any of the options desired
+ *		Ex:
+ *			lightbox = new Lightbox('lightbox');
+ *   5. Create a way to set off the initial trigger
+ *		Ex:
+ *			html : <div id="open"></div>
+ *			js: $('open').addEvent('click',function() { lightbox.trigger });
+ *   6. Enjoy!
+ *
+ *			~~~~~~~~~~~~~~~
+ *			~~Free for all to use~~
+ *			~~~~~~~~~~~~~~~
+ *
+ * @author Corbin Tarrant
+ * @link http://www.IAmCorbin.net
+ * @version 1.0
+ *
+ * @requires MooTools 1.2
+ */
+ /*
 /~~~~~~~~~~~~~~~~~
 /variables
 /    this.lightbox: the lightbox element

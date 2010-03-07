@@ -43,17 +43,17 @@ class DatabaseConnection {
 	 *@param string $pass 	the db user password
 	 *@param string $db 	the db to use
 	 */
-	function __construct($host,$user,$pass,$db) {
+	function __construct($host='localhost',$user='test',$pass='test',$db='test') {
 		
 		$this->host = $host;
 		$this->user = $user;
 		$this->pass = $pass;
 		$this->db = $db;
-		//link connection to session
-		$_SESSION['DB'] =& $this;
-		$_SESSION['DBconn'] =& $this->connection;
+		
+		$_SESSION['DB'] &= $this;
 		
 		$this->connect();
+		
 	}
 	/**
 	 * Connect to the database or throw an error
@@ -62,12 +62,13 @@ class DatabaseConnection {
 		try {
 			// Create connection to MYSQL database
 			$this->connection = @mysql_connect($this->host, $this->user, $this->pass);
-			mysql_select_db ($this->db);
-			if (!$this->connection) {
+			//select database
+			mysql_select_db ($this->db); 
+			//check for valid connection
+			if (!$this->connection)
 			    throw new Exception('MySQL Connection Database Error: ' . mysql_error());
-			} else {
+			else
 			    $this->CONNECTED = true;
-			}	
 		}
 		 catch (Exception $e) {
 			echo $e->getMessage();
