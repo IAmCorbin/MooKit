@@ -35,10 +35,7 @@ body { background-image : url('../img/back.jpg'); }
 /* END FORM VALIDATION */
 
 /* STRUCTURE */
-	.authArea {  position: absolute; width: 60%; height: 60%; left: 20%; top: 20%; display: none; }
-	.authAreaContent { width: 100%; height: 100%; background: #cef9e8; border: #87a1b0 solid 3px; }
-	.dataResults div { background: #000; padding: 2px; }
-	.dataResults span { background: #AAA; border: solid black 1px; }
+
 /* END STRUCTURE  */
 
 /* CUSTOM */

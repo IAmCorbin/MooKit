@@ -18,8 +18,6 @@ $mainTpl->navTpl->links = array(array('href'=>'http://www.iamcorbin.net',
 						array('href'=>'http://www.metaldisco.org',
 							'name'=>'MetalDisco.org'));
 
-
-
 																				$scripts = array(); //initialize scripts array
 $mainTpl->loginTpl = new Template('../templates/loginForm.tpl.php'); 		/*add login form */		$scripts[] = '<script type="text/javascript" src="js/login.js"></script>'; //login form JavaScript
 

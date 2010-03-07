@@ -50,7 +50,7 @@ class DatabaseConnection {
 		$this->pass = $pass;
 		$this->db = $db;
 		
-		$_SESSION['DB'] &= $this;
+		$_SESSION['DB'] =& $this;
 		
 		$this->connect();
 		
@@ -77,10 +77,11 @@ class DatabaseConnection {
 	/**
 	 * Run a query on the database
 	 *@param string $query		a valid mysql query
+	 *@param string $rType		return type default = mysql result set. Options - "object" array of objects, "enum" enumerated array, "assoc" associative array
 	 *@param string $display	if string "display" is passed, then {@link displayResults()} is called
 	 *@return $results 			returns a mysql result set or false
 	 */
-	public function query($query, $display=NULL) {
+	public function query($query, $rType="results", $display=NULL) {
 		//if connection was lost, reconnect
 		if(!$this->connection)
 			$this->connect();
@@ -89,29 +90,63 @@ class DatabaseConnection {
 
 		if($display == "display") {
 			$this->displayResults($results);
+			mysql_data_seek($results,0);
 		}
-		if($results)
-			return $results;
-		else
-			return false;
+		//return results in $rType format
+		switch($rType) {
+			case "results":
+				return $results;
+				break;
+			case "assoc" | "enum" | "object":
+				//initialize resultSet array
+				$resultSet = array();
+			case "assoc":
+				while($row = mysql_fetch_assoc($results))
+					$resultSet[] = $row;
+				return $resultSet;
+				break;
+			case "enum":
+				while($row = mysql_fetch_row($results))
+					$resultSet[] = $row;
+				return $resultSet;
+				break;
+			case "object":
+				while($row = mysql_fetch_object($results))
+					$resultSet[] = $row;
+				return $resultSet;
+				break;
+			default:
+				return false;
+				break;
+		}
 	}
 	/**
-	 * Outputs a mysql result set to the page
-	 *@param $results	a mysql result set
+	 * Outputs a mysql result set in a styled box
+	 *@param $results a mysql result set
 	 */
 	public function displayResults($results) {
 		// see if any rows were returned
 		if (mysql_num_rows($results) > 0) {
-			// if results found : print results one after another
-			echo "<div class=\"dataResults\">";
+			//style
+			echo '<style type="text/css">
+					.displayResultsBox { background: #444; border: solid #555 10px; padding: 2px; padding: 15px 10px 15px 10px; }
+					.displayResultsCell { background: #FCC; padding: 5px; border: solid #FFF 1px;  }
+				</style>'."\n";
+				
+			echo '<table class="displayResultsBox">'."\n";
+			//display field names
+			$fields = mysql_num_fields($results);
+			echo '<tr class="displayResultsBox">'."\n";
+			for($n = 1; $n<$fields; $n++) 		echo '<td class="displayResultsCell">'.mysql_field_name($results,$n).'</td>'."\n";
+			echo "</tr>\n";
+			//display rows
+			echo '<tr class="displayResultBox">';
 			while($row = mysql_fetch_row($results)) {
-				echo "<div>";
 				$n = 0;
-				while( $n++ < sizeof($row) )
-					echo "<span>".$row[$n]."</span>";
-				echo "</div>";
+				while( ++$n < sizeof($row) )
+					echo '<td class="displayResultsCell">'.$row[$n]."</td>\n";
 			}
-			echo "</div>";
+			echo "<tr>\n</table>\n";
 		} else {
 			// no results : print status message
 			echo "<div class=\"dataResults\"><div>No rows found!</div></div>";
