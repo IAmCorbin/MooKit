@@ -81,7 +81,7 @@ class DatabaseConnection {
 	 *@param string $display	if string "display" is passed, then {@link displayResults()} is called
 	 *@return $results 			returns a mysql result set or false
 	 */
-	public function query($query, $rType="results", $display=NULL) {
+	public function query($query, $rType="mysql", $display=NULL) {
 		//if connection was lost, reconnect
 		if(!$this->connection)
 			$this->connect();
@@ -94,7 +94,7 @@ class DatabaseConnection {
 		}
 		//return results in $rType format
 		switch($rType) {
-			case "results":
+			case "mysql":
 				return $results;
 				break;
 			case "assoc" | "enum" | "object":
