@@ -16,11 +16,14 @@ window.addEvent('domready', function() {
 					onSuccess: function(response) { 
 						//convert JSON from PHP to JavaScript object
 						var json = JSON.decode(response);
+						//set form to processed values
+						this.getElement('input').set('value',json.title);
+						this.getElement('textarea').set('value',json.text);
 						//render Title
 						$('renderTitle').set('html',json.title);
 						//render Text
 						$('renderText').set('html',json.text);
-					}
+					}.bind(this)
 				}).send();
 			}
 		

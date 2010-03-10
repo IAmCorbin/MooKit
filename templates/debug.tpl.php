@@ -1,3 +1,3 @@
-<!-- DEBUG -->
-	<div id="debugBox"></div>
-<!-- END DEBUG -->
+	<!-- DEBUG -->
+		<div id="debugBox"></div>
+	<!-- END DEBUG -->

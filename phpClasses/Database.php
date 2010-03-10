@@ -153,6 +153,13 @@ class DatabaseConnection {
 		}
 	}
 	/**
+	 * Return this connection link
+	 * @return mysql connection link
+	 */
+	public function getLink() {
+		return $this->connection;
+	}
+	/**
 	 * Closes this connection
 	 */
 	public function cleanUp() {

@@ -7,8 +7,8 @@ new DatabaseConnection;
 isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 
 //grab main template
-$mainTpl = new Template('../templates/main.tpl.php',false,true);	
-$mainTpl->title = "MooKit Version 1"; 	//set title
+$main = new Template('../templates/main.tpl.php',false,true);
+$main->title = "MooKit Version 1"; 	//set title
 
 //set JavaScripts
 $scripts = array();
@@ -17,7 +17,7 @@ $scripts[] = '<script type="text/javascript" src="js/signup.js"></script>'; //si
 $scripts[] =  '<script type="text/javascript" src="js/debug.js"></script>'; //debug area
 if($_SESSION['auth'] === 1)
 	$scripts[] =  '<script type="text/javascript" src="js/post.js"></script>'; //post
-$mainTpl->scripts = $scripts;
+$main->scripts = $scripts;
 
 //set Styles
 $styles = array();
@@ -27,34 +27,34 @@ $styles[] = '<link rel="stylesheet" type="text/css" href="templates/signupForm.c
 $styles[] = '<link rel="stylesheet" type="text/css" href="templates/content.css.php" />';
 $styles[] = '<link rel="stylesheet" type="text/css" href="templates/debug.css.php" />';
 $styles[] = '<link rel="stylesheet" type="text/css" href="templates/post.css.php" />';
-$mainTpl->styles = $styles;
+$main->styles = $styles;
 
 //grab sub templates
-$mainTpl->navTpl = new Template('../templates/nav.tpl.php'); 	
+$main->navTpl = new Template('../templates/nav.tpl.php'); 	
 	//links
-	$mainTpl->navTpl->links = array(array('href'=>'http://www.iamcorbin.net',
+	$main->navTpl->links = array(array('href'=>'http://www.iamcorbin.net',
 							'name'=>'IAmCorbin.net'),
 						array('href'=>'http://www.metaldisco.org',
 							'name'=>'MetalDisco.org'));
 
 //Login Form																				
-$mainTpl->loginTpl = new Template('../templates/loginForm.tpl.php'); 		/*add login form */		
+$main->loginTpl = new Template('../templates/loginForm.tpl.php'); 		/*add login form */		
 //Signup Form
-$mainTpl->signupTpl = new Template('../templates/signupForm.tpl.php');	/* add signup form */	
+$main->signupTpl = new Template('../templates/signupForm.tpl.php');	/* add signup form */	
 //Content Area
-$mainTpl->contentTpl = new Template('../templates/content.tpl.php');  		/* add content area */
+$main->contentTpl = new Template('../templates/content.tpl.php');  		/* add content area */
 	//User Info Table
-	$mainTpl->contentTpl->userInfo = $_SESSION['DB']->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","mysql");
+	$main->contentTpl->userInfo = $_SESSION['DB']->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","mysql");
 		//Post
-		$mainTpl->contentTpl->postTpl = new Template('../templates/post.tpl.php');
+		$main->contentTpl->postTpl = new Template('../templates/post.tpl.php');
 		$post = $_SESSION['DB']->query("SELECT * FROM `posts`","object");
-		$mainTpl->contentTpl->postTpl->postTitle = $post[0]->title;
-		$mainTpl->contentTpl->postTpl->postText = $post[0]->text;
+		$main->contentTpl->postTpl->postTitle = $post[0]->title;
+		$main->contentTpl->postTpl->postText = $post[0]->text;
 
-$mainTpl->debugTpl = new Template('../templates/debug.tpl.php'); 		/* add debug area */		
+$main->debugTpl = new Template('../templates/debug.tpl.php'); 		/* add debug area */		
 
 //OUTPUT
-echo $mainTpl;
+echo $main;
 
 
 ?>
