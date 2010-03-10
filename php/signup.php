@@ -13,17 +13,18 @@ $filteredInput['email'] = $inputFilter->email($_POST['email']);
 //Check for Errors
 if($errors = $inputFilter->ERRORS()) {
 	//handle filtered input errors errors
-	echo "ERRORS (Please go back and try again): <br />";
-	foreach($errors as $error)
-		echo $error."<br />";
+	echo '{"status" : "ERROR_FILTER"}';
+	//echo "ERRORS (Please go back and try again): <br />";
+	//foreach($errors as $error)
+	//	echo $error."<br />";
 } else {
 	//make sure passwords match
 	if($_POST['pass'] === $_POST['vpass']){
 		$user = new User;
 		if(!$user->addNew($filteredInput))
-			echo "ERROR ADDING USER! <br />";
+			echo '{"status" : "ERROR"}';
 		else {
-			echo "User successfully added! <br />";
+			echo '{"status" : "ADDED"}';
 			//send user an email
 			$to = $filteredInput['email'];
 			$subject = "User Login Test - Account Created";
@@ -39,19 +40,20 @@ if($errors = $inputFilter->ERRORS()) {
 						 ~The Management";
 			//if(mail($to,$subject,$message)) echo "MAILED!"; else echo "ERROR with php mail function";
 		}
-	} else
-		echo "Passwords do not match!<br />";
+	} else {
+		echo '{"status" : "ERROR_BADPASS"}';
+	}
 }
 
 
 
 //DEBUG STUFF
-echo "<br />---------------------------------------------<br />FILTERED INPUTS: <br />";
+/*echo "<br />---------------------------------------------<br />FILTERED INPUTS: <br />";
 foreach($filteredInput as $field => $input)
 	echo $field.'=>'.$input.'<br />';
 
 echo "POST Variables: <br />";
 echo '<pre>';
 var_export($_POST);
-echo '</pre>';
+echo '</pre>';*/
 ?>

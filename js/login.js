@@ -15,24 +15,15 @@ window.addEvent('domready', function() {
 				$('loginForm').getElements('input')[0].focus();
 			},
 			onHide: function() { 
-				if(!loginValidator.validate())
-					//show form errors
-					formErrors.setStyle('display','block');
-				//don't close if input is not valid
-				if(loginValidator.validate() || $('CLOSE')) {
-					//make sure php validated user input
-					if($('PHPVALIDATED') || $('CLOSE')) {
-						//hide form errors
-						formErrors.setStyle('display','none');
-						this.content.set('tween',{duration: 'short', transition: 'quad' });
-						this.content.tween('top','-300px'); 
-						login.fadeLightbox.delay('200',this); 
-						//remove phpValidation object
-						$('PHPVALIDATED')? $('PHPVALIDATED').destroy() : 0;
-						//remove CLOSE object
-						$('CLOSE')? $('CLOSE').destroy() : 0;
-					}
-				}
+				//hide form errors
+				formErrors.setStyle('display','none');
+				//set animation prefs and move login box off screen
+				this.content.set('tween',{duration: 'short', transition: 'quad' });
+				this.content.tween('top','-300px'); 
+				login.fadeLightbox.delay('200',this); 
+			},
+			onRemove: function() { 
+				
 			}
 		});
 		//Link Login Button to Login Layer
@@ -41,6 +32,9 @@ window.addEvent('domready', function() {
 		$('loginForm').addEvent('submit',function(e) {
 			//stop normal form processing
 			e.stop();
+			if(!loginValidator.validate())
+				//show form errors
+				formErrors.setStyle('display','block');
 			//if valid user input
 			if(loginValidator.validate()) {
 				//send ajax request
@@ -50,39 +44,35 @@ window.addEvent('domready', function() {
 						new Element('img',{src: 'img/ajax-loader.gif', id: 'loginProcessing'}).inject($$('.loginContent')[0]); 
 					},
 					onSuccess: function(response) { 
-						$('debugBox').set('html',response); 
-						login.trigger();
+						$('debugBox').set('html',response);
 						
 						//kill ajax loader bar
 						$('loginProcessing').destroy(); 
 						
-						//read PHP flag and display or destroy auth area
-						if($('LOGGEDIN')) {
-							//console.log("LOGGEDIN!");
-							if($('LOGGEDOUT'))
-								$('LOGGEDOUT').destroy();
+						//decode JSON and check for status
+						json = JSON.decode(response);
+						if(json.status === "LOGGEDIN") {
+							login.trigger();
 							authArea = $$('.authArea');
 							authArea.setStyle('display','block');
-							authArea.load('./php/auth.php');
-						} else if($('LOGGEDOUT')) {
-							//console.log("LOGGEDOUT!");
-							if($('LOGGEDIN'))
-								$('LOGGEDIN').destroy();
+							//load content
+							$('content').load('templates/content.tpl.php');
+							//load javascript
+							var myScript = new Asset.javascript('js/post.js');
+							console.log(myScript);
+							//clear the login form
+							$('loginForm').reset();
+						} else if(json.status === "LOGGEDOUT") {
+							//remove auth content
+							$$('.authArea').getElements('.authAreaContent')[0].set('html','');
 							$$('.authArea').setStyle('display','none');
+						} else if(json.status === "IN") {  
+							login.trigger(); 
+							$('loginForm').reset(); 
 						}
-						$('loginForm').reset();
 					}
 				}).send();
 			}
-		});
-		//X button (cancel window and close)
-		var loginX = login.content.getElements('.X');
-		loginX.each(function(X) { 
-			X.addEvent('click',function() { 
-				//create hidden CLOSE element to bypass form validation 
-				new Element('div',{id: 'CLOSE', style: 'display: none'}).inject(document.body);
-				login.trigger(); 
-			}); 
 		});
 	//   END LOGIN BOX   //
 	//--------------------------------//
