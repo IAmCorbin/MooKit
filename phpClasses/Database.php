@@ -63,7 +63,7 @@ class DatabaseConnection {
 			// Create connection to MYSQL database
 			$this->connection = @mysql_connect($this->host, $this->user, $this->pass);
 			//select database
-			mysql_select_db ($this->db); 
+			@mysql_select_db ($this->db); 
 			//check for valid connection
 			if (!$this->connection)
 			    throw new Exception('MySQL Connection Database Error: ' . mysql_error());
@@ -85,45 +85,46 @@ class DatabaseConnection {
 		//if connection was lost, reconnect
 		if(!$this->connection)
 			$this->connect();
-		
-		//***********************
-		//NEED TO CHECK FOR VALID CONNECTION HERE TO PREVENT FURTHER PROCESSING IF AN ERROR WAS THROWN ON CONNECTION
-		//************************
-		
-		// execute query
-		$results = @mysql_query($query, $this->connection) or die (error_log(date(DATE_RFC850)." : "."Error in query: $query".mysql_error()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"));
-
-		if($display == "display") {
-			$this->displayResults($results);
-			mysql_data_seek($results,0);
-		}
-		//return results in $rType format
-		switch($rType) {
-			case "mysql":
-				return $results;
-				break;
-			case "assoc" | "enum" | "object":
-				//initialize resultSet array
-				$resultSet = array();
-			case "assoc":
-				while($row = mysql_fetch_assoc($results))
-					$resultSet[] = $row;
-				return $resultSet;
-				break;
-			case "enum":
-				while($row = mysql_fetch_row($results))
-					$resultSet[] = $row;
-				return $resultSet;
-				break;
-			case "object":
-				while($row = mysql_fetch_object($results))
-					$resultSet[] = $row;
-				return $resultSet;
-				break;
-			default:
-				return false;
-				break;
-		}
+		//if a valid connection now exists
+		if($this->connection) {
+			// execute query
+			if($results = @mysql_query($query, $this->connection) or die (error_log(date(DATE_RFC850)." : "."Error in query: $query".mysql_error()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"))) {
+				//handle display option
+				if($display == "display") {
+					$this->displayResults($results);
+					@mysql_data_seek($results,0);
+				}
+				//return results in $rType format
+				switch($rType) {
+					case "mysql":
+						return $results;
+						break;
+					case "assoc" | "enum" | "object":
+						//initialize resultSet array
+						$resultSet = array();
+					case "assoc":
+						while($row = @mysql_fetch_assoc($results))
+							$resultSet[] = $row;
+						return $resultSet;
+						break;
+					case "enum":
+						while($row = @mysql_fetch_row($results))
+							$resultSet[] = $row;
+						return $resultSet;
+						break;
+					case "object":
+						while($row = @mysql_fetch_object($results))
+							$resultSet[] = $row;
+						return $resultSet;
+						break;
+					default:
+						//simply return true if no return data is desired
+						return true;
+						break;
+				} //END SWITCH
+			}
+		} else
+			return null;
 	}
 	/**
 	 * Outputs a mysql result set in a styled box
@@ -131,7 +132,7 @@ class DatabaseConnection {
 	 */
 	public function displayResults($results) {
 		// see if any rows were returned
-		if (mysql_num_rows($results) > 0) {
+		if ( @mysql_num_rows($results) > 0) {
 			//style
 			echo '<style type="text/css">
 					.displayResultsBox { background: #444; border: solid #555 10px; padding: 2px; padding: 15px 10px 15px 10px; }
@@ -140,13 +141,13 @@ class DatabaseConnection {
 				
 			echo '<table class="displayResultsBox">'."\n";
 			//display field names
-			$fields = mysql_num_fields($results);
+			$fields = @mysql_num_fields($results);
 			echo '<tr class="displayResultsBox">'."\n";
-			for($n = 1; $n<$fields; $n++) 		echo '<td class="displayResultsCell">'.mysql_field_name($results,$n).'</td>'."\n";
+			for($n = 1; $n<$fields; $n++) 		echo '<td class="displayResultsCell">'. @mysql_field_name($results,$n).'</td>'."\n";
 			echo "</tr>\n";
 			//display rows
 			echo '<tr class="displayResultBox">';
-			while($row = mysql_fetch_row($results)) {
+			while($row = @mysql_fetch_row($results)) {
 				$n = 0;
 				while( ++$n < sizeof($row) )
 					echo '<td class="displayResultsCell">'.$row[$n]."</td>\n";
@@ -169,7 +170,7 @@ class DatabaseConnection {
 	 */
 	public function cleanUp() {
 		// close connection
-		mysql_close($this->connection);
+		@mysql_close($this->connection);
 	}
 }
 ?>

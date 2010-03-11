@@ -60,7 +60,7 @@ window.addEvent('domready', function() {
 							//load javascript
 							var myScript = new Asset.javascript('js/post.js');
 							var myScript = new Asset.javascript('js/userCSS.js');
-							console.log(myScript);
+							debug(myScript);
 							//clear the login form
 							$('loginForm').reset();
 						} else if(json.status === "LOGGEDOUT") {

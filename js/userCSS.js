@@ -9,7 +9,7 @@ window.addEvent('domready', function() {
 			//send ajax request
 			this.set('send',{ 
 				onSuccess: function(response) { 
-						console.log(response);
+						debug(response);
 						//convert JSON from PHP to JavaScript object
 						var json = JSON.decode(response);
 						this.getElement('textarea').set('value',json.css);

@@ -19,7 +19,7 @@ class User {
 		//check database for duplicate username
 		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['user']."' LIMIT 1;";
 		$results = $_SESSION['DB']->query($query);
-		if(mysql_num_rows($results) > 0) //return false is username is already found
+		if(!$results) //return false is username is already found
 			return false;
 		//generate encrypted password
 		$regTime = date('Y-m-d H:i:s');
@@ -47,7 +47,7 @@ class User {
 			//check user
 			$query = "SELECT * FROM $tbl WHERE `alias`='$user' AND `password`='$encPass';";// LIMIT 1;";
 			$results = $_SESSION['DB']->query($query);
-			if(mysql_num_rows($results)>0) {
+			if($results) {
 				$_SESSION['auth'] = 1;
 				$_SESSION['user'] = $user;
 				//hidden element to flag successful login read from JavaScript
@@ -85,7 +85,7 @@ class User {
 			//get user registration time
 			$query = "SELECT `registered` FROM `users` WHERE `alias`='$user' LIMIT 1;";
 			$results = $_SESSION['DB']->query($query);
-			if(mysql_num_rows($results) > 0) {//store user's registration DATETIME
+			if($results) {//store user's registration DATETIME
 				$regTime = mysql_fetch_row($results);
 				$regTime = $regTime[0];
 			} else //return NULL if no valid user alias was found in the database
