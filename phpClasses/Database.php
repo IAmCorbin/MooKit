@@ -71,7 +71,7 @@ class DatabaseConnection {
 			    $this->CONNECTED = true;
 		}
 		 catch (Exception $e) {
-			echo $e->getMessage();
+			error_log( date(DATE_RFC850)." : ".$e->getMessage()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log");
 		}
 	}
 	/**
@@ -85,8 +85,13 @@ class DatabaseConnection {
 		//if connection was lost, reconnect
 		if(!$this->connection)
 			$this->connect();
+		
+		//***********************
+		//NEED TO CHECK FOR VALID CONNECTION HERE TO PREVENT FURTHER PROCESSING IF AN ERROR WAS THROWN ON CONNECTION
+		//************************
+		
 		// execute query
-		$results = @mysql_query($query, $this->connection) or die ("Error in query: $query. ".mysql_error());
+		$results = @mysql_query($query, $this->connection) or die (error_log(date(DATE_RFC850)." : "."Error in query: $query".mysql_error()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"));
 
 		if($display == "display") {
 			$this->displayResults($results);

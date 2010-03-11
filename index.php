@@ -15,9 +15,10 @@ $scripts = array();
 $scripts[] = '<script type="text/javascript" src="js/login.js"></script>'; //login form
 $scripts[] = '<script type="text/javascript" src="js/signup.js"></script>'; //signup form
 $scripts[] =  '<script type="text/javascript" src="js/debug.js"></script>'; //debug area
-if($_SESSION['auth'] === 1)
+if($_SESSION['auth'] === 1) {
 	$scripts[] =  '<script type="text/javascript" src="js/post.js"></script>'; //post
 	$scripts[] =  '<script type="text/javascript" src="js/userCSS.js"></script>'; //post
+}
 $main->scripts = $scripts;
 
 //set Styles

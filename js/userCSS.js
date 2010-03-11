@@ -13,6 +13,17 @@ window.addEvent('domready', function() {
 						//convert JSON from PHP to JavaScript object
 						var json = JSON.decode(response);
 						this.getElement('textarea').set('value',json.css);
+						//remove old user style
+						if($('userCSSstyle'))
+							$('userCSSstyle').destroy();
+						//add user style to head
+						var userStyle = new Element('style',{
+							id: 'userCSSstyle',
+							type: 'text/css',
+							html: json.css
+						});
+						userStyle.inject(document.head,'bottom');
+						
 				}.bind(this)
 			}).send();
 		}

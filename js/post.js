@@ -14,11 +14,12 @@ window.addEvent('domready', function() {
 						
 					},
 					onSuccess: function(response) { 
-							console.log(response);
+							debug(response);
 							//convert JSON from PHP to JavaScript object
 							var json = JSON.decode(response);
 							switch(json.status) {
-								case "OK":								
+								case "OK":
+									debug("OK");
 									//set form to processed values
 									this.getElement('input').set('value',json.titleLawed);
 									this.getElement('textarea').set('value',json.textLawed);
@@ -28,13 +29,13 @@ window.addEvent('domready', function() {
 									$('renderText').set('html',json.textLawed);
 									break;
 								case "ERROR_FILTER":
-									console.log("FILTER ERROR");
+									debug("FILTER ERROR");
 									break;
 								case "ERROR_QUERY":
-									console.log("QUERY ERROR");
+									debug("QUERY ERROR");
 									break;
 								default:
-									console.log("DEFAULT");
+									debug("DEFAULT");
 									break;
 							}
 								

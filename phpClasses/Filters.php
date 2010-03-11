@@ -23,7 +23,7 @@ Class Filters {
 		if(!$htmLawed)
 			$htmLawed = array('safe'=>1,
 							'tidy'=>1,
-							'deny_attribute'=>'* -href -target -style',
+							'deny_attribute'=>'* -href -target -style -class',
 							'schemes'=>'style: *; href: *; target: *');
 		$this->htmLawedConfig = $htmLawed;
 	}

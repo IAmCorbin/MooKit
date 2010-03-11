@@ -45,7 +45,7 @@ class User {
 		//if a valid password is returned (requires the username to be in the database)
 		if($encPass = $this->encryptPassword($user,$pass)) {
 			//check user
-			$query = "SELECT * FROM $tbl WHERE `alias`='$user' AND `password`='$encPass' LIMIT 1;";
+			$query = "SELECT * FROM $tbl WHERE `alias`='$user' AND `password`='$encPass';";// LIMIT 1;";
 			$results = $_SESSION['DB']->query($query);
 			if(mysql_num_rows($results)>0) {
 				$_SESSION['auth'] = 1;

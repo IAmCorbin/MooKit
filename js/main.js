@@ -1,3 +1,10 @@
+var DEBUG = true;
+
+function debug(input) {
+	if(DEBUG)
+		console.log(input);
+}
+
 window.addEvent('domready', function() {
 	
 	if($('LOGGEDIN')) {
