@@ -8,17 +8,24 @@
  * @package MooKit
  */
 Class Filters {
-	/**
-	 * @var array array of thrown filter errors
-	 */
+	/** @var array $errors array of thrown filter errors */
 	var $errors;
+	/** @var array $htmLawedConfig htmLawed configuration settings */
+	var $htmLawedConfig;
 	/**
 	 * Constructor
 	 *
 	 * Initialize the $errors array to 'none'
+	 * @param array $htmLawed htmLawed configuration settings
 	 */
-	public function __construct() {
+	public function __construct($htmLawed = null) {
 		$errors[0] = 'none';
+		if(!$htmLawed)
+			$htmLawed = array('safe'=>1,
+							'tidy'=>1,
+							'deny_attribute'=>'* -href -target -style',
+							'schemes'=>'style: *; href: *; target: *');
+		$this->htmLawedConfig = $htmLawed;
 	}
 	/**
 	 * Filter an Email
@@ -97,6 +104,19 @@ Class Filters {
 		else
 			$this->errors[sizeof($this->errors)] = 'RegEx Failed';
 	}
+	/**
+	 * Filter input with htmLawed
+	 * @link http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/
+	 * @params string $input the input to filter
+	 * @returns string
+	 */
+	 public function htmLawed($input) {
+		//REMOVE MAGIC QUOTES
+		if(get_magic_quotes_gpc())
+			$input = stripslashes($input);
+		return htmLawed($input,$this->htmLawedConfig);
+		
+	 }
 	/**
 	 * ERRORS
 	 * 

@@ -59,6 +59,7 @@ window.addEvent('domready', function() {
 							$('content').load('templates/content.tpl.php');
 							//load javascript
 							var myScript = new Asset.javascript('js/post.js');
+							var myScript = new Asset.javascript('js/userCSS.js');
 							console.log(myScript);
 							//clear the login form
 							$('loginForm').reset();

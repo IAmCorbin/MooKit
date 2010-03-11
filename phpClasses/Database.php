@@ -86,7 +86,7 @@ class DatabaseConnection {
 		if(!$this->connection)
 			$this->connect();
 		// execute query
-		$results = mysql_query($query, $this->connection) or die ("Error in query: $query. ".mysql_error());
+		$results = @mysql_query($query, $this->connection) or die ("Error in query: $query. ".mysql_error());
 
 		if($display == "display") {
 			$this->displayResults($results);
