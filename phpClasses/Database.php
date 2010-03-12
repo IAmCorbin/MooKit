@@ -3,6 +3,7 @@
  * class DatabaseConnection
  *
  * Basic MySQL Database Connection class
+ * Encapsulates a mysqli database object
  * 
  * @author Corbin Tarrant
  * @copyright Febuary 22th, 2010
@@ -11,9 +12,9 @@
  */
 class DatabaseConnection { 
 	/**
-	 *@var $connection		mysql database link
+	 *@var $mysqli		mysqli database object
 	 */ 
-	var $connection = NULL;
+	var $mysqli = NULL;
 	/**
 	 *@var bool $CONNECTED	true or false connection status
 	 */ 
@@ -36,42 +37,33 @@ class DatabaseConnection {
 	var $db = NULL;
 	
 	/**
-	 * Constructor - makes $_SESSION['DB'] a reference to this DatabaseConnection object and connects to database
+	 * Constructor - Create persistent mysqli database object
 	 *
 	 *@param string $host 	the db host
 	 *@param string $user 	the db user
 	 *@param string $pass 	the db user password
 	 *@param string $db 	the db to use
+	 *
+	 *@returns bool		true on success, false on fail
 	 */
-	function __construct($host='localhost',$user='test',$pass='test',$db='test') {
-		
-		$this->host = $host;
-		$this->user = $user;
-		$this->pass = $pass;
-		$this->db = $db;
-		
-		$_SESSION['DB'] =& $this;
-		
-		$this->connect();
-		
-	}
-	/**
-	 * Connect to the database or throw an error
-	 */
-	public function connect() {
-		try {
-			// Create connection to MYSQL database
-			$this->connection = @mysql_connect($this->host, $this->user, $this->pass);
-			//select database
-			@mysql_select_db ($this->db); 
-			//check for valid connection
-			if (!$this->connection)
-			    throw new Exception('MySQL Connection Database Error: ' . mysql_error());
-			else
-			    $this->CONNECTED = true;
-		}
-		 catch (Exception $e) {
-			error_log( date(DATE_RFC850)." : ".$e->getMessage()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log");
+	function __construct($host='localhost',$user='test',$pass='test',$db='test',$dummy=TRUE) {
+		if(!!$dummy) {
+			try{
+				//create mysqli database object
+				$this->mysqli = new mysqli($host,$user,$pass,$db);
+				
+				//throw error if no mysqli object exists
+				if(!$this->mysqli)	throw new Exception('Error creating mysqli object');
+			} catch(Exception $e) {
+				error_log( date(DATE_RFC850)." : ".$e->getMessage()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log");
+				return false;
+			}
+			//check for connection error and log if found
+			if ($this->mysqli->connect_errno) {
+				error_log( date(DATE_RFC850)." : ".$this->mysqli->error()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log");
+				return false;
+			}
+			return true;
 		}
 	}
 	/**
@@ -79,21 +71,20 @@ class DatabaseConnection {
 	 *@param string $query		a valid mysql query
 	 *@param string $rType		return type default = mysql result set. Options - "object" array of objects, "enum" enumerated array, "assoc" associative array
 	 *@param string $display	if string "display" is passed, then {@link displayResults()} is called
-	 *@return $results 			returns a mysql result set or false
+	 *@return $results 			returns an array of results or false
 	 */
 	public function query($query, $rType="mysql", $display=NULL) {
-		//if connection was lost, reconnect
-		if(!$this->connection)
-			$this->connect();
-		//if a valid connection now exists
-		if($this->connection) {
+		//check for valid connection
+		if($this->mysqli->ping()) {
 			// execute query
-			if($results = @mysql_query($query, $this->connection) or die (error_log(date(DATE_RFC850)." : "."Error in query: $query".mysql_error()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"))) {
+			if(!$results = $this->mysqli->query($query))
+				//log error
+				error_log(date(DATE_RFC850)." : "."Error in query: $query".$this->mysqli->error()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log");
+			else {
 				//handle display option
-				if($display == "display") {
+				if($display == "display")
 					$this->displayResults($results);
-					@mysql_data_seek($results,0);
-				}
+					
 				//return results in $rType format
 				switch($rType) {
 					case "mysql":
@@ -103,22 +94,21 @@ class DatabaseConnection {
 						//initialize resultSet array
 						$resultSet = array();
 					case "assoc":
-						while($row = @mysql_fetch_assoc($results))
+						while($row = $results->fetch_assoc())
 							$resultSet[] = $row;
 						return $resultSet;
 						break;
 					case "enum":
-						while($row = @mysql_fetch_row($results))
+						while($row = $results->fetch_row())
 							$resultSet[] = $row;
 						return $resultSet;
 						break;
 					case "object":
-						while($row = @mysql_fetch_object($results))
+						while($row = $results->fetch_object())
 							$resultSet[] = $row;
 						return $resultSet;
 						break;
-					default:
-						//simply return true if no return data is desired
+					default: //simply return true if no return data is desired
 						return true;
 						break;
 				} //END SWITCH
@@ -131,8 +121,8 @@ class DatabaseConnection {
 	 *@param $results a mysql result set
 	 */
 	public function displayResults($results) {
-		// see if any rows were returned
-		if ( @mysql_num_rows($results) > 0) {
+		// make sure results are not empty
+		if ( $results->num_rows > 0) {
 			//style
 			echo '<style type="text/css">
 					.displayResultsBox { background: #444; border: solid #555 10px; padding: 2px; padding: 15px 10px 15px 10px; }
@@ -141,18 +131,22 @@ class DatabaseConnection {
 				
 			echo '<table class="displayResultsBox">'."\n";
 			//display field names
-			$fields = @mysql_num_fields($results);
 			echo '<tr class="displayResultsBox">'."\n";
-			for($n = 1; $n<$fields; $n++) 		echo '<td class="displayResultsCell">'. @mysql_field_name($results,$n).'</td>'."\n";
+			
+			while($field = $results->fetch_field()) 		
+				echo '<td class="displayResultsCell">'. $field->name .'</td>'."\n";
 			echo "</tr>\n";
+			$results->field_seek(0); //reset field to beginning of row
 			//display rows
 			echo '<tr class="displayResultBox">';
-			while($row = @mysql_fetch_row($results)) {
-				$n = 0;
+			while($row = $results->fetch_row()) {
+				$n = -1;
 				while( ++$n < sizeof($row) )
 					echo '<td class="displayResultsCell">'.$row[$n]."</td>\n";
 			}
 			echo "<tr>\n</table>\n";
+			//reset results to first row
+			$results->data_seek(0);
 		} else {
 			// no results : print status message
 			echo "<div class=\"dataResults\"><div>No rows found!</div></div>";
@@ -163,14 +157,14 @@ class DatabaseConnection {
 	 * @return mysql connection link
 	 */
 	public function getLink() {
-		return $this->connection;
+		return $this->mysqli;
 	}
 	/**
 	 * Closes this connection
 	 */
 	public function cleanUp() {
 		// close connection
-		@mysql_close($this->connection);
+		$this->mysqli->close();
 	}
 }
 ?>

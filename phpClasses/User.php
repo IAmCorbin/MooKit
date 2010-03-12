@@ -10,6 +10,14 @@
  * @package MooKit
  */
 class User {
+	/** @var mysqli $mysqli	mysqli database object */
+	var $DB;
+	/**
+	 * Constructor
+	 */
+	function __construct() {
+		$this->DB = new DatabaseConnection;
+	}
 	/**
 	 * Add a new user to the database
 	 *@param array $filteredInput - array filled with filtered user input
@@ -18,14 +26,14 @@ class User {
 	public function addNew($filteredInput) {
 		//check database for duplicate username
 		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['user']."' LIMIT 1;";
-		$results = $_SESSION['DB']->query($query);
+		$results = $this->DB->query($query);
 		if(!$results) //return false is username is already found
 			return false;
 		//generate encrypted password
 		$regTime = date('Y-m-d H:i:s');
 		if($encPass = $this->encryptPassword($filteredInput['user'],$filteredInput['pass'],$regTime)) {
 			//add new user to database
-			$_SESSION['DB']->query(
+			$this->DB->query(
 				'INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`) 
 				VALUES(\''.$filteredInput['user'].'\',\''.$filteredInput['first'].'\',\''.$filteredInput['last'].'\',\''.$encPass.'\',\''.$filteredInput['email'].'\',\''.$regTime.'\');');
 			return true;
@@ -46,7 +54,7 @@ class User {
 		if($encPass = $this->encryptPassword($user,$pass)) {
 			//check user
 			$query = "SELECT * FROM $tbl WHERE `alias`='$user' AND `password`='$encPass';";// LIMIT 1;";
-			$results = $_SESSION['DB']->query($query);
+			$results = $this->DB->query($query);
 			if($results) {
 				$_SESSION['auth'] = 1;
 				$_SESSION['user'] = $user;
@@ -84,9 +92,9 @@ class User {
 		if(!$regTime) {
 			//get user registration time
 			$query = "SELECT `registered` FROM `users` WHERE `alias`='$user' LIMIT 1;";
-			$results = $_SESSION['DB']->query($query);
-			if($results) {//store user's registration DATETIME
-				$regTime = mysql_fetch_row($results);
+			if($results = $this->DB->query($query)) {
+				//store user's registration DATETIME
+				$regTime = $results->fetch_row();
 				$regTime = $regTime[0];
 			} else //return NULL if no valid user alias was found in the database
 				return false;

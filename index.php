@@ -2,7 +2,7 @@
 require_once 'php/includes.php';
 
 //create a new database connection
-new DatabaseConnection;
+$DB = new DatabaseConnection;
 //if session auth is not set, set it to 0
 isset($_SESSION['auth'])? 0: $_SESSION['auth'] = 0;
 
@@ -46,12 +46,12 @@ $main->signupTpl = new Template('../templates/signupForm.tpl.php');	/* add signu
 //Content Area
 $main->contentTpl = new Template('../templates/content.tpl.php');  		/* add content area */
 	//User Info Table
-	$main->contentTpl->userInfo = $_SESSION['DB']->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","mysql");
+	$main->contentTpl->userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","mysql");
 		//userCSS
 		$main->contentTpl->cssTpl = new Template('../templates/userCSS.tpl.php');
 		//Post
 		$main->contentTpl->postTpl = new Template('../templates/post.tpl.php');
-		$post = $_SESSION['DB']->query("SELECT * FROM `posts`","object");
+		$post = $DB->query("SELECT * FROM `posts`","object");
 		$main->contentTpl->postTpl->postTitle = $post[0]->title;
 		$main->contentTpl->postTpl->postText = $post[0]->text;
 
