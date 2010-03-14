@@ -1,4 +1,5 @@
 <?php
+if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
  *Class to encapsulate php 5.2 filter_var for simple form validation
  *
@@ -139,4 +140,5 @@ Class Filters {
 	
 }
 
+} //end if(defined('INSITE')
 ?>

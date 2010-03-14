@@ -2,6 +2,7 @@
 chdir($_SERVER['DOCUMENT_ROOT'].'/MooKit/phpClasses');
 
 define('DEBUG', false); //DEBUG FLAG
+define('INSITE',true); //EXTRA SCRIPT SECURITY, disallow direct script access
 
 require_once 'htmLawed1.1.9.1.php';
 require_once  'Filters.php';

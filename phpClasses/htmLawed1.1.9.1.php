@@ -1,5 +1,5 @@
 <?php
-
+if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /*
 htmLawed 1.1.9.1, 26 February 2010
 Copyright Santosh Patnaik
@@ -711,3 +711,5 @@ function kses_hook($t, &$C, &$S){
 return $t;
 // eof
 }
+
+} //end if(defined('INSITE')

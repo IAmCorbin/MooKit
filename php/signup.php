@@ -1,4 +1,6 @@
 <?php
+//~ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
+
 require '../php/includes.php';
 
 $inputFilter = new Filters;
@@ -56,4 +58,6 @@ echo "POST Variables: <br />";
 echo '<pre>';
 var_export($_POST);
 echo '</pre>';*/
+
+//~ } //end if(defined('INSITE')
 ?>

@@ -1,4 +1,5 @@
 <?php
+//if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 
 require_once '../php/includes.php';
 
@@ -10,5 +11,5 @@ $userCSS = $inputFilter->htmLawed($_POST['css']);
 echo json_encode(array('css'=>$userCSS));
 
 
-
+//} //end if(defined('INSITE')
 ?>

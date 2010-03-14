@@ -1,4 +1,6 @@
 <?php
+//~ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
+
 require_once '../php/includes.php';
 
 $inputFilter = new Filters;
@@ -30,4 +32,5 @@ if($errors = $inputFilter->ERRORS()) {
 	
 }
 
+//~ } //end if(defined('INSITE')
 ?>

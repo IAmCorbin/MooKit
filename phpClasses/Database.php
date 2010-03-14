@@ -1,4 +1,5 @@
 <?php
+if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
  * class DatabaseConnection
  *
@@ -174,4 +175,6 @@ class DatabaseConnection {
 		$this->mysqli->close();
 	}
 }
+
+}//end if(INSITE)
 ?>

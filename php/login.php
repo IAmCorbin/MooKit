@@ -1,4 +1,6 @@
 <?php
+//~ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
+
 require_once '../php/includes.php';
 
 //don't do anything if already logged in
@@ -34,4 +36,6 @@ var_export($_POST);
 echo '$_SESSION';
 var_export($_SESSION);
 echo '</pre>';*/
+
+//~ } //end if(defined('INSITE')
 ?>
