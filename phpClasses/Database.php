@@ -55,12 +55,16 @@ class DatabaseConnection {
 				//throw error if no mysqli object exists
 				if(!$this->mysqli)	throw new Exception('Error creating mysqli object');
 			} catch(Exception $e) {
-				error_log( date(DATE_RFC850)." : ".$e->getMessage()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log");
+				$msg = date(DATE_RFC850)." : ".$e->getMessage()."\n";
+				error_log( $msg , 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"); //save error to logfile
+				if(DEBUG) echo $msg; //if debug mode is on, echo the error msg
 				return false;
 			}
 			//check for connection error and log if found
 			if ($this->mysqli->connect_errno) {
-				error_log( date(DATE_RFC850)." : ".$this->mysqli->error()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log");
+				$msg = date(DATE_RFC850)." : ".$this->mysqli->error()."\n";
+				error_log( $msg, 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"); //save error to logfile
+				if(DEBUG) echo $msg; //if debug mode is on, echo the error msg
 				return false;
 			}
 			return true;
@@ -77,10 +81,13 @@ class DatabaseConnection {
 		//check for valid connection
 		if($this->mysqli->ping()) {
 			// execute query
-			if(!$results = $this->mysqli->query($query))
+			if(!$results = $this->mysqli->query($query)) {
 				//log error
-				error_log(date(DATE_RFC850)." : "."Error in query: $query".$this->mysqli->error()."\n", 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log");
-			else {
+				$msg = date(DATE_RFC850)." : "."Error in query: $query".$this->mysqli->error()."\n";
+				error_log($msg, 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"); //save error to logfile
+				if(DEBUG) echo $msg; //if debug mode is on, echo the error msg
+				return false;
+			} else {
 				//handle display option
 				if($display == "display")
 					$this->displayResults($results);
