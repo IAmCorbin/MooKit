@@ -55,12 +55,12 @@ class User {
 		if($encPass = $this->encryptPassword($user,$pass)) {
 			//check user
 			$query = "SELECT * FROM $tbl WHERE `alias`='$user' AND `password`='$encPass';";// LIMIT 1;";
-			$results = $this->DB->query($query);
+			$results = $this->DB->query($query,'assoc');
 			if($results) {
+				//set authenticated session variables
 				$_SESSION['auth'] = 1;
-				$_SESSION['user'] = $user;
-				//hidden element to flag successful login read from JavaScript
-				//echo '<div id="LOGGEDIN" style="display:none;"></div>';
+				$_SESSION['user'] = $user; //username
+				$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];//ip
 				return true;
 			}
 		} else {
@@ -76,10 +76,9 @@ class User {
 	 * REMOVE AUTHORIZATION FLAG AND USERNAME
 	 */
 	public function NOAUTH() {
-		$_SESSION['auth'] = 0;
-		unset($_SESSION['user']);
-		//flag logged out for javascript
-		//echo '<div id="LOGGEDOUT" style="display:none;"></div>';
+		unset($_SESSION['auth']); //remove authentication
+		unset($_SESSION['user']); //unset username
+		unset($_SESSION['ip']); //unset ip address
 	}
 	/**
 	 * Encrypt a password
@@ -93,10 +92,9 @@ class User {
 		if(!$regTime) {
 			//get user registration time
 			$query = "SELECT `registered` FROM `users` WHERE `alias`='$user' LIMIT 1;";
-			if($results = $this->DB->query($query)) {
+			if($results = $this->DB->query($query,'object')) {
 				//store user's registration DATETIME
-				$regTime = $results->fetch_row();
-				$regTime = $regTime[0];
+				$regTime = $results[0]->registered;
 			} else //return NULL if no valid user alias was found in the database
 				return false;
 		}

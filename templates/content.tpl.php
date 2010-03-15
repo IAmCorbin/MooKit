@@ -4,11 +4,12 @@ require_once('../php/includes.php');
 $DB = new DatabaseConnection(null, null, null, null, FALSE); //create a dummy DatabaseConnection object so we can use the displayResults function
 
 ?>
+<?= $userIP ?>
 	<!-- CONTENT AREA -->
 		<div class="authArea">
 			<? if($_SESSION['auth'] == 1) { ?>
 				<div class="authAreaContent">
-					<?//var_dump($userInfo);?>
+					<span id="logout" class="button">LOGOUT</span>
 					<? $DB->displayResults($userInfo); ?><br /><!-- display a formatted table of the cooresponding user data -->
 					
 					<?= $cssTpl ?>

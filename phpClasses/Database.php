@@ -78,7 +78,7 @@ class DatabaseConnection {
 	 *@param string $display	if string "display" is passed, then {@link displayResults()} is called
 	 *@return $results 			returns an array of results or false
 	 */
-	public function query($query, $rType="mysql", $display=NULL) {
+	public function query($query, $rType="assoc", $display=NULL) {
 		//check for valid connection
 		if($this->mysqli->ping()) {
 			// execute query
@@ -115,6 +115,9 @@ class DatabaseConnection {
 						while($row = $results->fetch_object())
 							$resultSet[] = $row;
 						return $resultSet;
+						break;
+					case null;
+						return true;
 						break;
 					default: //simply return true if no return data is desired
 						return true;

@@ -56,11 +56,19 @@ window.addEvent('domready', function() {
 							authArea = $$('.authArea');
 							authArea.setStyle('display','block');
 							//load content
-							$('content').load('templates/content.tpl.php');
-							//load javascript
-							var myScript = new Asset.javascript('js/post.js');
-							var myScript = new Asset.javascript('js/userCSS.js');
-							debug(myScript);
+							new Request({
+								method: 'post',
+								url: 'php/jsAuth.php',
+								onSuccess: function(response) {
+									//set html
+									$('content').set('html',response);
+									//load javascript
+									var myScript = new Asset.javascript('js/post.js');
+									var myScript = new Asset.javascript('js/userCSS.js');
+									var myScript = new Asset.javascript('js/mainAuth.js');
+								}
+							}).send();
+							
 							//clear the login form
 							$('loginForm').reset();
 						} else if(json.status === "LOGGEDOUT") {

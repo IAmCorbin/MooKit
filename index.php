@@ -16,6 +16,7 @@ $scripts[] = '<script type="text/javascript" src="js/login.js"></script>'; //log
 $scripts[] = '<script type="text/javascript" src="js/signup.js"></script>'; //signup form
 $scripts[] =  '<script type="text/javascript" src="js/debug.js"></script>'; //debug area
 if($_SESSION['auth'] === 1) {
+	$scripts[] =  '<script type="text/javascript" src="js/mainAuth.js"></script>'; //post
 	$scripts[] =  '<script type="text/javascript" src="js/post.js"></script>'; //post
 	$scripts[] =  '<script type="text/javascript" src="js/userCSS.js"></script>'; //post
 }
@@ -43,18 +44,12 @@ $main->navTpl = new Template('../templates/nav.tpl.php');
 $main->loginTpl = new Template('../templates/loginForm.tpl.php'); 		/*add login form */		
 //Signup Form
 $main->signupTpl = new Template('../templates/signupForm.tpl.php');	/* add signup form */	
-//Content Area
-$main->contentTpl = new Template('../templates/content.tpl.php');  		/* add content area */
-	//User Info Table
-	$main->contentTpl->userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","mysql");
-		//userCSS
-		$main->contentTpl->cssTpl = new Template('../templates/userCSS.tpl.php');
-		//Post
-		$main->contentTpl->postTpl = new Template('../templates/post.tpl.php');
-		$post = $DB->query("SELECT * FROM `posts`","object");
-		$main->contentTpl->postTpl->postTitle = $post[0]->title;
-		$main->contentTpl->postTpl->postText = $post[0]->text;
 
+//Content Area
+$main->contentTpl = getAuthContent();
+$main->contentTpl->userIP = $_SESSION['ip'];
+	
+//debug
 $main->debugTpl = new Template('../templates/debug.tpl.php'); 		/* add debug area */		
 
 //OUTPUT

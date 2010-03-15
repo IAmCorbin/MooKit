@@ -1,15 +1,19 @@
 <?php
-//if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
-
 require_once '../php/includes.php';
 
-$inputFilter = new Filters;
+//Security Check
+$security = new Security;
+if(!$security->check()) 
+	echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>';
+else { //Authorized
 
-$userCSS = $inputFilter->htmLawed($_POST['css']);
+	$inputFilter = new Filters;
 
-//send filtered css back to javascript
-echo json_encode(array('css'=>$userCSS));
+	$userCSS = $inputFilter->htmLawed($_POST['css']);
 
-
-//} //end if(defined('INSITE')
+	//send filtered css back to javascript
+	echo json_encode(array('css'=>$userCSS));
+	
+	
+}
 ?>

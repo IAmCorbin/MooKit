@@ -10,7 +10,7 @@ window.addEvent('domready', function() {
 	if($('LOGGEDIN')) {
 		authArea = $$('.authArea');
 		authArea.setStyle('display','block');
-	}		
+	}
 	
 	//Sliding Button Animation
 	$$('.slideBtn').each(function(btn) {
