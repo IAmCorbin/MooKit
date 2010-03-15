@@ -19,7 +19,7 @@ class Template {
 	var $result;
 	/** @var string $parent parent template */
 	var $parent;
-	/** @var string $gzip gzip encoding flag */
+	/** @var bool $gzip gzip encoding flag */
 	var $gzip = false;
 	
 	/**
@@ -29,7 +29,7 @@ class Template {
 	 * @param array $vars array of  (key=>value) variables
 	 * @param bool $gzip set gzip encoding on/off
 	 */
-	public function Template($path=false, $vars=false, $gzip=false) {
+	public function __construct($path=false, $vars=false, $gzip=false) {
 		$this->vars = ($vars === false) ? array() : $vars;
 		$this->extract($vars);
 		$this->path($path);

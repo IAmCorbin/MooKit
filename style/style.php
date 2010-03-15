@@ -14,7 +14,7 @@ body { background-image : url('../img/back.jpg'); }
 /* END SHORTCUTS */
 
 /* SLIDE BUTTONS */
-	.login_buttonWrap, .signup_buttonWrap { width:245px; height:36px; overflow:hidden; font-weight:bold; font-size:11px; margin:10px; }
+	.login_buttonWrap, .signup_buttonWrap { width:70px; height:36px; overflow:hidden; font-weight:bold; font-size:11px; margin:10px; }
 	.login_buttonWrap {  position: absolute; right: 3px; top: 3px; z-index: 1050; }
 	.login_buttonSlide{ width:70px; height:36px; background-color:#093d6f; color:#fff; top:0px; right:0px; position:absolute; line-height:36px; text-align:left; }
 	.login_buttonSlide span{ /* display:none; */ visibility:hidden; padding-left:20px; color:#fff; }
