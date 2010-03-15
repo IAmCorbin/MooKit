@@ -7,10 +7,8 @@ if(!$security->check())
 	echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>';
 else { //Authorized
 
-	$inputFilter = new Filters;
-	$DB = new DatabaseConnection;
-
 	//Filter User Input
+	$inputFilter = new Filters;
 	$filteredInput['title'] = $inputFilter->text($_POST['title']);
 	$title = $inputFilter->htmLawed($filteredInput['title']);
 	$text = $inputFilter->htmLawed($_POST['text']);
@@ -25,6 +23,7 @@ else { //Authorized
 		$textEscaped = mysql_real_escape_string($text);
 		
 		//UPDATE POST IN Database
+		$DB = new DatabaseConnection;
 		if($DB->query("UPDATE `posts` SET title='".$titleEscaped."', text='".$textEscaped."' WHERE `ID`=1;",null)) {
 			//SUCCESS
 			$json = json_encode(array('status'=>'OK','titlePost'=>$_POST['title'],'titleFilter'=>$filteredInput['title'],'titleLawed'=>$title,'titleEscaped'=>$titleEscaped,'textPost'=>$_POST['text'],'textLawed'=>$text,'textEscaped'=>$textEscaped));

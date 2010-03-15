@@ -19,8 +19,11 @@
 <body>
 	<?= $navTpl  // NAVIGATION BAR // ?>
 	
-	<?= $loginTpl // LOGIN FORM // ?>
-	<?= $signupTpl // SIGNUP FORM //?>
+	<? if(!$_SESSION['auth']) { ?> <!-- only display login and signup if not logged in -->
+		<?= $loginTpl // LOGIN FORM // ?>
+		<?= $signupTpl // SIGNUP FORM //?>
+	<? } ?>
+	
 	<div id="content">
 	<?= $contentTpl // CONTENT // ?>
 	</div>

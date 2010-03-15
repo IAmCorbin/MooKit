@@ -6,9 +6,13 @@ $DB = new DatabaseConnection(null, null, null, null, FALSE); //create a dummy Da
 ?>
 <?= $userIP ?>
 	<!-- CONTENT AREA -->
-		<div class="authArea">
-			<? if($_SESSION['auth'] == 1) { ?>
-				<div class="authAreaContent">
+		<div class="publicArea">
+		
+		</div>		
+		<? if($_SESSION['auth'] == 1) { ?>
+		<div class="secureArea">
+		
+				<div class="secureContent">
 					<span id="logout" class="button">LOGOUT</span>
 					<? $DB->displayResults($userInfo); ?><br /><!-- display a formatted table of the cooresponding user data -->
 					
@@ -19,6 +23,7 @@ $DB = new DatabaseConnection(null, null, null, null, FALSE); //create a dummy Da
 					</div>
 					
 				</div>
-			<? } ?>	
+			
 		</div>
+		<? } ?>	
 	<!-- END CONTENT AREA -->

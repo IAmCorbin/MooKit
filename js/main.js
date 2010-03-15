@@ -8,8 +8,8 @@ function debug(input) {
 window.addEvent('domready', function() {
 	
 	if($('LOGGEDIN')) {
-		authArea = $$('.authArea');
-		authArea.setStyle('display','block');
+		secureArea = $$('.secureArea');
+		secureArea.setStyle('display','block');
 	}
 	
 	//Sliding Button Animation
@@ -19,12 +19,14 @@ window.addEvent('domready', function() {
 		btn.addEvents({
 			//slide out
 			mouseenter: function(e) { 
-				prev.tween('width',245);
+				this.getParent().tween('width',245);
+				(function() { prev.tween('width',245); }).delay(500);
 				span.fade('in');
 			},
 			//slide back in
 			mouseleave:function(e) {
 				prev.tween('width',70);
+				this.getParent().tween('width',70);
 				span.fade('out');
 			}
 		});

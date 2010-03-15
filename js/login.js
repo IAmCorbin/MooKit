@@ -53,15 +53,18 @@ window.addEvent('domready', function() {
 						json = JSON.decode(response);
 						if(json.status === "LOGGEDIN") {
 							login.trigger();
-							authArea = $$('.authArea');
-							authArea.setStyle('display','block');
+							//secureArea = $$('.secureArea');
+							//secureArea.setStyle('display','block');
 							//load content
 							new Request({
 								method: 'post',
 								url: 'php/jsAuth.php',
 								onSuccess: function(response) {
 									//set html
-									$('content').set('html',response);
+									content = $('content');
+									content.setStyle('opacity','0');
+									content.set('html',response);
+									(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500);
 									//load javascript
 									var myScript = new Asset.javascript('js/post.js');
 									var myScript = new Asset.javascript('js/userCSS.js');
@@ -72,9 +75,9 @@ window.addEvent('domready', function() {
 							//clear the login form
 							$('loginForm').reset();
 						} else if(json.status === "LOGGEDOUT") {
-							//remove auth content
-							$$('.authArea').getElements('.authAreaContent')[0].set('html','');
-							$$('.authArea').setStyle('display','none');
+							//remove all auth content from page
+							$$('.secureArea').set('tween',{duration:'2000'}).fade('0');
+							(function() { $$('.secureArea').destroy(); }).delay(2300,this);
 						} else if(json.status === "IN") {  
 							login.trigger(); 
 							$('loginForm').reset(); 

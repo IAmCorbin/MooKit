@@ -9,9 +9,10 @@ window.addEvent('domready', function() {
 			method: 'post',
 			url: 'php/logout.php',
 			onSuccess: function() {
-				//remove auth content
-				$$('.authArea').getElements('.authAreaContent')[0].set('html','');
-				$$('.authArea').setStyle('display','none');
+				//remove all auth content from page
+				$$('.secureArea').set('tween',{duration:'long'}).fade('0');
+				(function() { $$('.secureArea').destroy(); }).delay(1200,this);
+				
 			}
 		}).send();
 	});

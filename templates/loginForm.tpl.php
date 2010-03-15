@@ -14,4 +14,6 @@
 				</div>
 			</form>
 		</div>
+		
+		<div class="loginContent curved" id="signupReminder">Need to Register?</div>
 	<!-- END LOGIN FORM -->

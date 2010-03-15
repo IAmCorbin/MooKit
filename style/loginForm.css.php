@@ -7,4 +7,6 @@
 	#loginForm>div {  width: 100%; height: 100%;} /* Input Containers */
         #loginForm>div>div { position: relative; } /* Inputs */
         /*#loginForm>div>div>div*/ div.formError { position: relative; top: -15px; left: 35%; width: 150px; height: 35px; overflow: hidden;  font-size: 12px; font-weight: bold; display: none;} /* input errors */
+	
+	#signupReminder { position: absolute; left: 35px; width: 150px; height: 40px; font-size: 18px; font-family: monospace; font-weight: bold; text-align: right;}
 /* END LOGIN FORM */
