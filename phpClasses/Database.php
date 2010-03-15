@@ -51,23 +51,20 @@ class DatabaseConnection {
 		if(!!$dummy) {
 			try{
 				//create mysqli database object
-				$this->mysqli = new mysqli($host,$user,$pass,$db);
-				
+				$this->mysqli = @new mysqli($host,$user,$pass,$db);
 				//throw error if no mysqli object exists
-				if(!$this->mysqli)	throw new Exception('Error creating mysqli object');
+				if(!$this->mysqli)
+					throw new Exception('Error creating mysqli object');
+				//check for mysqli connection error
+				//if($this->mysqli->connect_errno)
+				//	throw new Exception('mysqli error #'.$this->mysqli->connect_errno.' : '.$this->mysqli->connect_error);
 			} catch(Exception $e) {
 				$msg = date(DATE_RFC850)." : ".$e->getMessage()."\n";
 				error_log( $msg , 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"); //save error to logfile
 				if(DEBUG) echo $msg; //if debug mode is on, echo the error msg
 				return false;
 			}
-			//check for connection error and log if found
-			if ($this->mysqli->connect_errno) {
-				$msg = date(DATE_RFC850)." : ".$this->mysqli->error()."\n";
-				error_log( $msg, 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"); //save error to logfile
-				if(DEBUG) echo $msg; //if debug mode is on, echo the error msg
-				return false;
-			}
+			
 			return true;
 		}
 	}
