@@ -16,38 +16,52 @@ $filteredInput['email'] = $inputFilter->email($_POST['email']);
 if($errors = $inputFilter->ERRORS()) {
 	//handle filtered input errors errors
 	echo '{"status" : "ERROR_FILTER"}';
-	//echo "ERRORS (Please go back and try again): <br />";
-	//foreach($errors as $error)
-	//	echo $error."<br />";
+	return;
 } else {
 	//make sure passwords match
-	if($_POST['pass'] === $_POST['vpass']){
+	if(($_POST['pass'] === $_POST['vpass'])){
 		$user = new User;
-		if(!$user->addNew($filteredInput))
-			echo '{"status" : "ERROR"}';
-		else {
-			echo '{"status" : "ADDED"}';
+		//Try and add new user
+		try {
+			switch($userStatus = $user->addNew($filteredInput)) {
+				case 'added':
+					echo json_encode(array('status'=>'ADDED'));
+					return;
+				case 'duplicate':
+					throw new Exception('Duplicate User Exists');
+					break;
+				case 'passEncFail';
+					throw new Exception('Password Encryption Failed');
+					break;
+				case false:
+					throw new Exception('Error Adding User');
+					break;
+			}
 			//send user an email
-			$to = $filteredInput['email'];
-			$subject = "User Login Test - Account Created";
-			$message = 	"Thanks for signing up\n
-						 \n
-						 You signed up providing this information:\n
-						 Username: ".$filteredInput['user']."\n
-						 First Name: ".$filteredInput['first']."\n
-						 Last Name: ".$filteredInput['last']."\n
-						 Email: ".$filteredInput['email']."\n
-						 Registration Date and Time: ".$regTime."\n\n
-						 See ya Soon!\n\n
-						 ~The Management";
-			//if(mail($to,$subject,$message)) echo "MAILED!"; else echo "ERROR with php mail function";
+			//~ $to = $filteredInput['email'];
+			//~ $subject = "User Login Test - Account Created";
+			//~ $message = 	"Thanks for signing up\n
+						 //~ \n
+						 //~ You signed up providing this information:\n
+						 //~ Username: ".$filteredInput['user']."\n
+						 //~ First Name: ".$filteredInput['first']."\n
+						 //~ Last Name: ".$filteredInput['last']."\n
+						 //~ Email: ".$filteredInput['email']."\n
+						 //~ Registration Date and Time: ".$regTime."\n\n
+						 //~ See ya Soon!\n\n
+						 //~ ~The Management";
+			//sendEmail($to,$subject,$message); CREATE FUNCTION
+			//if(!mail($to,$subject,$message)) 
+				//throw new Exception('Error Sending Email');
+			//User Added
+		} catch(Exception $e) {
+			echo json_encode(array('status'=>$e->getMessage()));
+			return;
 		}
 	} else {
-		echo '{"status" : "ERROR_BADPASS"}';
+		echo json_encode(array('status'=>'ERROR_BADPASS'));
 	}
 }
-
-
 
 //DEBUG STUFF
 /*echo "<br />---------------------------------------------<br />FILTERED INPUTS: <br />";

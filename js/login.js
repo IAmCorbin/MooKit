@@ -64,7 +64,7 @@ window.addEvent('domready', function() {
 									content.set('html',response);
 									(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500);
 									//load javascript
-									var myScript = new Asset.javascript('js/post.js');
+									var myScript = new Asset.javascript('js/postEdit.js');
 									var myScript = new Asset.javascript('js/userCSS.js');
 									var myScript = new Asset.javascript('js/mainAuth.js');
 								}

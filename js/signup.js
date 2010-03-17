@@ -45,12 +45,14 @@ window.addEvent('domready', function() {
 							$('signupProcessing').destroy(); 
 							//decode JSON and check for status
 							json = JSON.decode(response);
-							$('debugBox').set('html',json.status); 
+							$('debugBox').set('html',response); 
 							switch(json.status) {
 								case "ADDED":
+									$('debugBox').set('html',"USER ADDED!"); 
 									signup.trigger(); 
 									$('signupForm').reset();
 									break;
+								//ADD CASES FOR DISPLAYING PHP ERRORS
 								default:
 									break;
 							}

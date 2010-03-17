@@ -13,9 +13,7 @@ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Mai
 class User {
 	/** @var mysqli $mysqli	mysqli database object */
 	var $DB;
-	/**
-	 * Constructor
-	 */
+	/** Constructor */
 	function __construct() {
 		$this->DB = new DatabaseConnection;
 	}
@@ -27,19 +25,19 @@ class User {
 	public function addNew($filteredInput) {
 		//check database for duplicate username
 		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['user']."' LIMIT 1;";
-		$results = $this->DB->query($query);
-		if(!$results) //return false is username is already found
-			return false;
+		//return if username is already found, no duplicates allowed
+		if($this->DB->query($query,"assoc") > 0) return 'duplicate';
+		
 		//generate encrypted password
 		$regTime = date('Y-m-d H:i:s');
 		if($encPass = $this->encryptPassword($filteredInput['user'],$filteredInput['pass'],$regTime)) {
 			//add new user to database
 			$this->DB->query(
 				'INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`) 
-				VALUES(\''.$filteredInput['user'].'\',\''.$filteredInput['first'].'\',\''.$filteredInput['last'].'\',\''.$encPass.'\',\''.$filteredInput['email'].'\',\''.$regTime.'\');');
-			return true;
+				VALUES(\''.$filteredInput['user'].'\',\''.$filteredInput['first'].'\',\''.$filteredInput['last'].'\',\''.$encPass.'\',\''.$filteredInput['email'].'\',\''.$regTime.'\');',null);
+			return 'added';
 		} else
-			return false;
+			return 'passEncFail';
 	}
 	/**
 	 * Authenticates a user against database - on authorization it will set $_SESSION['auth'] = 1
@@ -87,7 +85,7 @@ class User {
 	 *@param string $regTime	the user's registration time, used to pass in if this is a new user and we are encrypting the password for the first time
 	 *@return string 	encrypted password or false
 	 */
-	public function encryptPassword($user,$pass,$regTime=NULL) {
+	public function encryptPassword($user,$pass,$regTime=NULL) { 
 		//addNew will pass a new regTime, so don't look for a non-existant one in the database
 		if(!$regTime) {
 			//get user registration time

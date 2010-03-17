@@ -14,28 +14,28 @@ window.addEvent('domready', function() {
 						
 					},
 					onSuccess: function(response) { 
-							debug('post.js : '+response);
+							debug('postEdit.js : '+response);
 							//convert JSON from PHP to JavaScript object
 							var json = JSON.decode(response);
 							switch(json.status) {
 								case "OK":
-									debug('post.js : '+"OK");
+									debug('postEdit.js : '+"OK");
 									//set form to processed values
-									this.getElement('input').set('value',json.titleLawed);
-									this.getElement('textarea').set('value',json.textLawed);
+									this.getElement('input').set('value',json.title);
+									this.getElement('textarea').set('value',json.html);
 									//render Title
-									$('renderTitle').set('html',json.titleLawed);
+									$('renderTitle').set('html',json.title);
 									//render Text
-									$('renderText').set('html',json.textLawed);
+									$('renderText').set('html',json.html);
 									break;
 								case "ERROR_FILTER":
-									debug('post.js : '+"FILTER ERROR");
+									debug('postEdit.js : '+"FILTER ERROR");
 									break;
 								case "ERROR_QUERY":
-									debug('post.js : '+"QUERY ERROR");
+									debug('postEdit.js : '+"QUERY ERROR");
 									break;
 								default:
-									debug('post.js : '+"DEFAULT");
+									debug('postEdit.js : '+"DEFAULT");
 									break;
 							}
 								

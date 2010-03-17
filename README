@@ -1,0 +1,81 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--  MooKit V 0.2																							--
+--  																									--
+--  My Object Oriented Toolkit																				--
+--  																									--
+--  Febuary 22, 2010																					--
+--																									--
+--  Cody By Corbin																						--
+--  http://www.IAmCorbin.net																				--
+--																									--
+--  This code is free to use and share, but must be passed on in turn. Don't be greedy, help each other, we are all One.		--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Purpose:
+	This is a learning experience, and is currently a very basic skeleton of a site, the kit shall expand as my web development skill base does.
+
+MooKit is a web development toolkit using these technologies at it's core:
+	
+	mySQL - The worlds most popular open source database ( http://www.mysql.com/ )
+	php - A widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTM ( http://php.net )
+	javascript - The most popular scripting language on the internet, and works in all major browsers ( http://www.w3schools.com/js/js_intro.asp )
+	Mootools - A compact, modular, Object-Oriented JavaScript framework designed for the intermediate to advanced JavaScript developer( http://mootools.net/ )
+	
+Goals:
+																							--
+	- The MooKit is a robust and scalable solution to any webDevelopment challange.							--
+																							--
+	- The Mookit eliminates redundant data and creates a nicely organized, readable structure					--
+																							--
+	- The MooKit provides object oriented pieces you can snap together to create a site 						--
+																							--
+	- The MooKit allows for the creation of a solid structure(context), that can then be filled with dynamic content	--
+																							--
+         ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 
+
+-----------
+| Files |
+________________________________________________________________________________________________________
+
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-img/			| images
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-js/			| JavaScript
+   |--main.js			| global JavaScript
+   |--mootools*core.js	| the MooTools core
+   |--mootools*more.js	| the MooTools more
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-jsClasses/		| JavaScript Classes
+   |--Lightbox.js			| Lightbox class - adds "toggleable" layers to the page
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-jsDocs/		| JavaScript Documentation
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-logs/			| Error logs
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-php/			| PHP Scripts
+   |--includes.php		| class includes and session initialization
+   |--login.php			| simple php login script using the User and Database classes
+   |--signup.php		| simple php signup script using the User and Database classes
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-phpClasses/	| PHP Classes
+   |--Database.php		| DatabaseConnection class
+   |--Filters.php			| User input filtering class
+   |--htmLawed1.1.9.1	| Html Sanitizer
+   |--Security.php		| User Authentication Check
+   |--Template.php		| Allows for seperation of data gathering and presentation logic
+   |--User.php			| Class for user management
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-phpDocs/		| PHP Documentation
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-SQL/			| for reference: any SQL statements needed for site database
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-style/			| CSS Styles
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |-templates/		| Page Templates
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+   |--index.php		| main site
+   |--MooKit.dia		| MooKit Dia diagram
+   |--README		| this file
+   |-----------------------------------------------------------------------------------------------------------------------------------------------
+________________________________________________________________________________________________________

@@ -18,10 +18,10 @@ function getAuthContent() {
 		//userCSS
 		$contentTpl->cssTpl = new Template('../templates/userCSS.tpl.php');
 		//Post
-		$contentTpl->postTpl = new Template('../templates/post.tpl.php');
-			$post = $DB->query("SELECT * FROM `posts`","object");
+		$contentTpl->postTpl = new Template('../templates/postEdit.tpl.php');
+			$post = $DB->query("SELECT * FROM `posts` WHERE `user_id`=1;","object");
 			$contentTpl->postTpl->postTitle = $post[0]->title;
-			$contentTpl->postTpl->postText = $post[0]->text;
+			$contentTpl->postTpl->postText = $post[0]->html;
 	}
 	return $contentTpl;
 }

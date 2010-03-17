@@ -13,7 +13,7 @@ $scripts = array();
 $scripts[] =  '<script type="text/javascript" src="js/debug.js"></script>'; //debug area
 if($_SESSION['auth'] === 1) {
 	$scripts[] =  '<script type="text/javascript" src="js/mainAuth.js"></script>'; //post
-	$scripts[] =  '<script type="text/javascript" src="js/post.js"></script>'; //post
+	$scripts[] =  '<script type="text/javascript" src="js/postEdit.js"></script>'; //post
 	$scripts[] =  '<script type="text/javascript" src="js/userCSS.js"></script>'; //post
 } else {
 	$scripts[] = '<script type="text/javascript" src="js/login.js"></script>'; //login form
@@ -27,7 +27,7 @@ $styles[] = '<link rel="stylesheet" type="text/css" href="style/nav.css.php" />'
 $styles[] = '<link rel="stylesheet" type="text/css" href="style/content.css.php" />';
 $styles[] = '<link rel="stylesheet" type="text/css" href="style/debug.css.php" />';
 if($_SESSION['auth'] === 1) {
-	$styles[] = '<link rel="stylesheet" type="text/css" href="style/post.css.php" />';
+	$styles[] = '<link rel="stylesheet" type="text/css" href="style/postEdit.css.php" />';
 } else {	
 	$styles[] = '<link rel="stylesheet" type="text/css" href="style/loginForm.css.php" />';
 	$styles[] = '<link rel="stylesheet" type="text/css" href="style/signupForm.css.php" />';

@@ -81,7 +81,7 @@ class DatabaseConnection {
 			// execute query
 			if(!$results = $this->mysqli->query($query)) {
 				//log error
-				$msg = date(DATE_RFC850)." : "."Error in query: $query".$this->mysqli->error()."\n";
+				$msg = date(DATE_RFC850)." : "."Error in query: $query".$this->mysqli->error."\n";
 				error_log($msg, 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"); //save error to logfile
 				if(DEBUG) echo $msg; //if debug mode is on, echo the error msg
 				return false;
