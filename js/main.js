@@ -1,9 +1,6 @@
 var DEBUG = true;
 
-function debug(input) {
-	if(DEBUG)
-		console.log(input);
-}
+function debug(input) { if(DEBUG) console.log(input); }
 
 window.addEvent('domready', function() {
 	
@@ -20,7 +17,7 @@ window.addEvent('domready', function() {
 			//slide out
 			mouseenter: function(e) { 
 				this.getParent().tween('width',245);
-				(function() { prev.tween('width',245); }).delay(500);
+				(function() { prev.tween('width',245); }).delay(200);
 				span.fade('in');
 			},
 			//slide back in

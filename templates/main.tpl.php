@@ -14,7 +14,6 @@
 	<script type="text/javascript" src="js/main.js"></script>
 	<? foreach($scripts as $script) echo $script."\n\t"; ?>
 	
-
 </head>
 <body>
 	<?= $navTpl  // NAVIGATION BAR // ?>

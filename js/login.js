@@ -53,8 +53,6 @@ window.addEvent('domready', function() {
 						json = JSON.decode(response);
 						if(json.status === "LOGGEDIN") {
 							login.trigger();
-							//secureArea = $$('.secureArea');
-							//secureArea.setStyle('display','block');
 							//load content
 							new Request({
 								method: 'post',
