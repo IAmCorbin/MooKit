@@ -1,5 +1,5 @@
 <?
-require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/php/includes.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php'; INIT();
 
 $user = new User;
 

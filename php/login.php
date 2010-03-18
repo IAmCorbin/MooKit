@@ -1,6 +1,7 @@
-<?php
-//~ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
-require_once '../php/includes.php';
+<?php 
+require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php'; INIT(false);
+
+
 
 //don't do anything if already logged in
 if($_SESSION['auth'] === 1) {
@@ -25,15 +26,4 @@ if($errors = $inputFilter->ERRORS()) {
 	else
 		echo json_encode(array('status'=>"LOGGEDOUT"));
 }
-
-
-
-//DEBUG STUFF
-/*echo '<br />----------------------------------<br /><pre>$_POST';
-var_export($_POST);
-echo '$_SESSION';
-var_export($_SESSION);
-echo '</pre>';*/
-
-//~ } //end if(defined('INSITE')
 ?>

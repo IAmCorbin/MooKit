@@ -1,11 +1,5 @@
 <?php
-require_once '../php/includes.php';
-
-//Security Check
-$security = new Security;
-if(!$security->check()) 
-	echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>';
-else { //Authorized
+require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php'; INIT();
 
 	$inputFilter = new Filters;
 
@@ -13,7 +7,4 @@ else { //Authorized
 
 	//send filtered css back to javascript
 	echo json_encode(array('css'=>$userCSS));
-	
-	
-}
 ?>

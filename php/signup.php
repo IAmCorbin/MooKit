@@ -1,7 +1,5 @@
 <?php
-//~ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
-
-require '../php/includes.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php'; INIT(false);
 
 $inputFilter = new Filters;
 
@@ -62,16 +60,4 @@ if($errors = $inputFilter->ERRORS()) {
 		echo json_encode(array('status'=>'ERROR_BADPASS'));
 	}
 }
-
-//DEBUG STUFF
-/*echo "<br />---------------------------------------------<br />FILTERED INPUTS: <br />";
-foreach($filteredInput as $field => $input)
-	echo $field.'=>'.$input.'<br />';
-
-echo "POST Variables: <br />";
-echo '<pre>';
-var_export($_POST);
-echo '</pre>';*/
-
-//~ } //end if(defined('INSITE')
 ?>

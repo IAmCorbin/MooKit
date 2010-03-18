@@ -1,5 +1,5 @@
 <?php
-require_once 'php/includes.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/php/includes.php'; INIT(false);
 
 //create a new database connection
 $DB = new DatabaseConnection;
@@ -12,7 +12,7 @@ $main->title = "MooKit Version 1"; 	//set title
 $scripts = array();
 $scripts[] =  '<script type="text/javascript" src="js/debug.js"></script>'; //debug area
 if($_SESSION['auth'] === 1) {
-	$scripts[] =  '<script type="text/javascript" src="js/mainAuth.js"></script>'; //post
+	$scripts[] =  '<script type="text/javascript" src="js/auth.js"></script>'; //post
 	$scripts[] =  '<script type="text/javascript" src="js/postEdit.js"></script>'; //post
 	$scripts[] =  '<script type="text/javascript" src="js/userCSS.js"></script>'; //post
 } else {
@@ -53,7 +53,7 @@ $main->loginTpl = new Template('../templates/loginForm.tpl.php'); 		/*add login 
 $main->signupTpl = new Template('../templates/signupForm.tpl.php');	/* add signup form */	
 
 //Content Area
-$main->contentTpl = getAuthContent();
+$main->contentTpl = getAuthContent(FALSE);
 $main->contentTpl->userIP = $_SESSION['ip'];
 	
 //debug

@@ -1,7 +1,6 @@
 <?
-require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php';
-
-function getAuthContent() {
+function getAuthContent($secure=TRUE) {
+	require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php'; INIT($secure);
 	
 	$contentTpl = new Template('../templates/content.tpl.php');
 	
@@ -19,7 +18,8 @@ function getAuthContent() {
 		$contentTpl->cssTpl = new Template('../templates/userCSS.tpl.php');
 		//Post
 		$contentTpl->postTpl = new Template('../templates/postEdit.tpl.php');
-			$post = $DB->query("SELECT * FROM `posts` WHERE `user_id`=1;","object");
+			$post = $DB->query("SELECT * FROM `posts` ORDER BY `createTime` DESC LIMIT 1;","object");
+			$contentTpl->postTpl->postID = $post[0]->post_id;
 			$contentTpl->postTpl->postTitle = $post[0]->title;
 			$contentTpl->postTpl->postText = $post[0]->html;
 	}

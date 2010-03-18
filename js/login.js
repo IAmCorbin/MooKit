@@ -56,7 +56,7 @@ window.addEvent('domready', function() {
 							//load content
 							new Request({
 								method: 'post',
-								url: 'php/jsAuth.php',
+								url: 'php/authUpdate.php',
 								onSuccess: function(response) {
 									//set html
 									$('content').setStyle('opacity','0');
@@ -65,7 +65,7 @@ window.addEvent('domready', function() {
 									//load javascript
 									var myScript = new Asset.javascript('js/postEdit.js');
 									var myScript = new Asset.javascript('js/userCSS.js');
-									var myScript = new Asset.javascript('js/mainAuth.js');
+									var myScript = new Asset.javascript('js/auth.js');
 								}
 							}).send();
 							
