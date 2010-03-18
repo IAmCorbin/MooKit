@@ -59,9 +59,8 @@ window.addEvent('domready', function() {
 								url: 'php/jsAuth.php',
 								onSuccess: function(response) {
 									//set html
-									content = $('content');
-									content.setStyle('opacity','0');
-									content.set('html',response);
+									$('content').setStyle('opacity','0');
+									$('content').set('html',response);
 									(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500);
 									//load javascript
 									var myScript = new Asset.javascript('js/postEdit.js');

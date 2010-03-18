@@ -42,6 +42,8 @@ body { background-image : url('../img/back.jpg'); }
 	.curved { -moz-border-radius:<?echo $curved?>; <?/* Firefox */?> -webkit-border-radius:<?echo $curved?>; <?/* Safari and chrome */?> -khtml-border-radius:<?echo $curved?>; <?/* Linux browsers */?> border-radius:<?echo $curved?>; <?/* CSS3 */?> }
 	.button { background: #AAA; border: outset #666 4px; margin: 8px;}
 	.button:hover { background: #888; border: outset 3px; cursor: pointer;}
+	
+	.blueBox { width: 50px; height: 50px; background: blue; }
 /*  END CUSTOM */
 
 /* OTHER */
