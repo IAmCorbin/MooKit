@@ -1,6 +1,6 @@
 var DEBUG = true;
 
-function debug(input) { if(DEBUG) console.log(input); }
+function debug(input) { if(DEBUG && console) console.log(input); }
 
 window.addEvent('domready', function() {
 	
