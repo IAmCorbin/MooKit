@@ -13,12 +13,8 @@ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Mai
  class Post {
 	/** @var string $title title of this post */
 	var $title;
-	/** @var string $titleMysql mysql_real_escaped_string $title */
-	var $titleMysql;
 	/** @var string $html html for this post */
 	var $html;
-	/** @var string $htmlMysql mysql_real_escaped_string $title */
-	var $htmlMysql;
 	/** @var string $dateTime date and time post was created */
 	var $createTime;
 	/** @var string $dateTime date and time post was last modified */

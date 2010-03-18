@@ -86,6 +86,9 @@ class DatabaseConnection {
 				if(DEBUG) echo $msg; //if debug mode is on, echo the error msg
 				return false;
 			} else {
+				//query successful
+				if($results->num_rows === 0)
+					return true;
 				//handle display option
 				if($display == "display")
 					$this->displayResults($results);
@@ -113,6 +116,10 @@ class DatabaseConnection {
 							$resultSet[] = $row;
 						return $resultSet;
 						break;
+					case "json":
+						while($row = $results->fetch_assoc())
+							$resultSet[] = $row;
+						return json_encode($resultSet);
 					case null;
 						return true;
 						break;

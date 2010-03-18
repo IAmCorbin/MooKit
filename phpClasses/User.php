@@ -52,12 +52,13 @@ class User {
 		//if a valid password is returned (requires the username to be in the database)
 		if($encPass = $this->encryptPassword($user,$pass)) {
 			//check user
-			$query = "SELECT * FROM $tbl WHERE `alias`='$user' AND `password`='$encPass';";// LIMIT 1;";
-			$results = $this->DB->query($query,'assoc');
+			$query = "SELECT `user_id`,`alias` FROM $tbl WHERE `alias`='$user' AND `password`='$encPass';";// LIMIT 1;";
+			$results = $this->DB->query($query,'object');
 			if($results) {
 				//set authenticated session variables
 				$_SESSION['auth'] = 1;
 				$_SESSION['user'] = $user; //username
+				$_SESSION['user_id'] = $results[0]->user_id;
 				$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];//ip
 				return true;
 			}
@@ -76,6 +77,7 @@ class User {
 	public function NOAUTH() {
 		unset($_SESSION['auth']); //remove authentication
 		unset($_SESSION['user']); //unset username
+		unset($_SESSION['user_id']); //unset user_id
 		unset($_SESSION['ip']); //unset ip address
 	}
 	/**

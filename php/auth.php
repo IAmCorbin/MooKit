@@ -18,7 +18,7 @@ function getAuthContent($secure=TRUE) {
 		$contentTpl->cssTpl = new Template('../templates/userCSS.tpl.php');
 		//Post
 		$contentTpl->postTpl = new Template('../templates/postEdit.tpl.php');
-			$post = $DB->query("SELECT * FROM `posts` ORDER BY `createTime` DESC LIMIT 1;","object");
+			$post = $DB->query("SELECT `post_id`,`title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 1;","object");
 			$contentTpl->postTpl->postID = $post[0]->post_id;
 			$contentTpl->postTpl->postTitle = $post[0]->title;
 			$contentTpl->postTpl->postText = $post[0]->html;
