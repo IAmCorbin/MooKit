@@ -6,24 +6,22 @@ $DB = new DatabaseConnection(null, null, null, null, FALSE); //create a dummy Da
 ?>
 <?= $userIP ?>
 	<!-- CONTENT AREA -->
-		<div class="publicArea">
-		
-		</div>		
 		<? if($_SESSION['auth'] == 1) { ?>
 		<div class="secureArea">
-		
-				<div class="secureContent">
-					<span id="logout" class="button">LOGOUT</span>
-					<? $DB->displayResults($userInfo); ?><br /><!-- display a formatted table of the cooresponding user data -->
-					
-					<?= $cssTpl ?>
-					
-					<div id="postArea">
-						<?= $postTpl ?>
-					</div>
-					
+			<div class="secureContent">
+				<span id="logout" class="button">LOGOUT</span>
+				<? $DB->displayResults($userInfo); ?><br /><!-- display a formatted table of the cooresponding user data -->
+				
+				<?= $cssTpl ?>
+				
+				<div id="postArea">
+					<?= $postEditTpl ?>
 				</div>
-			
+			</div>
 		</div>
-		<? } ?>	
+		<? } else { ?>
+		<div class="publicArea">
+			<?= $postTpl ?>
+		</div>
+		<? } ?>
 	<!-- END CONTENT AREA -->
