@@ -25,8 +25,9 @@ class User {
 	public function addNew($filteredInput) {
 		//check database for duplicate username
 		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['user']."' LIMIT 1;";
+		$user = $this->DB->query($query,"object");
 		//return if username is already found, no duplicates allowed
-		if($this->DB->query($query,"assoc") > 0) return 'duplicate';
+		if($user[0]->alias) return 'duplicate';
 		
 		//generate encrypted password
 		$regTime = date('Y-m-d H:i:s');
@@ -54,7 +55,7 @@ class User {
 			//check user
 			$query = "SELECT `user_id`,`alias` FROM $tbl WHERE `alias`='$user' AND `password`='$encPass';";// LIMIT 1;";
 			$results = $this->DB->query($query,'object');
-			if($results) {
+			if($results[0]->user_id) {
 				//set authenticated session variables
 				$_SESSION['auth'] = 1;
 				$_SESSION['user'] = $user; //username
