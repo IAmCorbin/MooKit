@@ -48,11 +48,29 @@ window.addEvent('domready', function() {
 							$('debugBox').set('html',response); 
 							switch(json.status) {
 								case "ADDED":
-									$('debugBox').set('html',"USER ADDED!"); 
+									debug("USER ADDED!"); 
+									$('signupPHPError').setStyle('display','none');
 									signup.trigger(); 
 									$('signupForm').reset();
 									break;
-								//ADD CASES FOR DISPLAYING PHP ERRORS
+								case "ERROR_FILTER":
+									$('signupPHPError').setStyle('display','block');
+									$('signupPHPError').set('html',"Invalid Username or Password, please try again or contact the administrator");
+									$('signupForm').reset();
+									break;
+								case "ERROR_BADPASS":
+									$('signupPHPError').setStyle('display','block');
+									$('signupPHPError').set('html',"Passwords do not match");
+									break;
+								case "ERROR_DUPLICATE":
+									$('signupPHPError').setStyle('display','block');
+									console.log("DUPLICATE");
+									$('signupPHPError').set('html',"User already exists, try a different username");
+									break;
+								case "ERROR_ADDING":
+									$('signupPHPError').setStyle('display','block');
+									$('signupPHPError').set('html',"Error adding user, please try again later. If problem persists contact the administrator");
+									break;
 								default:
 									break;
 							}

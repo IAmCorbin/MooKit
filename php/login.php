@@ -16,7 +16,6 @@ $filteredInput['pass'] = $inputFilter->text($_POST['pass']);
 if($errors = $inputFilter->ERRORS()) {
 	//handle filter errors
 	echo json_encode(array('status'=>'ERROR_FILTER'));
-	if(DEBUG) { echo "SIZE OF \$ERRORS -> ".sizeof($errors).'<br />'; foreach($errors as $error) echo $error."<br />"; }
 	return;
 } else {
 	//user authentication

@@ -26,13 +26,13 @@ if($errors = $inputFilter->ERRORS()) {
 					echo json_encode(array('status'=>'ADDED'));
 					return;
 				case 'duplicate':
-					throw new Exception('Duplicate User Exists');
+					throw new Exception('ERROR_DUPLICATE');
 					break;
 				case 'passEncFail';
-					throw new Exception('Password Encryption Failed');
+					throw new Exception('ERROR_ADDING');
 					break;
 				case false:
-					throw new Exception('Error Adding User');
+					throw new Exception('ERROR_ADDING');
 					break;
 			}
 			//send user an email

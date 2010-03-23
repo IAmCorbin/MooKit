@@ -11,6 +11,7 @@
 					<div><label>Username:<input class="required msgPos:'loginUserError'" name="user" id="loginUser" type="text" size="25" /></label><div class="formError" id="loginUserError"></div></div>
 					<div><label>Password:<input class="required  msgPos:'loginPassError'" name="pass" id="loginPass" type="password" size="25" /></label><div class="formError" id="loginPassError"></div></div>
 					<input type="submit" class="button" value="Login" />
+					<div id="loginPHPError" class="phpError"></div>
 				</div>
 			</form>
 		</div>

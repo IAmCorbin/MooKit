@@ -51,34 +51,46 @@ window.addEvent('domready', function() {
 						
 						//decode JSON and check for status
 						json = JSON.decode(response);
-						if(json.status === "LOGGEDIN") {
-							login.trigger();
-							//load content
-							new Request({
-								method: 'post',
-								url: 'php/authUpdate.php',
-								onSuccess: function(response) {
-									//set html
-									$('content').setStyle('opacity','0');
-									$('content').set('html',response);
-									(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500);
-									//load javascript
-									var myScript = new Asset.javascript('js/postEdit.js');
-									var myScript = new Asset.javascript('js/userCSS.js');
-									var myScript = new Asset.javascript('js/auth.js');
-								}
-							}).send();
-							
-							//clear the login form
-							$('loginForm').reset();
-						} else if(json.status === "LOGGEDOUT") {
-							//remove all auth content from page
-							$$('.secureArea').set('tween',{duration:'2000'}).fade('0');
-							(function() { $$('.secureArea').destroy(); }).delay(2300,this);
-						} else if(json.status === "IN") {  
-							login.trigger(); 
-							$('loginForm').reset(); 
-						}
+						switch(json.status) {
+							case  "LOGGEDIN":
+								$('loginPHPError').setStyle('display','none');	
+								$('loginPHPError').setStyle('display','none');	
+								login.trigger();
+								//load content
+								new Request({
+									method: 'post',
+									url: 'php/authUpdate.php',
+									onSuccess: function(response) {
+										//set html
+										$('content').setStyle('opacity','0');
+										$('content').set('html',response);
+										(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500);
+										//load javascript
+										var myScript = new Asset.javascript('js/postEdit.js');
+										var myScript = new Asset.javascript('js/userCSS.js');
+										var myScript = new Asset.javascript('js/auth.js');
+									}
+								}).send();
+								//clear the login form
+								$('loginForm').reset();
+								break;
+							case "LOGGEDOUT":
+								$('loginPHPError').setStyle('display','none');	
+								//remove all auth content from page
+								$$('.secureArea').set('tween',{duration:'2000'}).fade('0');
+								(function() { $$('.secureArea').destroy(); }).delay(2300,this);
+								break;
+							case "IN":
+								$('loginPHPError').setStyle('display','none');	
+								login.trigger(); 
+								$('loginForm').reset(); 
+								break;
+							case "ERROR_FILTER":
+								$('loginPHPError').setStyle('display','block');
+								$('loginPHPError').set('html',"Invalid Username or Password, please try again or contact the administrator");
+								$('loginForm').reset();
+								break;
+						}		
 					}
 				}).send();
 			}

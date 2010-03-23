@@ -30,8 +30,9 @@ body { background-image : url('../img/back.jpg'); }
 
 /* FORM VALIDATION */
 	.validation-passed { background-color: #99cc99 !important; } 						/* This style is applied to input fields after successful validation */
-	.validation-advice { border: solid #600 2px; background: #F88; color: #000;  }  /* This style is applied to the error messages */
-	.validation-failed { background-color: #cc9999; }  								/* This style is applied to input fields after validation failed */
+	.validation-advice, .phpError { border: solid #600 2px; background: #F88; color: #000;  }  /* This style is applied to the error messages */
+	.validation-failed, .phpError { background-color: #cc9999; }  						/* This style is applied to input fields after validation failed */
+	.phpError { display: none; width: 80%; }
 /* END FORM VALIDATION */
 
 /* STRUCTURE */

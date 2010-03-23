@@ -20,6 +20,7 @@
 				<div class="clearBoth">
 					<input type="submit" class="button" value="Signup" />
 				</div>
+				<div id="signupPHPError" class="phpError"></div>
 			</form>
 		</div>
 	<!-- END SIGNUP FORM -->
