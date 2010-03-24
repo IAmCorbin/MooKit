@@ -82,25 +82,6 @@ var DeepLinker = new Class({
 					this.container.set('load',{
 						onComplete: function() {
 							this.saveCache();
-							//~ //cache content
-							//~ if(!this.lastHash) {
-								//~ if(this.options.cookies) {
-									//~ this.debug("CACHING TO COOKIE NOW - FIRST CACHE");
-									//~ Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
-									//~ Cookie.write(window.location.hash+"title",document.title, { duration: this.options.cookieLife }) ;
-								//~ } else {
-									//~ this.debug("CACHING TO HASH NOW - FIRST CACHE");
-									//~ this.cache[0] = new Hash({hash:window.location.hash,title:document.title,content:this.container.get('html')});
-								//~ }
-							//~ } else {
-								//~ if(this.options.cookies) {
-									//~ this.debug("CACHING TO COOKIE NOW : "+this.cache.length+this.container.get('html'));
-									//~ Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
-								//~ } else {
-									//~ this.debug("CACHING TO HASH NOW : "+this.cache.length+this.container.get('html'));
-									//~ this.cache[this.cache.length] = new Hash({hash:window.location.hash,title:document.title,content:this.container.get('html')});
-								//~ }
-							//~ }
 						}.bind(this)
 					});
 					this.debug("LOADING CONTENT NOW - onUpdate fires");
@@ -117,24 +98,27 @@ var DeepLinker = new Class({
 		this.lastHash =  window.location.hash;
 	},debug: function(input) { if(this.options.DEBUG && window.console) console.log(input); 
 	},saveCache: function() { 
-							//cache content
-							if(!this.lastHash) {
-								if(this.options.cookies) {
-									this.debug("CACHING TO COOKIE NOW - FIRST CACHE");
-									Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
-									Cookie.write(window.location.hash+"title",document.title, { duration: this.options.cookieLife }) ;
-								} else {
-									this.debug("CACHING TO HASH NOW - FIRST CACHE");
-									this.cache[0] = new Hash({hash:window.location.hash,title:document.title,content:this.container.get('html')});
-								}
-							} else {
-								if(this.options.cookies) {
-									this.debug("CACHING TO COOKIE NOW : "+this.cache.length+this.container.get('html'));
-									Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
-								} else {
-									this.debug("CACHING TO HASH NOW : "+this.cache.length+this.container.get('html'));
-									this.cache[this.cache.length] = new Hash({hash:window.location.hash,title:document.title,content:this.container.get('html')});
-								}
-							}
+		//do not cache secure content
+		if(!$('LOGGEDIN')) {
+			//cache content
+			if(!this.lastHash) {
+				if(this.options.cookies) {
+					this.debug("CACHING TO COOKIE NOW - FIRST CACHE");
+					Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
+					Cookie.write(window.location.hash+"title",document.title, { duration: this.options.cookieLife }) ;
+				} else {
+					this.debug("CACHING TO HASH NOW - FIRST CACHE");
+					this.cache[0] = new Hash({hash:window.location.hash,title:document.title,content:this.container.get('html')});
+				}
+			} else {
+				if(this.options.cookies) {
+					this.debug("CACHING TO COOKIE NOW : "+this.cache.length+this.container.get('html'));
+					Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
+				} else {
+					this.debug("CACHING TO HASH NOW : "+this.cache.length+this.container.get('html'));
+					this.cache[this.cache.length] = new Hash({hash:window.location.hash,title:document.title,content:this.container.get('html')});
+				}
+			}
+		}
 	}
 });

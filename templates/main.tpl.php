@@ -17,14 +17,17 @@
 	
 </head>
 <body>
-	<?= $navTpl  // NAVIGATION BAR // ?>
+	<div id="mainNav">
+		<?= $navTpl  // NAVIGATION BAR // ?>
+	</div>
 	
 	<?= $loginTpl // LOGIN FORM // ?>
 	<?= $signupTpl // SIGNUP FORM //?>
 	
 	<div id="content">
-	<?= $contentTpl // CONTENT // ?>
+		<?= $contentTpl // CONTENT // ?>
 	</div>
+	
 	<?= $debugTpl  // DEBUG AREA // ?>
 	
 <!-- CODE VALIDATION BADGES -->

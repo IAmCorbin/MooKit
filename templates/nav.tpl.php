@@ -1,5 +1,4 @@
 	<!-- NAVIGATION -->
-		<div id="nav"> 
 		<? foreach($links as $link): ?>
 			<div style="float:left;">
 				<a class="link <? if(isset($link['ajax'])) echo $link['ajax']; ?>" href="<?=$link['href']?>"><?=$link['name']?></a>
@@ -15,5 +14,4 @@
 				
 			</div>
 		<? endforeach; //$links  ?>
-		</div>
 	<!-- END NAVIGATION -->

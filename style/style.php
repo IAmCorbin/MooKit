@@ -36,7 +36,7 @@ body { background-image : url('../img/back.jpg'); }
 /* END FORM VALIDATION */
 
 /* STRUCTURE */
-
+	#mainNav { position: absolute; top: 60px; left: 20px; width: 200px; }
 /* END STRUCTURE  */
 
 /* CUSTOM */
