@@ -31,6 +31,7 @@ var DeepLinker = new Class({
 		DEBUG: false
 		/*
 		onUpdate: $empty
+		onComplete: $empty
 		*/
 	/** Constructor 
 	 *@var this.hashMonitor 	ID of the periodical checkHash function to use for clearing later
@@ -50,6 +51,7 @@ var DeepLinker = new Class({
 	},checkHash : function() { 
 		if(window.location.hash !== this.lastHash) {
 			this.debug("|------  HASH CHANGED  :"+window.location.hash+":------|");
+			if(window.location.hash == '') window.location.hash = "#front"
 			//if(this.lastHash) {
 				var cacheLocation = null;
 				//check each page in cache to see if the data is already cached OR check for cookie
@@ -60,10 +62,8 @@ var DeepLinker = new Class({
 										if(item.hasValue(window.location.hash)) {
 											cacheLocation = index;
 											return true;
-										}
-								});
+				/*if cache was found*/		}});
 				if(cached) {
-					
 					//get cached content
 					if(this.options.cookies) {
 						this.debug("ALREADY CACHED: LOADING FROM COOKIE");
@@ -81,6 +81,42 @@ var DeepLinker = new Class({
 					//setup to cache when load is complete
 					this.container.set('load',{
 						onComplete: function() {
+							this.saveCache();
+							//~ //cache content
+							//~ if(!this.lastHash) {
+								//~ if(this.options.cookies) {
+									//~ this.debug("CACHING TO COOKIE NOW - FIRST CACHE");
+									//~ Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
+									//~ Cookie.write(window.location.hash+"title",document.title, { duration: this.options.cookieLife }) ;
+								//~ } else {
+									//~ this.debug("CACHING TO HASH NOW - FIRST CACHE");
+									//~ this.cache[0] = new Hash({hash:window.location.hash,title:document.title,content:this.container.get('html')});
+								//~ }
+							//~ } else {
+								//~ if(this.options.cookies) {
+									//~ this.debug("CACHING TO COOKIE NOW : "+this.cache.length+this.container.get('html'));
+									//~ Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
+								//~ } else {
+									//~ this.debug("CACHING TO HASH NOW : "+this.cache.length+this.container.get('html'));
+									//~ this.cache[this.cache.length] = new Hash({hash:window.location.hash,title:document.title,content:this.container.get('html')});
+								//~ }
+							//~ }
+						}.bind(this)
+					});
+					this.debug("LOADING CONTENT NOW - onUpdate fires");
+					this.fireEvent('update');
+				}
+		} else if(window.location.hash == "#kill") {
+			$clear(this.hashMonitor);
+			console.dir(this.cache);
+			this.debug('DeepLinker : Hash Monitor Has Been Terminated');
+		} else if(window.location.hash == this.lastHash)
+			this.debug("|------  No Hash Change   ||Cached Pages: "+this.cache.length+"|| ------|");
+		
+		//set the current hash to last hash for next check
+		this.lastHash =  window.location.hash;
+	},debug: function(input) { if(this.options.DEBUG && window.console) console.log(input); 
+	},saveCache: function() { 
 							//cache content
 							if(!this.lastHash) {
 								if(this.options.cookies) {
@@ -100,19 +136,5 @@ var DeepLinker = new Class({
 									this.cache[this.cache.length] = new Hash({hash:window.location.hash,title:document.title,content:this.container.get('html')});
 								}
 							}
-						}.bind(this)
-					});
-					this.debug("LOADING CONTENT NOW - onUpdate fires");
-					this.fireEvent('update');
-				}
-		} else if(window.location.hash == "#kill") {
-			$clear(this.hashMonitor);
-			console.dir(this.cache);
-			this.debug('DeepLinker : Hash Monitor Has Been Terminated');
-		} else if(window.location.hash == this.lastHash)
-			this.debug("|------  No Hash Change   ||Cached Pages: "+this.cache.length+"|| ------|");
-		
-		//set the current hash to last hash for next check
-		this.lastHash =  window.location.hash;
-	},debug: function(input) { if(this.options.DEBUG && window.console) console.log(input); }
+	}
 });

@@ -25,6 +25,7 @@ window.addEvent('domready', function() {
 							new Element('div',{html: "WOW, LOOK WHAT YOU FOUND!"}).inject(document.body,'bottom');
 							break
 						default:
+							this.saveCache();
 							break;
 					}
 				}

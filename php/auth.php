@@ -14,9 +14,9 @@ function getAuthContent($secure=TRUE) {
 		$contentTpl->postTpl = null;
 		$contentTpl->postTpl = new Template('../templates/post.tpl.php');
 		//display most recent post
-		$post = $DB->query("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 1;","object");
-		$contentTpl->postTpl->postTitle = $post[0]->title;
-		$contentTpl->postTpl->postText = $post[0]->html;
+		$post = $DB->query("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;","object");
+		$contentTpl->postTpl->posts = $post;
+		
 		
 	} else { //Authorized
 		
