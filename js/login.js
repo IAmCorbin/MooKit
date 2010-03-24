@@ -67,10 +67,13 @@ window.addEvent('domready', function() {
 										$('content').setStyle('opacity','0');
 										$('content').set('html',response);
 										(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500);
-										//load javascript
-										var myScript = new Asset.javascript('js/postEdit.js');
-										var myScript = new Asset.javascript('js/userCSS.js');
-										var myScript = new Asset.javascript('js/auth.js');
+										//load javascript if not previously loaded
+										if(!document.head.get('html').test('js/auth.js')) {
+											var myScript = new Asset.javascript('js/auth.js');
+											var myScript = new Asset.javascript('js/postEdit.js');
+											var myScript = new Asset.javascript('js/userCSS.js');
+										}
+										
 									}
 								}).send();
 								//clear the login form
