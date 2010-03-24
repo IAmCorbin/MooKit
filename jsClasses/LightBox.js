@@ -24,6 +24,10 @@
  *			~~~~~~~~~~~~~~~
  *
  * @author Corbin Tarrant
+*   ___            ___         __ 
+ *    |   /\  |\/| |       __   |_/  |__   -   _
+ *  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |
+ * 
  * @link http://www.IAmCorbin.net
  * @version 1.0
  *

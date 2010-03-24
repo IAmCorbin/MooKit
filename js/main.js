@@ -1,9 +1,11 @@
 var DEBUG = true;
-
 function debug(input) { if(DEBUG && window.console) console.log(input); }
 
 window.addEvent('domready', function() {
+
+	var DL = new DeepLinker('loginForm',{DEBUG: true});
 	
+
 	if($('LOGGEDIN')) {
 		secureArea = $$('.secureArea');
 		secureArea.setStyle('display','block');
