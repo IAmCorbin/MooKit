@@ -41,8 +41,8 @@ window.addEvent('domready', function() {
 
 	//secureArea display fix
 	if($('LOGGEDIN')) {
-		secureArea = $$('.secureArea');
-		secureArea.setStyle('display','block');
+		$$('.login_buttonWrap').fade(0);
+		$$('.signup_buttonWrap').fade(0);
 	}
 	
 	//Sliding Button Animation

@@ -11,28 +11,27 @@ $main->title = "MooKit Version 1"; 	//set title
 //set JavaScripts
 $scripts = array();
 $scripts[] =  '<script type="text/javascript" src="js/debug.js"></script>'; //debug area
+$scripts[] = '<script type="text/javascript" src="js/login.js"></script>'; //login form
+$scripts[] = '<script type="text/javascript" src="js/signup.js"></script>'; //signup form
 if($_SESSION['auth'] === 1) {
 	$scripts[] =  '<script type="text/javascript" src="js/auth.js"></script>'; //post
 	$scripts[] =  '<script type="text/javascript" src="js/postEdit.js"></script>'; //post
 	$scripts[] =  '<script type="text/javascript" src="js/userCSS.js"></script>'; //post
-} else {
-	$scripts[] = '<script type="text/javascript" src="js/login.js"></script>'; //login form
-	$scripts[] = '<script type="text/javascript" src="js/signup.js"></script>'; //signup form
 }
 $main->scripts = $scripts;
 
 //set Styles
 $styles = array();
 $styles[] = '<link rel="stylesheet" type="text/css" href="style/nav.css.php" />';
+$styles[] = '<link rel="stylesheet" type="text/css" href="style/loginForm.css.php" />';
+$styles[] = '<link rel="stylesheet" type="text/css" href="style/signupForm.css.php" />';
 $styles[] = '<link rel="stylesheet" type="text/css" href="style/content.css.php" />';
 $styles[] = '<link rel="stylesheet" type="text/css" href="style/post.css.php" />';
 $styles[] = '<link rel="stylesheet" type="text/css" href="style/debug.css.php" />';
 if($_SESSION['auth'] === 1) {
 	$styles[] = '<link rel="stylesheet" type="text/css" href="style/postEdit.css.php" />';
-} else {	
-	$styles[] = '<link rel="stylesheet" type="text/css" href="style/loginForm.css.php" />';
-	$styles[] = '<link rel="stylesheet" type="text/css" href="style/signupForm.css.php" />';
 }
+
 $main->styles = $styles;
 
 //grab sub templates
