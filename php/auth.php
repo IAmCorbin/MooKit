@@ -9,9 +9,9 @@ function getAuthContent($secure=TRUE) {
 	//Security Check
 	$security = new Security;
 	if(!$security->check()) {
-		$contentTpl->userInfo = null;
-		$contentTpl->cssTpl = null;
-		$contentTpl->postTpl = null;
+		
+		//$contentTpl->userInfo = null;
+		//$contentTpl->cssTpl = null;
 		$contentTpl->postTpl = new Template('../templates/post.tpl.php');
 		//display most recent post
 		$post = $DB->query("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;","object");
@@ -19,7 +19,26 @@ function getAuthContent($secure=TRUE) {
 		
 		
 	} else { //Authorized
-		
+		//Navigation
+		$contentTpl->navTpl = new Template('../templates/nav.tpl.php');
+		$contentTpl->navTpl->links = array(	array('href'=>'',
+										'name'=>'testing',
+										'ajax'=>'authAjaxLink',
+										'sublinks'=>array( array(	'href'=>'',
+															'name'=>'sublink test',
+															'ajax'=>'authAjaxLink'))),
+									array('href'=>'',
+										'name'=>'Testing Secure Ajax Links',
+										'ajax'=>'authAjaxLink',
+										'sublinks'=>array(	array('href'=>'php/test1.php',
+															'ajax'=>'authAjaxLink',
+															'name'=>'test1'),
+														array('href'=>'php/test2.php',
+															'ajax'=>'authAjaxLink',
+															'name'=>'Test2'),
+														array('href'=>'php/test3.php',
+															'ajax'=>'authAjaxLink',
+															'name'=>'Test3'))));
 		//User Info Table
 		$contentTpl->userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","mysql");
 		//userCSS

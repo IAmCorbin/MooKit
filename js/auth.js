@@ -3,6 +3,16 @@
  */
 window.addEvent('domready', function() {
 	
+	//Setup Auth Area Links
+	var authLinks = $$('.authAjaxLink');
+	authLinks.each(function(link) {
+		link.addEvent('click',function(e) {
+			e.stop();
+			$('secureContent').load(link.get('href'));
+		});
+	});
+	
+	
 	//LOGOUT BUTTON
 	$('logout').addEvent('click',function(e) {
 		new Request({
