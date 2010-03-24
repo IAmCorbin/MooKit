@@ -5,7 +5,6 @@ window.addEvent('domready', function() {
 
 	//Set Up AJAX DeepLinker
 	var DL = new DeepLinker('content',{
-				DEBUG: true,
 				cookies: false,
 				onUpdate: function() {
 					switch(window.location.hash) {
