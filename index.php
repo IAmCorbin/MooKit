@@ -37,15 +37,30 @@ $main->styles = $styles;
 //grab sub templates
 $main->navTpl = new Template('../templates/nav.tpl.php');
 	//links
-	$main->navTpl->links = array(array('href'=>'http://www.iamcorbin.net',
-							'name'=>'IAmCorbin.net',
-							'sublinks'=>array(array('href'=>'http://www.iamcorbin.net/?intro=1',
+	$main->navTpl->links = array( array('href'=>'http://www.iamcorbin.net',
+								'name'=>'IAmCorbin.net',
+								'sublinks'=>array(array('href'=>'http://www.iamcorbin.net/?intro=1',
 										    'name'=>'Skip Intro'),
 										    array('href'=>'http://www.iamcorbin.net/desert',
 											    'name'=>'The Desert'))),
-						array('href'=>'http://www.metaldisco.org',
-							'name'=>'MetalDisco.org',
-							'sublinks'=>null));
+							array('href'=>'http://www.metaldisco.org',
+								'name'=>'MetalDisco.org',
+								'sublinks'=>null),
+							array('href'=>'',
+								'name'=>'Testing Ajax Links',
+								'sublinks'=>array(	array('href'=>'test1',
+													'ajax'=>'ajaxLink',
+													'name'=>'test1'),
+												array('href'=>'test2',
+													'ajax'=>'ajaxLink',
+													'name'=>'Test2'),
+												array('href'=>'test3',
+													'ajax'=>'ajaxLink',
+													'name'=>'Test3'))),
+								
+							
+							
+					);
 
 //Login Form							
 $main->loginTpl = new Template('../templates/loginForm.tpl.php'); 		/*add login form */		
