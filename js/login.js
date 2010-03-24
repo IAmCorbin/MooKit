@@ -67,12 +67,17 @@ window.addEvent('domready', function() {
 										$('content').setStyle('opacity','0');
 										$('content').set('html',response);
 										(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500);
-										//load javascript if not previously loaded
-										if(!document.head.get('html').test('js/auth.js')) {
-											var myScript = new Asset.javascript('js/auth.js');
-											var myScript = new Asset.javascript('js/postEdit.js');
-											var myScript = new Asset.javascript('js/userCSS.js');
-										}
+										//if previously loaded, destroy old javascript
+										if(document.head.get('html').test('js/auth.js')) {
+											$('JSauth').destroy();
+											$('JSpostEdit').destroy();
+											$('JSuserCSS').destroy();
+											
+										} 
+										//load javascript
+										var myScript = new Asset.javascript('js/auth.js', { id: 'JSauth'});
+										var myScript = new Asset.javascript('js/postEdit.js', { id: 'JSpostEdit'});
+										var myScript = new Asset.javascript('js/userCSS.js', { id: 'JSuserCSS'});
 										
 									}
 								}).send();

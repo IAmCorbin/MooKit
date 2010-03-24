@@ -14,9 +14,9 @@ $scripts[] =  '<script type="text/javascript" src="js/debug.js"></script>'; //de
 $scripts[] = '<script type="text/javascript" src="js/login.js"></script>'; //login form
 $scripts[] = '<script type="text/javascript" src="js/signup.js"></script>'; //signup form
 if($_SESSION['auth'] === 1) {
-	$scripts[] =  '<script type="text/javascript" src="js/auth.js"></script>'; //post
-	$scripts[] =  '<script type="text/javascript" src="js/postEdit.js"></script>'; //post
-	$scripts[] =  '<script type="text/javascript" src="js/userCSS.js"></script>'; //post
+	$scripts[] =  '<script type="text/javascript" id="JSauth" src="js/auth.js"></script>'; //post
+	$scripts[] =  '<script type="text/javascript" id="JSpostEdit" src="js/postEdit.js"></script>'; //post
+	$scripts[] =  '<script type="text/javascript" id="JSuserCSS" src="js/userCSS.js"></script>'; //post
 }
 $main->scripts = $scripts;
 
