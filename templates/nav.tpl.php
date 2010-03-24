@@ -1,19 +1,19 @@
 	<!-- NAVIGATION -->
-		<ul id="nav"> 
+		<div id="nav"> 
 		<? foreach($links as $link): ?>
-			<li>
+			<div style="float:left;">
 				<a class="link <? if(isset($link['ajax'])) echo $link['ajax']; ?>" href="<?=$link['href']?>"><?=$link['name']?></a>
-				<ul>
+				<div>
 				<!-- Optional Sublinks -->
 				<? if(isset($link['sublinks']))
 					foreach($link['sublinks'] as $sublink): ?>
-					<li>
+					<span>
 						<a class="sublink <? if(isset($sublink['ajax'])) echo $sublink['ajax']; ?>" href="<?=$sublink['href']?>"><?=$sublink['name']?></a>
-					</li>
+					</span>
 				 <? endforeach;//$links['sublinks']  ?> 
-				 </ul>
+				 </div>
 				
-			</li>
+			</div>
 		<? endforeach; //$links  ?>
-		</ul>
+		</div>
 	<!-- END NAVIGATION -->
