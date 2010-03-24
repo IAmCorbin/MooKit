@@ -21,6 +21,8 @@ window.addEvent('domready', function() {
 				this.content.set('tween',{duration: 'short', transition: 'quad' });
 				this.content.tween('top','-300px'); 
 				login.fadeLightbox.delay('200',this); 
+				$$('.login_buttonWrap').fade(0);
+				$$('.signup_buttonWrap').fade(0);
 			},
 			onRemove: function() { 
 				
@@ -79,6 +81,8 @@ window.addEvent('domready', function() {
 								//remove all auth content from page
 								$$('.secureArea').set('tween',{duration:'2000'}).fade('0');
 								(function() { $$('.secureArea').destroy(); }).delay(2300,this);
+								$$('.login_buttonWrap').fade(1);
+								$$('.signup_buttonWrap').fade(1);
 								break;
 							case "IN":
 								$('loginPHPError').setStyle('display','none');	

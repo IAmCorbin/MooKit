@@ -25,6 +25,7 @@ $main->scripts = $scripts;
 $styles = array();
 $styles[] = '<link rel="stylesheet" type="text/css" href="style/nav.css.php" />';
 $styles[] = '<link rel="stylesheet" type="text/css" href="style/content.css.php" />';
+$styles[] = '<link rel="stylesheet" type="text/css" href="style/post.css.php" />';
 $styles[] = '<link rel="stylesheet" type="text/css" href="style/debug.css.php" />';
 if($_SESSION['auth'] === 1) {
 	$styles[] = '<link rel="stylesheet" type="text/css" href="style/postEdit.css.php" />';

@@ -11,8 +11,9 @@ window.addEvent('domready', function() {
 			onSuccess: function() {
 				//remove all auth content from page
 				$$('.secureArea').set('tween',{duration:'long'}).fade('0');
+				$$('.login_buttonWrap').fade(1);
+				$$('.signup_buttonWrap').fade(1);
 				(function() { $$('.secureArea').destroy(); }).delay(1200,this);
-				
 			}
 		}).send();
 	});
