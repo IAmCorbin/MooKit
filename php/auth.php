@@ -32,13 +32,13 @@ function getAuthContent($secure=TRUE) {
 										'ajax'=>'authAjaxLink',
 										'sublinks'=>array(	array('href'=>'php/test1.php',
 															'ajax'=>'authAjaxLink',
-															'name'=>'test1'),
+															'name'=>'test1secure'),
 														array('href'=>'php/test2.php',
 															'ajax'=>'authAjaxLink',
-															'name'=>'Test2'),
+															'name'=>'Test2secure'),
 														array('href'=>'php/test3.php',
 															'ajax'=>'authAjaxLink',
-															'name'=>'Test3'))));
+															'name'=>'Test3secure'))));
 		//User Info Table
 		$contentTpl->userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","mysql");
 		//userCSS

@@ -57,6 +57,9 @@ window.addEvent('domready', function() {
 							case  "LOGGEDIN":
 								$('loginPHPError').setStyle('display','none');	
 								$('loginPHPError').setStyle('display','none');	
+								//update hash with location
+								window.location.hash = "#welcome";
+								
 								login.trigger();
 								//load content
 								new Request({
