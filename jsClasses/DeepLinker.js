@@ -20,11 +20,14 @@ var DeepLinker = new Class({
 	/** 
 	  * @var int options.time 		duration between hash checks (in ms) 
 	  * @var array options.cache 	preload the cache with hash objects containing page data
+	  * @var bool options.cookies 	switch using cookies on/off
 	  * @var bool options.DEBUG 	switch debug messages on/off
 	  */
 	options: {
 		time: 1000,
 		cache: [],
+		cookies: true,
+		cookieLife: 0,
 		DEBUG: false
 		/*
 		onUpdate: $empty
@@ -49,34 +52,54 @@ var DeepLinker = new Class({
 			this.debug("|------  HASH CHANGED  :"+window.location.hash+":------|");
 			//if(this.lastHash) {
 				var cacheLocation = null;
-				//check each page in cache to see if the data is already cached
-				if(this.cache.some(function(item, index) { 
-									if(item.hasValue(window.location.hash)) {
-										cacheLocation = index;
-										return true;
-									}
-								})) {
-					this.debug("ALREADY CACHED: LOADING FROM CACHE");
+				//check each page in cache to see if the data is already cached OR check for cookie
+				if(this.options.cookies)
+					var cached = Cookie.read(window.location.hash)
+				else
+					var cached = this.cache.some(function(item, index) { 
+										if(item.hasValue(window.location.hash)) {
+											cacheLocation = index;
+											return true;
+										}
+								});
+				if(cached) {
+					
 					//get cached content
-					var content = this.cache[cacheLocation].get('content');
+					if(this.options.cookies) {
+						this.debug("ALREADY CACHED: LOADING FROM COOKIE");
+						var content = Cookie.read(window.location.hash);
+					} else {
+						this.debug("ALREADY CACHED: LOADING FROM HASH");
+						var content = this.cache[cacheLocation].get('content');
+					}
 					this.debug("content to load: "+content);
 					//display cached content
 					this.container.set('html',content);
 				} else {
-					this.debug("LOADING CONTENT NOW");
-					//load content
+					//setup to cache when load is complete
 					this.container.set('load',{
 						onComplete: function() {
 							//cache content
 							if(!this.lastHash) {
-								this.debug("CACHING NOW - FIRST CACHE");
-								this.cache[0] = new Hash({hash:window.location.hash,content:this.container.get('html')});
+								if(this.options.cookies) {
+									this.debug("CACHING TO COOKIE NOW - FIRST CACHE");
+									Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
+								} else {
+									this.debug("CACHING TO HASH NOW - FIRST CACHE");
+									this.cache[0] = new Hash({hash:window.location.hash,content:this.container.get('html')});
+								}
 							} else {
-								this.debug("CACHING NOW : "+this.cache.length+this.container.get('html'));
-								this.cache[this.cache.length] = new Hash({hash:window.location.hash,content:this.container.get('html')});
+								if(this.options.cookies) {
+									this.debug("CACHING TO COOKIE NOW : "+this.cache.length+this.container.get('html'));
+									Cookie.write(window.location.hash,this.container.get('html'), { duration: this.options.cookieLife }) ;
+								} else {
+									this.debug("CACHING TO HASH NOW : "+this.cache.length+this.container.get('html'));
+									this.cache[this.cache.length] = new Hash({hash:window.location.hash,content:this.container.get('html')});
+								}
 							}
 						}.bind(this)
 					});
+					this.debug("LOADING CONTENT NOW - onUpdate fires");
 					this.fireEvent('update');
 				}
 		} else if(window.location.hash == "#kill") {
