@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<title>Docs For Class Filters</title>
+	<title>Docs For Class Post</title>
 	<link rel="stylesheet" type="text/css" id="layout" href="../media/layout.css" media="screen">
 	<link rel="stylesheet" type="text/css" href="../media/style.css" media="all">
 	<link rel="stylesheet" type="text/css" href="../media/print.css" media="print">
@@ -68,16 +68,16 @@
 	</div>
 
 <div id="body">
-	    		<h1>Class: Filters</h1>
-	<p style="margin: 0px;">Source Location: /Filters.php</p>
+	    		<h1>Class: Post</h1>
+	<p style="margin: 0px;">Source Location: /Post.php</p>
 	
 
 <div class="leftcol">
-	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 15]</span></h3>
+	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 17]</span></h3>
 	<div id="classTree"><pre></pre>
 </div>
 	<div class="small">
-	<p>Class to encapsulate php 5.2 filter_var for simple form validation</p>
+	<p>Post Class</p>
 		<h4>Author(s):</h4>
 	<ul>
 								<li>Corbin Tarrant</li>
@@ -88,7 +88,7 @@
 
 	<h4>Copyright:</h4>
 	<ul>
-													<li>Febuary 19th, 2010</li>
+													<li>March 16th, 2010</li>
 											</li>
 	</div>
 </div>
@@ -96,8 +96,11 @@
 <div class="middlecol">
 	<h3><a href="#class_vars">Variables</a></h3>
 	<ul class="small">
-				<li><a href="../MooKit/Filters.html#var$errors">$errors</a></li>
-				<li><a href="../MooKit/Filters.html#var$htmLawedConfig">$htmLawedConfig</a></li>
+				<li><a href="../MooKit/Post.html#var$createTime">$createTime</a></li>
+				<li><a href="../MooKit/Post.html#var$error">$error</a></li>
+				<li><a href="../MooKit/Post.html#var$html">$html</a></li>
+				<li><a href="../MooKit/Post.html#var$modTime">$modTime</a></li>
+				<li><a href="../MooKit/Post.html#var$title">$title</a></li>
 			</ul>
 	<h3><a href="#class_consts">Constants</a></h3>
 	<ul class="small">
@@ -106,13 +109,10 @@
 <div class="rightcol">
 	<h3><a href="#class_methods">Methods</a></h3>
 	<ul class="small">
-				<li><a href="../MooKit/Filters.html#method__construct">__construct</a></li>
-				<li><a href="../MooKit/Filters.html#methodemail">email</a></li>
-				<li><a href="../MooKit/Filters.html#methodERRORS">ERRORS</a></li>
-				<li><a href="../MooKit/Filters.html#methodhtmLawed">htmLawed</a></li>
-				<li><a href="../MooKit/Filters.html#methodregEx">regEx</a></li>
-				<li><a href="../MooKit/Filters.html#methodtext">text</a></li>
-				<li><a href="../MooKit/Filters.html#methodurl">url</a></li>
+				<li><a href="../MooKit/Post.html#method__construct">__construct</a></li>
+				<li><a href="../MooKit/Post.html#methoderrorStatus">errorStatus</a></li>
+				<li><a href="../MooKit/Post.html#method__get">__get</a></li>
+				<li><a href="../MooKit/Post.html#method__set">__set</a></li>
 			</ul>
 </div>
 
@@ -134,12 +134,12 @@
 
 	<a name="class_details"></a>
 	<h2>Class Details</h2>
-	<p align="center"><strong>Class to encapsulate php 5.2 filter_var for simple form validation
+	<p align="center"><strong>Post Class
 </strong></p>
-<h4>Tags:</h4>
+<p>A Class representing a set of related html elements that serve a certain purpose (blog post, static page, game, video, etc...)</p><h4>Tags:</h4>
 <ul>
 	<li><b>author</b> - Corbin Tarrant</li>
-	<li><b>copyright</b> - Febuary 19th, 2010</li>
+	<li><b>copyright</b> - March 16th, 2010</li>
 	<li><b>link</b> - <a href="http://www.IAmCorbin.net">http://www.IAmCorbin.net</a></li>
 </ul>
 	<p class="small" style="color: #334B66;">[ <a href="#top">Top</a> ]</p>
@@ -147,29 +147,68 @@
 	<hr>
 	<a name="class_vars"></a>
 	<h2>Class Variables</h2>
-		<a name="var$errors"></a>
+		<a name="var$createTime"></a>
 	<p></p>
-	<h4>$errors</h4>
+	<h4>$createTime</h4>
 	<div class="indent">
-		<p class="linenumber">[line 17]</p>
+		<p class="linenumber">[line 23]</p>
 		<h4>Tags:</h4>
 <ul>
-	<li><b>var</b> - array of thrown filter errors</li>
+	<li><b>var</b> - date and time post was created</li>
 </ul>
-		<p><b>Type:</b> array</p>
+		<p><b>Type:</b> date</p>
 		<p><b>Overrides:</b> </p>
 	</div>
 	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="var$htmLawedConfig"></a>
+	<a name="var$error"></a>
 	<p></p>
-	<h4>$htmLawedConfig</h4>
+	<h4>$error = <span class="value">&nbsp;NULL</span></h4>
+	<div class="indent">
+		<p class="linenumber">[line 27]</p>
+		<h4>Tags:</h4>
+<ul>
+	<li><b>var</b> - status</li>
+</ul>
+		<p><b>Type:</b> string</p>
+		<p><b>Overrides:</b> </p>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="var$html"></a>
+	<p></p>
+	<h4>$html</h4>
+	<div class="indent">
+		<p class="linenumber">[line 21]</p>
+		<h4>Tags:</h4>
+<ul>
+	<li><b>var</b> - html for this post</li>
+</ul>
+		<p><b>Type:</b> string</p>
+		<p><b>Overrides:</b> </p>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="var$modTime"></a>
+	<p></p>
+	<h4>$modTime</h4>
+	<div class="indent">
+		<p class="linenumber">[line 25]</p>
+		<h4>Tags:</h4>
+<ul>
+	<li><b>var</b> - date and time post was last modified</li>
+</ul>
+		<p><b>Type:</b> date</p>
+		<p><b>Overrides:</b> </p>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="var$title"></a>
+	<p></p>
+	<h4>$title</h4>
 	<div class="indent">
 		<p class="linenumber">[line 19]</p>
 		<h4>Tags:</h4>
 <ul>
-	<li><b>var</b> - htmLawed configuration settings</li>
+	<li><b>var</b> - title of this post</li>
 </ul>
-		<p><b>Type:</b> array</p>
+		<p><b>Type:</b> string</p>
 		<p><b>Overrides:</b> </p>
 	</div>
 	<p class="top">[ <a href="#top">Top</a> ]</p>
@@ -183,127 +222,82 @@
 	<h3>__construct</h3>
 	<div class="indent">
 		<p>
-		<code>Filters __construct(
-[array
-$htmLawed = null])</code>
+		<code>Post __construct(
+
+$title, 
+$html, [
+$createTime = NULL], [
+$modTime = NULL])</code>
 		</p>
 	
-		<p class="linenumber">[line 26]</p>
+		<p class="linenumber">[line 29]</p>
 		<p align="center"><strong>Constructor
 </strong></p>
-<p>Initialize the $errors array to 'none'</p><h4>Tags:</h4>
-<ul>
-	<li><b>access</b> - public</li>
-</ul>
 		
 	
 	<h4>Parameters:</h4>
 	<ul>
 			<li>
-		<span class="type">array</span>
-		<b>$htmLawed</b> 
+		<span class="type"></span>
+		<b>$title</b> 
 		- 
-		htmLawed configuration settings</li>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodemail"></a>
-	<p></p>
-	<h3>email</h3>
-	<div class="indent">
-		<p>
-		<code>string email(
-string
-$user_email)</code>
-		</p>
-	
-		<p class="linenumber">[line 42]</p>
-		<p align="center"><strong>Filter an Email
-</strong></p>
-<p>Filter a user entered email address</p><h4>Tags:</h4>
-<ul>
-	<li><b>access</b> - public</li>
-</ul>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
+		</li>
 			<li>
-		<span class="type">string</span>
-		<b>$user_email</b> 
+		<span class="type"></span>
+		<b>$html</b> 
+		- 
+		</li>
+			<li>
+		<span class="type"></span>
+		<b>$createTime</b> 
+		- 
+		</li>
+			<li>
+		<span class="type"></span>
+		<b>$modTime</b> 
 		- 
 		</li>
 		</ul>
 	</div>
 	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodERRORS"></a>
+	<a name="methoderrorStatus"></a>
 	<p></p>
-	<h3>ERRORS</h3>
+	<h3>errorStatus</h3>
 	<div class="indent">
 		<p>
-		<code>array|NULL ERRORS(
+		<code>string errorStatus(
 )</code>
 		</p>
 	
-		<p class="linenumber">[line 131]</p>
-		<p align="center"><strong>ERRORS
-</strong></p>
-<p>Returns the array of errors or null if none</p><h4>Tags:</h4>
-<ul>
-	<li><b>access</b> - public</li>
-</ul>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodhtmLawed"></a>
-	<p></p>
-	<h3>htmLawed</h3>
-	<div class="indent">
-		<p>
-		<code>string htmLawed(
-string
-$input)</code>
-		</p>
-	
-		<p class="linenumber">[line 118]</p>
-		<p align="center"><strong>Filter input with htmLawed
+		<p class="linenumber">[line 58]</p>
+		<p align="center"><strong>Return the error status of the post
 </strong></p>
 <h4>Tags:</h4>
 <ul>
-	<li><b>link</b> - <a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/">http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/</a></li>
+	<li><b>return</b> - error status</li>
 	<li><b>access</b> - public</li>
 </ul>
 		
 	
 	<h4>Parameters:</h4>
 	<ul>
-			<li>
-		<span class="type">string</span>
-		<b>$input</b> 
-		- 
-		the input to filter</li>
 		</ul>
 	</div>
 	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodregEx"></a>
+	<a name="method__get"></a>
 	<p></p>
-	<h3>regEx</h3>
+	<h3>__get</h3>
 	<div class="indent">
 		<p>
-		<code>string regEx(
-regEx
-$regEx, string
-$subject)</code>
+		<code>array|string __get(
+
+$name)</code>
 		</p>
 	
-		<p class="linenumber">[line 106]</p>
-		<p align="center"><strong>Filter against a regEx
+		<p class="linenumber">[line 48]</p>
+		<p align="center"><strong>Magic PHP __get
 </strong></p>
-<p>Filter user entered input against a provided regEx</p><h4>Tags:</h4>
+<h4>Tags:</h4>
 <ul>
 	<li><b>access</b> - public</li>
 </ul>
@@ -312,61 +306,28 @@ $subject)</code>
 	<h4>Parameters:</h4>
 	<ul>
 			<li>
-		<span class="type">regEx</span>
-		<b>$regEx</b> 
-		- 
-		a valid regular expression</li>
-			<li>
-		<span class="type">string</span>
-		<b>$subject</b> 
-		- 
-		the string to test against</li>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodtext"></a>
-	<p></p>
-	<h3>text</h3>
-	<div class="indent">
-		<p>
-		<code>string text(
-string
-$user_text)</code>
-		</p>
-	
-		<p class="linenumber">[line 64]</p>
-		<p align="center"><strong>Filter text
-</strong></p>
-<p>Filter user entered text</p><h4>Tags:</h4>
-<ul>
-	<li><b>access</b> - public</li>
-</ul>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
-			<li>
-		<span class="type">string</span>
-		<b>$user_text</b> 
+		<span class="type"></span>
+		<b>$name</b> 
 		- 
 		</li>
 		</ul>
 	</div>
 	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodurl"></a>
+	<a name="method__set"></a>
 	<p></p>
-	<h3>url</h3>
+	<h3>__set</h3>
 	<div class="indent">
 		<p>
-		<code>string url(
-string
-$user_url)</code>
+		<code>void __set(
+
+$name, 
+$value)</code>
 		</p>
 	
-		<p class="linenumber">[line 84]</p>
-		<p align="center"><strong>Filter a URL
+		<p class="linenumber">[line 52]</p>
+		<p align="center"><strong>Magic PHP __set
 </strong></p>
-<p>Filter a user entered URL</p><h4>Tags:</h4>
+<h4>Tags:</h4>
 <ul>
 	<li><b>access</b> - public</li>
 </ul>
@@ -375,8 +336,13 @@ $user_url)</code>
 	<h4>Parameters:</h4>
 	<ul>
 			<li>
-		<span class="type">string</span>
-		<b>$user_url</b> 
+		<span class="type"></span>
+		<b>$name</b> 
+		- 
+		</li>
+			<li>
+		<span class="type"></span>
+		<b>$value</b> 
 		- 
 		</li>
 		</ul>

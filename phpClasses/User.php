@@ -1,15 +1,19 @@
 <?php
 if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
- * User Class
- *
- * a class for adding or authenticating users against a users table in a database
- * 
- * @author Corbin Tarrant
- * @copyright Febuary 20th, 2010
- * @link http://www.IAmCorbin.net
+ * contains User Class
  * @package MooKit
  */
+/**
+  * User Class
+  *
+  * a class for adding or authenticating users against a users table in a database
+  * 
+  * @author Corbin Tarrant
+  * @copyright Febuary 20th, 2010
+  * @link http://www.IAmCorbin.net
+  * @package MooKit
+  */
 class User {
 	/** @var mysqli $mysqli	mysqli database object */
 	var $DB;

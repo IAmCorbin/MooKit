@@ -1,6 +1,10 @@
 <?php
 if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
+  * contains Template Class
+  * @package MooKit
+  */
+/**
  * A very simple PHP Template Class
  *
  * Allows for seperation of presentation logic and data gathering logic

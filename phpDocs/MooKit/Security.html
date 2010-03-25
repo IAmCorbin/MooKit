@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<title>Docs For Class User</title>
+	<title>Docs For Class Security</title>
 	<link rel="stylesheet" type="text/css" id="layout" href="../media/layout.css" media="screen">
 	<link rel="stylesheet" type="text/css" href="../media/style.css" media="all">
 	<link rel="stylesheet" type="text/css" href="../media/print.css" media="print">
@@ -68,8 +68,8 @@
 	</div>
 
 <div id="body">
-	    		<h1>Class: User</h1>
-	<p style="margin: 0px;">Source Location: /User.php</p>
+	    		<h1>Class: Security</h1>
+	<p style="margin: 0px;">Source Location: /Security.php</p>
 	
 
 <div class="leftcol">
@@ -77,7 +77,7 @@
 	<div id="classTree"><pre></pre>
 </div>
 	<div class="small">
-	<p>User Class</p>
+	<p>Security Class</p>
 		<h4>Author(s):</h4>
 	<ul>
 								<li>Corbin Tarrant</li>
@@ -88,7 +88,7 @@
 
 	<h4>Copyright:</h4>
 	<ul>
-													<li>Febuary 20th, 2010</li>
+													<li>March 15th, 2010</li>
 											</li>
 	</div>
 </div>
@@ -96,7 +96,7 @@
 <div class="middlecol">
 	<h3><a href="#class_vars">Variables</a></h3>
 	<ul class="small">
-				<li><a href="../MooKit/User.html#var$DB">$DB</a></li>
+				<li><a href="../MooKit/Security.html#var$status">$status</a></li>
 			</ul>
 	<h3><a href="#class_consts">Constants</a></h3>
 	<ul class="small">
@@ -105,11 +105,10 @@
 <div class="rightcol">
 	<h3><a href="#class_methods">Methods</a></h3>
 	<ul class="small">
-				<li><a href="../MooKit/User.html#method__construct">__construct</a></li>
-				<li><a href="../MooKit/User.html#methodaddNew">addNew</a></li>
-				<li><a href="../MooKit/User.html#methodauthenticate">authenticate</a></li>
-				<li><a href="../MooKit/User.html#methodencryptPassword">encryptPassword</a></li>
-				<li><a href="../MooKit/User.html#methodNOAUTH">NOAUTH</a></li>
+				<li><a href="../MooKit/Security.html#method__construct">__construct</a></li>
+				<li><a href="../MooKit/Security.html#methodcheck">check</a></li>
+				<li><a href="../MooKit/Security.html#methodcheckIP">checkIP</a></li>
+				<li><a href="../MooKit/Security.html#methodcheckUser">checkUser</a></li>
 			</ul>
 </div>
 
@@ -131,12 +130,12 @@
 
 	<a name="class_details"></a>
 	<h2>Class Details</h2>
-	<p align="center"><strong>User Class
+	<p align="center"><strong>Security Class
 </strong></p>
-<p>a class for adding or authenticating users against a users table in a database</p><h4>Tags:</h4>
+<p>a class for checking user session credentials</p><h4>Tags:</h4>
 <ul>
 	<li><b>author</b> - Corbin Tarrant</li>
-	<li><b>copyright</b> - Febuary 20th, 2010</li>
+	<li><b>copyright</b> - March 15th, 2010</li>
 	<li><b>link</b> - <a href="http://www.IAmCorbin.net">http://www.IAmCorbin.net</a></li>
 </ul>
 	<p class="small" style="color: #334B66;">[ <a href="#top">Top</a> ]</p>
@@ -144,16 +143,16 @@
 	<hr>
 	<a name="class_vars"></a>
 	<h2>Class Variables</h2>
-		<a name="var$DB"></a>
+		<a name="var$status"></a>
 	<p></p>
-	<h4>$DB</h4>
+	<h4>$status</h4>
 	<div class="indent">
 		<p class="linenumber">[line 19]</p>
 		<h4>Tags:</h4>
 <ul>
-	<li><b>var</b> - mysqli database object</li>
+	<li><b>var</b> - security status</li>
 </ul>
-		<p><b>Type:</b> mysqli</p>
+		<p><b>Type:</b> bool</p>
 		<p><b>Overrides:</b> </p>
 	</div>
 	<p class="top">[ <a href="#top">Top</a> ]</p>
@@ -167,12 +166,12 @@
 	<h3>__construct</h3>
 	<div class="indent">
 		<p>
-		<code>User __construct(
+		<code>bool __construct(
 )</code>
 		</p>
 	
-		<p class="linenumber">[line 21]</p>
-		<p align="center"><strong>Constructor
+		<p class="linenumber">[line 24]</p>
+		<p align="center"><strong>check for secure session
 </strong></p>
 		
 	
@@ -181,131 +180,65 @@
 		</ul>
 	</div>
 	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodaddNew"></a>
+	<a name="methodcheck"></a>
 	<p></p>
-	<h3>addNew</h3>
+	<h3>check</h3>
 	<div class="indent">
 		<p>
-		<code>bool addNew(
-array
-$filteredInput)</code>
-		</p>
-	
-		<p class="linenumber">[line 29]</p>
-		<p align="center"><strong>Add a new user to the database
-</strong></p>
-<h4>Tags:</h4>
-<ul>
-	<li><b>access</b> - public</li>
-</ul>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
-			<li>
-		<span class="type">array</span>
-		<b>$filteredInput</b> 
-		- 
-		- array filled with filtered user input</li>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodauthenticate"></a>
-	<p></p>
-	<h3>authenticate</h3>
-	<div class="indent">
-		<p>
-		<code>bool authenticate(
-string
-$user, string
-$pass, [string
-$tbl = 'users'])</code>
-		</p>
-	
-		<p class="linenumber">[line 54]</p>
-		<p align="center"><strong>Authenticates a user against database - on authorization it will set $_SESSION['auth'] = 1
-</strong></p>
-<h4>Tags:</h4>
-<ul>
-	<li><b>access</b> - public</li>
-</ul>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
-			<li>
-		<span class="type">string</span>
-		<b>$user</b> 
-		- 
-		- username to test</li>
-			<li>
-		<span class="type">string</span>
-		<b>$pass</b> 
-		- 
-		- password to test</li>
-			<li>
-		<span class="type">string</span>
-		<b>$tbl</b> 
-		- 
-		- the database table to test against</li>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodencryptPassword"></a>
-	<p></p>
-	<h3>encryptPassword</h3>
-	<div class="indent">
-		<p>
-		<code>string encryptPassword(
-string
-$user, string
-$pass, [string
-$regTime = NULL])</code>
-		</p>
-	
-		<p class="linenumber">[line 95]</p>
-		<p align="center"><strong>Encrypt a password
-</strong></p>
-<h4>Tags:</h4>
-<ul>
-	<li><b>return</b> - encrypted password or false</li>
-	<li><b>access</b> - public</li>
-</ul>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
-			<li>
-		<span class="type">string</span>
-		<b>$user</b> 
-		- 
-		username</li>
-			<li>
-		<span class="type">string</span>
-		<b>$pass</b> 
-		- 
-		password to encrypt</li>
-			<li>
-		<span class="type">string</span>
-		<b>$regTime</b> 
-		- 
-		the user's registration time, used to pass in if this is a new user and we are encrypting the password for the first time</li>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodNOAUTH"></a>
-	<p></p>
-	<h3>NOAUTH</h3>
-	<div class="indent">
-		<p>
-		<code>void NOAUTH(
+		<code>void check(
 )</code>
 		</p>
 	
-		<p class="linenumber">[line 82]</p>
-		<p align="center"><strong>NO AUTHORIZATION
+		<p class="linenumber">[line 31]</p>
+		<p align="center"><strong>Return Security Status
 </strong></p>
-<p>REMOVE AUTHORIZATION FLAG AND USERNAME</p><h4>Tags:</h4>
+<h4>Tags:</h4>
+<ul>
+	<li><b>access</b> - public</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="methodcheckIP"></a>
+	<p></p>
+	<h3>checkIP</h3>
+	<div class="indent">
+		<p>
+		<code>void checkIP(
+)</code>
+		</p>
+	
+		<p class="linenumber">[line 35]</p>
+		<p align="center"><strong>Validate IP
+</strong></p>
+<h4>Tags:</h4>
+<ul>
+	<li><b>access</b> - public</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="methodcheckUser"></a>
+	<p></p>
+	<h3>checkUser</h3>
+	<div class="indent">
+		<p>
+		<code>void checkUser(
+)</code>
+		</p>
+	
+		<p class="linenumber">[line 39]</p>
+		<p align="center"><strong>Validate User
+</strong></p>
+<h4>Tags:</h4>
 <ul>
 	<li><b>access</b> - public</li>
 </ul>

@@ -1,13 +1,15 @@
 <?php
 if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
-/*
-htmLawed 1.1.9.1, 26 February 2010
-Copyright Santosh Patnaik
-LGPL v3 license
-A PHP Labware internal utility; www.bioinformatics.org/phplabware/internal_utilities/htmLawed
-
-See htmLawed_README.txt/htm
-*/
+/**
+  * contains htmLawed V 1.1.9.1, 26
+  * htmLawed 1.1.9.1, 26 
+  * @copyright February 2010
+  * @author Santosh Patnaik
+  * LGPL v3 license
+  * A PHP Labware internal utility 
+  * @link www.bioinformatics.org/phplabware/internal_utilities/htmLawed
+  * @package MooKit
+  */
 
 function htmLawed($t, $C=1, $S=array()){
 $C = is_array($C) ? $C : array();

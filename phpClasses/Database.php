@@ -1,6 +1,10 @@
 <?php
 if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
+  * contains DatabaseConnection class
+  * @package MooKit
+  */
+/**
  * class DatabaseConnection
  *
  * Basic MySQL Database Connection class

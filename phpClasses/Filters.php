@@ -1,6 +1,10 @@
 <?php
 if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
+ * Contains Filters Class
+ * @package MooKit
+ */
+/**
  *Class to encapsulate php 5.2 filter_var for simple form validation
  *
  * @author Corbin Tarrant
@@ -108,8 +112,8 @@ Class Filters {
 	/**
 	 * Filter input with htmLawed
 	 * @link http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/
-	 * @params string $input the input to filter
-	 * @returns string
+	 * @param string $input the input to filter
+	 * @return string
 	 */
 	 public function htmLawed($input) {
 		//REMOVE MAGIC QUOTES

@@ -1,6 +1,10 @@
 <?php
 if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
+  * contains Security Class
+  * @package MooKit
+  */
+/**
  * Security Class
  *
  * a class for checking user session credentials

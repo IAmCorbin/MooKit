@@ -1,6 +1,10 @@
 <?php
 if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
+  * contains Post Class
+  * @package MooKit
+  */
+/**
  * Post Class
  *
  * A Class representing a set of related html elements that serve a certain purpose (blog post, static page, game, video, etc...)

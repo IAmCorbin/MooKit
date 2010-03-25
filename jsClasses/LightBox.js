@@ -1,5 +1,5 @@
 /**
- * The Lightbox Class creates a layer that can be toggled on and off and contain multiple elements of content
+ * @class The Lightbox Class creates a layer that can be toggled on and off and contain multiple elements of content
  * Febuary 18th, 2010
  * 
  * To use:
@@ -32,33 +32,22 @@
  * @version 1.0
  *
  * @requires MooTools 1.2
+ * 
+ * @package MooKit
+ * {@link http://mootools.net/}
+ *
+ * @property	{Element}  	lightbox 				the lightbox element
+ * @property	{bool}	 	hidden				visablility flag
+ * @property	{Element}	closeButton		 	the element that closes the lightbox
+ * @property	{Element[]}	content 				array of all the content boxes in the lightbox
+ *
+ * @property	{bool}		options.fade 			Should the lightbox fade or just snap in and out
+ * @property	{int}		options.fadeSpeed 		(if fade = true) how long should the lightbox take to fade in and out
+ * @property	{int}		options.removeDelay 	Delay before lightbox is removed from display - time starts after fade is complete
+ * @property	{$empty}	options.onShow		Fires immediately after lightbox is added to display and fades in
+ * @property	{$empty}	options.onHide			Fires immediately after a trigger() call when lightbox is already displayed
+ * @property	{$empty}	options.onRemove		Fires when lightbox has been removed from display
  */
- /*
-/~~~~~~~~~~~~~~~~~
-/variables
-/    this.lightbox: the lightbox element
-/    this.hidden: visablility flag
-/    this.closeButton: the element that closes the lightbox
-/    this.content: array of all the content boxes in the lightbox
-/
-/options:
-/    fade: (true/false) should the lightbox fade or just snap in and out
-/    fadeSpeed: (if fade = true) how long should the lightbox take to fade in and out
-/    removeDelay: delay before lightbox is removed from display - time starts after fade is complete
-/
-/functions:
-/    initialize(lightbox: the ID of the lightbox, options) 
-/    trigger: used to show or hide the lightbox layer
-/    fadeLightbox: this will begin the lightbox fade
-/    removeLightbox: removes lightbox from display
-/
-/events:
-/    onShow: fires immediately after lightbox is added to display and fades in
-/    onHide: fires immediately after a trigger() call when lightbox is already displayed
-/    onRemove: fired when lightbox has been removed from display
-/
-/
-****************************************************************************************/
 var LightBox = new Class({
 	Implements: [Options,Events],
 	options: {
@@ -72,6 +61,11 @@ var LightBox = new Class({
 		onRemove: $empty
 		*/
 	},
+	/**
+	  * @constructor
+	  * @param {string} 	lightbox 		the ID of the lightbox
+	  * @param {string[]} 	options 		passed in options
+	  */
 	initialize: function(lightbox, options) {
 		this.setOptions(options);
 		//make sure the delay for removing the lightbox takes at least as long as the fade
@@ -95,6 +89,9 @@ var LightBox = new Class({
 		this.content = $$('.'+lightbox+'Content');
 		
 	},
+	/**
+	  * @function used to show or hide the lightbox layer
+	  */
 	trigger: function() { 
 		if(this.hidden) {
 			//show lightbox and content blocks
@@ -113,6 +110,9 @@ var LightBox = new Class({
 			this.fireEvent('hide');
 		}
 	},
+	/**
+	  * @function this will begin the lightbox fade
+	  */
 	fadeLightbox: function() {
 		if(this.options.fade) {
 			//fade out lightbox
@@ -121,6 +121,9 @@ var LightBox = new Class({
 		}
 		this.removeLightbox.delay(this.options.removeDelay,this);
 	},
+	/**
+	  * @function removeLightbox: removes lightbox from display
+	  */
 	removeLightbox: function() {
 		//hide lightbox and content
 		this.content.setStyle('display','none');

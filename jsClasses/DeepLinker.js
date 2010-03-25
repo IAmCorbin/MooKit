@@ -1,28 +1,31 @@
 /**
- * A Class to enable Deep Linking and page caching in an AJAX Application
- * March 23, 2010
- *
+ * @class A Class to enable Deep Linking and page caching in an AJAX Application
  * @author Corbin Tarrant
  *  ___            ___         __ 
  *    |   /\  |\/| |       __   |_/  |__   -   _
  *  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |
  * 
- * @link http://www.IAmCorbin.net
+ * {@link http://www.IAmCorbin.net }
  * @version 1
- *
+ * March 23, 2010
  * @package MooKit
  * 
  * @requires MooTools 1.2
- * @link http://mootools.net/
+ * {@link http://mootools.net/}
+ *
+ * @property 	{element}	container 			The deep linking container
+ * @property	{Hash[]}		cache				Hash array of cached page content
+ * @property	{int}		hashMonitor			The periodical ID of the hashMonitor ( to use for clearing later )
+ * @property	{string}		lastHash				the last hash checked
+ * @property 	{int} 		options.time 			Duration between hash checks (in ms)
+ * @property 	{string[]} 	options.cache 			Preload the cache with hash objects containing page data
+ * @property 	{bool} 		options.cookies 		Switch cookies on/off
+ * @property 	{int} 		options.cookieLife 		Cookie life in days
+* @property 	{bool} 		options.DEBUG 		Switch debug messages on/off
+* @property 	{$empty}	options.onUpdate 		Event fires when hash has been changed and is not cached, user should pass in a function that will execute container.load with different content for different hashes
  */
 var DeepLinker = new Class({
 	Implements: [Options,Events],
-	/** 
-	  * @var int options.time 		duration between hash checks (in ms) 
-	  * @var array options.cache 	preload the cache with hash objects containing page data
-	  * @var bool options.cookies 	switch using cookies on/off
-	  * @var bool options.DEBUG 	switch debug messages on/off
-	  */
 	options: {
 		time: 1000,
 		cache: [],
@@ -31,13 +34,10 @@ var DeepLinker = new Class({
 		DEBUG: false
 		/*
 		onUpdate: $empty
-		onComplete: $empty
 		*/
-	/** Constructor 
-	 *@var this.hashMonitor 		ID of the periodical checkHash function to use for clearing later
-	 *@var string this.lastHash 	the last hash checked
-	 *@var array this.cache 		array of hashes containing cached page data
-	 */
+	/** 
+	  * @constructor
+	  */
 	},initialize: function(container, options) {
 		//set deep linking container
 		this.container = $(container);
@@ -47,7 +47,9 @@ var DeepLinker = new Class({
 		this.lastCache = null;
 		//start monitoring hash
 		this.hashMonitor = (function() { this.checkHash(); }.bind(this)).periodical(this.options.time);
-	/** check the current hash */
+	/** 
+	  * @function check the current hash 
+	  */
 	},checkHash : function() { 
 		if(window.location.hash !== this.lastHash) {
 			this.debug("|------  HASH CHANGED  :"+window.location.hash+":------|");
@@ -96,7 +98,13 @@ var DeepLinker = new Class({
 		
 		//set the current hash to last hash for next check
 		this.lastHash =  window.location.hash;
+	/** 
+	  * @function debugging function
+	  */
 	},debug: function(input) { if(this.options.DEBUG && window.console) console.log(input); 
+	/** 
+	  * @function save the current content to appropriate cache
+	  */
 	},saveCache: function() { 
 		//do not cache secure content
 		if(!$('LOGGEDIN')) {

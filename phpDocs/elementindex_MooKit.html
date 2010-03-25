@@ -36,6 +36,12 @@
 		</a><br>
 			<a href="MooKit/_Filters.php.html">		Filters.php
 		</a><br>
+			<a href="MooKit/_htmLawed1.1.9.1.php.html">		htmLawed1.1.9.1.php
+		</a><br>
+			<a href="MooKit/_Post.php.html">		Post.php
+		</a><br>
+			<a href="MooKit/_Security.php.html">		Security.php
+		</a><br>
 			<a href="MooKit/_Template.php.html">		Template.php
 		</a><br>
 			<a href="MooKit/_User.php.html">		User.php
@@ -48,6 +54,10 @@
 								<a href="MooKit/DatabaseConnection.html">		DatabaseConnection
 		</a><br>
 			<a href="MooKit/Filters.html">		Filters
+		</a><br>
+			<a href="MooKit/Post.html">		Post
+		</a><br>
+			<a href="MooKit/Security.html">		Security
 		</a><br>
 			<a href="MooKit/Template.html">		Template
 		</a><br>
@@ -67,11 +77,13 @@
 	<a href="elementindex_MooKit.html#f">f</a>
 	<a href="elementindex_MooKit.html#g">g</a>
 	<a href="elementindex_MooKit.html#h">h</a>
+	<a href="elementindex_MooKit.html#k">k</a>
 	<a href="elementindex_MooKit.html#m">m</a>
 	<a href="elementindex_MooKit.html#n">n</a>
 	<a href="elementindex_MooKit.html#p">p</a>
 	<a href="elementindex_MooKit.html#q">q</a>
 	<a href="elementindex_MooKit.html#r">r</a>
+	<a href="elementindex_MooKit.html#s">s</a>
 	<a href="elementindex_MooKit.html#t">t</a>
 	<a href="elementindex_MooKit.html#u">u</a>
 	<a href="elementindex_MooKit.html#v">v</a>
@@ -83,13 +95,25 @@
 		<h2>_</h2>
 		<dl class="lettercontents">
 							<dt>__construct</dt>
+				<dd>in file Template.php, method <a href="MooKit/Template.html#method__construct">Template::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor</dd>
+							<dt>__construct</dt>
+				<dd>in file User.php, method <a href="MooKit/User.html#method__construct">User::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor</dd>
+							<dt>__construct</dt>
+				<dd>in file Database.php, method <a href="MooKit/DatabaseConnection.html#method__construct">DatabaseConnection::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor - Create persistent mysqli database object</dd>
+							<dt>__construct</dt>
+				<dd>in file Security.php, method <a href="MooKit/Security.html#method__construct">Security::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;check for secure session</dd>
+							<dt>__construct</dt>
 				<dd>in file Filters.php, method <a href="MooKit/Filters.html#method__construct">Filters::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor</dd>
 							<dt>__construct</dt>
-				<dd>in file Database.php, method <a href="MooKit/DatabaseConnection.html#method__construct">DatabaseConnection::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor - makes $_SESSION['DB'] a reference to this DatabaseConnection object and connects to database</dd>
+				<dd>in file Post.php, method <a href="MooKit/Post.html#method__construct">Post::__construct()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor</dd>
 							<dt>__get</dt>
 				<dd>in file Template.php, method <a href="MooKit/Template.html#method__get">Template::__get()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Magic PHP __get</dd>
+							<dt>__get</dt>
+				<dd>in file Post.php, method <a href="MooKit/Post.html#method__get">Post::__get()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Magic PHP __get</dd>
 							<dt>__set</dt>
 				<dd>in file Template.php, method <a href="MooKit/Template.html#method__set">Template::__set()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Magic PHP __set</dd>
+							<dt>__set</dt>
+				<dd>in file Post.php, method <a href="MooKit/Post.html#method__set">Post::__set()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Magic PHP __set</dd>
 							<dt>__toString</dt>
 				<dd>in file Template.php, method <a href="MooKit/Template.html#method__toString">Template::__toString()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Magic PHP __toString</dd>
 					</dl>
@@ -112,12 +136,16 @@
 		<dl class="lettercontents">
 							<dt>$CONNECTED</dt>
 				<dd>in file Database.php, variable <a href="MooKit/DatabaseConnection.html#var$CONNECTED">DatabaseConnection::$CONNECTED</a></dd>
-							<dt>$connection</dt>
-				<dd>in file Database.php, variable <a href="MooKit/DatabaseConnection.html#var$connection">DatabaseConnection::$connection</a></dd>
+							<dt>$createTime</dt>
+				<dd>in file Post.php, variable <a href="MooKit/Post.html#var$createTime">Post::$createTime</a></dd>
+							<dt>check</dt>
+				<dd>in file Security.php, method <a href="MooKit/Security.html#methodcheck">Security::check()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Return Security Status</dd>
+							<dt>checkIP</dt>
+				<dd>in file Security.php, method <a href="MooKit/Security.html#methodcheckIP">Security::checkIP()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Validate IP</dd>
+							<dt>checkUser</dt>
+				<dd>in file Security.php, method <a href="MooKit/Security.html#methodcheckUser">Security::checkUser()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Validate User</dd>
 							<dt>cleanUp</dt>
 				<dd>in file Database.php, method <a href="MooKit/DatabaseConnection.html#methodcleanUp">DatabaseConnection::cleanUp()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Closes this connection</dd>
-							<dt>connect</dt>
-				<dd>in file Database.php, method <a href="MooKit/DatabaseConnection.html#methodconnect">DatabaseConnection::connect()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Connect to the database or throw an error</dd>
 					</dl>
 	</div>
 	<a name="d"></a>
@@ -125,6 +153,8 @@
 	<div>
 		<h2>d</h2>
 		<dl class="lettercontents">
+							<dt>$DB</dt>
+				<dd>in file User.php, variable <a href="MooKit/User.html#var$DB">User::$DB</a></dd>
 							<dt>$db</dt>
 				<dd>in file Database.php, variable <a href="MooKit/DatabaseConnection.html#var$db">DatabaseConnection::$db</a></dd>
 							<dt>Database.php</dt>
@@ -132,7 +162,7 @@
 							<dt>DatabaseConnection</dt>
 				<dd>in file Database.php, class <a href="MooKit/DatabaseConnection.html">DatabaseConnection</a><br>&nbsp;&nbsp;&nbsp;&nbsp;class DatabaseConnection</dd>
 							<dt>displayResults</dt>
-				<dd>in file Database.php, method <a href="MooKit/DatabaseConnection.html#methoddisplayResults">DatabaseConnection::displayResults()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Outputs a mysql result set to the page</dd>
+				<dd>in file Database.php, method <a href="MooKit/DatabaseConnection.html#methoddisplayResults">DatabaseConnection::displayResults()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Outputs a mysql result set in a styled box</dd>
 					</dl>
 	</div>
 	<a name="e"></a>
@@ -140,6 +170,8 @@
 	<div>
 		<h2>e</h2>
 		<dl class="lettercontents">
+							<dt>$error</dt>
+				<dd>in file Post.php, variable <a href="MooKit/Post.html#var$error">Post::$error</a></dd>
 							<dt>$errors</dt>
 				<dd>in file Filters.php, variable <a href="MooKit/Filters.html#var$errors">Filters::$errors</a></dd>
 							<dt>email</dt>
@@ -148,6 +180,8 @@
 				<dd>in file User.php, method <a href="MooKit/User.html#methodencryptPassword">User::encryptPassword()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Encrypt a password</dd>
 							<dt>ERRORS</dt>
 				<dd>in file Filters.php, method <a href="MooKit/Filters.html#methodERRORS">Filters::ERRORS()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;ERRORS</dd>
+							<dt>errorStatus</dt>
+				<dd>in file Post.php, method <a href="MooKit/Post.html#methoderrorStatus">Post::errorStatus()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Return the error status of the post</dd>
 							<dt>extract</dt>
 				<dd>in file Template.php, method <a href="MooKit/Template.html#methodextract">Template::extract()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;take an array of (key=&gt;value) and set to $this-&gt;vars</dd>
 					</dl>
@@ -170,6 +204,8 @@
 		<dl class="lettercontents">
 							<dt>$gzip</dt>
 				<dd>in file Template.php, variable <a href="MooKit/Template.html#var$gzip">Template::$gzip</a></dd>
+							<dt>getLink</dt>
+				<dd>in file Database.php, method <a href="MooKit/DatabaseConnection.html#methodgetLink">DatabaseConnection::getLink()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Return this connection link</dd>
 					</dl>
 	</div>
 	<a name="h"></a>
@@ -179,6 +215,49 @@
 		<dl class="lettercontents">
 							<dt>$host</dt>
 				<dd>in file Database.php, variable <a href="MooKit/DatabaseConnection.html#var$host">DatabaseConnection::$host</a></dd>
+							<dt>$html</dt>
+				<dd>in file Post.php, variable <a href="MooKit/Post.html#var$html">Post::$html</a></dd>
+							<dt>$htmLawedConfig</dt>
+				<dd>in file Filters.php, variable <a href="MooKit/Filters.html#var$htmLawedConfig">Filters::$htmLawedConfig</a></dd>
+							<dt>hl_attrval</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_attrval">hl_attrval()</a></dd>
+							<dt>hl_bal</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_bal">hl_bal()</a></dd>
+							<dt>hl_cmtcd</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_cmtcd">hl_cmtcd()</a></dd>
+							<dt>hl_ent</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_ent">hl_ent()</a></dd>
+							<dt>hl_prot</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_prot">hl_prot()</a></dd>
+							<dt>hl_regex</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_regex">hl_regex()</a></dd>
+							<dt>hl_spec</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_spec">hl_spec()</a></dd>
+							<dt>hl_tag</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_tag">hl_tag()</a></dd>
+							<dt>hl_tag2</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_tag2">hl_tag2()</a></dd>
+							<dt>hl_tidy</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_tidy">hl_tidy()</a></dd>
+							<dt>hl_version</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhl_version">hl_version()</a></dd>
+							<dt>htmLawed</dt>
+				<dd>in file Filters.php, method <a href="MooKit/Filters.html#methodhtmLawed">Filters::htmLawed()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Filter input with htmLawed</dd>
+							<dt>htmLawed</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionhtmLawed">htmLawed()</a></dd>
+							<dt>htmLawed1.1.9.1.php</dt>
+				<dd>procedural page <a href="MooKit/_htmLawed1.1.9.1.php.html">htmLawed1.1.9.1.php</a></dd>
+					</dl>
+	</div>
+	<a name="k"></a>
+	<a href="elementindex_MooKit.html#top">top</a><br>
+	<div>
+		<h2>k</h2>
+		<dl class="lettercontents">
+							<dt>kses</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionkses">kses()</a></dd>
+							<dt>kses_hook</dt>
+				<dd>in file htmLawed1.1.9.1.php, function <a href="MooKit/_htmLawed1.1.9.1.php.html#functionkses_hook">kses_hook()</a></dd>
 					</dl>
 	</div>
 	<a name="m"></a>
@@ -186,6 +265,10 @@
 	<div>
 		<h2>m</h2>
 		<dl class="lettercontents">
+							<dt>$modTime</dt>
+				<dd>in file Post.php, variable <a href="MooKit/Post.html#var$modTime">Post::$modTime</a></dd>
+							<dt>$mysqli</dt>
+				<dd>in file Database.php, variable <a href="MooKit/DatabaseConnection.html#var$mysqli">DatabaseConnection::$mysqli</a></dd>
 							<dt>mergevars</dt>
 				<dd>in file Template.php, method <a href="MooKit/Template.html#methodmergevars">Template::mergevars()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Merge a parent template's variables to this template's scope</dd>
 					</dl>
@@ -214,6 +297,10 @@
 				<dd>in file Template.php, method <a href="MooKit/Template.html#methodparent">Template::parent()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;set a parent template</dd>
 							<dt>path</dt>
 				<dd>in file Template.php, method <a href="MooKit/Template.html#methodpath">Template::path()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Set the path to the template</dd>
+							<dt>Post</dt>
+				<dd>in file Post.php, class <a href="MooKit/Post.html">Post</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Post Class</dd>
+							<dt>Post.php</dt>
+				<dd>procedural page <a href="MooKit/_Post.php.html">Post.php</a></dd>
 					</dl>
 	</div>
 	<a name="q"></a>
@@ -238,13 +325,26 @@
 				<dd>in file Template.php, method <a href="MooKit/Template.html#methodrun">Template::run()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The Main Event</dd>
 					</dl>
 	</div>
+	<a name="s"></a>
+	<a href="elementindex_MooKit.html#top">top</a><br>
+	<div>
+		<h2>s</h2>
+		<dl class="lettercontents">
+							<dt>$status</dt>
+				<dd>in file Security.php, variable <a href="MooKit/Security.html#var$status">Security::$status</a></dd>
+							<dt>Security</dt>
+				<dd>in file Security.php, class <a href="MooKit/Security.html">Security</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Security Class</dd>
+							<dt>Security.php</dt>
+				<dd>procedural page <a href="MooKit/_Security.php.html">Security.php</a></dd>
+					</dl>
+	</div>
 	<a name="t"></a>
 	<a href="elementindex_MooKit.html#top">top</a><br>
 	<div>
 		<h2>t</h2>
 		<dl class="lettercontents">
-							<dt>Template</dt>
-				<dd>in file Template.php, method <a href="MooKit/Template.html#methodTemplate">Template::Template()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Constructor</dd>
+							<dt>$title</dt>
+				<dd>in file Post.php, variable <a href="MooKit/Post.html#var$title">Post::$title</a></dd>
 							<dt>Template</dt>
 				<dd>in file Template.php, class <a href="MooKit/Template.html">Template</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A very simple PHP Template Class</dd>
 							<dt>Template.php</dt>
@@ -279,7 +379,7 @@
 	</div>
 	<div id="credit">
 		<hr>
-		Documentation generated on Sat, 06 Mar 2010 04:52:43 -0500 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		Documentation generated on Wed, 24 Mar 2010 22:30:49 -0400 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	</div>
 </div>
 </body>
