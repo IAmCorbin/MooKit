@@ -14,6 +14,11 @@ CREATE TABLE `users` (
 	INDEX(nameLast,nameFirst)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `tags` (
+	tag_id INT(5) UNSIGNED AUTO_INCREMENT NOT NULL,
+	tag_name VARCHAR(255) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 CREATE TABLE `posts` (
 	post_id INT(10) UNSIGNED AUTO_INCREMENT NOT NULL,
 	user_id INT(7) UNSIGNED NULL,
@@ -21,7 +26,6 @@ CREATE TABLE `posts` (
 	html TEXT NULL,
 	createTime DATETIME NOT NULL,
 	modTime DATETIME NULL,
-	INDEX (title),
 	PRIMARY KEY (post_id),
 	INDEX (title),
 	INDEX(createTime),

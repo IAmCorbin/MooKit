@@ -15,9 +15,9 @@ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Mai
 	var $title;
 	/** @var string $html html for this post */
 	var $html;
-	/** @var string $dateTime date and time post was created */
+	/** @var date $dateTime date and time post was created */
 	var $createTime;
-	/** @var string $dateTime date and time post was last modified */
+	/** @var date $dateTime date and time post was last modified */
 	var $modTime;
 	/** @var string $error status */
 	var $error = NULL;	

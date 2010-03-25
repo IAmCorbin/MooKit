@@ -34,9 +34,9 @@ var DeepLinker = new Class({
 		onComplete: $empty
 		*/
 	/** Constructor 
-	 *@var this.hashMonitor 	ID of the periodical checkHash function to use for clearing later
-	 *@var this.lastHash 	the last hash checked
-	 *@var this.cache 		array of hashes containing cached page data
+	 *@var this.hashMonitor 		ID of the periodical checkHash function to use for clearing later
+	 *@var string this.lastHash 	the last hash checked
+	 *@var array this.cache 		array of hashes containing cached page data
 	 */
 	},initialize: function(container, options) {
 		//set deep linking container
