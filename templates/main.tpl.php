@@ -8,10 +8,10 @@
 	<link rel="stylesheet" type="text/css" href="style/style.php" />
 	<? foreach($styles as $style) echo $style."\n\t"; ?>
 
-	<script type="text/javascript" src="js/mootools-1.2.4-core-yc.js"></script>
-	<script type="text/javascript" src="js/mootools-1.2.4.4-more.js"></script>
-	<script type="text/javascript" src="jsClasses/LightBox.js"></script>
-	<script type="text/javascript" src="jsClasses/DeepLinker.js"></script>
+	<script type="text/javascript" src="Classes/js/mootools-1.2.4-core-yc.js"></script>
+	<script type="text/javascript" src="Classes/js/mootools-1.2.4.4-more.js"></script>
+	<script type="text/javascript" src="Classes/js/LightBox.js"></script>
+	<script type="text/javascript" src="Classes/js/DeepLinker.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<? foreach($scripts as $script) echo $script."\n\t"; ?>
 	
@@ -28,7 +28,7 @@
 		<?= $contentTpl // CONTENT // ?>
 	</div>
 	
-	<?= $debugTpl  // DEBUG AREA // ?>
+	<div id="debugBox"></div>
 	
 <!-- CODE VALIDATION BADGES -->
 <p id="w3_validated">

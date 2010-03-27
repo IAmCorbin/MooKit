@@ -5,3 +5,5 @@
 #secureContent { width: 90%; height: 90%; background: #cef9e8; border: #87a1b0 solid 3px; padding: 10px; overflow: auto;}
 
 #postArea { margin: 10px; border: solid #DDD 10px; } 
+
+.userData { background: #066; color: #400; font-size: 15px; padding: 10px; margin: 5px; line-height: 40px;}

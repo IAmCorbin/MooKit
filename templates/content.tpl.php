@@ -1,9 +1,7 @@
 <?php 
-require_once('../php/includes.php'); 
-
-$DB = new DatabaseConnection(null, null, null, null, FALSE); //create a dummy DatabaseConnection object so we can use the displayResults function
-
+require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/php/includes.php'; INIT(false);
 ?>
+
 <?= $userIP ?>
 	<!-- CONTENT AREA -->
 		<? if($_SESSION['auth'] == 1) { ?>
@@ -13,7 +11,10 @@ $DB = new DatabaseConnection(null, null, null, null, FALSE); //create a dummy Da
 				<span id="logout" class="button">LOGOUT</span>
 			</div>
 			<div id="secureContent">
-				<? $DB->displayResults($userInfo); ?><br /><!-- display a formatted table of the cooresponding user data -->
+				<? 
+				foreach($userInfo as $field=>$value) {
+					echo '<span class="userData">'.$field."--".$value."</span>";
+				}?><br /><!-- display user data -->
 				
 				<?= $cssTpl ?>
 				

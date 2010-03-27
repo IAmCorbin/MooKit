@@ -1,8 +1,8 @@
 <?
 function getAuthContent($secure=TRUE) {
-	require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php'; INIT($secure);
+	require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/php/includes.php'; INIT($secure);
 	
-	$contentTpl = new Template('../templates/content.tpl.php');
+	$contentTpl = new Template('templates/content.tpl.php');
 	
 	$DB = new DatabaseConnection;
 	
@@ -12,7 +12,7 @@ function getAuthContent($secure=TRUE) {
 		
 		//$contentTpl->userInfo = null;
 		//$contentTpl->cssTpl = null;
-		$contentTpl->postTpl = new Template('../templates/post.tpl.php');
+		$contentTpl->postTpl = new Template('templates/post.tpl.php');
 		//display most recent post
 		$post = $DB->query("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;","object");
 		$contentTpl->postTpl->posts = $post;
@@ -20,7 +20,7 @@ function getAuthContent($secure=TRUE) {
 		
 	} else { //Authorized
 		//Navigation
-		$contentTpl->navTpl = new Template('../templates/nav.tpl.php');
+		$contentTpl->navTpl = new Template('templates/nav.tpl.php');
 		$contentTpl->navTpl->links = array(	array('href'=>'',
 										'name'=>'testing',
 										'ajax'=>'authAjaxLink',
@@ -40,11 +40,12 @@ function getAuthContent($secure=TRUE) {
 															'ajax'=>'authAjaxLink',
 															'name'=>'Test3secure'))));
 		//User Info Table
-		$contentTpl->userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","mysql");
+		$userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","assoc");
+		$contentTpl->userInfo = $userInfo[0];
 		//userCSS
-		$contentTpl->cssTpl = new Template('../templates/userCSS.tpl.php');
+		$contentTpl->cssTpl = new Template('templates/userCSS.tpl.php');
 		//Post
-		$contentTpl->postEditTpl = new Template('../templates/postEdit.tpl.php');
+		$contentTpl->postEditTpl = new Template('templates/postEdit.tpl.php');
 			$post = $DB->query("SELECT `post_id`,`title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 1;","object");
 			$contentTpl->postEditTpl->postID = $post[0]->post_id;
 			$contentTpl->postEditTpl->postTitle = $post[0]->title;

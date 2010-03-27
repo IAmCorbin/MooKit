@@ -4,25 +4,26 @@
  *@param bool $secure
  */
 function INIT($secure=TRUE) {
-	//change directory
-	chdir($_SERVER['DOCUMENT_ROOT'].'/MooKit/phpClasses');
-
+	//GLOBAL DEFINITIONS
 	define('DEBUG', false); //DEBUG FLAG
 	define('INSITE',true); //EXTRA SCRIPT SECURITY, disallow direct script access
-	
+	//change directory
+	chdir($_SERVER['DOCUMENT_ROOT'].'/MooKit');
 	//Classes
-	require_once 'htmLawed1.1.9.1.php';
-	require_once 'Security.php';
-	require_once  'Filters.php';
-	require_once  'Database.php';
-	require_once  'Template.php';
-	require_once  'User.php';
-	require_once 'Post.php';
+	require_once 'Classes/php/htmLawed1.1.9.1.php';
+	require_once 'Classes/php/Security.php';
+	require_once  'Classes/php/Filters.php';
+	require_once  'Classes/php/Database.php';
+	require_once  'Classes/php/Template.php';
+	require_once  'Classes/php/User.php';
+	require_once 'Classes/php/Post.php';
 	//Functions
-	require_once '../php/auth.php';
-	require_once '../php/functions.php';
+	require_once 'php/auth.php';
+	require_once 'php/functions.php';
 	session_start();
 	session_regenerate_id();	
+	
+	$_SESSION['SYSNAME'] = 'MooKit';
 	
 		if($secure) {
 			//Security Check
