@@ -1,5 +1,5 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---  MooKit V 0.7																							--
+--  MooKit V 0.1	Alpha																					--
 --  																									--
 --  My Object Oriented Toolkit																				--
 --  																									--
@@ -36,6 +36,17 @@ Goals:
 																							--
          ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 
+To Do:
+  -Navigation System needs to draw from database populated `links` table (Extra: Allow for user specified animations)
+  -Admin Code Area ( look at editarea_0_8_2 code )
+  -WYSYWG style(xhtml strict generation)  post editing
+  -Analyze phpmysqlautobackup and integrate similar system for backing up entire site and mysql database automatically
+  -bitwise permissions for pages
+  -Email class - New Account Validation Extension
+  -Create general documentation
+  
+Debug:
+  -Further test for any XSS or SQL injection vunerabilities
 
 -----------
 | Files |

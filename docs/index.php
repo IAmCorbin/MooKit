@@ -3,6 +3,12 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	
+	<link rel="stylesheet" type="text/css" href="styles/stylesheet.css" />
+	
+	<script type="text/javascript" src="scripts/mootools-1.2.1-core.js"></script>
+	<script type="text/javascript" src="scripts/mootools-1.2-more.js"></script>
+	<script type="text/javascript" src="scripts/ImageZoom.js"></script>
+	
 	<title>MooKit Documentation</title>
 	<style type="text/css">
 		* { margin: 0; text-align: center; }
@@ -15,9 +21,16 @@
 	</style>
 </head>
 <body>
-	Here is an overall diagram of the MooKit
-	<div id="DIA"> <!-- TODO : Take Screenshots in sections to provide a more detailed image of diagram -->
-		<a href="MooKit.dia"><img src="MooKit.dia.png" alt="MooKit DIA Diagram" /></a>
+	
+	<div id="container">
+		<h1>Here is an overall diagram of the MooKit created with Dia</h1>
+		<!-- Image zoom start -->
+		<div id="zoomer_big_container"></div>	
+		<div id="zoomer_thumb">
+			<a href="MooKit.big.png" target="_blank"><img src="MooKit.small.png" width="20%" height="20%" /></a>
+		</div>
+		<!-- Image zoom end -->
+		<p id="report"> Move the grey rectangle on the thumbnail to see the zoomed area. You can also drag the "big" image and see the region zoomed getting updated on the thumbnail.</p>
 	</div>
 	<div id="phpDoc">
 		PHP Documentation
