@@ -10,16 +10,16 @@ function INIT($secure=TRUE) {
 	//change directory
 	chdir($_SERVER['DOCUMENT_ROOT'].'/MooKit');
 	//Classes
-	require_once 'Classes/php/htmLawed1.1.9.1.php';
-	require_once 'Classes/php/Security.php';
-	require_once  'Classes/php/Filters.php';
-	require_once  'Classes/php/Database.php';
-	require_once  'Classes/php/Template.php';
-	require_once  'Classes/php/User.php';
-	require_once 'Classes/php/Post.php';
+	require_once 'CodeCore/Classes/php/htmLawed1.1.9.1.php';
+	require_once 'CodeCore/Classes/php/Security.php';
+	require_once  'CodeCore/Classes/php/Filters.php';
+	require_once  'CodeCore/Classes/php/Database.php';
+	require_once  'CodeCore/Classes/php/Template.php';
+	require_once  'CodeCore/Classes/php/User.php';
+	require_once 'CodeCore/Classes/php/Post.php';
 	//Functions
-	require_once 'php/auth.php';
-	require_once 'php/functions.php';
+	require_once 'CodeCore/php/auth.php';
+	require_once 'CodeCore/php/functions.php';
 	session_start();
 	session_regenerate_id();	
 	

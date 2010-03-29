@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php'; INIT();
+require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/CodeCore/php/includes.php'; INIT();
 //open connection	
 $DB = new DatabaseConnection;
 //get post and echo the json return

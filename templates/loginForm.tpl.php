@@ -6,7 +6,7 @@
 		<div id="loginOpen"></div>
 		<div id="login"></div>
 		<div class="loginContent curved"><div id="loginClose" class="curved button">X</div>
-			<form id="loginForm" method="post" action="php/login.php">
+			<form id="loginForm" method="post" action="CodeCore/php/login.php">
 				<div>
 					<div><label>Username:<input class="required msgPos:'loginUserError'" name="user" id="loginUser" type="text" size="25" /></label><div class="formError" id="loginUserError"></div></div>
 					<div><label>Password:<input class="required  msgPos:'loginPassError'" name="pass" id="loginPass" type="password" size="25" /></label><div class="formError" id="loginPassError"></div></div>

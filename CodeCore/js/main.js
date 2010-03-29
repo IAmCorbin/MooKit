@@ -9,15 +9,15 @@ window.addEvent('domready', function() {
 				onUpdate: function() {
 					switch(window.location.hash) {
 						case "#test1":
-							this.container.load('php/test1.php');
+							this.container.load('CodeCore/php/test1.php');
 							document.title="MooKit Version 1 - test1";
 							break;
 						case "#test2":
-							this.container.load('php/test2.php');
+							this.container.load('CodeCore/php/test2.php');
 							document.title="MooKit Version 1 - test2";
 							break;
 						case "#test3":
-							this.container.load('php/test3.php');
+							this.container.load('CodeCore/php/test3.php');
 							document.title="MooKit Version 1 - test3";
 							break;
 						case "#secret":

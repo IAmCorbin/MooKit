@@ -1,5 +1,5 @@
 <?php 
-require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php'; INIT(false);
+require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/CodeCore/php/includes.php'; INIT(false);
 
 
 

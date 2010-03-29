@@ -1,6 +1,6 @@
 <?
 function getAuthContent($secure=TRUE) {
-	require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/php/includes.php'; INIT($secure);
+	require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php'; INIT($secure);
 	
 	$contentTpl = new Template('templates/content.tpl.php');
 	
@@ -30,13 +30,13 @@ function getAuthContent($secure=TRUE) {
 									array('href'=>'',
 										'name'=>'Testing Secure Ajax Links',
 										'ajax'=>'authAjaxLink',
-										'sublinks'=>array(	array('href'=>'php/test1.php',
+										'sublinks'=>array(	array('href'=>'CodeCore/php/test1.php',
 															'ajax'=>'authAjaxLink',
 															'name'=>'test1secure'),
-														array('href'=>'php/test2.php',
+														array('href'=>'CodeCore/php/test2.php',
 															'ajax'=>'authAjaxLink',
 															'name'=>'Test2secure'),
-														array('href'=>'php/test3.php',
+														array('href'=>'CodeCore/php/test3.php',
 															'ajax'=>'authAjaxLink',
 															'name'=>'Test3secure'))));
 		//User Info Table

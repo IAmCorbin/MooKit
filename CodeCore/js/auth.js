@@ -18,7 +18,7 @@ window.addEvent('domready', function() {
 	$('logout').addEvent('click',function(e) {
 		new Request({
 			method: 'post',
-			url: 'php/logout.php',
+			url: 'CodeCore/php/logout.php',
 			onSuccess: function() {
 				//remove all auth content from page
 				$$('.secureArea').set('tween',{duration:'long'}).fade('0');

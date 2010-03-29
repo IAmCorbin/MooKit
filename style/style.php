@@ -50,4 +50,5 @@ body { background-image : url('../img/back.jpg'); }
 /* OTHER */
 	#w3_validated { position: absolute; bottom: 10px; right: 10px; }
 	#debugBox { width: 80%; height: 10px; position:fixed !important; position: absolute; /*ie6 and above*/ bottom: 0px; left: 10%; background: #FFF; border: solid #000 4px; border-bottom: none; overflow: auto;}
+	.break { width: 100%; border-bottom: 3px solid #000; margin: 15px 0 15px 0; }
 /* END OTHER */

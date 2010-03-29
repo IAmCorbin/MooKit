@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/php/includes.php'; INIT(false);
+require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php'; INIT(false);
 
 //create a new database connection
 $DB = new DatabaseConnection;
@@ -10,14 +10,14 @@ $main->title = "MooKit Version 1"; 	//set title
 
 //set public JavaScripts
 $scripts = array();
-$scripts[] =  '<script type="text/javascript" src="js/debug.js"></script>'; //debug area
-$scripts[] = '<script type="text/javascript" src="js/login.js"></script>'; //login form
-$scripts[] = '<script type="text/javascript" src="js/signup.js"></script>'; //signup form
+$scripts[] =  '<script type="text/javascript" src="CodeCore/js/debug.js"></script>'; //debug area
+$scripts[] = '<script type="text/javascript" src="CodeCore/js/login.js"></script>'; //login form
+$scripts[] = '<script type="text/javascript" src="CodeCore/js/signup.js"></script>'; //signup form
 //set authenticated JavaScripts
 if($_SESSION['auth'] === 1) {
-	$scripts[] =  '<script type="text/javascript" id="JSauth" src="js/auth.js"></script>'; //post
-	$scripts[] =  '<script type="text/javascript" id="JSpostEdit" src="js/postEdit.js"></script>'; //post
-	$scripts[] =  '<script type="text/javascript" id="JSuserCSS" src="js/userCSS.js"></script>'; //post
+	$scripts[] =  '<script type="text/javascript" id="JSauth" src="CodeCore/js/auth.js"></script>'; //post
+	$scripts[] =  '<script type="text/javascript" id="JSpostEdit" src="CodeCore/js/postEdit.js"></script>'; //post
+	$scripts[] =  '<script type="text/javascript" id="JSuserCSS" src="CodeCore/js/userCSS.js"></script>'; //post
 }
 $main->scripts = $scripts;
 
