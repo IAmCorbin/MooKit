@@ -1,44 +1,24 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php'; INIT(false);
 
-//create a new database connection
-$DB = new DatabaseConnection;
+//Create new application
+$Demo = new MooKit;
 
-//grab main template
-$main = new Template('templates/main.tpl.php',false,true);
-$main->title = "MooKit Version 1"; 	//set title
+//set title
+$Demo->main->title = "Demo MooKit Version 0.7 Application"; 	
 
 //set public JavaScripts
-$scripts = array();
-$scripts[] =  '<script type="text/javascript" src="CodeCore/js/debug.js"></script>'; //debug area
-$scripts[] = '<script type="text/javascript" src="CodeCore/js/login.js"></script>'; //login form
-$scripts[] = '<script type="text/javascript" src="CodeCore/js/signup.js"></script>'; //signup form
+$Demo->addScript('CodeCore/js/login.js');
+$Demo->addScript('CodeCore/js/signup.js');
 //set authenticated JavaScripts
-if($_SESSION['auth'] === 1) {
-	$scripts[] =  '<script type="text/javascript" id="JSauth" src="CodeCore/js/auth.js"></script>'; //post
-	$scripts[] =  '<script type="text/javascript" id="JSpostEdit" src="CodeCore/js/postEdit.js"></script>'; //post
-	$scripts[] =  '<script type="text/javascript" id="JSuserCSS" src="CodeCore/js/userCSS.js"></script>'; //post
-}
-$main->scripts = $scripts;
-
-//set Styles
-$styles = array();
-$styles[] = '<link rel="stylesheet" type="text/css" href="style/nav.css.php" />';
-$styles[] = '<link rel="stylesheet" type="text/css" href="style/loginForm.css.php" />';
-$styles[] = '<link rel="stylesheet" type="text/css" href="style/signupForm.css.php" />';
-$styles[] = '<link rel="stylesheet" type="text/css" href="style/content.css.php" />';
-$styles[] = '<link rel="stylesheet" type="text/css" href="style/post.css.php" />';
-$styles[] = '<link rel="stylesheet" type="text/css" href="style/debug.css.php" />';
-if($_SESSION['auth'] === 1) {
-	$styles[] = '<link rel="stylesheet" type="text/css" href="style/postEdit.css.php" />';
-}
-
-$main->styles = $styles;
+	$Demo->addScript('CodeCore/js/auth.js','secure');
+	$Demo->addScript('CodeCore/js/postEdit.js','secure');
+	$Demo->addScript('CodeCore/js/userCSS.js','secure');
 
 //grab sub templates
-$main->navTpl = new Template('templates/nav.tpl.php');
+$Demo->main->navTpl = new Template('templates/nav.tpl.php');
 	//links
-	$main->navTpl->links = array( array('href'=>'http://www.iamcorbin.net',
+	$Demo->main->navTpl->links = array( array('href'=>'http://www.iamcorbin.net',
 								'name'=>'IAmCorbin.net',
 								'sublinks'=>array(array('href'=>'http://www.iamcorbin.net/?intro=1',
 										    'name'=>'Skip Intro'),
@@ -64,19 +44,16 @@ $main->navTpl = new Template('templates/nav.tpl.php');
 					);
 
 //Login Form							
-$main->loginTpl = new Template('templates/loginForm.tpl.php'); 		/*add login form */		
+$Demo->main->loginTpl = new Template('templates/loginForm.tpl.php'); 		/*add login form */		
 //Signup Form
-$main->signupTpl = new Template('templates/signupForm.tpl.php');	/* add signup form */	
+$Demo->main->signupTpl = new Template('templates/signupForm.tpl.php');	/* add signup form */	
 
 //Content Area
-$main->contentTpl = getAuthContent(FALSE);
-$main->contentTpl->userIP = $_SESSION['ip'];
-	
-//debug
-$main->debugTpl = new Template('templates/debug.tpl.php'); 		/* add debug area */		
+$Demo->main->contentTpl = getAuthContent(FALSE);
+$Demo->main->contentTpl->userIP = $_SESSION['ip'];
 
 //OUTPUT
-echo $main;
+$Demo->RUN();
 
 
 ?>

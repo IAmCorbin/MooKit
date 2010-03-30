@@ -5,7 +5,6 @@
 	
 	<title><?=$title ?></title>
 
-	<link rel="stylesheet" type="text/css" href="style/style.php" />
 	<? foreach($styles as $style) echo $style."\n\t"; ?>
 
 	<script type="text/javascript" src="CodeCore/Classes/js/mootools-1.2.4-core-yc.js"></script>
@@ -28,7 +27,7 @@
 		<?= $contentTpl // CONTENT // ?>
 	</div>
 	
-	<div id="debugBox"></div>
+	<?= $debugTpl ?>
 	
 <!-- CODE VALIDATION BADGES -->
 <p id="w3_validated">
