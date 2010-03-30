@@ -8,7 +8,6 @@ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Mai
  * A Class used to build a new MooKit application
  *
  * @author Corbin Tarrant
- * @author adapted from {@link http://seanhess.net/posts/simple_templating_system_in_php }
  * @copyright March 29th, 2010
  * @package MooKit
  */
@@ -95,13 +94,13 @@ class MooKit {
 	  */
 	public function RUN() {
 	
-		//Grab all public stylesheets
+		//Grab all public stylesheets - all in style/
 		foreach(new DirectoryIterator('style') as $style) { $this->addStyle('style',$style); }
-		//if secure, add secure stylesheets
+		//if secure, add secure stylesheets - all in style/secure/
 		if($this->SECURE()) { foreach(new DirectoryIterator('style/secure') as $style) { $this->addStyle('style/secure',$style,'secure'); }}
-		//Grab all public JavaScripts
+		//Grab all public JavaScripts - all in CodeCore/js/
 		foreach(new DirectoryIterator('CodeCore/js') as $script) { $this->addScript('CodeCore/js',$script); }
-		//if secure, add secure JavaScript
+		//if secure, add secure JavaScript - all in CodeCore/js/secure/
 		if($this->SECURE()) { foreach(new DirectoryIterator('CodeCore/js/secure') as $script) { $this->addScript('CodeCore/js/secure',$script,'secure'); }}
 		//set all styles and scripts for main template
 		$this->main->styles = array_merge($this->stylesPublic, $this->stylesSecure);
