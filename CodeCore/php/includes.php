@@ -3,7 +3,7 @@
  * Encapsulates includes and provides a secure flag do a security check before continuing
  *@param bool $secure
  */
-function INIT($secure=TRUE) {
+function INIT($secure=TRUE,$testString=NULL) {
 	//GLOBAL DEFINITIONS
 	define('DEBUG', false); //DEBUG FLAG
 	define('INSITE',true); //EXTRA SCRIPT SECURITY, disallow direct script access
@@ -27,13 +27,13 @@ function INIT($secure=TRUE) {
 	
 	$_SESSION['SYSNAME'] = 'MooKit';
 	
-		if($secure) {
-			//Security Check
-			$security = new Security;
-			if(!$security->check())  {
-			echo 'Not Authorized. Please Visit <a href="http://10.10.10.100/MooKit">The Main Site</a>';
+	if($secure) {
+		//Security Check
+		$security = new Security;
+		if(!$security->check())  {
+			echo "testString=".$testString.'Not Authorized. Please Visit <a href="http://10.10.10.100/MooKit">The Main Site</a>';
 			die;
-		}
+		} else echo $testString;
 	}
 }
 ?>

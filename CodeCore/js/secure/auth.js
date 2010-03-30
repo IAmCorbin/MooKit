@@ -20,11 +20,16 @@ window.addEvent('domready', function() {
 			method: 'post',
 			url: 'CodeCore/php/logout.php',
 			onSuccess: function() {
-				//remove all auth content from page
-				$$('.secureArea').set('tween',{duration:'long'}).fade('0');
-				$$('.login_buttonWrap').fade(1);
-				$$('.signup_buttonWrap').fade(1);
-				(function() { $$('.secureArea').destroy(); }).delay(1200,this);
+				//fade out secure content
+				$$('.secureArea').set('tween',{duration:'2000'}).fade('0');
+				//destroy secure content and load public content
+				(function() { 	
+					$$('.secureArea').destroy();
+					refreshContent(0,0);
+					//fade login and signup buttons back in
+					$$('.login_buttonWrap').fade(1);
+					$$('.signup_buttonWrap').fade(1);
+				}).delay(2300,this);
 			}
 		}).send();
 	});
