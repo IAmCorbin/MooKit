@@ -51,9 +51,11 @@ class DatabaseConnection {
 	 *
 	 *@returns bool		true on success, false on fail
 	 */
-	function __construct($host='localhost',$user='test',$pass='test',$db='test',$dummy=TRUE) {
+	function __construct($host=NULL,$user=NULL,$pass=NULL,$db=NULL,$dummy=TRUE) {
 		if(!!$dummy) {
 			try{
+				include $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeSite/php/DB.php';
+				if($host == NULL) { echo "PLEASE SETUP DATABASE CREDENTIALS IN CodeSite/php/DB.php FIRST!"; return false; }
 				//create mysqli database object
 				$this->mysqli = @new mysqli($host,$user,$pass,$db);
 				//throw error if no mysqli object exists
@@ -81,7 +83,7 @@ class DatabaseConnection {
 	 */
 	public function query($query, $rType="assoc", $display=NULL) {
 		//check for valid connection
-		if($this->mysqli->ping()) {
+		if(@$this->mysqli->ping()) {
 			// execute query
 			if(!$results = $this->mysqli->query($query)) {
 				//log error
