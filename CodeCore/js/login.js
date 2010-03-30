@@ -66,22 +66,31 @@ window.addEvent('domready', function() {
 									method: 'post',
 									url: 'CodeCore/php/authUpdate.php',
 									onSuccess: function(response) {
+										//decode JSON return
+										json = JSON.decode(response);
 										//set html
 										$('content').setStyle('opacity','0');
-										$('content').set('html',response);
-										(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500);
-										//if previously loaded, destroy old javascript
-										if(document.head.get('html').test('CodeCore/js/auth.js')) {
-											$('JSauth').destroy();
-											$('JSpostEdit').destroy();
-											$('JSuserCSS').destroy();
-											
-										} 
-										//load javascript
-										var myScript = new Asset.javascript('CodeCore/js/auth.js', { id: 'JSauth'});
-										var myScript = new Asset.javascript('CodeCore/js/postEdit.js', { id: 'JSpostEdit'});
-										var myScript = new Asset.javascript('CodeCore/js/userCSS.js', { id: 'JSuserCSS'});
+										$('content').set('html',json.html);
+										(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500); //fade in secure content
 										
+										//if previously loaded, destroy old javascript and css
+										json.styles.each(function(style) { 
+											style = 'CSS'+style.replace(/.+\//,"").replace(/\.css\.php$/,"").replace(/\.css$/,"");
+											if($(style))	$(style).destroy();
+										});
+										json.scripts.each(function(script) {
+											script = 'JS'+script.replace(/.+\//,"").replace(/\.js$/,"");
+											if($(script))	$(script).destroy();
+										});
+										
+										//load CSS
+										json.styles.each(function(style) { //for id : strip directory and extention, prepend "CSS"
+											new Asset.css(style, { id: 'CSS'+style.replace(/.+\//,"").replace(/\.css\.php$/,"").replace(/\.css$/,"") });
+										});
+										//load javascript
+										json.scripts.each(function(script) { //for id : strip directory and extention, prepend "JS"
+											new Asset.javascript(script, { id: 'JS'+script.replace(/.+\//,"").replace(/\.js$/,"") });
+										});
 									}
 								}).send();
 								//clear the login form

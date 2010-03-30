@@ -7,11 +7,6 @@
 
 	<? foreach($styles as $style) echo $style."\n\t"; ?>
 
-	<script type="text/javascript" src="CodeCore/Classes/js/mootools-1.2.4-core-yc.js"></script>
-	<script type="text/javascript" src="CodeCore/Classes/js/mootools-1.2.4.4-more.js"></script>
-	<script type="text/javascript" src="CodeCore/Classes/js/LightBox.js"></script>
-	<script type="text/javascript" src="CodeCore/Classes/js/DeepLinker.js"></script>
-	<script type="text/javascript" src="CodeCore/js/main.js"></script>
 	<? foreach($scripts as $script) echo $script."\n\t"; ?>
 	
 </head>

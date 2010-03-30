@@ -41,7 +41,11 @@ class MooKit {
 		$this->stylesPublic = array();
 		$this->stylesSecure = array();
 		//set core JavaScripts
-		$this->addScript('CodeCore/js/debug.js');
+		$this->addScript('CodeCore/Classes/js','mootools-1.2.4-core-yc.js');
+		$this->addScript('CodeCore/Classes/js','mootools-1.2.4.4-more.js');
+		$this->addScript('CodeCore/Classes/js','LightBox.js');
+		$this->addScript('CodeCore/Classes/js','DeepLinker.js');
+		if(defined('DEBUG'))	$this->addScript('CodeCore/js','debug.js');
 	}
 	/**
 	  * Add a new CSS stylesheet
@@ -64,15 +68,20 @@ class MooKit {
 	/**
 	  * Add a new JavaScript file
 	  *
+	  * @param bool $dir		JavaScript location - directory
+	  * @param bool $script		JavaScript location - file
 	  * @param bool $secure		Secure switch, only allow for authorized users
 	  */
-	public function addScript($script, $secure=NULL) {
-		if($secure) {
-			if($this->SECURE()) {  //secure, use Regex to strip directory location and  '.js'
-				array_push($this->scriptsSecure,'<script type="text/javascript" id="JS'.preg_replace("/\.js$/","",preg_replace("/.+\//","",$script)).'" src="'.$script.'"></script>'); 
-			}
-		} else //public
-			array_push($this->scriptsPublic,'<script type="text/javascript" src="'.$script.'"></script>'); 
+	public function addScript($dir, $script, $secure=NULL) {
+		//make sure file is .js
+		if( preg_match("/\.js$/",$script) ) {
+			if($secure) {
+				if($this->SECURE()) {  //secure, use Regex to strip directory location and  '.js'
+					array_push($this->scriptsSecure,'<script type="text/javascript" id="JS'.preg_replace("/\.js$/","",preg_replace("/.+\//","",$script)).'" src="'.$dir.'/'.$script.'"></script>'); 
+				}
+			} else //public
+				array_push($this->scriptsPublic,'<script type="text/javascript" src="'.$dir.'/'.$script.'"></script>'); 
+		}
 	}
 	/** Check for secure session */ 
 	public function SECURE() { 
@@ -90,7 +99,10 @@ class MooKit {
 		foreach(new DirectoryIterator('style') as $style) { $this->addStyle('style',$style); }
 		//if secure, add secure stylesheets
 		if($this->SECURE()) { foreach(new DirectoryIterator('style/secure') as $style) { $this->addStyle('style/secure',$style,'secure'); }}
-		
+		//Grab all public JavaScripts
+		foreach(new DirectoryIterator('CodeCore/js') as $script) { $this->addScript('CodeCore/js',$script); }
+		//if secure, add secure JavaScript
+		if($this->SECURE()) { foreach(new DirectoryIterator('CodeCore/js/secure') as $script) { $this->addScript('CodeCore/js/secure',$script,'secure'); }}
 		//set all styles and scripts for main template
 		$this->main->styles = array_merge($this->stylesPublic, $this->stylesSecure);
 		$this->main->scripts = array_merge($this->scriptsPublic, $this->scriptsSecure);

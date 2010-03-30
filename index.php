@@ -7,14 +7,6 @@ $Demo = new MooKit;
 //set title
 $Demo->main->title = "Demo MooKit Version 0.7 Application"; 	
 
-//set public JavaScripts
-$Demo->addScript('CodeCore/js/login.js');
-$Demo->addScript('CodeCore/js/signup.js');
-//set authenticated JavaScripts
-	$Demo->addScript('CodeCore/js/auth.js','secure');
-	$Demo->addScript('CodeCore/js/postEdit.js','secure');
-	$Demo->addScript('CodeCore/js/userCSS.js','secure');
-
 //grab sub templates
 $Demo->main->navTpl = new Template('templates/nav.tpl.php');
 	//links
