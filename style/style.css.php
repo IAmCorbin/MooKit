@@ -28,6 +28,13 @@ body { background-image : url('../img/back.jpg'); }
 	.signup_buttonText span{ color:#008ddd; }
 /* END SLIDE BUTTONS */
 
+/* DEFAULT LINK STYLES */
+	.link { font-size: 30px; color: #0F0; background: #FF0; display: block; }
+	.link:hover { background: #AA0; }
+	.sublink { font-size: 10px; color: #00F; background: #0FF; margin: 20px; }
+	.sublink:hover { background: #0AA; }
+/* END DEFAULT LINK STYLES */
+
 /* FORM VALIDATION */
 	.validation-passed { background-color: #99cc99 !important; } 						/* This style is applied to input fields after successful validation */
 	.validation-advice, .phpError { border: solid #600 2px; background: #F88; color: #000;  }  /* This style is applied to the error messages */

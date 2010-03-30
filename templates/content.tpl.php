@@ -7,7 +7,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php'; INIT
 		<? if($_SESSION['auth'] == 1) { ?>
 		<div class="secureArea">
 			<div id="secureMenu">
-				<?= $navTpl ?>
+				<? $Menu->output('div','span','secureLink','secureSubLink'); ?>
 				<span id="logout" class="button">LOGOUT</span>
 			</div>
 			<div id="secureContent">

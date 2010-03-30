@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div id="mainNav">
-		<?= $navTpl  // NAVIGATION BAR // ?>
+		<?= $Menu->output(); //$navTpl  // NAVIGATION BAR // ?>
 	</div>
 	
 	<?= $loginTpl // LOGIN FORM // ?>

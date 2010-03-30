@@ -8,8 +8,8 @@ window.addEvent('domready', function() {
 	authLinks.each(function(link) {
 		link.addEvent('click',function(e) {
 			e.stop();
-			//load script into secure content area
-			$('secureContent').load(link.get('href'));
+			//load script into secure content area if not blank
+			if(link.get('href') != null) $('secureContent').load(link.get('href'));
 		});
 	});
 	

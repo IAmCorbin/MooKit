@@ -8,33 +8,20 @@ $Demo = new MooKit;
 $Demo->main->title = "Demo MooKit Version 0.7 Application"; 	
 
 //grab sub templates
-$Demo->main->navTpl = new Template('templates/nav.tpl.php');
-	//links
-	$Demo->main->navTpl->links = array( array('href'=>'http://www.iamcorbin.net',
-								'name'=>'IAmCorbin.net',
-								'sublinks'=>array(array('href'=>'http://www.iamcorbin.net/?intro=1',
-										    'name'=>'Skip Intro'),
-										    array('href'=>'http://www.iamcorbin.net/desert',
-											    'name'=>'The Desert'))),
-							array('href'=>'http://www.metaldisco.org',
-								'name'=>'MetalDisco.org',
-								'sublinks'=>null),
-							array('href'=>'',
-								'name'=>'Testing Ajax Links',
-								'sublinks'=>array(	array('href'=>'test1',
-													'ajax'=>'ajaxLink',
-													'name'=>'test1'),
-												array('href'=>'test2',
-													'ajax'=>'ajaxLink',
-													'name'=>'Test2'),
-												array('href'=>'test3',
-													'ajax'=>'ajaxLink',
-													'name'=>'Test3'))),
-								
-							
-							
-					);
-
+//$Demo->main->navTpl = new Template('templates/nav.tpl.php');
+	//create Main Menu
+	$mainMenu = new Menu;
+	$mainMenu->add('IAmCorbin.net','http://www.iamcorbin.net');
+	  $mainMenu->addSub('Skip Intro','http://www.iamcorbin.net/?intro=1');
+	  $mainMenu->addSub('The Desert','http://www.iamcorbin.net/desert');
+	$mainMenu->add('MetalDisco.org','http://www.metaldisco.org');
+	$mainMenu->add('Testing Ajax Links','');
+	  $mainMenu->addSub('test1','test1','ajaxLink');
+	  $mainMenu->addSub('test2','test2','ajaxLink');
+	  $mainMenu->addSub('test3','test3','ajaxLink');
+	//set mainmenu to template
+	$Demo->main->Menu = $mainMenu;	
+	
 //Login Form							
 $Demo->main->loginTpl = new Template('templates/loginForm.tpl.php'); 		/*add login form */		
 //Signup Form

@@ -17,6 +17,7 @@ function INIT($secure=TRUE) {
 	require_once  'CodeCore/Classes/php/Template.php';
 	require_once  'CodeCore/Classes/php/User.php';
 	require_once 'CodeCore/Classes/php/Post.php';
+	require_once 'CodeCore/Classes/php/Menu.php';
 	require_once 'CodeCore/Classes/php/MooKit.php';
 	//Functions
 	require_once 'CodeCore/php/auth.php';

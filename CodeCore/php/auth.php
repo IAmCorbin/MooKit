@@ -20,25 +20,33 @@ function getAuthContent($secure=TRUE) {
 		
 	} else { //Authorized
 		//Navigation
-		$contentTpl->navTpl = new Template('templates/nav.tpl.php');
-		$contentTpl->navTpl->links = array(	array('href'=>'',
-										'name'=>'testing',
-										'ajax'=>'authAjaxLink',
-										'sublinks'=>array( array(	'href'=>'',
-															'name'=>'sublink test',
-															'ajax'=>'authAjaxLink'))),
-									array('href'=>'',
-										'name'=>'Testing Secure Ajax Links',
-										'ajax'=>'authAjaxLink',
-										'sublinks'=>array(	array('href'=>'CodeCore/php/test1.php',
-															'ajax'=>'authAjaxLink',
-															'name'=>'test1secure'),
-														array('href'=>'CodeCore/php/test2.php',
-															'ajax'=>'authAjaxLink',
-															'name'=>'Test2secure'),
-														array('href'=>'CodeCore/php/test3.php',
-															'ajax'=>'authAjaxLink',
-															'name'=>'Test3secure'))));
+		$Menu = new Menu;
+		$Menu->add('testing','','authAjaxLink');
+		  $Menu->addSub('sublink test','','authAjaxLink');
+		$Menu->add('Testing Secure Ajax Links','','authAjaxLink');
+		  $Menu->addSub('test1secure','CodeCore/php/test1.php','authAjaxLink');
+		  $Menu->addSub('test2secure','CodeCore/php/test2.php','authAjaxLink');
+		  $Menu->addSub('test3secure','CodeCore/php/test3.php','authAjaxLink');
+		$contentTpl->Menu = $Menu;
+		
+		//~ $contentTpl->navTpl->links = array(	array('href'=>'',
+										//~ 'name'=>'testing',
+										//~ 'ajax'=>'authAjaxLink',
+										//~ 'sublinks'=>array( array(	'href'=>'',
+															//~ 'name'=>'sublink test',
+															//~ 'ajax'=>'authAjaxLink'))),
+									//~ array('href'=>'',
+										//~ 'name'=>'Testing Secure Ajax Links',
+										//~ 'ajax'=>'authAjaxLink',
+										//~ 'sublinks'=>array(	array('href'=>'CodeCore/php/test1.php',
+															//~ 'ajax'=>'authAjaxLink',
+															//~ 'name'=>'test1secure'),
+														//~ array('href'=>'CodeCore/php/test2.php',
+															//~ 'ajax'=>'authAjaxLink',
+															//~ 'name'=>'Test2secure'),
+														//~ array('href'=>'CodeCore/php/test3.php',
+															//~ 'ajax'=>'authAjaxLink',
+															//~ 'name'=>'Test3secure'))));
 		//User Info Table
 		$userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","assoc");
 		$contentTpl->userInfo = $userInfo[0];
