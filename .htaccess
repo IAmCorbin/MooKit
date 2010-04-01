@@ -1,0 +1,21 @@
+##
+## MooKit .htaccess
+##
+
+<IfModule mod_rewrite.c>
+
+        RewriteEngine On
+
+	## Force connections through index.php
+        ## if not a valid file
+	RewriteCond %{REQUEST_FILENAME} !-f
+	## Redirect to / (index.php)
+	RewriteRule [^/].*$ http://10.10.10.100/MooKit/ [L,R=301]
+		
+
+	## Disallow direct access to scripts
+	## RewriteCond %{REQUEST_FILENAME} -f
+	## RewriteRule  !^index\.php$  http://10.10.10.100/MooKit/index.php [L,R]
+
+
+</IfModule>
