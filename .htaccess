@@ -1,21 +1,43 @@
-##
-## MooKit .htaccess
+######################
+## MooKit .htaccess ##
+######################
+
+## General Configuration ##
 ##
 
+# enable symbolic links
+# disable directory browsing
+Options +FollowSymLinks -Indexes
+
+# prevent folder listing
+IndexIgnore *
+
+## URL Rewriting ##
+##
 <IfModule mod_rewrite.c>
 
-        RewriteEngine On
+	RewriteEngine On
+	## Rewrite Debugging
+	#RewriteRule ^.*$ ../mod_rewrite_debug.php [L]
 
 	## Force connections through index.php
-        ## if not a valid file
+        ## if not a valid file Redirect to / (index.php)
 	RewriteCond %{REQUEST_FILENAME} !-f
-	## Redirect to / (index.php)
-	RewriteRule [^/].*$ http://10.10.10.100/MooKit/ [L,R=301]
-		
-
-	## Disallow direct access to scripts
-	## RewriteCond %{REQUEST_FILENAME} -f
-	## RewriteRule  !^index\.php$  http://10.10.10.100/MooKit/index.php [L,R]
-
+	RewriteRule ^(.+)$ /MooKit/?request=$1 [L]
 
 </IfModule>
+
+
+## Caching ##
+##
+<IfModule mod_expires.c>
+	# minimize image flicker in IE6
+	ExpiresActive On
+	ExpiresByType image/gif A2592000
+	ExpiresByType image/jpg A2592000
+	ExpiresByType image/png A2592000
+</IfModule>
+
+
+## Other ##
+##
