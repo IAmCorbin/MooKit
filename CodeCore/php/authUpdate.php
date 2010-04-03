@@ -1,11 +1,11 @@
 <?
-require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php';
+//require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php';
 //decode sent json
 if(get_magic_quotes_gpc()) $_POST['json'] = stripslashes($_POST['json']);
 $json = json_decode($_POST['json']);
 
 if($json->secure == '1') {
-	INIT(true);
+	//INIT(true);
 	//set secure styles
 	$styles = array();
 	foreach(new DirectoryIterator('style/secure') as $style)
@@ -20,7 +20,7 @@ if($json->secure == '1') {
 				array_push($scripts,'CodeCore/js/secure/'.$script);
 } else {
 	echo "HIT!";
-	INIT(false,"WTF");
+	//INIT(false,"WTF");
 	echo "AFTER!";
 }
 //send authContent template and stylesheets to JavaScript

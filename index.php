@@ -1,5 +1,15 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php'; INIT(false);
+//INIT FUNCTION
+require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php';
+//Deny Direct Access to certain scripts
+preg_match("/postUpdate|authUpdate\.php$/",$_GET['request'])? $s=true : $s = false;
+INIT($s);
+
+//If a valid file was requested return it and exit script  | list of blocked files in preg_match
+if(is_readable($_GET['request']) && !preg_match("/\.s\.php$/", $_GET['request'])) {
+	include $_GET['request'];
+	exit();
+}
 
 switch($_GET['request']) {
 	case 'blank/page':

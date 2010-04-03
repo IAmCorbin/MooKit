@@ -22,7 +22,9 @@ IndexIgnore *
 
 	## Force connections through index.php
         ## if not a valid file Redirect to / (index.php)
-	RewriteCond %{REQUEST_FILENAME} !-f
+	#RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !index\.php$
+	#RewriteCond %{REQUEST_URI} !(^/$)|(^/index\.php$)
 	RewriteRule ^(.+)$ /MooKit/?request=$1 [L]
 
 </IfModule>

@@ -1,7 +1,6 @@
 <?
 function getAuthContent($secure=TRUE) {
-	require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php'; INIT($secure);
-	
+
 	$contentTpl = new Template('templates/content.tpl.php');
 	
 	$DB = new DatabaseConnection;

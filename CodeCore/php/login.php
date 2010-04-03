@@ -1,7 +1,4 @@
 <?php 
-require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/CodeCore/php/includes.php'; INIT(false);
-
-
 
 //don't do anything if already logged in
 if($_SESSION['auth'] === 1) {

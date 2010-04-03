@@ -1,5 +1,4 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php'; INIT();
 	//Create Post Object
 	$post = new Post($_POST['title'],$_POST['text'],null,date('Y-m-d H:i:s'));
 	//if no errors

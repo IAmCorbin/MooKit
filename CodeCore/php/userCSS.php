@@ -1,6 +1,4 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/php/includes.php'; INIT();
-
 	$inputFilter = new Filters;
 
 	$userCSS = $inputFilter->htmLawed($_POST['css']);

@@ -1,7 +1,4 @@
 <?php 
-require_once $_SERVER['DOCUMENT_ROOT'].'MooKit/CodeCore/php/includes.php'; INIT();
-
-
 $DB = new DatabaseConnection;
 
 $users = $DB->query("SELECT * FROM `users`","object");
