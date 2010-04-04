@@ -20,14 +20,9 @@ IndexIgnore *
 <IfModule mod_rewrite.c>
 
 	RewriteEngine On
-	## Rewrite Debugging
+
+	## Rewrite Debugging Script - send rules to this location to help debug rewrite issues
 	#RewriteRule ^.*$ ../mod_rewrite_debug.php [L]
-
-	#Protect Secure Directories
-	RewriteCond %{THE_REQUEST} /secure/
-	RewriteCond %{QUERY_STRING} !request=
-	RewriteRule ^.*$ /MooKit/?request=unauthorized [L]
-
 
 	## Force connections through index.php for handling
 	## if not already index.php
@@ -35,8 +30,6 @@ IndexIgnore *
 	## and request has not already been set
 	RewriteCond %{QUERY_STRING} !request=
 	RewriteRule ^(.+)$ /MooKit/index.php?request=$1 [L]
-	#RewriteRule ^(.*)$ ../mod_rewrite_debug.php?this=$1 [L]
-
 
 </IfModule>
 
