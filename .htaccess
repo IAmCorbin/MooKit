@@ -9,6 +9,9 @@
 # disable directory browsing
 Options +FollowSymLinks -Indexes
 
+#turn off auto-adding directory slashes
+DirectorySlash Off
+
 # prevent folder listing
 IndexIgnore *
 
@@ -20,12 +23,20 @@ IndexIgnore *
 	## Rewrite Debugging
 	#RewriteRule ^.*$ ../mod_rewrite_debug.php [L]
 
-	## Force connections through index.php
-        ## if not a valid file Redirect to / (index.php)
-	#RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !index\.php$
-	#RewriteCond %{REQUEST_URI} !(^/$)|(^/index\.php$)
-	RewriteRule ^(.+)$ /MooKit/?request=$1 [L]
+	#Protect Secure Directories
+	RewriteCond %{THE_REQUEST} /secure/
+	RewriteCond %{QUERY_STRING} !request=
+	RewriteRule ^.*$ /MooKit/?request=unauthorized [L]
+
+
+	## Force connections through index.php for handling
+	## if not already index.php
+	RewriteCond %{REQUEST_URI} !/index\.php$
+	## and request has not already been set
+	RewriteCond %{QUERY_STRING} !request=
+	RewriteRule ^(.+)$ /MooKit/index.php?request=$1 [L]
+	#RewriteRule ^(.*)$ ../mod_rewrite_debug.php?this=$1 [L]
+
 
 </IfModule>
 

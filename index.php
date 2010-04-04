@@ -5,14 +5,19 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php';
 preg_match("/postUpdate|authUpdate\.php$/",$_GET['request'])? $s=true : $s = false;
 INIT($s);
 
-//If a valid file was requested return it and exit script  | list of blocked files in preg_match
-if(is_readable($_GET['request']) && !preg_match("/\.s\.php$/", $_GET['request'])) {
+//If a valid file was requested | not a directory | block files with .s.php extension
+if(is_readable($_GET['request']) && !is_dir($_GET['request']) && !preg_match("/\.s\.php$/", $_GET['request'])) {
+	//return file and exit script 
 	include $_GET['request'];
 	exit();
 }
 
 switch($_GET['request']) {
 	case 'blank/page':
+		break;
+	case 'unauthorized':
+		echo 'unauthorized';
+		include '404.php';
 		break;
 	case '':
 		//Create new application
@@ -47,7 +52,6 @@ switch($_GET['request']) {
 
 		//OUTPUT
 		$Demo->RUN();
-		
 		break;
 	default:
 		include '404.php';
