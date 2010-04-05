@@ -49,9 +49,8 @@ function getAuthContent($secure=TRUE) {
 		//User Info Table
 		$userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","assoc");
 		$contentTpl->userInfo = $userInfo[0];
-		//userCSS
-		$contentTpl->cssTpl = new Template('templates/userCSS.tpl.php');
-		//Post
+		
+		//Post Editing
 		$contentTpl->postEditTpl = new Template('templates/postEdit.tpl.php');
 			$post = $DB->query("SELECT `post_id`,`title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 1;","object");
 			$contentTpl->postEditTpl->postID = $post[0]->post_id;

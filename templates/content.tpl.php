@@ -1,7 +1,3 @@
-<?php 
-require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php'; INIT(false);
-?>
-
 <?= $userIP ?>
 	<!-- CONTENT AREA -->
 		<? if($_SESSION['auth'] == 1) { ?>
@@ -15,8 +11,6 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php'; INIT
 				foreach($userInfo as $field=>$value) {
 					echo '<span class="userData">'.$field."--".$value."</span>";
 				}?><br /><!-- display user data -->
-				
-				<?= $cssTpl ?>
 				
 				<div id="postArea">
 					<?= $postEditTpl ?>

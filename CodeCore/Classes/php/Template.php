@@ -1,5 +1,4 @@
 <?php
-if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
   * contains Template Class
   * @package MooKit
@@ -111,6 +110,4 @@ class Template {
 		return $this->result;
 	}
 }
-
-} //end if(defined('INSITE')
 ?>

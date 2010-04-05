@@ -1,5 +1,4 @@
 <?php
-if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
  * contains User Class
  * @package MooKit
@@ -110,6 +109,4 @@ class User {
 	}
 	
 }
-
-} //end if(defined('INSITE')
 ?>

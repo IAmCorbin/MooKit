@@ -1,5 +1,4 @@
 <?php
-if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
   * contains htmLawed V 1.1.9.1, 26
   * htmLawed 1.1.9.1, 26 
@@ -713,5 +712,4 @@ function kses_hook($t, &$C, &$S){
 return $t;
 // eof
 }
-
-} //end if(defined('INSITE')
+?>

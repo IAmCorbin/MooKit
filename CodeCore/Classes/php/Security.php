@@ -1,5 +1,4 @@
 <?php
-if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
   * contains Security Class
   * @package MooKit
@@ -40,5 +39,4 @@ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Mai
 		return isset($_SESSION['user']);
 	}
  }
- 
-} //end if(defined('INSITE')
+?>

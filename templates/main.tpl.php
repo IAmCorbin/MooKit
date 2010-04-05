@@ -6,14 +6,14 @@
 	
 	<title><?=$title ?></title>
 
-	<? foreach($styles as $style) echo $style."\n\t"; ?>
+	<? if(isset($styles)) foreach($styles as $style) echo $style."\n\t"; ?>
 
-	<? foreach($scripts as $script) echo $script."\n\t"; ?>
+	<? if(isset($scripts)) foreach($scripts as $script) echo $script."\n\t"; ?>
 	
 </head>
 <body>
 	<div id="mainNav">
-		<?= $Menu->output(); //$navTpl  // NAVIGATION BAR // ?>
+		<? if(isset($Menu)) $Menu->output(); // NAVIGATION BAR // ?>
 	</div>
 
 	<?= $loginTpl // LOGIN FORM // ?>

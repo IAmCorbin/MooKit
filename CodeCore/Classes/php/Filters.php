@@ -1,5 +1,4 @@
 <?php
-if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
  * Contains Filters Class
  * @package MooKit
@@ -143,6 +142,4 @@ Class Filters {
 	//$filteredInput['zip'] = $inputFilter->regEx('/^[0-9]{5}$|^[0-9]{5}\-[0-9]{4}$/',$_POST['zip']);
 	
 }
-
-} //end if(defined('INSITE')
 ?>

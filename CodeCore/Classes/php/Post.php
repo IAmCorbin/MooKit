@@ -1,5 +1,4 @@
 <?php
-if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
   * contains Post Class
   * @package MooKit
@@ -57,7 +56,4 @@ if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Mai
 	 */	
 	public function errorStatus() { return $error; }
  }
- 
- 
- }
- ?>
+?>

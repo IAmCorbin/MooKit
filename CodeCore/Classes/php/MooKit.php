@@ -1,5 +1,4 @@
 <?php
-if(!defined('INSITE'))  echo 'Not Authorized. Please Visit <a href="../">The Main Site</a>'; else { 
 /**
   * contains MooKit Class
   * @package MooKit
@@ -27,11 +26,53 @@ class MooKit {
 	/**
 	 * Constructor
 	 *
-	 * @param string $mainTpl		The Main Template Location
-	 * @param 
-	 * @param 
+	 * @param string $request			The application request $_GET['request'] - this is set by .htaccess
+	 *								For Reference:
+	 * 								## Force connections through index.php for handling
+	 * 								## if not already index.php
+	 *								RewriteCond %{REQUEST_URI} !/index\.php$
+	 *								## and request has not already been set
+	 *								RewriteCond %{QUERY_STRING} !request=
+	 *								RewriteRule ^(.+)$ /MooKit/index.php?request=$1 [L]
 	 */
-	public function __construct($mainTpl='templates/main.tpl.php') {
+	
+	public function __construct($request) {
+		//Functions
+		require_once 'CodeCore/functions/php/htmLawed1.1.9.1.php';
+		require_once 'CodeCore/functions/php/auth.php';
+		require_once 'CodeCore/functions/php/functions.php';
+		
+		//Start Session and regenerate Session ID for security
+		session_start();
+		session_regenerate_id();	
+		
+		$_SESSION['SYSNAME'] = 'MooKit';
+		
+		//SECURITY
+		//require authorized user for /secure/ files
+		preg_match("/\/secure\//",$request)? $secure=true : $secure = false;
+		if($secure) {
+			//Security Check
+			$security = new Security;
+			if(!$security->check())  {
+				//if not authorized return here without returning the file
+				return;
+			}
+		}
+		
+		//FILE HANDLING
+		if(is_readable($_GET['request']) && !is_dir($_GET['request']) ) {
+			//return file and abort application
+			include $_GET['request'];
+			exit();
+		}
+	}
+	/**
+	  * Application Initialization
+	  *
+	  *@param string $mainTpl		The Main Template Location
+	  */ 
+	public function INIT($mainTpl='templates/main.tpl.php') {
 		//Setup main Template
 		$this->main = new Template($mainTpl,false,true);
 		//initialize arrays
@@ -91,20 +132,29 @@ class MooKit {
 	}
 	/**
 	  * Runs the application, outputs to the user's browser
+	  * 
+	  * @param bool styles 		used to disable all the styles
+	  * @param bool scripts		used to disable all the scripts
 	  */
-	public function RUN() {
-	
-		//Grab all public stylesheets - all in style/
-		foreach(new DirectoryIterator('style') as $style) { $this->addStyle('style',$style); }
-		//if secure, add secure stylesheets - all in style/secure/
-		if($this->SECURE()) { foreach(new DirectoryIterator('style/secure') as $style) { $this->addStyle('style/secure',$style,'secure'); }}
-		//Grab all public JavaScripts - all in CodeCore/js/
-		foreach(new DirectoryIterator('CodeCore/js') as $script) { $this->addScript('CodeCore/js',$script); }
-		//if secure, add secure JavaScript - all in CodeCore/js/secure/
-		if($this->SECURE()) { foreach(new DirectoryIterator('CodeCore/js/secure') as $script) { $this->addScript('CodeCore/js/secure',$script,'secure'); }}
-		//set all styles and scripts for main template
-		$this->main->styles = array_merge($this->stylesPublic, $this->stylesSecure);
-		$this->main->scripts = array_merge($this->scriptsPublic, $this->scriptsSecure);
+	public function RUN($styles=TRUE,$scripts=TRUE) {
+		if($styles) {
+			//Grab all public stylesheets - all in style/
+			foreach(new DirectoryIterator('style') as $style) { $this->addStyle('style',$style); }
+			//if secure, add secure stylesheets - all in style/secure/
+			if($this->SECURE()) { foreach(new DirectoryIterator('style/secure') as $style) { $this->addStyle('style/secure',$style,'secure'); }}
+			
+			//set all styles for main template
+			$this->main->styles = array_merge($this->stylesPublic, $this->stylesSecure);
+		}
+		if($scripts) {
+			//Grab all public JavaScripts - all in CodeCore/js/
+			foreach(new DirectoryIterator('CodeCore/js') as $script) { $this->addScript('CodeCore/js',$script); }
+			//if secure, add secure JavaScript - all in CodeCore/js/secure/
+			if($this->SECURE()) { foreach(new DirectoryIterator('CodeCore/js/secure') as $script) { $this->addScript('CodeCore/js/secure',$script,'secure'); }}
+			
+			//set all scripts for main template
+			$this->main->scripts = array_merge($this->scriptsPublic, $this->scriptsSecure);
+		}
 		
 		if(defined('DEBUG')) /* add debug area */		
 			$this->main->debugTpl = new Template('templates/debug.tpl.php');
@@ -114,6 +164,4 @@ class MooKit {
 		echo $this->main;
 	}
 }
-
-} //end if(defined('INSITE')
 ?>

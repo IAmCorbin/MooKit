@@ -33,6 +33,10 @@ IndexIgnore *
 
 </IfModule>
 
+<IfModule mod_php5.c>
+  php_value auto_prepend_file CodeCore/php/init.php
+</IfModule>
+
 
 ## Caching ##
 ##
