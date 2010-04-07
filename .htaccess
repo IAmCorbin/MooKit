@@ -23,6 +23,13 @@ IndexIgnore *
 
 	## Rewrite Debugging Script - send rules to this location to help debug rewrite issues
 	#RewriteRule ^.*$ ../mod_rewrite_debug.php [L]
+	
+	## Allow access to documentation folders
+	RewriteRule docs$ docs/ [L]
+	RewriteRule docs/jsDocs$ docs/jsDocs/ [L]
+	RewriteRule docs/phpDocs$ docs/phpDocs/ [L]
+	RewriteRule docs/$|docs/jsDocs/$|docs/phpDocs/$ - [L]
+
 
 	## Force connections through index.php for handling
 	## if not already index.php
@@ -34,7 +41,7 @@ IndexIgnore *
 </IfModule>
 
 <IfModule mod_php5.c>
-  php_value auto_prepend_file CodeCore/php/init.php
+  php_value auto_prepend_file codeCore/php/init.php
 </IfModule>
 
 

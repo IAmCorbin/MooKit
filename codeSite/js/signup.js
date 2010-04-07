@@ -29,12 +29,11 @@ window.addEvent('domready', function() {
 		$('signupForm').addEvent('submit',function(e) { 
 			//stop normal form processing
 			e.stop();
-			if(!signupValidator.validate()) {
+			if(!signupValidator.validate())
 				//show form errors
 				formErrors.setStyle('display','block');
-			}
 			//if valid user input
-			if(signupValidator.validate()) {
+			else {
 				//send ajax request
 				$('signupForm').set('send',{ 
 					onRequest: function() { 

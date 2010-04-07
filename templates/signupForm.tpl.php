@@ -6,7 +6,7 @@
 		<div id="signupOpen"></div>
 		<div id="signup"></div>
 		<div class="signupContent curved"><div id="signupClose" class="curved button">X</div>
-			<form id="signupForm" method="post" action="CodeCore/php/signup.php">
+			<form id="signupForm" method="post" action="codeSite/php/signup.php">
 				<div class="floatLeft">
 					<div><label>Username:<input id="signupUser" class="required  msgPos:'signupUserError'" name="user" type="text" size="30" /></label><div class="formError" id="signupUserError"></div></div>
 					<div><label>First Name:<input class="required  msgPos:'signupFirstError'" name="first" type="text" size="30" /></label><div class="formError" id="signupFirstError"></div></div>

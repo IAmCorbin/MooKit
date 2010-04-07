@@ -38,7 +38,7 @@ window.addEvent('domready', function() {
 				//show form errors
 				formErrors.setStyle('display','block');
 			//if valid user input
-			if(loginValidator.validate()) {
+			else {
 				//send ajax request
 				$('loginForm').set('send',{ 
 					onRequest: function() {

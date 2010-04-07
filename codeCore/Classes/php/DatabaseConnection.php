@@ -53,8 +53,8 @@ class DatabaseConnection {
 	function __construct($host=NULL,$user=NULL,$pass=NULL,$db=NULL,$dummy=TRUE) {
 		if(!!$dummy) {
 			try{
-				include $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeSite/php/DB.php';
-				if($host == NULL) { echo "PLEASE SETUP DATABASE CREDENTIALS IN CodeSite/php/DB.php FIRST!"; return false; }
+				include $_SERVER['DOCUMENT_ROOT'].'/MooKit/codeSite/php/DB.php';
+				if($host == NULL) { echo "PLEASE SETUP DATABASE CREDENTIALS IN codeSite/php/DB.php FIRST!"; return false; }
 				//create mysqli database object
 				$this->mysqli = @new mysqli($host,$user,$pass,$db);
 				//throw error if no mysqli object exists

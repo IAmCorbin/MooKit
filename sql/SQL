@@ -33,29 +33,3 @@ CREATE TABLE `posts` (
 	CONSTRAINT `post_user` FOREIGN KEY (user_id) REFERENCES `users` (user_id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////
-testing
-//////////////////////////////////////////////////////////////////
-
-CREATE TABLE `t1` (
-	t1_id INT(5) UNSIGNED AUTO_INCREMENT NOT NULL,
-	name VARCHAR(10) NOT NULL,
-	PRIMARY KEY (t1_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-CREATE TABLE `t2` (
-	t2_id INT(5) UNSIGNED AUTO_INCREMENT NOT NULL,
-	thing VARCHAR(255) NOT NULL,
-	owner INT(5) UNSIGNED NULL,
-	PRIMARY KEY (t2_id),
-	CONSTRAINT `t2_t1` FOREIGN KEY (owner) REFERENCES t1 (t1_id) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-INSERT INTO `t1`(name) VALUES('corbin'),('erika'),('ben'),('steve');
-INSERT INTO `t2`(thing,owner) VALUES('desk','2'),('video card','2'),('drums','1'),('a big ham','3'),('nothing','4'),('pizza','1');

@@ -1,17 +1,17 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---  MooKit V 0.1	Alpha																					--
---  																									--
---  My Object Oriented Toolkit																				--
---  																									--
---  March 24, 2010	 																					--
---  ___            ___         __ 																					--
---    |   /\  |\/| |       __   |_/  |__   -   _																			--
---  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |																			--
---																									--
---  Cody By Corbin Tarrant																					--
---  http://www.IAmCorbin.net																				--
---																									--
---  This code is free to use and share, but must be passed on in turn. Don't be greedy, help each other, we are all One.		--
+--  MooKit V 0.1	Alpha																						    --
+--  																											    --
+--  My Object Oriented Toolkit																						    --
+--  																											    --
+--  March 24, 2010	 																							    --
+--  ___            ___          __ 																					    	    --
+--    |   /\  |\/| |         __   |_/  |__  -   _																					    --
+--  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |																					    --
+--																											    --
+--  Cody By Corbin Tarrant																						    --
+--  http://www.IAmCorbin.net																						    --
+--																											    --
+--  This code is free to use and share, but must be passed on in turn. Don't be greedy, help each other, we are all One.				    --
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Purpose:
@@ -26,15 +26,15 @@ MooKit is a web development toolkit using these technologies at it's core:
 	
 Goals:
 																							--
-	- The MooKit is a robust and scalable solution to any webDevelopment challange.							--
+	- The MooKit is a robust and scalable solution to any webDevelopment challange.						--
 																							--
-	- The Mookit eliminates redundant data and creates a nicely organized, readable structure					--
+	- The Mookit eliminates redundant data and creates a nicely organized, readable structure				--
 																							--
 	- The MooKit provides object oriented pieces you can snap together to create a site 						--
 																							--
 	- The MooKit allows for the creation of a solid structure(context), that can then be filled with dynamic content	--
 																							--
-         ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         ----------------------------------------------------------------------------------------------------------------------------------------------
 	 
 To Do:
   -Navigation System needs to draw from database populated `links` table (Extra: Allow for user specified animations)
@@ -44,94 +44,101 @@ To Do:
   -bitwise permissions for pages
   -Email class - New Account Validation Extension
   -Create general documentation
+  -Improve Caching System
+  -Finish Seperating Core and Site Code
   
 Debug:
   -Further test for any XSS or SQL injection vunerabilities
 
------------
+---------
 | Files |
 ___________________________________________________________________________________________________________________________________
-
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |-CodeCore/		| Core MooKit Code
-   |	-Classes/			| Core Classes
-   |		-php/			| Core PHP Classes
-   |		  --Database.php			| DatabaseConnection class
-   |		  --Filters.php				| User input filtering class
-   |		  --htmLawed1.1.9.1.php		| Html Sanitizer ( http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/ )
-   |		  --MooKit.php				| A Class used to build a new MooKit application
-   |		  --Post.php				| A Class representing a set of related html elements that serve a certain purpose (blog post, static page, game, video, etc...)
-   |		  --Security.php				| User Authentication Check
-   |		  --Template.php			| Allows for seperation of data gathering and presentation logic
-   |		  --User.php				| Class for user management
-   |		-js/				| Core JavaScript Classes
-   |		  --mootools*core.js			| the MooTools core
-   |		  --mootools*more.js		| the MooTools more
-   |		  --DeepLinker.js			| adds a hash listener and caching system for deeplinking ajax content
-   |		  --Lightbox.js				| adds "toggleable" layers to the page
-   |	-js/				| Core JavaScript
-   |	  --auth.js				| containes authorized area JavaScript
-   |	  --debug.js			| on screen slide-up debugging box
-   |	  --login.js				| creates login lightbox layer
-   |	  --main.js				| global JavaScript
-   |	  --postEdit.js			| ajax post editing
-   |	  --signup.js			| creates signup lightbox layer
-   |	  --userCSS.js			| ajax CSS style adding
-   |	-php/			| Core PHP Scripts
-   |	  --auth.php			| auth area content loading
-   |	  --authUpdate.php		| calls the function in auth.php
-   |	  --functions.php		| global site functions
-   |	  --includes.php		| class includes and session initialization
-   |	  --login.php			| simple php login script using the User and Database classes
-   |	  --logout.php			| remove authentication
-   |	  --postGet.php		| get post data
-   |	  --postUpdate.php		| update a post
-   |	  --signup.php			| simple php signup script using the User and Database classes
-   |	  --test{1,2,3}.php		| sample php scripts for testing
-   |	  --userCSS.php		| filter user entered CSS and send back to javascript for adding to document head
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |-CodeSite/		| Unique Site Code
-   |	-Classes/			| Site Classes
-   |		-php/			| Site PHP Classes
-   |		-js/				| Site JavaScript Classes
-   |	-js				| Site JavaScript
-   |	-php				| Site PHP Scripts
-   |	  --DB.php				| Site Database Credentials
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |-docs/			| Documentation
-   |	-jsDocs/				| JavaScript Documentation - Generated by jsdoc-toolkit - http://code.google.com/p/jsdoc-toolkit/
-   |	-phpDocs/			| PHP Documentation - Generated by phpDocumentor - http://www.phpdoc.org/
-   |--index.php			| page displaying iframes with phpDocs, jsDocs, and screenshot of MooKit.dia
-   |--MooKit.dia			| MooKit Dia diagram
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |-img/			| images
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |-logs/			| Error logs
-   |--DBerrors.og		| MySQL Errors
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |-SQL/			| for reference: CREATE SQL statements needed for site database
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |-style/			| CSS Styles
-   |--content.css.php	| Content
-   |--debug.css.php		| Debug
-   |--loginForm.css.php	| Login Lightbox
-   |--nav.css.php		| Menu
-   |--post.css.php		| Post Display
-   |--postEdit.css.php	| Post Edit
-   |--signupForm.css.php	| Signup Lightbox
-   |--style.php			| Global Styles
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |-templates/		| Page Templates
-   |--content.tpl.php		| Main content
-   |--loginForm.tpl.php	| Login Lightbox
-   |--main.tpl.php		| Main template - All other templates are sub to main -
-   |--nav.tpl.php		| Menu
-   |--post.tpl.php		| Post Display
-   |--postEdit.tpl.php		| Post Edit
-   |--signupForm.tpl.php	| Signup Lightbox
-   |--userCSS.tpl.php		| User Entered CSS Form
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |--index.php		| main site
-   |--README		| this file
-   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------
+	| codeCore:		| Core System Code
+	| 	Classes:			| Core Classes
+	| 		js:				| Core JavaScript Classes
+	|   		  --  DeepLinker.js				- adds a hash listener and caching system for deeplinking ajax content
+	|   		  --  LightBox.js				- adds "toggleable" layers to the page
+	|   		  --  mootools-1.2.4.4-more.js 	- The MooTools Core
+	|   		  --  mootools-1.2.4-core-yc.js		- The MooTools More
+	| 		php:				| Core PHP Classes
+	|   		  --  DatabaseConnection.php		- DatabaseConnection class
+	|    		  --  Filters.php					- User input filtering class
+	|   		  --  Menu.php					- Navigation system of links and sublinks
+	|   		  --  MooKit.php				- The Main Class - handles application initialization and template building
+	|   		  --  Post.php					- A Class representing a set of related html elements that serve a certain purpose (blog post, static page, game, video, etc...)
+	|   		  --  Security.php				- User Authentication Check
+	|   		  --  Template.php				- Allows for seperation of data gathering and presentation logic
+	|   		  --  User.php					- User Management
+	| 	functions:		| Core Functions
+	|   		php:				| Core PHP functions
+	|   		  --  auth.php					- function to reload content area as user authentication status changes
+	|   		  --  functions.php				- Core Global functions
+	|   		  --  htmLawed1.1.9.1.php		- Html Sanitizer ( http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/ )
+	| 	js:				| Core JavaSript
+	|   	  --  debug.js			- on screen slide-up debugging box
+	|   	  --  login.js			- creates login lightbox layer
+	|   	  --  main.js			- global JavaScript
+	|   	  --  signup.js			- creates signup lightbox layer
+	| 		secure:			| Secure Core JavaScript
+	|   		  --  auth.js			- containes authorized area JavaScript
+	|   		  --  postEdit.js			- ajax post editing
+	| 	php:				| Core PHP scripts		
+	|   	  --  authUpdate.php	- calls the function in auth.php to reload content
+	|   	  --  init.php			- php auto_prepend_file to index.php - PHP Class Autoloading and Gloabl Variables
+	|   	  --  login.php			- login script using the User and Database classes
+	|   	  --  logout.php		- remove authentication
+	|   	  --  signup.php		- signup script using the User and Database classes
+	|   	  --  test[123].php			- sample php scripts for testing
+	| 		secure:			| Secure Core PHP 
+	|   		  --  postGet.php		- get post data
+	|   		  --  postUpdate.php	- update a post
+	--------------------------------------------------------------------
+	| codeSite:		| Unique Site Code
+	|	Classes:			| Site Classes
+	| 		js:				| Site JavaScript Classes
+	| 		php:				| Site PHP Classes
+	| 	functions:		| Site functions
+	| 	js:				| Site JavaScript
+	|		secure:			| Secure Site JavaScript
+	|	php:				| Site PHP
+	|   	  --  DB.php			- Set Database Credentials Here
+	| 		secure:			| Secure Site PHP
+	--------------------------------------------------------------------
+	| docs:			| Site Documentation
+	|	phpDocs:			| Site PHP Documentation
+	|	jsDocs:			| Site JavaScript Documentation
+	|   --  MooKit.dia		- Site Dia Diagram
+	--------------------------------------------------------------------
+	| img:			| Site Graphics
+	--------------------------------------------------------------------
+	| logs:			| Site Logs
+	|   --  DBerrors.log		- MySQL Errors
+	--------------------------------------------------------------------
+	| SQL:			| CREATE SQL statements needed for site database
+	--------------------------------------------------------------------
+	| style:			| CSS Styles
+	|   --  content.css.php		- Main content
+	|   --  loginForm.css.php		- Login Lightbox
+	|   --  post.css.php			- Post Display
+	|   --  signupForm.css.php	- Signup Lightbox
+	|   --  style.css.php			- Global Styles
+	| 	secure:		| Secure Styles
+	|   	  --  postEdit.css.php	- Post Editing
+	--------------------------------------------------------------------
+	| templates:		| Site Template
+	|   --  404.tpl.php			- Error Template
+	|   --  content.tpl.php		- Main content
+	|   --  debug.tpl.php			- debug box
+	|   --  loginForm.tpl.php		- Login Lightbox
+	|   --  main.tpl.php			- Default main template
+	|   --  postEdit.tpl.php		- Post Editing
+	|   --  post.tpl.php			- Post Display
+	|   --  signupForm.tpl.php		- Signup Lightbox
+	-------------------------------------------------------------------------------------
+	|   -- index.php		| The Gatekeeper
+	|   -- README		| this file
+	|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ________________________________________________________________________________________________________________________________________
+
+

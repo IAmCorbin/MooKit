@@ -38,9 +38,10 @@ class MooKit {
 	
 	public function __construct($request) {
 		//Functions
-		require_once 'CodeCore/functions/php/htmLawed1.1.9.1.php';
-		require_once 'CodeCore/functions/php/auth.php';
-		require_once 'CodeCore/functions/php/functions.php';
+		require_once 'codeCore/php/htmLawed1.1.9.1.php';
+		require_once 'codeCore/php/functions.php';
+		require_once 'codeSite/php/functions.php';
+		require_once 'codeSite/php/updateContent.php';
 		
 		//Start Session and regenerate Session ID for security
 		session_start();
@@ -81,11 +82,11 @@ class MooKit {
 		$this->stylesPublic = array();
 		$this->stylesSecure = array();
 		//set core JavaScripts
-		$this->addScript('CodeCore/Classes/js','mootools-1.2.4-core-yc.js');
-		$this->addScript('CodeCore/Classes/js','mootools-1.2.4.4-more.js');
-		$this->addScript('CodeCore/Classes/js','LightBox.js');
-		$this->addScript('CodeCore/Classes/js','DeepLinker.js');
-		if(defined('DEBUG'))	$this->addScript('CodeCore/js','debug.js');
+		$this->addScript('codeCore/Classes/js','mootools-1.2.4-core-yc.js');
+		$this->addScript('codeCore/Classes/js','mootools-1.2.4.4-more.js');
+		$this->addScript('codeCore/Classes/js','LightBox.js');
+		$this->addScript('codeCore/Classes/js','DeepLinker.js');
+		if(defined('DEBUG'))	$this->addScript('codeCore/js','debug.js');
 	}
 	/**
 	  * Add a new CSS stylesheet
@@ -147,10 +148,16 @@ class MooKit {
 			$this->main->styles = array_merge($this->stylesPublic, $this->stylesSecure);
 		}
 		if($scripts) {
-			//Grab all public JavaScripts - all in CodeCore/js/
-			foreach(new DirectoryIterator('CodeCore/js') as $script) { $this->addScript('CodeCore/js',$script); }
-			//if secure, add secure JavaScript - all in CodeCore/js/secure/
-			if($this->SECURE()) { foreach(new DirectoryIterator('CodeCore/js/secure') as $script) { $this->addScript('CodeCore/js/secure',$script,'secure'); }}
+			//LOAD codeCore JavaScripts
+			    //Grab all public JavaScripts - all in codeCore/js/
+			    foreach(new DirectoryIterator('codeCore/js') as $script) { $this->addScript('codeCore/js',$script); }
+			    //if secure, add secure JavaScript - all in codeCore/js/secure/
+			    if($this->SECURE()) { foreach(new DirectoryIterator('codeCore/js/secure') as $script) { $this->addScript('codeCore/js/secure',$script,'secure'); }}
+			//LOAD codeSite JavaScripts
+			    //Grab all public JavaScripts - all in codeSite/js/
+			    foreach(new DirectoryIterator('codeSite/js') as $script) { $this->addScript('codeSite/js',$script); }
+			    //if secure, add secure JavaScript - all in codeSite/js/secure/
+			    if($this->SECURE()) { foreach(new DirectoryIterator('codeSite/js/secure') as $script) { $this->addScript('codeSite/js/secure',$script,'secure'); }}
 			
 			//set all scripts for main template
 			$this->main->scripts = array_merge($this->scriptsPublic, $this->scriptsSecure);

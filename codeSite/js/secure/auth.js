@@ -18,7 +18,7 @@ window.addEvent('domready', function() {
 	$('logout').addEvent('click',function(e) {
 		new Request({
 			method: 'post',
-			url: 'CodeCore/php/logout.php',
+			url: 'codeSite/php/logout.php',
 			onSuccess: function() {
 				//fade out secure content
 				$$('.secureArea').set('tween',{duration:'2000'}).fade('0');

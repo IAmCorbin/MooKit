@@ -1,0 +1,16 @@
+#turn off auto-adding directory slashes
+DirectorySlash Off
+
+
+## URL Rewriting ##
+##
+<IfModule mod_rewrite.c>
+
+	RewriteEngine Off
+
+</IfModule>
+
+
+<IfModule mod_php5.c>
+  php_value auto_prepend_file none
+</IfModule>

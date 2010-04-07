@@ -9,7 +9,7 @@
   *	it will serve files or build the application based on the request, you can setup whatever type of user requests you want to allow here
   *		ex: allow selection by date, yyyy/mm/dd, or the regEx -  ^[0-9]{4}/[0-1][0-9]/[0-3][0-9]$
   *
-  * CodeCore/php/init.php - Included via php's auto_prepend_file - set in .htaccess
+  * codeCore/php/init.php - Included via php's auto_prepend_file - set in .htaccess
   *
   */
 //Create new application
@@ -45,7 +45,7 @@ switch($_GET['request']) {
 		$Demo->main->signupTpl = new Template('templates/signupForm.tpl.php');
 
 		//Content Area
-		$Demo->main->contentTpl = getAuthContent(FALSE);
+		$Demo->main->contentTpl = updateContent(FALSE);
 		$Demo->main->contentTpl->userIP = $_SESSION['ip'];
 
 		//OUTPUT

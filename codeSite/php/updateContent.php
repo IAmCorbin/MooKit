@@ -1,5 +1,5 @@
 <?
-function getAuthContent($secure=TRUE) {
+function updateContent($secure=TRUE) {
 
 	$contentTpl = new Template('templates/content.tpl.php');
 	
@@ -7,10 +7,7 @@ function getAuthContent($secure=TRUE) {
 	
 	//Security Check
 	$security = new Security;
-	if(!$security->check()) {
-		
-		//$contentTpl->userInfo = null;
-		//$contentTpl->cssTpl = null;
+	if(!$security->check()) { //Unauthorized
 		$contentTpl->postTpl = new Template('templates/post.tpl.php');
 		//display most recent post
 		$post = $DB->query("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;","object");
@@ -23,29 +20,11 @@ function getAuthContent($secure=TRUE) {
 		$Menu->add('testing','','authAjaxLink');
 		  $Menu->addSub('sublink test','','authAjaxLink');
 		$Menu->add('Testing Secure Ajax Links','','authAjaxLink');
-		  $Menu->addSub('test1secure','CodeCore/php/test1.php','authAjaxLink');
-		  $Menu->addSub('test2secure','CodeCore/php/test2.php','authAjaxLink');
-		  $Menu->addSub('test3secure','CodeCore/php/test3.php','authAjaxLink');
+		  $Menu->addSub('test1secure','codeSite/php/test1.php','authAjaxLink');
+		  $Menu->addSub('test2secure','codeSite/php/test2.php','authAjaxLink');
+		  $Menu->addSub('test3secure','codeSite/php/test3.php','authAjaxLink');
 		$contentTpl->Menu = $Menu;
-		
-		//~ $contentTpl->navTpl->links = array(	array('href'=>'',
-										//~ 'name'=>'testing',
-										//~ 'ajax'=>'authAjaxLink',
-										//~ 'sublinks'=>array( array(	'href'=>'',
-															//~ 'name'=>'sublink test',
-															//~ 'ajax'=>'authAjaxLink'))),
-									//~ array('href'=>'',
-										//~ 'name'=>'Testing Secure Ajax Links',
-										//~ 'ajax'=>'authAjaxLink',
-										//~ 'sublinks'=>array(	array('href'=>'CodeCore/php/test1.php',
-															//~ 'ajax'=>'authAjaxLink',
-															//~ 'name'=>'test1secure'),
-														//~ array('href'=>'CodeCore/php/test2.php',
-															//~ 'ajax'=>'authAjaxLink',
-															//~ 'name'=>'Test2secure'),
-														//~ array('href'=>'CodeCore/php/test3.php',
-															//~ 'ajax'=>'authAjaxLink',
-															//~ 'name'=>'Test3secure'))));
+
 		//User Info Table
 		$userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","assoc");
 		$contentTpl->userInfo = $userInfo[0];
@@ -57,6 +36,7 @@ function getAuthContent($secure=TRUE) {
 			$contentTpl->postEditTpl->postTitle = $post[0]->title;
 			$contentTpl->postEditTpl->postText = $post[0]->html;
 	}
+	//return the finished template to JavaScript
 	return $contentTpl;
 }
 ?>

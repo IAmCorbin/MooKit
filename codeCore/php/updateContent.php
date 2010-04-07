@@ -1,11 +1,9 @@
 <?
-//require_once $_SERVER['DOCUMENT_ROOT'].'/MooKit/CodeCore/php/includes.php';
 //decode sent json
 if(get_magic_quotes_gpc()) $_POST['json'] = stripslashes($_POST['json']);
 $json = json_decode($_POST['json']);
 
 if($json->secure == '1') {
-	//INIT(true);
 	//set secure styles
 	$styles = array();
 	foreach(new DirectoryIterator('style/secure') as $style)
@@ -14,15 +12,19 @@ if($json->secure == '1') {
 				array_push($styles,'style/secure/'.$style);
 	//set secure scripts
 	$scripts = array();
-	foreach(new DirectoryIterator('CodeCore/js/secure') as $script)
+	//codeCore
+	foreach(new DirectoryIterator('codeCore/js/secure') as $script)
 		//make sure file is .js
 			if( preg_match("/\.js$/",$script))
-				array_push($scripts,'CodeCore/js/secure/'.$script);
+				array_push($scripts,'codeCore/js/secure/'.$script);
+	//codeSite
+	foreach(new DirectoryIterator('codeSite/js/secure') as $script)
+		//make sure file is .js
+			if( preg_match("/\.js$/",$script))
+				array_push($scripts,'codeSite/js/secure/'.$script);
 } else {
-	echo "HIT!";
-	//INIT(false,"WTF");
-	echo "AFTER!";
+	
 }
 //send authContent template and stylesheets to JavaScript
-echo json_encode(array("html"=>getAuthContent()->run(),"styles"=>$styles,"scripts"=>$scripts));
+echo json_encode(array("html"=>updateContent()->run(),"styles"=>$styles,"scripts"=>$scripts));
 ?>
