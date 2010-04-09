@@ -46,7 +46,7 @@ switch($_GET['request']) {
 
 		//Content Area
 		$Demo->main->contentTpl = updateContent(FALSE);
-		$Demo->main->contentTpl->userIP = $_SESSION['ip'];
+		if(isset($_SESSION['ip']))	$Demo->main->contentTpl->userIP = $_SESSION['ip'];
 
 		//OUTPUT
 		$Demo->RUN();
@@ -54,12 +54,11 @@ switch($_GET['request']) {
 	case 'blank/page':
 		break;
 	default:
-		//If Page is not found throw an error page
+		//If Page is not found, build an error page
 		$Demo->INIT();
 		$Demo->main->title = "Demo MooKit Application - 404 Error";
-		//$Demo->main->Menu = new Menu;
-		$Demo->main->contentTpl = new Template('templates/404.tpl.php');//'<p>Invalid Page Requested, Please <a href="http://10.10.10.100/MooKit/">Visit the Main Site</a></p>';
-		$Demo->RUN(TRUE,FALSE); //Run Application - disable JavaScripts
+		$Demo->main->contentTpl = new Template('templates/404.tpl.php');
+		$Demo->RUN(TRUE,FALSE); //Run Application - enable styles, disable JavaScripts
 		break;
 }
 ?>

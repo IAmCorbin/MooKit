@@ -5,4 +5,5 @@ function __autoload($class_name) { 	require_once "codeCore/Classes/php/".$class_
 
 //GLOBAL VARIABLES
 define('DEBUG', false); //DEBUG FLAG
+define('NAMESPACE','MooKit');
 ?>

@@ -41,7 +41,6 @@ class MooKit {
 		require_once 'codeCore/php/htmLawed1.1.9.1.php';
 		require_once 'codeCore/php/functions.php';
 		require_once 'codeSite/php/functions.php';
-		require_once 'codeSite/php/updateContent.php';
 		
 		//Start Session and regenerate Session ID for security
 		session_start();

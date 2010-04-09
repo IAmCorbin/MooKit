@@ -24,19 +24,20 @@ IndexIgnore *
 	## Rewrite Debugging Script - send rules to this location to help debug rewrite issues
 	#RewriteRule ^.*$ ../mod_rewrite_debug.php [L]
 	
-	## Allow access to documentation folders
-	RewriteRule docs$ docs/ [L]
-	RewriteRule docs/jsDocs$ docs/jsDocs/ [L]
-	RewriteRule docs/phpDocs$ docs/phpDocs/ [L]
-	RewriteRule docs/$|docs/jsDocs/$|docs/phpDocs/$ - [L]
+	# Moved doc folders up a directory, no longer need these rules
+		## Allow access to documentation folders
+		#RewriteRule docs$ docs/ [L]
+		#RewriteRule docs/jsDocs$ docs/jsDocs/ [L]
+		#RewriteRule docs/phpDocs$ docs/phpDocs/ [L]
+		#RewriteRule docs/$|docs/jsDocs/$|docs/phpDocs/$ - [L]
 
 
 	## Force connections through index.php for handling
 	## if not already index.php
-	RewriteCond %{REQUEST_URI} !/index\.php$
+	RewriteCond %{REQUEST_URI} !/public/index\.php$
 	## and request has not already been set
 	RewriteCond %{QUERY_STRING} !request=
-	RewriteRule ^(.+)$ /MooKit/index.php?request=$1 [L]
+	RewriteRule ^(.+)$ /MooKit/public/index.php?request=$1 [L]
 
 </IfModule>
 
