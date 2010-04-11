@@ -30,7 +30,7 @@ class User {
 		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['user']."' LIMIT 1;";
 		$user = $this->DB->query($query,"object");
 		//return if username is already found, no duplicates allowed
-		if($user[0]->alias) return 'duplicate';
+		if(is_object($user)) if($user[0]->alias) return 'duplicate';
 		
 		//generate encrypted password
 		$regTime = date('Y-m-d H:i:s');

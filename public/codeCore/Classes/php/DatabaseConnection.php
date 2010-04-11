@@ -53,7 +53,7 @@ class DatabaseConnection {
 	function __construct($host=NULL,$user=NULL,$pass=NULL,$db=NULL,$dummy=TRUE) {
 		if(!!$dummy) {
 			try{
-				include $_SERVER['DOCUMENT_ROOT'].NAMESPACE.'/public/codeSite/php/DB.php';
+				include $_SERVER['DOCUMENT_ROOT'].'codeSite/php/DB.php';
 				if($host == NULL) { echo "PLEASE SETUP DATABASE CREDENTIALS IN /public/codeSite/php/DB.php FIRST!"; return false; }
 				//create mysqli database object
 				$this->mysqli = @new mysqli($host,$user,$pass,$db);
@@ -87,11 +87,11 @@ class DatabaseConnection {
 			if(!$results = $this->mysqli->query($query)) {
 				//log error
 				$msg = date(DATE_RFC850)." : "."Error in query: $query".$this->mysqli->error."\n";
-				error_log($msg, 3, $_SERVER['DOCUMENT_ROOT']."MooKit/logs/DBerrors.log"); //save error to logfile
-				if(DEBUG) echo $msg; //if debug mode is on, echo the error msg
+				error_log($msg, 3, ERROR_LOG_DIR."DBerrors.log"); //save error to logfile
 				return false;
 			} else {
-				//query successful
+				//query successful - no rows returned
+				if(!is_object($results)) return true;
 				if($results->num_rows === 0)
 					return true;
 				//handle display option

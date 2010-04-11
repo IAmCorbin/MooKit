@@ -22,7 +22,7 @@ IndexIgnore *
 	RewriteEngine On
 
 	## Rewrite Debugging Script - send rules to this location to help debug rewrite issues
-	#RewriteRule ^.*$ ../mod_rewrite_debug.php [L]
+	#RewriteRule ^(.*)$ ../mod_rewrite_debug.php?request=$1 [L]
 	
 	# Moved doc folders up a directory, no longer need these rules
 		## Allow access to documentation folders
@@ -34,11 +34,11 @@ IndexIgnore *
 
 	## Force connections through index.php for handling
 	## if not already index.php
-	RewriteCond %{REQUEST_URI} !/public/index\.php$
+	RewriteCond %{REQUEST_URI} !/index\.php$
 	## and request has not already been set
 	RewriteCond %{QUERY_STRING} !request=
-	RewriteRule ^(.+)$ /MooKit/public/index.php?request=$1 [L]
-
+	RewriteRule ^(.+)$ /index.php?request=$1 [L]
+	
 </IfModule>
 
 <IfModule mod_php5.c>

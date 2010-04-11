@@ -37,8 +37,8 @@
 		$this->title = $inputFilter->htmLawed($this->title); 
 		$this->html = $inputFilter->htmLawed($this->html);
 		//Check for Errors
-		if($errors = $inputFilter->ERRORS())
-			$error = 'ERROR_FILTER';		
+		if($inputFilter->ERRORS())
+			$this->error = 'ERROR_FILTER';		
 		//prepare for query		
 	}
 	/** Magic PHP __get 
@@ -54,6 +54,6 @@
 	/** Return the error status of the post 
 	 * @returns string error status
 	 */	
-	public function errorStatus() { return $error; }
+	public function errorStatus() { return $this->error; }
  }
 ?>

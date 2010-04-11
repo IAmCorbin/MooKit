@@ -23,7 +23,8 @@ if($json->secure == '1') {
 			if( preg_match("/\.js$/",$script))
 				array_push($scripts,'codeSite/js/secure/'.$script);
 } else {
-	
+	$styles = array();
+	$scripts = array();
 }
 //send authContent template and stylesheets to JavaScript
 echo json_encode(array("html"=>updateContent()->run(),"styles"=>$styles,"scripts"=>$scripts));

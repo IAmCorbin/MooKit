@@ -12,6 +12,10 @@
   * codeCore/php/init.php - Included via php's auto_prepend_file - set in .htaccess
   *
   */
+//set default request if one is not sent
+if(!isset($_GET['request']))
+	$_GET['request'] = '';
+  
 //Create new application
 $Demo = new MooKit($_GET['request']);
 

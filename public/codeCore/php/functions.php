@@ -7,14 +7,14 @@ function magicMySQL($DB,$var) {
 	return mysqli_real_escape_string($DB,$var);
 }
 // we will do our own error handling
-//error_reporting(0);
+error_reporting(0);
 
 /** Error Handling and Logging **/
 function ErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {
     //Error Log filename
-      $errorLogPath = $_SERVER['DOCUMENT_ROOT'].NAMESPACE."/logs/PHPerrors.xml";
-    //how long to keep errors
-      $errorExpireTime = strtotime("-7 days") ;
+      $errorLogPath = ERROR_LOG_DIR."PHPerrors.xml";
+    //how long to keep errors 
+      defined('PHP_ERROR_EXPIRE')? $errorExpireTime = strtotime(PHP_ERROR_EXPIRE) : $errorExpireTime = strtotime("-7 days");
     // define an assoc array of error string
     // in reality the only entries we should
     // consider are E_WARNING, E_NOTICE, E_USER_ERROR,

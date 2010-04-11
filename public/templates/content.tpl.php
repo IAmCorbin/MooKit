@@ -1,4 +1,4 @@
-<?= $userIP ?>
+<? if(isset($userIP)) echo $userIP; ?>
 	<!-- CONTENT AREA -->
 		<? if($_SESSION['auth'] == 1) { ?>
 		<div class="secureArea">

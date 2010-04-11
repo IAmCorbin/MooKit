@@ -21,6 +21,9 @@
 	 *@returns bool
 	 */
 	function __construct() {
+		//default to unauthorized
+		if(!isset($_SESSION['auth'])) $_SESSION['auth'] = 0;
+		//check for authorization, ip address and valid user
 		if(  $_SESSION['auth'] === 1 && $this->checkIP() && $this->checkUser() )
 			$this->status = true;
 		else

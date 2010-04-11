@@ -15,14 +15,14 @@
 		<? if(isset($Menu)) $Menu->output(); // NAVIGATION BAR // ?>
 	</div>
 
-	<?= $loginTpl // LOGIN FORM // ?>
-	<?= $signupTpl // SIGNUP FORM //?>
+	<? if(isset($loginTpl)) echo $loginTpl; // LOGIN FORM // ?>
+	<? if(isset($signupTpl)) echo $signupTpl; // SIGNUP FORM //?>
 	
 	<div id="content">
 		<?= $contentTpl // CONTENT // ?>
 	</div>
 	
-	<?= $debugTpl ?>
+	<? if(isset($debugTpl)) echo $debugTpl; ?>
 	
 <!-- CODE VALIDATION BADGES -->
 <p id="w3_validated">

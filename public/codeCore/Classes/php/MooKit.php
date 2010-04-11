@@ -44,7 +44,7 @@ class MooKit {
 		
 		//Start Session and regenerate Session ID for security
 		session_start();
-		session_regenerate_id();	
+		session_regenerate_id();
 		
 		$_SESSION['SYSNAME'] = 'MooKit';
 		
@@ -61,9 +61,9 @@ class MooKit {
 		}
 		
 		//FILE HANDLING
-		if(is_readable($_GET['request']) && !is_dir($_GET['request']) ) {
+		if(is_readable($request) && !is_dir($request) ) {
 			//return file and abort application
-			include $_GET['request'];
+			include $request;
 			exit();
 		}
 	}

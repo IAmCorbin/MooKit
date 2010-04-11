@@ -1,1 +1,1 @@
-<p>Invalid Page Requested, Please <a href="http://10.10.10.100/MooKit/">Visit the Main Site</a></p>
+<p>Invalid Page Requested, Please <a href="http://www.MooKit.net/">Visit the Main Site</a></p>
