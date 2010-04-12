@@ -3,7 +3,6 @@
  * Check for Magic Quotes and Strip if on and return mysql_real_escape_string
  */
 function magicMySQL($DB,$var) {
-	if(get_magic_quotes_gpc()) $var = stripslashes($var);
 	return mysqli_real_escape_string($DB,$var);
 }
 // we will do our own error handling
@@ -82,7 +81,8 @@ function ErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {
 		// save the modified error log
 		$errorLog->save($errorLogPath);
 	} else { 
-		echo "Error Accessing Error Log at ".$errorLogPath." | Please make sure this file is avaiable and writable by the web server";
+		// SEND AN EMAIL TO ADMINISTRATOR IF ERROR LOGGING IS BROKEN
+		//echo "Error Accessing Error Log at ".$errorLogPath." | Please make sure this file is avaiable and writable by the web server";
 		die();
 	}
     

@@ -1,6 +1,5 @@
 <?
 //decode sent json
-if(get_magic_quotes_gpc()) $_POST['json'] = stripslashes($_POST['json']);
 $json = json_decode($_POST['json']);
 
 if($json->secure == '1') {

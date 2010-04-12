@@ -33,7 +33,7 @@ class MooKit {
 	 *								RewriteCond %{REQUEST_URI} !/index\.php$
 	 *								## and request has not already been set
 	 *								RewriteCond %{QUERY_STRING} !request=
-	 *								RewriteRule ^(.+)$ /MooKit/index.php?request=$1 [L]
+	 *								RewriteRule ^(.+)$ /index.php?request=$1 [L]
 	 */
 	
 	public function __construct($request) {

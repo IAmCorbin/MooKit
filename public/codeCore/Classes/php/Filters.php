@@ -115,9 +115,6 @@ Class Filters {
 	 * @return string
 	 */
 	 public function htmLawed($input) {
-		//REMOVE MAGIC QUOTES
-		if(get_magic_quotes_gpc())
-			$input = stripslashes($input);
 		return htmLawed($input,$this->htmLawedConfig);
 		
 	 }
@@ -131,8 +128,6 @@ Class Filters {
 		if( sizeof($this->errors) > 0 ) {
 			return $this->errors;
 		} else {
-			//hidden element to flag PHP Validation_ read from javascript
-			//echo '<div id="PHPVALIDATED" style="display:none;"></div>';
 			return NULL;
 		}
 	}
