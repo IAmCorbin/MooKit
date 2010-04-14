@@ -45,6 +45,14 @@ window.addEvent('domready', function() {
 							//decode JSON and check for status
 							json = JSON.decode(response);
 							$('debugBox').set('html',response); 
+							//if an error is detected, replace user's input with filtered input sent back from php so they can correct it
+							if(json.status.test('^ERROR')) {
+								this.getElement('input[name=alias]').set('value',json.alias);
+								this.getElement('input[name=nameFirst]').set('value',json.nameFirst);
+								this.getElement('input[name=nameLast]').set('value',json.nameLast);
+								this.getElement('input[name=email]').set('value',json.email);
+								$('signupPHPError').setStyle('display','block');
+							}
 							switch(json.status) {
 								case "ADDED":
 									debug("USER ADDED!"); 
@@ -52,32 +60,23 @@ window.addEvent('domready', function() {
 									signup.trigger(); 
 									$('signupForm').reset();
 									break;
-								case "ERROR_MISSING_DATA":
-									$('signupPHPError').setStyle('display','block');
-									$('signupPHPError').set('html',"Fields Blank");
-									break;
+								//If User was not added, display the proper error message
 								case "ERROR_FILTER":
-									$('signupPHPError').setStyle('display','block');
 									$('signupPHPError').set('html',"Invalid Username or Password, please try again or contact the administrator");
-									$('signupForm').reset();
 									break;
-								case "ERROR_BADPASS":
-									$('signupPHPError').setStyle('display','block');
-									$('signupPHPError').set('html',"Passwords do not match");
+								case "ERROR_BADPASS":									
+									$('signupPHPError').set('html',"The passwords you entered do not match");
 									break;
 								case "ERROR_DUPLICATE":
-									$('signupPHPError').setStyle('display','block');
-									console.log("DUPLICATE");
-									$('signupPHPError').set('html',"User already exists, try a different username");
+									$('signupPHPError').set('html',"Alias or Email Address already exists, try a different alias or email address");
 									break;
 								case "ERROR_ADDING":
-									$('signupPHPError').setStyle('display','block');
 									$('signupPHPError').set('html',"Error adding user, please try again later. If problem persists contact the administrator");
 									break;
 								default:
 									break;
 							}
-					} 
+					}.bind(this) 
 				}).send();
 			}
 		});

@@ -16,8 +16,8 @@
 class User {
 	/** @var mysqli $mysqli		mysqli database object */
 	var $DB;
-	/** @var string $status		stores the status (success/failure) of user manipulation */
-	var $status;
+	/** @var string $json_status	stores the status (success/failure) of user manipulation, to be sent back to javascript */
+	var $json_status;
 	/** @var int $user_id		users's id */
 	var $user_id;
 	/** @var string $nameFirst	user's first name */
@@ -43,13 +43,11 @@ class User {
 	  * Constructor 
 	  *@param array $filteredInput - array filled with filtered user input
 	  *@param bool $newUser - switch to create a new user or retrieve an existing one
+	  *@param function $newUserCallback - function that will be called if a new user is successfully added
 	  */
-	function __construct($filteredInput, $newUser = true) {
+	function __construct($filteredInput, $newUser = true, $newUserCallback = null) {
 		//check for valid passed data
-		$this->status = json_encode(array('status'=>"alias = ".addslashes($filteredInput['alias']))); return;
-		if(!isset($filteredInput['alias']) || $filteredInput['alias'] == ' ') {
-			$this->status =  json_encode(array('status'=>'ERROR_MISSING_DATA'));
-		}
+		//if(!array_key_exists('alias',$filteredInput) || )
 		//check for matching passwords first
 		if($filteredInput['password'] === $filteredInput['vpassword']) {
 			//establish database connection
@@ -59,23 +57,28 @@ class User {
 				//attempt to add this user
 				switch($userStatus = $this->addNew($filteredInput)) {
 					case 'added':
-						$this->status = json_encode(array('status'=>'ADDED'));
+						$this->json_status = json_encode(array('status'=>'ADDED'));
+						//Fire New User Callback
+						if(is_callable($newUserCallback)) {
+							//echo "is_callable : true";
+							call_user_func($newUserCallback);
+						}
 						return;
 					case 'duplicate':
-						$this->status =  json_encode(array('status'=>'ERROR_DUPLICATE'));
+						$this->json_status =  json_encode(array('status'=>'ERROR_DUPLICATE'));
 						return;
 					case 'passEncFail';
-						$this->status =  json_encode(array('status'=>'ERROR_ADDING'));
+						$this->json_status =  json_encode(array('status'=>'ERROR_ADDING'));
 						return;
 					case false:
-						$this->status =  json_encode(array('status'=>'ERROR_ADDING'));
+						$this->json_status =  json_encode(array('status'=>'ERROR_ADDING'));
 						return;
 				}
 			} else {
 				//attemp to retrieve this user
 			}			
 		} else
-			$this->status =  json_encode(array('status'=>'ERROR_BADPASS'));
+			$this->json_status =  json_encode(array('status'=>'ERROR_BADPASS'));
 		
 	}
 	/**
@@ -85,7 +88,7 @@ class User {
 	 */
 	public function addNew($filteredInput) {
 		//check database for duplicate username
-		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['alias']."' LIMIT 1;";
+		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['alias']."' OR `email`='".$filteredInput['email']."' LIMIT 1;";
 		$user = $this->DB->query($query,"object");
 		//return if username is already found, no duplicates allowed
 		if(is_object($user[0])) if($user[0]->alias) return 'duplicate';
@@ -109,7 +112,7 @@ class User {
 	 *@return bool
 	 */
 	public function authenticate($user,$pass, $tbl='users') {
-		//if authentication if set, unset it
+		//if authentication is set, unset it
 		isset($_SESSION['auth'])? $_SESSION['auth']=0  : 0;
 		//if a valid password is returned (requires the username to be in the database)
 		if($encPass = $this->encryptPassword($user,$pass)) {
@@ -125,10 +128,10 @@ class User {
 				return true;
 			}
 		} else {
-			$this->NOAUTH();
+			User::NOAUTH();
 			return false;
 		}
-		$this->NOAUTH();
+		User::NOAUTH();
 		return false;
 	}
 	/**
@@ -170,7 +173,7 @@ class User {
 	/**
 	 * Removed Authorized Session Variables
 	 */
-	public function NOAUTH() {
+	public static function NOAUTH() {
 		unset($_SESSION['auth']); //remove authentication
 		unset($_SESSION['user']); //unset username
 		unset($_SESSION['user_id']); //unset user_id

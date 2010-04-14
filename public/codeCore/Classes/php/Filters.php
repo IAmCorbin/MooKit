@@ -58,10 +58,14 @@ Class Filters {
 	 * 
 	 * Filter user entered text
 	 * @param string $user_text
+	 * @param bool $stripWS 	Switch to optionally strip all whitespace
 	 * @returns string
 	 */
-	public function text($user_text) {
+	public function text($user_text, $stripWS = false) {
 		if($user_text !== '') {
+			//optionally remove whitespace
+			if($stripWS)
+				$user_text = str_replace(" ","",$user_text);
 			//sanitize to remove invalid characters
 			$text = filter_var($user_text, FILTER_SANITIZE_STRING);
 			if($text !== '')

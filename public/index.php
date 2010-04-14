@@ -15,7 +15,7 @@
 //set default request if one is not sent
 if(!isset($_GET['request']))
 	$_GET['request'] = '';
-  
+	
 //Create new application
 $Demo = new MooKit($_GET['request']);
 

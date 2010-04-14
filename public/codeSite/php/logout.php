@@ -1,7 +1,5 @@
 <?
 
-$user = new User;
-
-$user->NOAUTH();
+User::NOAUTH();
 
 ?>

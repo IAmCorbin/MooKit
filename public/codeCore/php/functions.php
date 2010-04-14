@@ -92,4 +92,14 @@ function ErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {
     //}
 }
 set_error_handler("ErrorHandler");
+
+
+ function array_keys_exist($keyArray, $array) {
+	foreach($keyArray as $key) {
+		if(!array_key_exists($key, $array))
+			return false;
+	}
+ 
+	return true;
+}
 ?>
