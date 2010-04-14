@@ -14,11 +14,69 @@
   * @package MooKit
   */
 class User {
-	/** @var mysqli $mysqli	mysqli database object */
+	/** @var mysqli $mysqli		mysqli database object */
 	var $DB;
-	/** Constructor */
-	function __construct() {
-		$this->DB = new DatabaseConnection;
+	/** @var string $status		stores the status (success/failure) of user manipulation */
+	var $status;
+	/** @var int $user_id		users's id */
+	var $user_id;
+	/** @var string $nameFirst	user's first name */
+	var $nameFirst;
+	/** @var string $namelast	user's last name */
+	var $nameLast;
+	/** @var string $alias		user's username */
+	var $alias;
+	/** @var string $password	user's password */
+	var $password;
+	/** @var string $email		user's email */
+	var $email;
+	/** @var string $registered	date and time user registered */
+	var $registered;
+	/** @var string $lastLogin	date and time user last logged in */
+	var $lastLogin;
+	/** @var string $ip_address	user's ip address */
+	var $ip_address;
+	/** @var string $access_level	user's permissions */
+	var $access_level;
+	
+	/** 
+	  * Constructor 
+	  *@param array $filteredInput - array filled with filtered user input
+	  *@param bool $newUser - switch to create a new user or retrieve an existing one
+	  */
+	function __construct($filteredInput, $newUser = true) {
+		//check for valid passed data
+		$this->status = json_encode(array('status'=>"alias = ".addslashes($filteredInput['alias']))); return;
+		if(!isset($filteredInput['alias']) || $filteredInput['alias'] == ' ') {
+			$this->status =  json_encode(array('status'=>'ERROR_MISSING_DATA'));
+		}
+		//check for matching passwords first
+		if($filteredInput['password'] === $filteredInput['vpassword']) {
+			//establish database connection
+			$this->DB = new DatabaseConnection;
+			
+			if($newUser) {
+				//attempt to add this user
+				switch($userStatus = $this->addNew($filteredInput)) {
+					case 'added':
+						$this->status = json_encode(array('status'=>'ADDED'));
+						return;
+					case 'duplicate':
+						$this->status =  json_encode(array('status'=>'ERROR_DUPLICATE'));
+						return;
+					case 'passEncFail';
+						$this->status =  json_encode(array('status'=>'ERROR_ADDING'));
+						return;
+					case false:
+						$this->status =  json_encode(array('status'=>'ERROR_ADDING'));
+						return;
+				}
+			} else {
+				//attemp to retrieve this user
+			}			
+		} else
+			$this->status =  json_encode(array('status'=>'ERROR_BADPASS'));
+		
 	}
 	/**
 	 * Add a new user to the database
@@ -27,18 +85,18 @@ class User {
 	 */
 	public function addNew($filteredInput) {
 		//check database for duplicate username
-		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['user']."' LIMIT 1;";
+		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['alias']."' LIMIT 1;";
 		$user = $this->DB->query($query,"object");
 		//return if username is already found, no duplicates allowed
-		if(is_object($user)) if($user[0]->alias) return 'duplicate';
+		if(is_object($user[0])) if($user[0]->alias) return 'duplicate';
 		
 		//generate encrypted password
 		$regTime = date('Y-m-d H:i:s');
-		if($encPass = $this->encryptPassword($filteredInput['user'],$filteredInput['pass'],$regTime)) {
+		if($encPass = $this->encryptPassword($filteredInput['alias'],$filteredInput['password'],$regTime)) {
 			//add new user to database
 			$this->DB->query(
-				'INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`) 
-				VALUES(\''.$filteredInput['user'].'\',\''.$filteredInput['first'].'\',\''.$filteredInput['last'].'\',\''.$encPass.'\',\''.$filteredInput['email'].'\',\''.$regTime.'\');',null);
+				'INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`,`ip_address`) 
+				VALUES(\''.$filteredInput['alias'].'\',\''.$filteredInput['nameFirst'].'\',\''.$filteredInput['nameLast'].'\',\''.$encPass.'\',\''.$filteredInput['email'].'\',\''.$regTime.'\', INET_ATON(\''.$_SERVER['REMOTE_ADDR'].'\'));',null);
 			return 'added';
 		} else
 			return 'passEncFail';
@@ -74,15 +132,11 @@ class User {
 		return false;
 	}
 	/**
-	 * NO AUTHORIZATION
-	 *
-	 * REMOVE AUTHORIZATION FLAG AND USERNAME
-	 */
-	public function NOAUTH() {
-		unset($_SESSION['auth']); //remove authentication
-		unset($_SESSION['user']); //unset username
-		unset($_SESSION['user_id']); //unset user_id
-		unset($_SESSION['ip']); //unset ip address
+	  * Retrieve a user's information from the database and store to object variables
+	  * @param array $filteredInput - array of filtered user input
+	  */
+	public function retrieve($filteredInput) {
+		
 	}
 	/**
 	 * Encrypt a password
@@ -107,6 +161,20 @@ class User {
 		//md5 encrypt the salt+password, then sha1 that whole thing and return the encrypted password
 		return sha1(md5($salt.$pass));
 	}
+	/** 
+	  * Set Authorized Session Variables
+	  */
+	public function AUTH() {
 	
+	}
+	/**
+	 * Removed Authorized Session Variables
+	 */
+	public function NOAUTH() {
+		unset($_SESSION['auth']); //remove authentication
+		unset($_SESSION['user']); //unset username
+		unset($_SESSION['user_id']); //unset user_id
+		unset($_SESSION['ip']); //unset ip address
+	}
 }
 ?>

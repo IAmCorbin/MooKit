@@ -52,6 +52,10 @@ window.addEvent('domready', function() {
 									signup.trigger(); 
 									$('signupForm').reset();
 									break;
+								case "ERROR_MISSING_DATA":
+									$('signupPHPError').setStyle('display','block');
+									$('signupPHPError').set('html',"Fields Blank");
+									break;
 								case "ERROR_FILTER":
 									$('signupPHPError').setStyle('display','block');
 									$('signupPHPError').set('html',"Invalid Username or Password, please try again or contact the administrator");

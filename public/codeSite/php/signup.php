@@ -2,11 +2,11 @@
 $inputFilter = new Filters;
 
 //Validate User Input
-$filteredInput['user'] = $inputFilter->text($_POST['user']);
-$filteredInput['first'] = $inputFilter->text($_POST['first']);
-$filteredInput['last'] = $inputFilter->text($_POST['last']);
-$filteredInput['pass'] = $inputFilter->text($_POST['pass']);
-$filteredInput['vpass'] = $inputFilter->text($_POST['vpass']);
+$filteredInput['alias'] = $inputFilter->text($_POST['user']);
+$filteredInput['nameFirst'] = $inputFilter->text($_POST['first']);
+$filteredInput['nameLast'] = $inputFilter->text($_POST['last']);
+$filteredInput['password'] = $inputFilter->text($_POST['pass']);
+$filteredInput['vpassword'] = $inputFilter->text($_POST['vpass']);
 $filteredInput['email'] = $inputFilter->email($_POST['email']);
 //Check for Errors
 if($errors = $inputFilter->ERRORS()) {
@@ -14,26 +14,11 @@ if($errors = $inputFilter->ERRORS()) {
 	echo '{"status" : "ERROR_FILTER"}';
 	return;
 } else {
-	//make sure passwords match
-	if(($_POST['pass'] === $_POST['vpass'])){
-		$user = new User;
-		//Try and add new user
-		try {
-			switch($userStatus = $user->addNew($filteredInput)) {
-				case 'added':
-					echo json_encode(array('status'=>'ADDED'));
-					return;
-				case 'duplicate':
-					throw new Exception('ERROR_DUPLICATE');
-					break;
-				case 'passEncFail';
-					throw new Exception('ERROR_ADDING');
-					break;
-				case false:
-					throw new Exception('ERROR_ADDING');
-					break;
-			}
-			//send user an email
+	//Add New User
+	$status =  new User($filteredInput);
+	echo $status->status;
+
+		//send user an email
 			//~ $to = $filteredInput['email'];
 			//~ $subject = "User Login Test - Account Created";
 			//~ $message = 	"Thanks for signing up\n
@@ -50,12 +35,6 @@ if($errors = $inputFilter->ERRORS()) {
 			//if(!mail($to,$subject,$message)) 
 				//throw new Exception('Error Sending Email');
 			//User Added
-		} catch(Exception $e) {
-			echo json_encode(array('status'=>$e->getMessage()));
-			return;
-		}
-	} else {
-		echo json_encode(array('status'=>'ERROR_BADPASS'));
-	}
+	
 }
 ?>

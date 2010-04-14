@@ -5,8 +5,6 @@
 function magicMySQL($DB,$var) {
 	return mysqli_real_escape_string($DB,$var);
 }
-// we will do our own error handling
-error_reporting(0);
 
 /** Error Handling and Logging **/
 function ErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {

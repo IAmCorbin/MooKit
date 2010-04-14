@@ -16,6 +16,8 @@ define('ERROR_LOG_DIR','/home/corbin/skillWebDevelopment/LAMP_devSite/MooKit/log
 //set the expiration time for php errors
 define('PHP_ERROR_EXPIRE','-7 days');
 
+// Set Error Reporting Level
+error_reporting(E_ALL);
 
 /** REMOVE EVIL MAGIC QUOTES **/
 if (get_magic_quotes_gpc()) {
