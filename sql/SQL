@@ -1,35 +1,76 @@
 CREATE TABLE `users` (
-	user_id INT(7) UNSIGNED AUTO_INCREMENT NOT NULL,
-	nameFirst VARCHAR(25) NOT NULL,
-	nameLast VARCHAR(25) NOT NULL,
-	alias VARCHAR(25) UNIQUE NOT NULL,
-	password VARCHAR(40) NOT NULL,
-	email VARCHAR(50) NOT NULL,
-	registered DATETIME NOT NULL,
-	lastLogin DATETIME NULL,
-	verified BOOL NOT NULL DEFAULT FALSE,
+	`user_id` INT(7) UNSIGNED AUTO_INCREMENT NOT NULL,
+	`nameFirst` VARCHAR(25) NOT NULL,
+	`nameLast` VARCHAR(25) NOT NULL,
+	`alias` VARCHAR(25) UNIQUE NOT NULL,
+	`password` VARCHAR(40) NOT NULL,
+	`email` VARCHAR(50) NOT NULL,
+	`registered` DATETIME NOT NULL,
+	`lastLogin` DATETIME NULL,
+	`ip_address` INT(4) NOT NULL,
+	`access_level` INT(1) NOT NULL DEFAULT 0,
 	PRIMARY KEY(user_id),
 	INDEX(alias),
 	INDEX(nameFirst,nameLast),
 	INDEX(nameLast,nameFirst)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE `tags` (
-	tag_id INT(5) UNSIGNED AUTO_INCREMENT NOT NULL,
-	tag_name VARCHAR(255) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE `groups` (
+	`group_id` INT(4) UNSIGNED AUTO_INCREMENT NOT NULL,
+	`name` VARCHAR(30) NOT NULL,
+	`desc` VARCHAR(255) NULL,
+	PRIMARY KEY(group_id),
+	INDEX(name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `groupMembers` (
+	`group_id` INT(4) UNSIGNED NOT NULL,
+	`user_id` INT(7) UNSIGNED NOT NULL,
+	CONSTRAINT `FKgroupMembers_group_id` FOREIGN KEY (group_id) REFERENCES `groups` (group_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `FKgroupMembers_user_id` FOREIGN KEY (user_id) REFERENCES `users` (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `posts` (
-	post_id INT(10) UNSIGNED AUTO_INCREMENT NOT NULL,
-	user_id INT(7) UNSIGNED NULL,
-	title VARCHAR(255) NOT NULL,
-	html TEXT NULL,
-	createTime DATETIME NOT NULL,
-	modTime DATETIME NULL,
+	`post_id` INT(10) UNSIGNED AUTO_INCREMENT NOT NULL,
+	`creator_id` INT(7) UNSIGNED NULL,
+	`title` VARCHAR(255) NOT NULL,
+	`html` TEXT NULL,
+	`createTime` DATETIME NOT NULL,
+	`modTime` DATETIME NULL,
 	PRIMARY KEY (post_id),
 	INDEX (title),
 	INDEX(createTime),
 	INDEX(modTime),
-	CONSTRAINT `post_user` FOREIGN KEY (user_id) REFERENCES `users` (user_id) ON DELETE SET NULL
+	CONSTRAINT `FKposts_creator_id` FOREIGN KEY (creator_id) REFERENCES `users` (user_id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `postUserPermissions` (
+	`user_id` INT(7) UNSIGNED NOT NULL,
+	`post_id` INT(10) UNSIGNED NOT NULL,
+	`access_level` INT(1) NOT NULL DEFAULT 0,
+	CONSTRAINT `FKpostUserPermissions_user_id` FOREIGN KEY (user_id) REFERENCES `users` (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `FKpostUserPermissions_post_id` FOREIGN KEY (post_id) REFERENCES `posts` (post_id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `postGroupPermissions` (
+	`group_id` INT(7) UNSIGNED NOT NULL,
+	`post_id` INT(10) UNSIGNED NOT NULL,
+	access_level INT(1) NOT NULL DEFAULT 0,
+	CONSTRAINT `FKpostGroupPermissions_group_id` FOREIGN KEY (group_id) REFERENCES `groups` (group_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `FKpostGroupPermissions_post_id` FOREIGN KEY (post_id) REFERENCES `posts` (post_id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `tags` (
+	`tag_id` INT(5) UNSIGNED AUTO_INCREMENT NOT NULL,
+	`tag` VARCHAR(50) NOT NULL,
+	PRIMARY KEY(tag_id),
+	INDEX(tag)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `taggedPosts` (
+	`tag_id` INT(5) UNSIGNED NOT NULL,
+	`post_id` INT(10) UNSIGNED NOT NULL,
+	CONSTRAINT `FKtaggedPosts_tag_id` FOREIGN KEY (tag_id) REFERENCES `tags` (tag_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `FKtaggedPosts_post_id` FOREIGN KEY (post_id) REFERENCES `posts` (post_id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
