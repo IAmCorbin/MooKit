@@ -1,0 +1,20 @@
+CREATE THE FOLLOWING FILES IN THIS DIRECTORY(/logs/)AND GIVE WEB SERVER WRITE ACCESS:
+
+
+Filename:
+
+	PHPerrors.xml
+
+Contents:
+
+	<?xml version="1.0" encoding="ISO-8859-1"?>
+	<?xml-stylesheet type="text/xsl" href="PHPerrors.xsl"?>
+	<errors></errors>
+
+Filename:
+
+	DBerrors.log
+
+Contents:
+
+	Empty File
