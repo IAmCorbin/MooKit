@@ -11,7 +11,7 @@
 		//UPDATE POST IN Database
 		$DB = new DatabaseConnection;
 		if($_POST['post_id']) { //do not update if not a valid post number;
-			if($DB->query("INSERT INTO `posts` SET `user_id`='".$_SESSION['user_id']."', `title`='".$titleMysql."', `html`='".$htmlMysql."',  createTime`='".$this->createTime."', `modTime`='".$this->createTime."';",null)) {
+			if($DB->insert("INSERT INTO `posts` SET `user_id`='".$_SESSION['user_id']."', `title`='".$titleMysql."', `html`='".$htmlMysql."',  createTime`='".$this->createTime."', `modTime`='".$this->createTime."';") {
 				//SUCCESS
 				echo json_encode(array('status'=>'OK','title'=>stripslashes($post->title),'html'=>stripslashes($post->html));
 			} else {

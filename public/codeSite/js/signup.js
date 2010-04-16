@@ -62,7 +62,7 @@ window.addEvent('domready', function() {
 									break;
 								//If User was not added, display the proper error message
 								case "ERROR_FILTER":
-									$('signupPHPError').set('html',"Invalid Username or Password, please try again or contact the administrator");
+									$('signupPHPError').set('html',"Invalid Field, please try again or contact the administrator if this problem persists");
 									break;
 								case "ERROR_BADPASS":									
 									$('signupPHPError').set('html',"The passwords you entered do not match");

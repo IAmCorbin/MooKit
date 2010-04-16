@@ -3,21 +3,13 @@
 /** PHP Class Autoloading */
 function __autoload($class_name) { 	require_once "codeCore/Classes/php/".$class_name.".php"; }
 
-//set the default timezone
-date_default_timezone_set('America/Detroit');
-
-//GLOBAL VARIABLES
-define('DEBUG', true); //DEBUG FLAG
-define('NAMESPACE','MooKit');
-//define MooKit Directory
-define('ROOT_DIR','/home/corbin/skillWebDevelopment/LAMP_devSite/MooKit/public/');
-//define error directory
-define('ERROR_LOG_DIR','/home/corbin/skillWebDevelopment/LAMP_devSite/MooKit/logs/');
-//set the expiration time for php errors
-define('PHP_ERROR_EXPIRE','-7 days');
+//Require Site Settings
+require_once 'codeSite/php/init.php';
 
 // Set Error Reporting Level
 error_reporting(E_ALL);
+// Set Error Logging Location
+ini_set('error_log',ERROR_LOG_DIR.'phpErrors.log');
 
 /** REMOVE EVIL MAGIC QUOTES **/
 if (get_magic_quotes_gpc()) {

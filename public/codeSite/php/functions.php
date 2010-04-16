@@ -10,7 +10,7 @@ function updateContent($secure=TRUE) {
 	if(!$security->check()) { //Unauthorized
 		$contentTpl->postTpl = new Template('templates/post.tpl.php');
 		//display most recent post
-		$post = $DB->query("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;","object");
+		$post = $DB->get_rows("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;","object");
 		$contentTpl->postTpl->posts = $post;
 		
 		
@@ -26,15 +26,15 @@ function updateContent($secure=TRUE) {
 		$contentTpl->Menu = $Menu;
 
 		//User Info Table
-		$userInfo = $DB->query("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","assoc");
-		$contentTpl->userInfo = $userInfo[0];
+		$userInfo = $DB->get_row("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","assoc");
+		$contentTpl->userInfo = $userInfo;
 		
 		//Post Editing
 		$contentTpl->postEditTpl = new Template('templates/postEdit.tpl.php');
-			$post = $DB->query("SELECT `post_id`,`title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 1;","object");
-			$contentTpl->postEditTpl->postID = $post[0]->post_id;
-			$contentTpl->postEditTpl->postTitle = $post[0]->title;
-			$contentTpl->postEditTpl->postText = $post[0]->html;
+			$post = $DB->get_row("SELECT `post_id`,`title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 1;");
+			$contentTpl->postEditTpl->postID = $post->post_id;
+			$contentTpl->postEditTpl->postTitle = $post->title;
+			$contentTpl->postEditTpl->postText = $post->html;
 	}
 	//return the finished template to JavaScript
 	return $contentTpl;

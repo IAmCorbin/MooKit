@@ -13,8 +13,10 @@ Contents:
 
 Filename:
 
-	DBerrors.log
+	DBerrors.xml
 
 Contents:
 
-	Empty File
+	<?xml version="1.0" encoding="ISO-8859-1"?>
+	<?xml-stylesheet type="text/xsl" href="DBerrors.xsl"?>
+	<errors></errors>

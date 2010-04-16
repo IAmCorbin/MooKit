@@ -12,7 +12,7 @@
 		$htmlMysql = magicMySQL($DB->getLink(),$post->html);
 		//do not update if not a valid post number;
 		if($_POST['post_id']) { 
-			if($DB->query("UPDATE `posts` SET title='".$titleMysql."', html='".$htmlMysql."', modTime=NOW() WHERE `post_id`='".$_POST['post_id']."';",null)) {
+			if($DB->update("UPDATE `posts` SET title='".$titleMysql."', html='".$htmlMysql."', modTime=NOW() WHERE `post_id`='".$_POST['post_id']."';")) {
 				//SUCCESS
 				echo json_encode(array('status'=>'OK','title'=>stripslashes($post->title),'html'=>stripslashes($post->html)));
 			} else {

@@ -26,8 +26,6 @@ class User {
 	var $nameLast;
 	/** @var string $alias		user's username */
 	var $alias;
-	/** @var string $password	user's password */
-	var $password;
 	/** @var string $email		user's email */
 	var $email;
 	/** @var string $registered	date and time user registered */
@@ -84,22 +82,26 @@ class User {
 	/**
 	 * Add a new user to the database
 	 *@param array $filteredInput - array filled with filtered user input
-	 *@return bool
+	 *@param string $alias - new user's alias
+	 *@param string $password - new user's password
+	 *@param string $nameFirst - new user's first name
+	 *@param string $nameLast - new user's last name
+	 *@param string $email - new user's email address
 	 */
 	public function addNew($filteredInput) {
 		//check database for duplicate username
 		$query = "SELECT `alias` FROM `users` WHERE `alias`='".$filteredInput['alias']."' OR `email`='".$filteredInput['email']."' LIMIT 1;";
-		$user = $this->DB->query($query,"object");
+		$user = $this->DB->get_row($query);
 		//return if username is already found, no duplicates allowed
-		if(is_object($user[0])) if($user[0]->alias) return 'duplicate';
+		if(is_object($user[0])) if($user->alias) return 'duplicate';
 		
 		//generate encrypted password
 		$regTime = date('Y-m-d H:i:s');
 		if($encPass = $this->encryptPassword($filteredInput['alias'],$filteredInput['password'],$regTime)) {
 			//add new user to database
-			$this->DB->query(
+			$this->DB->insert(
 				'INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`,`ip_address`) 
-				VALUES(\''.$filteredInput['alias'].'\',\''.$filteredInput['nameFirst'].'\',\''.$filteredInput['nameLast'].'\',\''.$encPass.'\',\''.$filteredInput['email'].'\',\''.$regTime.'\', INET_ATON(\''.$_SERVER['REMOTE_ADDR'].'\'));',null);
+				VALUES(\''.$filteredInput['alias'].'\',\''.$filteredInput['nameFirst'].'\',\''.$filteredInput['nameLast'].'\',\''.$encPass.'\',\''.$filteredInput['email'].'\',\''.$regTime.'\', INET_ATON(\''.$_SERVER['REMOTE_ADDR'].'\'));');
 			return 'added';
 		} else
 			return 'passEncFail';
@@ -108,23 +110,20 @@ class User {
 	 * Authenticates a user against database - on authorization it will set $_SESSION['auth'] = 1
 	 *@param string $user - username to test
 	 *@param string $pass - password to test
-	 *@param string $tbl - the database table to test against
 	 *@return bool
 	 */
-	public function authenticate($user,$pass, $tbl='users') {
+	public function authenticate($user,$pass) {
 		//if authentication is set, unset it
 		isset($_SESSION['auth'])? $_SESSION['auth']=0  : 0;
 		//if a valid password is returned (requires the username to be in the database)
 		if($encPass = $this->encryptPassword($user,$pass)) {
 			//check user
-			$query = "SELECT `user_id`,`alias` FROM $tbl WHERE `alias`='$user' AND `password`='$encPass';";// LIMIT 1;";
-			$results = $this->DB->query($query,'object');
-			if($results[0]->user_id) {
+			if($this->retrieve($user,$pass)) {
 				//set authenticated session variables
 				$_SESSION['auth'] = 1;
-				$_SESSION['user'] = $user; //username
-				$_SESSION['user_id'] = $results[0]->user_id;
-				$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];//ip
+				$_SESSION['user'] = $this->alias; //username
+				$_SESSION['user_id'] = $this->user_id;
+				$_SESSION['ip'] = $this->ip_address;//ip
 				return true;
 			}
 		} else {
@@ -136,10 +135,31 @@ class User {
 	}
 	/**
 	  * Retrieve a user's information from the database and store to object variables
-	  * @param array $filteredInput - array of filtered user input
+	  * @param string $alias - user's alias
+	  * @param string $pass - user's encrypted password
 	  */
-	public function retrieve($filteredInput) {
+	public function retrieve($alias, $encPass) {
+		//grab user data from database
+		$query = "SELECT `user_id`,`alias`,`nameFirst`,`nameLast`,`email`,lastLogin FROM `users` WHERE `alias`='$alias' AND `password`='$encPass';";// LIMIT 1;";
+		$user = $this->DB->get_row($query);
 		
+		if(!is_object($user)) {
+			//throw an error if no user was found
+			trigger_error("Error Retrieving User");
+			return false;
+		}
+
+		//set User data
+		$this->user_id = $user->user_id;
+		$this->alias = $user->alias;
+		$this->nameFirst = $user->nameFirst;
+		$this->nameLast = $user->nameLast;
+		$this->email = $user->email;
+		$this->lastLogin = $user->lastLogin;
+		$this->ip_address = $user->ip_address;
+		$this->access_level = $user->access_level;
+		//success
+		return true;
 	}
 	/**
 	 * Encrypt a password
@@ -153,9 +173,9 @@ class User {
 		if(!$regTime) {
 			//get user registration time
 			$query = "SELECT `registered` FROM `users` WHERE `alias`='$user' LIMIT 1;";
-			if($results = $this->DB->query($query,'object')) {
+			if($result = $this->DB->get_row($query)) {
 				//store user's registration DATETIME
-				$regTime = $results[0]->registered;
+				$regTime = $result->registered;
 			} else //return NULL if no valid user alias was found in the database
 				return false;
 		}
