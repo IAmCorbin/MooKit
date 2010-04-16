@@ -81,6 +81,7 @@ window.addEvent('domready', function() {
 			}
 		});
 
+
 	//  END SIGNUP BOX   //
 	//--------------------------------//
 });

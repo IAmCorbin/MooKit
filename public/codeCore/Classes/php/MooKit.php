@@ -83,6 +83,7 @@ class MooKit {
 		//set core JavaScripts
 		$this->addScript('codeCore/Classes/js','mootools-1.2.4-core-yc.js');
 		$this->addScript('codeCore/Classes/js','mootools-1.2.4.4-more.js');
+		$this->addScript('codeCore/js/errorHandler.js');
 		$this->addScript('codeCore/Classes/js','LightBox.js');
 		$this->addScript('codeCore/Classes/js','DeepLinker.js');
 		if(defined('DEBUG'))	$this->addScript('codeCore/js','debug.js');
