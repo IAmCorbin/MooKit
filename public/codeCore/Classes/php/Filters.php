@@ -120,7 +120,6 @@ Class Filters {
 	 */
 	 public function htmLawed($input) {
 		return htmLawed($input,$this->htmLawedConfig);
-		
 	 }
 	/**
 	 * ERRORS

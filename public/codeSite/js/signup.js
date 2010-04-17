@@ -42,38 +42,31 @@ window.addEvent('domready', function() {
 					},
 					onSuccess: function(response) { 
 							$('signupProcessing').destroy(); 
-							//decode JSON and check for status
-							json = JSON.decode(response);
-							$('debugBox').set('html',response); 
+							
+							//process response -- this will handle any errors and return the json or false
+							json = handleResponse(response,'signupPHPError');
+							if(!json)
+								return;
+								
 							//if an error is detected, replace user's input with filtered input sent back from php so they can correct it
-							if(json.status.test('^ERROR')) {
+							if(json.status.test('^E_')) {
 								this.getElement('input[name=alias]').set('value',json.alias);
 								this.getElement('input[name=nameFirst]').set('value',json.nameFirst);
 								this.getElement('input[name=nameLast]').set('value',json.nameLast);
 								this.getElement('input[name=email]').set('value',json.email);
 								$('signupPHPError').setStyle('display','block');
 							}
+							//check return status
 							switch(json.status) {
-								case "ADDED":
-									debug("USER ADDED!"); 
+								case "OK":
+									debug("USER ADDED!");
 									$('signupPHPError').setStyle('display','none');
 									signup.trigger(); 
 									$('signupForm').reset();
 									break;
-								//If User was not added, display the proper error message
-								case "ERROR_FILTER":
-									$('signupPHPError').set('html',"Invalid Field, please try again or contact the administrator if this problem persists");
-									break;
-								case "ERROR_BADPASS":									
-									$('signupPHPError').set('html',"The passwords you entered do not match");
-									break;
-								case "ERROR_DUPLICATE":
-									$('signupPHPError').set('html',"Alias or Email Address already exists, try a different alias or email address");
-									break;
-								case "ERROR_ADDING":
-									$('signupPHPError').set('html',"Error adding user, please try again later. If problem persists contact the administrator");
-									break;
 								default:
+									//check and display JSON errors
+									checkJSONerrors(json.status,'signupPHPError');
 									break;
 							}
 					}.bind(this) 

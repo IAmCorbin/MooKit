@@ -39,7 +39,7 @@
 	}
 	/** Validate User */
 	public function checkUser() {
-		return isset($_SESSION['user']);
+		return isset($_SESSION['alias']);
 	}
  }
 ?>

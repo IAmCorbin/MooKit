@@ -1,3 +1,5 @@
+var DEBUG = true;
+
 window.addEvent('domready', function() {
 	//debug box
 	$('debugBox').set('tween',{duration: 100});

@@ -46,9 +46,10 @@ window.addEvent('domready', function() {
 						new Element('img',{src: 'img/ajax-loader.gif', id: 'loginProcessing'}).inject($$('.loginContent')[0]); 
 					},
 					onSuccess: function(response) { 
-						$('debugBox').set('html',response);
 						//kill ajax loader bar
 						$('loginProcessing').destroy(); 
+						if(DEBUG)
+							$('debugBox').set('html',response);
 						//decode JSON and check for status
 						json = JSON.decode(response);
 						switch(json.status) {

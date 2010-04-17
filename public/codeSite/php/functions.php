@@ -26,7 +26,7 @@ function updateContent($secure=TRUE) {
 		$contentTpl->Menu = $Menu;
 
 		//User Info Table
-		$userInfo = $DB->get_row("SELECT * FROM `users` WHERE `alias`='".$_SESSION['user']."' LIMIT 1;","assoc");
+		$userInfo = $DB->get_row("SELECT * FROM `users` WHERE `alias`='".$_SESSION['alias']."' LIMIT 1;","assoc");
 		$contentTpl->userInfo = $userInfo;
 		
 		//Post Editing
