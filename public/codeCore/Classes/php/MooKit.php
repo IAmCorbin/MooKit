@@ -83,10 +83,11 @@ class MooKit {
 		//set core JavaScripts
 		$this->addScript('codeCore/Classes/js','mootools-1.2.4-core-yc.js');
 		$this->addScript('codeCore/Classes/js','mootools-1.2.4.4-more.js');
+		if(DEBUG) $this->addScript('codeCore/js','debug.js'); else array_push($this->scriptsPublic,'<script type="text/javascript"> var DEBUG = false </script>');
 		$this->addScript('codeCore/js/errorHandler.js');
 		$this->addScript('codeCore/Classes/js','LightBox.js');
 		$this->addScript('codeCore/Classes/js','DeepLinker.js');
-		if(defined('DEBUG'))	$this->addScript('codeCore/js','debug.js');
+		
 	}
 	/**
 	  * Add a new CSS stylesheet
@@ -150,7 +151,11 @@ class MooKit {
 		if($scripts) {
 			//LOAD codeCore JavaScripts
 			    //Grab all public JavaScripts - all in codeCore/js/
-			    foreach(new DirectoryIterator('codeCore/js') as $script) { $this->addScript('codeCore/js',$script); }
+			    foreach(new DirectoryIterator('codeCore/js') as $script) { 
+				//do not include debug.js here - that is handled in the constructor
+				if($script != 'debug.js')
+					$this->addScript('codeCore/js',$script); 
+			    }
 			    //if secure, add secure JavaScript - all in codeCore/js/secure/
 			    if($this->SECURE()) { foreach(new DirectoryIterator('codeCore/js/secure') as $script) { $this->addScript('codeCore/js/secure',$script,'secure'); }}
 			//LOAD codeSite JavaScripts
@@ -163,7 +168,7 @@ class MooKit {
 			$this->main->scripts = array_merge($this->scriptsPublic, $this->scriptsSecure);
 		}
 		
-		if(defined('DEBUG')) /* add debug area */		
+		if(DEBUG) /* add debug area */		
 			$this->main->debugTpl = new Template('templates/debug.tpl.php');
 		else $this->main->debugTpl = null;
 		
