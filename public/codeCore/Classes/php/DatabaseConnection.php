@@ -39,33 +39,6 @@ class DatabaseConnection {
 			$this->trigger_DB_error('E_DB_CONN');
 	}
 	/**
-	 * Run a query on the database
-	 *@param string $query		a valid mysql query
-	 *@param string $rType		return type default = mysql result set. Options - "object" array of objects, "enum" enumerated array, "assoc" associative array
-	 *@return $results 			returns an array of results or false
-	 */
-	//~ public function query($query, $rType="assoc") {
-		//~ //check for valid connection
-		//~ if(!@$this->mysqli->ping()) {
-			//~ trigger_DB_error('E_DB_CONN');
-			//~ return false;
-		//~ }
-		//~ // execute query
-		//~ if(!$results = @$this->mysqli->query($query)) {
-			//~ //log error
-			//~ $this->trigger_DB_error('E_DB_QUERY',$query);
-			//~ return false;
-		//~ } else {
-			//~ //query successful - no rows returned
-			//~ if(!is_object($results)) return true;
-			//~ if($results->num_rows === 0)
-				//~ return true;
-			
-			//~ //return results in $rType format
-			//~ return $this->formatResults($results,$rType);
-		//~ }			
-	//~ }
-	/**
 	 * Grab a single row from the database
 	 *@param string $query		a valid mysql query
 	 *@param string $rType		{@see formatResults}
