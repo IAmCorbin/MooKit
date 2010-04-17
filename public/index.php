@@ -49,8 +49,7 @@ switch($_GET['request']) {
 		$Demo->main->signupTpl = new Template('templates/signupForm.tpl.php');
 
 		//Content Area
-		$Demo->main->contentTpl = updateContent(FALSE);
-		if(isset($_SESSION['ip']))	$Demo->main->contentTpl->userIP = $_SESSION['ip'];
+		$Demo->main->contentTpl = updateContent();
 
 		//OUTPUT
 		$Demo->RUN();

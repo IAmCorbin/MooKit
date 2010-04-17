@@ -1,5 +1,5 @@
 <?
-function updateContent($secure=TRUE) {
+function updateContent() {
 
 	$contentTpl = new Template('templates/content.tpl.php');
 	
@@ -7,14 +7,17 @@ function updateContent($secure=TRUE) {
 	
 	//Security Check
 	$security = new Security;
-	if(!$security->check()) { //Unauthorized
+	if(!$security->check()) { 
+		//Unauthorized
+		
+		//Show Posts
 		$contentTpl->postTpl = new Template('templates/post.tpl.php');
 		//display most recent post
-		$post = $DB->get_rows("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;","object");
+		$post = $DB->get_rows("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;");
 		$contentTpl->postTpl->posts = $post;
+	} else { 
+		//Authorized
 		
-		
-	} else { //Authorized
 		//Navigation
 		$Menu = new Menu;
 		$Menu->add('testing','','authAjaxLink');
@@ -24,7 +27,7 @@ function updateContent($secure=TRUE) {
 		  $Menu->addSub('test2secure','codeSite/php/test2.php','authAjaxLink');
 		  $Menu->addSub('test3secure','codeSite/php/test3.php','authAjaxLink');
 		$contentTpl->Menu = $Menu;
-
+		
 		//User Info Table
 		$userInfo = $DB->get_row("SELECT * FROM `users` WHERE `alias`='".$_SESSION['alias']."' LIMIT 1;","assoc");
 		$contentTpl->userInfo = $userInfo;

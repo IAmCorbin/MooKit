@@ -1,27 +1,25 @@
 <?php 
 
 //don't do anything if already logged in
-if($_SESSION['auth'] === 1) {
-	echo json_encode(array('status'=>"IN"));
-	return;
-}
+//~ if($_SESSION['auth'] === 1) {
+	//~ echo json_encode(array('status'=>"IN"));
+	//~ return;
+//~ }
 
 //Validate User Input
 $inputFilter = new Filters;
-$filteredInput['user'] = $inputFilter->text($_POST['user']);
-$filteredInput['pass'] = $inputFilter->text($_POST['pass']);
+$filteredInput['alias'] = $inputFilter->text($_POST['alias'],true);
+$filteredInput['password'] = $inputFilter->text($_POST['password']);
 
 //Check for Errors
 if($errors = $inputFilter->ERRORS()) {
 	//handle filter errors
-	echo json_encode(array('status'=>'ERROR_FILTER'));
+	echo json_encode(array('status'=>'E_FILTERS','alias'=>$filteredInput['alias']));
 	return;
 } else {
 	//no filter errors - user authentication
-	$user = new User;
-	if($user->authenticate($filteredInput['user'],$filteredInput['pass']))
-		echo json_encode(array('status'=>"LOGGEDIN"));
-	else
-		echo json_encode(array('status'=>"LOGGEDOUT"));
+	$user = new User($filteredInput, false);
+	//Send Status back to javascript
+	echo $user->json_status;
 }
 ?>

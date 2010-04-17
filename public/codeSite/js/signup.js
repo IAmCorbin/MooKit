@@ -42,6 +42,8 @@ window.addEvent('domready', function() {
 					},
 					onSuccess: function(response) { 
 							$('signupProcessing').destroy(); 
+							if(DEBUG)
+								$('debugBox').set('html',response);
 							
 							//process response -- this will handle any errors and return the json or false
 							json = handleResponse(response,'signupPHPError');

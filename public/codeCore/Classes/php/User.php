@@ -75,15 +75,16 @@ class User {
 			
 			//get user's registration time
 			$query = "SELECT `registered` FROM `users` WHERE `alias`='".$filteredInput['alias']."' LIMIT 1;";
-			if($result = $this->DB->get_row($query)) {
+			$user = $this->DB->get_row($query);
+			if(is_object($user) && isset($user->registered)) {
 				//store user's registration DATETIME
-				$regTime = $result->registered;
-			} else //return NULL if no valid user alias was found in the database
-				$this->json_status =  json_encode(array('status'=>'E_NO_ACCESS'));
+				$this->regTime = $user->registered;
+			} else { //user was not found
+				$this->json_status =  json_encode(array('status'=>'E_NOAUTH','alias'=>$filteredInput['alias']));
 				return false;			
-			
+			}
 			//encrypt sent password
-			$encPass = $this->encryptPassword($user,$pass,$regTime);
+			$encPass = $this->encryptPassword($filteredInput['alias'],$filteredInput['password'],$this->regTime);
 			
 			//attempt to retrieve this user
 			if($this->retrieve($filteredInput['alias'],$encPass)) {
@@ -92,6 +93,7 @@ class User {
 				return true;
 			} else {
 				$this->NOAUTH();
+				$this->json_status =  json_encode(array('status'=>'E_NOAUTH'));
 				return false;
 			}
 		}
@@ -139,14 +141,13 @@ class User {
 	  */
 	public function retrieve($alias, $encPass) {
 		//grab user data from database
-		$query = "SELECT `user_id`,`alias`,`nameFirst`,`nameLast`,`email`,lastLogin FROM `users` WHERE `alias`='$alias' AND `password`='$encPass';";// LIMIT 1;";
+		$query = "SELECT `user_id`,`alias`,`nameFirst`,`nameLast`,`email`,`lastLogin`,INET_NTOA('ip_address'),`access_level` FROM `users` WHERE `alias`='$alias' AND `password`='$encPass';";
 		$user = $this->DB->get_row($query);
-		
 		if(!is_object($user)) {
 			$this->json_status =  json_encode(array('status'=>'E_NO_ACCESS'));
 			return false;
 		}
-		
+	
 		//set User data
 		$this->user_id = $user->user_id;
 		$this->alias = $user->alias;

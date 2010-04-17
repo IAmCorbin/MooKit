@@ -21,8 +21,6 @@ window.addEvent('domready', function() {
 				this.content.set('tween',{duration: 'short', transition: 'quad' });
 				this.content.tween('top','-300px'); 
 				login.fadeLightbox.delay('200',this); 
-				$$('.login_buttonWrap').fade(0);
-				$$('.signup_buttonWrap').fade(0);
 			},
 			onRemove: function() { 
 				
@@ -50,10 +48,20 @@ window.addEvent('domready', function() {
 						$('loginProcessing').destroy(); 
 						if(DEBUG)
 							$('debugBox').set('html',response);
-						//decode JSON and check for status
-						json = JSON.decode(response);
+							
+						//process response -- this will handle any errors and return the json or false
+						json = handleResponse(response,'loginPHPError');
+						if(!json)
+							return;
+							
+						//if an error is detected, replace user's input with filtered input sent back from php so they can correct it
+						if(json.status.test('^E_')) {
+							this.getElement('input[name=alias]').set('value',json.alias);
+							$('loginPHPError').setStyle('display','block');
+						}
+							
 						switch(json.status) {
-							case  "LOGGEDIN":
+							case  "OK":
 								//clear PHPError
 								$('loginPHPError').setStyle('display','none');	
 								//update hash with location
@@ -64,35 +72,22 @@ window.addEvent('domready', function() {
 								refreshContent(1,1);
 								//clear the login form
 								$('loginForm').reset();
+								//fade out login/signup buttons
+								$$('.login_buttonWrap').fade(0);
+								$$('.signup_buttonWrap').fade(0);
 								break;
-							case "LOGGEDOUT":
-								//clear PHPError
-								$('loginPHPError').setStyle('display','none');	
-								//fade out secure content
-								$$('.secureArea').set('tween',{duration:'2000'}).fade('0');
-								//destroy secure content and load public content
-								(function() { 	
-									$$('.secureArea').destroy(); 
-									refreshContent(0,0);
-								}).delay(2300,this);
-								//fade login and signup buttons back in
-								$$('.login_buttonWrap').fade(1);
-								$$('.signup_buttonWrap').fade(1);
-								break;
-							case "IN":
-								//clear PHPError
-								$('loginPHPError').setStyle('display','none');	
-								login.trigger(); 
-								$('loginForm').reset(); 
-								break;
-							case "ERROR_FILTER":
-								//show PHPError
-								$('loginPHPError').setStyle('display','block');
-								$('loginPHPError').set('html',"Invalid Username or Password, please try again or contact the administrator");
-								$('loginForm').reset();
+							//~ case "IN":
+								//~ //clear PHPError
+								//~ $('loginPHPError').setStyle('display','none');	
+								//~ login.trigger(); 
+								//~ $('loginForm').reset(); 
+								//~ break;
+							default:
+								//check and display JSON errors
+								checkJSONerrors(json.status,'loginPHPError');
 								break;
 						}		
-					}
+					}.bind(this)
 				}).send();
 			}
 		});
