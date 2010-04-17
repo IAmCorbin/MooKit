@@ -63,7 +63,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
       <td><xsl:value-of select="msg"/></td>
       <td><xsl:value-of select="scriptname"/></td>
       <td><xsl:value-of select="linenum"/></td>
-      <pre style="text-align: left;"><td><xsl:value-of select="vartrace"/></td></pre>
+      <pre style="font-weight: bold; text-align: left; width: 500px;"><td style="width: 500px; height: 100%; background-color: #C33; color: #FFF;"><xsl:value-of select="vartrace"/></td></pre>
     </tr>
     </xsl:for-each>
   </table>
