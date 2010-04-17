@@ -141,7 +141,7 @@ class User {
 	  */
 	public function retrieve($alias, $encPass) {
 		//grab user data from database
-		$query = "SELECT `user_id`,`alias`,`nameFirst`,`nameLast`,`email`,`lastLogin`,INET_NTOA('ip_address'),`access_level` FROM `users` WHERE `alias`='$alias' AND `password`='$encPass';";
+		$query = "SELECT `user_id`,`alias`,`nameFirst`,`nameLast`,`email`,`lastLogin`,INET_NTOA(ip_address) as ip_address,`access_level` FROM `users` WHERE `alias`='$alias' AND `password`='$encPass';";
 		$user = $this->DB->get_row($query);
 		if(!is_object($user)) {
 			$this->json_status =  json_encode(array('status'=>'E_NO_ACCESS'));

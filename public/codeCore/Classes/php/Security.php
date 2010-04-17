@@ -35,6 +35,7 @@
 	}
 	/** Validate IP */
 	public function checkIP() {
+		//die("session_ip : ".$_SESSION['ip']." | server[remote_addr] : ".$_SERVER['REMOTE_ADDR']);
 		return ($_SESSION['ip'] === $_SERVER['REMOTE_ADDR'] ? true : false);
 	}
 	/** Validate User */

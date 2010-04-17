@@ -127,7 +127,8 @@ class MooKit {
 	}
 	/** Check for secure session */ 
 	public function SECURE() { 
-		if($_SESSION['auth'] === 1) 
+		$security = new Security;
+		if($security->check()) 
 			return true; 
 		else 
 			return false; 
