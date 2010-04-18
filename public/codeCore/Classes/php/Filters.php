@@ -64,8 +64,13 @@ Class Filters {
 	public function text($user_text, $stripWS = false) {
 		if($user_text !== '') {
 			//optionally remove whitespace
-			if($stripWS)
-				$user_text = str_replace(" ","",$user_text);
+			if($stripWS) {
+				//if whitespace is found
+				if(preg_match("/\ /",$user_text)) {
+					$this->errors[sizeof($this->errors)] = 'Whitespace Removed';
+					$user_text = str_replace(" ","",$user_text);
+				}
+			}
 			//sanitize to remove invalid characters
 			$text = filter_var($user_text, FILTER_SANITIZE_STRING);
 			if($text !== '')
