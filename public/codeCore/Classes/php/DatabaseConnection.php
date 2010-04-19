@@ -78,7 +78,7 @@ class DatabaseConnection {
 	public function get_rows($query, $rType="object") {
 		//check for valid connection
 		if(!@$this->mysqli->ping()) {
-			trigger_DB_error('E_DB_CONN');
+			$this->trigger_DB_error('E_DB_CONN');
 			return false;
 		}
 
@@ -106,7 +106,7 @@ class DatabaseConnection {
 	public function insert($query) {
 		//check for valid connection
 		if(!@$this->mysqli->ping()) {
-			trigger_DB_error('E_DB_CONN');
+			$this->trigger_DB_error('E_DB_CONN');
 			return false;
 		}
 		// execute query
