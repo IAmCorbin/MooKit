@@ -43,7 +43,8 @@ body { background-image : url('../img/back.jpg'); }
 /* END FORM VALIDATION */
 
 /* STRUCTURE */
-	#mainNav { position: absolute; top: 60px; left: 20px; width: 200px; }
+	#mainNav { float: left; margin-top: 75px; }
+	#content { float: left; margin-top: 75px; }
 /* END STRUCTURE  */
 
 /* CUSTOM */

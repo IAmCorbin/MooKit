@@ -88,3 +88,13 @@ function addAssets(styles,scripts) {
 		new Asset.javascript(script, { id: 'JS'+script.replace(/.+\//,"").replace(/\.js$/,"") });
 	});
 }
+
+
+/**
+  * @function load the user edit interface
+  * @param the container to load into
+  */
+function loadAdminPanel(container) {
+	$(container).load('codeCore/php/secure/adminPanel.php');
+	addAssets([],["codeCore/js/secure/adminPanel.js"]);
+}

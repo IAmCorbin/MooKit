@@ -20,6 +20,9 @@ window.addEvent('domready', function() {
 							this.container.load('codeSite/php/test3.php');
 							document.title="MooKit Version 1 - test3";
 							break;
+						case "#adminPanel":
+							loadAdminPanel(this.container);
+							break;
 						case "#logout":
 							new Request.HTML({ 
 								url: 'codeSite/php/logout.php',
@@ -42,7 +45,7 @@ window.addEvent('domready', function() {
 				}
 			});
 
-	//secureArea display fix
+	//hide signup/login buttons if already logged in
 	if($('LOGGEDIN')) {
 		$$('.login_buttonWrap').fade(0);
 		$$('.signup_buttonWrap').fade(0);

@@ -31,5 +31,10 @@
 	</a>
 </p> 
 
+	<!-- Flag to tell JavaScript the user is logged in -->
+	<? if( Security::clearance() )  {?>
+	<div id="LOGGEDIN"></div>
+	<?  } ?>
+
 </body>
 </html>
