@@ -20,6 +20,18 @@ window.addEvent('domready', function() {
 							this.container.load('codeSite/php/test3.php');
 							document.title="MooKit Version 1 - test3";
 							break;
+						case "#logout":
+							new Request.HTML({ 
+								url: 'codeSite/php/logout.php',
+								onSuccess: function() {
+									updateApp();
+									//fade login and signup buttons back in
+									$$('.login_buttonWrap').fade(1);
+									$$('.signup_buttonWrap').fade(1);
+								}
+							}).send();
+							
+							break;
 						case "#secret":
 							new Element('div',{html: "WOW, LOOK WHAT YOU FOUND!"}).inject(document.body,'bottom');
 							break
@@ -29,14 +41,6 @@ window.addEvent('domready', function() {
 					}
 				}
 			});
-	//Setup Ajax Links	
-	var links = $$('.ajaxLink');
-	links.each(function(link) {
-		link.addEvent('click',function(e) {
-			e.stop();
-			window.location.hash = link.get('href');
-		});
-	});
 
 	//secureArea display fix
 	if($('LOGGEDIN')) {

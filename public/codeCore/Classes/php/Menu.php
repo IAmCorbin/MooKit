@@ -56,19 +56,19 @@ class Menu {
 	  */
 	public function output($linkContainer="div",$sublinkContainer="span",$linkClass='link',$sublinkClass="sublink") {
 		foreach($this->links as $link): ?>
-		<<?=$linkContainer ?>>
-			<a class="<?=$linkClass?> <? if(isset($link->ajax)) echo $link->ajax; ?>" <? if(!isset($link->ajax))  { echo 'target="_blank"'; } ?> href="<?=$link->href ?>"><?=$link->name ?></a>
+		<<?echo $linkContainer ?>>
+			<a class="<?=$linkClass?> <? if(isset($link->ajax)) { echo $link->ajax; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $link->href; ?>"><? echo $link->name; ?></a>
 			<? if(isset($link->sublinks))  { ?>
 			<div>
 				<!-- Optional Sublinks -->
 				<?	foreach($link->sublinks as $sublink): ?>
-					<<?=$sublinkContainer?>>
-						<a class="<?=$sublinkClass?> <? if(isset($sublink->ajax)) echo $sublink->ajax; ?>" <? if(!isset($sublink->ajax))  { echo 'target="_blank"'; } ?> href="<?=$sublink->href ?>"><?=$sublink->name ?></a>
-					</<?=$sublinkContainer?>>
+					<<? echo $sublinkContainer?>>
+						<a class="<? echo $sublinkClass?> <? if(isset($sublink->ajax)) { echo $sublink->ajax; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $sublink->href ?>"><?=$sublink->name ?></a>
+					</<? echo $sublinkContainer?>>
 				 <? endforeach;//$links->sublinks' ?> 
 			 </div>
 			<? } ?> 
-		</<?=$linkContainer ?>>
+		</<? echo $linkContainer ?>>
 	<? endforeach; //$links->links  
 	
 	}

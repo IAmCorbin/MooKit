@@ -25,7 +25,7 @@ window.addEvent('domready', function() {
 				//destroy secure content and load public content
 				(function() { 	
 					$$('.secureArea').destroy();
-					refreshContent(0,0);
+					updateApp();
 					//fade login and signup buttons back in
 					$$('.login_buttonWrap').fade(1);
 					$$('.signup_buttonWrap').fade(1);

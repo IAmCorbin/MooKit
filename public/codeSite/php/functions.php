@@ -1,4 +1,40 @@
 <?
+/**
+  * Variable function used to display updated Menu on user status change ( logged in/out )
+  * @returns the content template object
+  */
+function updateMenu() {
+
+	$DB = new DatabaseConnection;
+	
+	if(Security::clearance()) {
+		//Authorized
+		$mainMenu = new Menu;
+		$mainMenu->add('IAmCorbin.net','http://www.iamcorbin.net');
+		  $mainMenu->addSub('Skip Intro','http://www.iamcorbin.net/?intro=1');
+		  $mainMenu->addSub('The Desert','http://www.iamcorbin.net/desert');
+		$mainMenu->add('MetalDisco.org','http://www.metaldisco.org');
+		$mainMenu->add('Testing Ajax Links','');
+		  $mainMenu->addSub('test1','test1','ajaxLink');
+		  $mainMenu->addSub('test2','test2','ajaxLink');
+		  $mainMenu->addSub('test3','test3','ajaxLink');
+		$mainMenu->add('LogOut','logout','ajaxLink');
+	} else{
+		//Unauthorized
+		$mainMenu = new Menu;
+		$mainMenu->add('IAmCorbin.net','http://www.iamcorbin.net');
+		  $mainMenu->addSub('Skip Intro','http://www.iamcorbin.net/?intro=1');
+		  $mainMenu->addSub('The Desert','http://www.iamcorbin.net/desert');
+		  $mainMenu->addSub('pssst','secret','ajaxLink');
+	}
+	return $mainMenu;
+}
+
+
+/**
+  * Variable function used to display updated content on user status change ( logged in/out )
+  * @returns the content template object
+  */
 function updateContent() {
 
 	$contentTpl = new Template('templates/content.tpl.php');
@@ -6,16 +42,7 @@ function updateContent() {
 	$DB = new DatabaseConnection;
 	
 	//Security Check
-	$security = new Security;
-	if(!$security->check()) { 
-		//Unauthorized
-		
-		//Show Posts
-		$contentTpl->postTpl = new Template('templates/post.tpl.php');
-		//display most recent post
-		$post = $DB->get_rows("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;");
-		$contentTpl->postTpl->posts = $post;
-	} else { 
+	if(Security::clearance()) { 
 		//Authorized
 		
 		//Navigation
@@ -38,6 +65,14 @@ function updateContent() {
 			$contentTpl->postEditTpl->postID = $post->post_id;
 			$contentTpl->postEditTpl->postTitle = $post->title;
 			$contentTpl->postEditTpl->postText = $post->html;
+	} else { 
+		//Unauthorized
+		
+		//Show Posts
+		$contentTpl->postTpl = new Template('templates/post.tpl.php');
+		//display most recent post
+		$post = $DB->get_rows("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;");
+		$contentTpl->postTpl->posts = $post;
 	}
 	//return the finished template to JavaScript
 	return $contentTpl;

@@ -68,20 +68,13 @@ window.addEvent('domready', function() {
 								window.location.hash = "#welcome";
 								//close login LightBox
 								login.trigger();
-								//refresh content
-								refreshContent(1,1);
+								updateApp();
 								//clear the login form
 								$('loginForm').reset();
 								//fade out login/signup buttons
 								$$('.login_buttonWrap').fade(0);
 								$$('.signup_buttonWrap').fade(0);
 								break;
-							//~ case "IN":
-								//~ //clear PHPError
-								//~ $('loginPHPError').setStyle('display','none');	
-								//~ login.trigger(); 
-								//~ $('loginForm').reset(); 
-								//~ break;
 							default:
 								//check and display JSON errors
 								checkJSONerrors(json.status,'loginPHPError');

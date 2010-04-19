@@ -14,14 +14,14 @@
   */
 //set default request if one is not sent
 if(!isset($_GET['request']))
-	$_GET['request'] = '';
+	$_GET['request'] = 'MAIN';
 	
-//Create new application
+//Create new application -- this will handle the request and return allowed files
 $Demo = new MooKit($_GET['request']);
 
 //HANDLE REQUESTS
 switch($_GET['request']) {
-	case '':
+	case 'MAIN':
 		//Initialize Application
 		$Demo->INIT();
 		
@@ -30,18 +30,8 @@ switch($_GET['request']) {
 
 		//SUB TEMPLATES
 		
-		//create Main Menu
-		$mainMenu = new Menu;
-		$mainMenu->add('IAmCorbin.net','http://www.iamcorbin.net');
-		  $mainMenu->addSub('Skip Intro','http://www.iamcorbin.net/?intro=1');
-		  $mainMenu->addSub('The Desert','http://www.iamcorbin.net/desert');
-		$mainMenu->add('MetalDisco.org','http://www.metaldisco.org');
-		$mainMenu->add('Testing Ajax Links','');
-		  $mainMenu->addSub('test1','test1','ajaxLink');
-		  $mainMenu->addSub('test2','test2','ajaxLink');
-		  $mainMenu->addSub('test3','test3','ajaxLink');
-		//set mainmenu to template
-		$Demo->main->Menu = $mainMenu;	
+		//Menu
+		$Demo->main->Menu = updateMenu();	
 			
 		//Login Form							
 		$Demo->main->loginTpl = new Template('templates/loginForm.tpl.php');

@@ -1,7 +1,6 @@
 	<!-- CONTENT AREA -->
 		<? 
-		$security = new Security(); echo "ip:".$_SESSION['ip'];
-		if($security->check()) { 
+		if(Security::clearance()) { 
 		?>
 		<div class="secureArea">
 			<div id="secureMenu">

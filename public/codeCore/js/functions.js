@@ -88,28 +88,3 @@ function addAssets(styles,scripts) {
 		new Asset.javascript(script, { id: 'JS'+script.replace(/.+\//,"").replace(/\.js$/,"") });
 	});
 }
-
-
-/**
-  * @function refresh the content area of the page
-  * @param bool assets 	add assets switch
-  * @param bool secure 	secure authUpdate switch
-  */
-function refreshContent(assets, secure) { 
-	//unless assets are turned off, add them by default
-	if(assets != 0)	assets=1;
-	new Request.JSON({
-		url: 'codeCore/php/updateContent.php',
-		onSuccess: function(responseJSON, responseTEXT) {
-			debug("responseJSON : ");
-			$('content').setStyle('opacity','0');
-			debug(responseJSON);
-			debug("responseTEXT : "+responseTEXT);
-			//set html
-			$('content').set('html',responseJSON.html);
-			(function() { $('content').set('tween',{duration: '1000'}).fade('1'); }).delay(500); //fade in content
-			//add stylesheets and JavaScripts
-			if(assets==1)	addAssets(responseJSON.styles,responseJSON.scripts);
-		}
-	}).send('json={"secure": '+secure+'}');
-}
