@@ -18,7 +18,7 @@
 	public static function clearance() {
 		//check for authorization, ip address and valid user
 		if(  $_SESSION['auth'] === 1 && Security::checkIP() && Security::checkUser() )
-			return true;
+			return $_SESSION['access_level'];
 		else
 			return  false;
 	}

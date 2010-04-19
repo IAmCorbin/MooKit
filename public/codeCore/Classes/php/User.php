@@ -194,6 +194,7 @@ class User {
 		$_SESSION['alias'] = $this->alias;
 		$_SESSION['user_id'] = $this->user_id;
 		$_SESSION['ip'] = $this->ip_address;
+		$_SESSION['access_level'] = $this->access_level;
 	}
 	/**
 	 * Removed Authorized Session Variables
@@ -203,6 +204,7 @@ class User {
 		unset($_SESSION['alias']); //unset username
 		unset($_SESSION['user_id']); //unset user_id
 		unset($_SESSION['ip']); //unset ip address
+		unset($_SESSION['access_level']); //unset access_level
 	}
 }
 ?>
