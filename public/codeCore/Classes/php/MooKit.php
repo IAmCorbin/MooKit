@@ -158,10 +158,10 @@ class MooKit {
 						$this->addScript('codeCore/js',$script); 
 			    }
 			    //if secure, add secure JavaScript - all in codeCore/js/secure/
-			    if(Security::clearance()) { foreach(new DirectoryIterator('codeCore/js/secure') as $script) { 
-					//make sure file is .js
-					if(preg_match("/\.js$/",$script))
-						$this->addScript('codeCore/js/secure',$script,'secure'); }}
+			    //~ if(Security::clearance()) { foreach(new DirectoryIterator('codeCore/js/secure') as $script) { 
+					//~ //make sure file is .js
+					//~ if(preg_match("/\.js$/",$script))
+						//~ $this->addScript('codeCore/js/secure',$script,'secure'); }}
 			//LOAD codeSite JavaScripts
 			    //Grab all public JavaScripts - all in codeSite/js/
 			    foreach(new DirectoryIterator('codeSite/js') as $script) { 
@@ -170,11 +170,11 @@ class MooKit {
 						$this->addScript('codeSite/js',$script); 
 				}
 			    //if secure, add secure JavaScript - all in codeSite/js/secure/
-			    if(Security::clearance()) { foreach(new DirectoryIterator('codeSite/js/secure') as $script) { 
-					//make sure file is .js
-					if(preg_match("/\.js$/",$script))
-						$this->addScript('codeSite/js/secure',$script,'secure'); 
-				}}
+			    //~ if(Security::clearance()) { foreach(new DirectoryIterator('codeSite/js/secure') as $script) { 
+					//~ //make sure file is .js
+					//~ if(preg_match("/\.js$/",$script))
+						//~ $this->addScript('codeSite/js/secure',$script,'secure'); 
+				//~ }}
 			
 			//set all scripts for main template
 			$this->main->scripts = array_merge($this->scriptsPublic, $this->scriptsSecure);
