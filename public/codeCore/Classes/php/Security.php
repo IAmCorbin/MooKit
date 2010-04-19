@@ -6,7 +6,7 @@
 /**
  * Security Class
  *
- * a class for checking user session credentials
+ * a static class for checking user session credentials
  * 
  * @author Corbin Tarrant
  * @copyright March 15th, 2010
@@ -14,32 +14,20 @@
  * @package MooKit
  */
  class Security {
-	/** @var bool $status 	security status */
-	var $status;
-	/**
-	 * check for secure session 
-	 *@returns bool
-	 */
-	function __construct() {
-		//default to unauthorized
-		if(!isset($_SESSION['auth'])) $_SESSION['auth'] = 0;
+	/** Static Security Check **/
+	public static function clearance() {
 		//check for authorization, ip address and valid user
-		if(  $_SESSION['auth'] === 1 && $this->checkIP() && $this->checkUser() )
-			$this->status = true;
+		if(  $_SESSION['auth'] === 1 && Security::checkIP() && Security::checkUser() )
+			return true;
 		else
-			$this->status =  false;
-	}
-	/** Return Security Status */
-	public function check() {
-		return $this->status;
+			return  false;
 	}
 	/** Validate IP */
-	public function checkIP() {
-		//die("session_ip : ".$_SESSION['ip']." | server[remote_addr] : ".$_SERVER['REMOTE_ADDR']);
+	public static function checkIP() {
 		return ($_SESSION['ip'] === $_SERVER['REMOTE_ADDR'] ? true : false);
 	}
 	/** Validate User */
-	public function checkUser() {
+	public static function checkUser() {
 		return isset($_SESSION['alias']);
 	}
  }
