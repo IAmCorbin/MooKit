@@ -39,7 +39,20 @@ switch($_GET['request']) {
 		$Demo->main->signupTpl = new Template('templates/signupForm.tpl.php');
 
 		//Content Area
-		$Demo->main->contentTpl = updateContent();
+		$contentTpl = new Template('templates/content.tpl.php');
+		$DB = new DatabaseConnection;
+		if(Security::clearance()) {
+			//User Info Table
+			$contentTpl->userInfo = $DB->get_row("SELECT * FROM `users` WHERE `alias`='".$_SESSION['alias']."' LIMIT 1;");
+		}
+		
+		//Show Posts
+		$contentTpl->postTpl = new Template('templates/post.tpl.php');
+		//display most recent post
+		$post = $DB->get_rows("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;");
+		$contentTpl->postTpl->posts = $post;
+		
+		$Demo->main->contentTpl = $contentTpl;
 
 		//OUTPUT
 		$Demo->RUN();
