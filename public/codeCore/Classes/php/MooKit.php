@@ -53,8 +53,7 @@ class MooKit {
 		preg_match("/\/secure\//",$request)? $secure=true : $secure = false;
 		if($secure) {
 			//Security Check
-			$security = new Security;
-			if(!$security->check())  {
+			if(!Security::clearance()) {
 				//if not authorized return here without returning the file
 				return;
 			}
@@ -100,7 +99,7 @@ class MooKit {
 		//make sure file is .css or .css.php
 		if( preg_match("/\.css$/",$style) || preg_match("/\.css\.php$/",$style)) {
 			if($secure) {
-				if($this->SECURE()) { //secure, use Regex to strip directory location and .css or .css.php
+				if(Security::clearance()) { //secure, use Regex to strip directory location and .css or .css.php
 					array_push($this->stylesSecure,'<link id="CSS'.preg_replace("/\.css$/","",preg_replace("/\.css\.php$/","",preg_replace("/.+\//","",$style))).'" rel="stylesheet" type="text/css" href="'.$dir.'/'.$style.'" />');
 				}
 			} else //public
@@ -118,20 +117,12 @@ class MooKit {
 		//make sure file is .js
 		if( preg_match("/\.js$/",$script) ) {
 			if($secure) {
-				if($this->SECURE()) {  //secure, use Regex to strip directory location and  '.js'
+				if(Security::clearance()) {  //secure, use Regex to strip directory location and  '.js'
 					array_push($this->scriptsSecure,'<script type="text/javascript" id="JS'.preg_replace("/\.js$/","",preg_replace("/.+\//","",$script)).'" src="'.$dir.'/'.$script.'"></script>'); 
 				}
 			} else //public
 				array_push($this->scriptsPublic,'<script type="text/javascript" src="'.$dir.'/'.$script.'"></script>'); 
 		}
-	}
-	/** Check for secure session */ 
-	public function SECURE() { 
-		$security = new Security;
-		if($security->check()) 
-			return true; 
-		else 
-			return false; 
 	}
 	/**
 	  * Runs the application, outputs to the user's browser
@@ -142,9 +133,16 @@ class MooKit {
 	public function RUN($styles=TRUE,$scripts=TRUE) {
 		if($styles) {
 			//Grab all public stylesheets - all in style/
-			foreach(new DirectoryIterator('style') as $style) { $this->addStyle('style',$style); }
+			foreach(new DirectoryIterator('style') as $style) { 
+				//make sure file is .css or .css.php
+				if( preg_match("/\.css$/",$style) || preg_match("/\.css\.php$/",$style))
+					$this->addStyle('style',$style); 
+			}
 			//if secure, add secure stylesheets - all in style/secure/
-			if($this->SECURE()) { foreach(new DirectoryIterator('style/secure') as $style) { $this->addStyle('style/secure',$style,'secure'); }}
+			if(Security::clearance()) { foreach(new DirectoryIterator('style/secure') as $style) { 
+				//make sure file is .css or .css.php
+				if( preg_match("/\.css$/",$style) || preg_match("/\.css\.php$/",$style))
+					$this->addStyle('style/secure',$style,'secure'); }}
 			
 			//set all styles for main template
 			$this->main->styles = array_merge($this->stylesPublic, $this->stylesSecure);
@@ -155,15 +153,28 @@ class MooKit {
 			    foreach(new DirectoryIterator('codeCore/js') as $script) { 
 				//do not include debug.js here - that is handled in the constructor
 				if($script != 'debug.js')
-					$this->addScript('codeCore/js',$script); 
+					//make sure file is .js
+					if(preg_match("/\.js$/",$script))
+						$this->addScript('codeCore/js',$script); 
 			    }
 			    //if secure, add secure JavaScript - all in codeCore/js/secure/
-			    if($this->SECURE()) { foreach(new DirectoryIterator('codeCore/js/secure') as $script) { $this->addScript('codeCore/js/secure',$script,'secure'); }}
+			    if(Security::clearance()) { foreach(new DirectoryIterator('codeCore/js/secure') as $script) { 
+					//make sure file is .js
+					if(preg_match("/\.js$/",$script))
+						$this->addScript('codeCore/js/secure',$script,'secure'); }}
 			//LOAD codeSite JavaScripts
 			    //Grab all public JavaScripts - all in codeSite/js/
-			    foreach(new DirectoryIterator('codeSite/js') as $script) { $this->addScript('codeSite/js',$script); }
+			    foreach(new DirectoryIterator('codeSite/js') as $script) { 
+					//make sure file is .js
+					if(preg_match("/\.js$/",$script))
+						$this->addScript('codeSite/js',$script); 
+				}
 			    //if secure, add secure JavaScript - all in codeSite/js/secure/
-			    if($this->SECURE()) { foreach(new DirectoryIterator('codeSite/js/secure') as $script) { $this->addScript('codeSite/js/secure',$script,'secure'); }}
+			    if(Security::clearance()) { foreach(new DirectoryIterator('codeSite/js/secure') as $script) { 
+					//make sure file is .js
+					if(preg_match("/\.js$/",$script))
+						$this->addScript('codeSite/js/secure',$script,'secure'); 
+				}}
 			
 			//set all scripts for main template
 			$this->main->scripts = array_merge($this->scriptsPublic, $this->scriptsSecure);
