@@ -54,7 +54,6 @@ var DeepLinker = new Class({
 		if(window.location.hash !== this.lastHash) {
 			this.debug("|------  HASH CHANGED  :"+window.location.hash+":------|");
 			if(window.location.hash == '') window.location.hash = "#front"
-			//if(this.lastHash) {
 				var cacheLocation = null;
 				//check each page in cache to see if the data is already cached OR check for cookie
 				if(this.options.cookies)
