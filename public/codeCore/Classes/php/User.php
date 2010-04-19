@@ -90,6 +90,7 @@ class User {
 			if($this->retrieve($filteredInput['alias'],$encPass)) {
 				//set authenticated session variables
 				$this->AUTH();
+				$this->updateLastLogin();
 				return true;
 			} else {
 				$this->NOAUTH();
@@ -160,6 +161,17 @@ class User {
 		//success
 		$this->json_status = json_encode(array('status'=>'OK'));
 		return true;
+	}
+	/**
+	  * Update user's lastLogin datetime
+	  * @return bool
+	  */
+	public function updateLastLogin() {
+		$query = "UPDATE `users` SET `lastLogin`='".date('Y-m-d H:i:s')."' WHERE `alias`='$this->alias';";
+		if($this->DB->update($query))
+			return true;
+		else
+			return false;
 	}
 	/**
 	 * Encrypt a password
