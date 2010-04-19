@@ -16,6 +16,8 @@
  class Security {
 	/** Static Security Check **/
 	public static function clearance() {
+		if(!isset($_SESSION['auth']))
+			return false;
 		//check for authorization, ip address and valid user
 		if(  $_SESSION['auth'] === 1 && Security::checkIP() && Security::checkUser() )
 			return $_SESSION['access_level'];
