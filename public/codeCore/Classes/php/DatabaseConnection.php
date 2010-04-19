@@ -60,12 +60,12 @@ class DatabaseConnection {
 			return false;
 		} else {
 			//query successful - no rows returned
-			if(!is_object($results)) return true;
-			if($results->num_rows === 0)
+			if(!is_object($results) || $results->num_rows === 0)
 				return true;
 			
 			//return results in $rType format
 			$results =  $this->formatResults($results,$rType);
+			//only return the first element
 			return $results[0];
 		}	
 	}
@@ -89,13 +89,11 @@ class DatabaseConnection {
 			return false;
 		} else {
 			//query successful - no rows returned
-			if(!is_object($results)) return true;
-			if($results->num_rows === 0)
+			if(!is_object($results) || $results->num_rows === 0)
 				return true;
 			
 			//return results in $rType format
-			$results =  $this->formatResults($results,$rType);
-			return $results;
+			return $this->formatResults($results,$rType);
 		}	
 	}
 	/**
@@ -134,12 +132,8 @@ class DatabaseConnection {
 	  * @param string $rType				The format you want -  "assoc"- associative array, "json" - javascript object notation, "enum" - enumerated array, "object" -  array of objects
 	  */
 	public function formatResults(&$results, $rType="object") {
-		switch($rType) {
-			case "mysql":
-				return $results;
-			case "assoc" | "json" | "enum" | "object":
-				//initialize resultSet array
-				$resultSet = array();
+		$resultSet = array();
+		switch($rType) {	
 			case "assoc" | "json":
 				while($row = $results->fetch_assoc())
 					$resultSet[] = $row;
