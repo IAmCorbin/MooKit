@@ -8,7 +8,7 @@
 		<div class="signupContent curved"><div id="signupClose" class="curved button">X</div>
 			<form id="signupForm" method="post" action="codeSite/php/signup.php">
 				<div class="floatLeft">
-					<div><label>Username:<input id="signupUser" class="required  msgPos:'signupUserError'" name="alias" type="text" size="30" /></label><div class="formError" id="signupUserError"></div></div>
+					<div><label>Username:<input id="signupUser" class="required msgPos:'signupUserError'" name="alias" type="text" size="30" /></label><div class="formError" id="signupUserError"></div></div>
 					<div><label>First Name:<input class="required  msgPos:'signupFirstError'" name="nameFirst" type="text" size="30" /></label><div class="formError" id="signupFirstError"></div></div>
 					<div><label>Last Name:<input class="required msgPos:'signupLastError'" name="nameLast" type="text" size="30" /></label><div class="formError" id="signupLastError"></div></div>
 				</div>

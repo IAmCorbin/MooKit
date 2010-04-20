@@ -2,6 +2,7 @@
 $inputFilter = new Filters;
 //Validate User Input
 $filteredInput['alias'] = $inputFilter->text($_POST['alias'], true); //also strip whitespace
+$filteredInput['alias'] = $inputFilter->alphnum_($filteredInput['alias']); //only allow alphanumeric or underscore for alias
 $filteredInput['nameFirst'] = $inputFilter->text($_POST['nameFirst'],true); //also strip whitespace
 $filteredInput['nameLast'] = $inputFilter->text($_POST['nameLast'],true); //also strip whitespace
 $filteredInput['password'] = $inputFilter->text($_POST['password']);
