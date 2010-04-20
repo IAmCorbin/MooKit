@@ -83,6 +83,27 @@ Class Filters {
 		}
 	}
 	/**
+	 * Require All Alphanumeric or Underscore for characters
+	 * 
+	 * Remove all non-alphanumeric characters
+	 * @param string $text
+	 * @returns string
+	 */
+	public function alphnum_($user_text) {
+		if($user_text !== '') {
+			if(!preg_match("/^([a-zA-Z1-9\_]+)$/",$user_text)) {
+				$this->errors[sizeof($this->errors)] = 'Non-Alphanumberic Characters Removed';
+				$text = preg_replace("/[^a-zA-Z1-9\_]/","",$user_text);
+				return $text;
+			} else {
+				return $user_text;
+			}
+		}
+		else {
+			$this->errors[sizeof($this->errors)] = 'Blank Field';
+		}
+	}
+	/**
 	 * Filter a URL
 	 * 
 	 * Filter a user entered URL
