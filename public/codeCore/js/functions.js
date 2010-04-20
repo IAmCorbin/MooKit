@@ -96,5 +96,6 @@ function addAssets(styles,scripts) {
   */
 function loadAdminPanel(container) {
 	$(container).load('codeCore/php/secure/adminPanel.php');
-	addAssets([],["codeCore/js/secure/adminPanel.js"]);
+	//delay asset adding to make sure content is loaded first
+	(function() { addAssets(["style/secure/adminPanel.css.php"],["codeCore/js/secure/adminPanel.js"]); } ).delay(1000);
 }
