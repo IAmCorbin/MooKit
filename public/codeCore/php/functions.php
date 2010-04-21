@@ -107,4 +107,20 @@ set_error_handler("ErrorHandler");
  
 	return true;
 }
+
+function getHumanAccess($access_level) {
+	switch($access_level) {
+		case 0:
+			return $human = "Unauthorized User";
+		case 1:
+			return $human = "Basic User";
+		case 2:
+			return $human = "Creator";
+		case 4:
+			return $human = "Administrator";
+		default:
+			return $human = "Unknown (Error?)";
+			
+	}
+}
 ?>

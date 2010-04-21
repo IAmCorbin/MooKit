@@ -1,9 +1,27 @@
 window.addEvent('domready', function() {
 
+	//find users
+	$('adminFindUsers').addEvent('submit',function(e) {
+		e.stop();
+
+		this.set('send', {
+			onRequest: function() {
+				input = this.getChildren('input[name=alias]');
+				input.setStyle('background','#AFA');
+			}.bind(this),
+			onSuccess: function(response) {
+				$('adminPanel').set('html',response);
+				//reload javascript
+				addAssets([""],["codeCore/js/secure/adminPanel.js"]);
+			}
+		}).send();
+	});
+
 	//delete user
 	$$('td.adminDeleteUser').addEvent('click',function() {
 		userAlias = this.getParent().getFirst().get('html');
-		debug("Delete user : "+userAlias+"?");
+		user = this.getParent();
+		console.log(user);
 		
 		//create elements for confirmation lightbox
 		new Element('div',{
@@ -20,8 +38,19 @@ window.addEvent('domready', function() {
 		deleteUserConfirm = new LightBox('adminDelete'+userAlias+'Confirm', {
 			onShow: function() {
 				deleteUser = 'adminDelete'+userAlias+'ConfirmYES'
-				$(deleteUser).addEvent('click',function() {
-					debug("DELETING "+userAlias);
+				$(deleteUser).addEvent('click',function() {					
+					//Send Request to Delete User Script
+					new Request.JSON({
+						url: 'codeCore/php/secure/adminDeleteUser.php',
+						onSuccess: function(responseJSON, responseTEXT) {
+							json = handleResponse(responseTEXT,null);
+							if(!json) return;
+							if(json.status == 1)
+								//remove user row from display
+								user.destroy();
+						}					
+					}).send('alias='+userAlias);
+					
 					this.trigger();
 				}.bind(this));
 			},
@@ -41,8 +70,10 @@ window.addEvent('domready', function() {
 	//increase user access level
 	$$('span.adminAccessInc').addEvent('click',function() {
 		
+		//grab elements
 		userAlias = this.getParent().getParent().getFirst().get('html');
-		debug("Increase access for : "+userAlias+"?");
+		userAccess = this.getPrevious();
+		userTitle = this.getParent().getNext();
 		
 		//create elements for confirmation lightbox
 		new Element('div',{
@@ -59,8 +90,22 @@ window.addEvent('domready', function() {
 		accessInc = new LightBox('adminAccessInc'+userAlias, {
 			onShow: function() {
 				increaseAccess = 'adminAccessInc'+userAlias+'YES'
-				$(increaseAccess).addEvent('click',function() {
-					debug("INCREASING ACCESS FOR "+userAlias);
+				$(increaseAccess).addEvent('click',function() {					
+					//Send Request to User Access Increase Script
+					new Request.JSON({
+						url: 'codeCore/php/secure/adminAccessInc.php',
+						onSuccess: function(responseJSON, responseTEXT) {
+							json = handleResponse(responseTEXT,null);
+							if(!json) return;
+							//display new access level
+							if(json.status == 1) {
+								userAccess.set('html',json.access);
+								userTitle.set('html',json.title);
+							}
+						}					
+					}).send('alias='+userAlias+'&access_level='+userAccess.get('html'));
+					
+					
 					this.trigger();
 				}.bind(this));
 			},
@@ -69,8 +114,10 @@ window.addEvent('domready', function() {
 			},
 			onRemove: function() {
 				//destroy confirmation box
-				$('adminAccessInc'+userAlias).destroy();
-				$$('.adminAccessIncContent').destroy();
+				confirmD = $('adminAccessInc'+userAlias);
+				if(confirmD) confirmD.destroy();
+				confirmD2 = $$('.adminAccessIncContent');
+				if(confirmD2) confirmD2.destroy();
 			},	
 		}).trigger();		
 	});
@@ -78,8 +125,10 @@ window.addEvent('domready', function() {
 	//decrease user access level
 	$$('span.adminAccessDec').addEvent('click',function() {
 		
+		//grab elements
 		userAlias = this.getParent().getParent().getFirst().get('html');
-		debug("Decrease access for : "+userAlias+"?");
+		userAccess = this.getPrevious().getPrevious();
+		userTitle = this.getParent().getNext();
 		
 		//create elements for confirmation lightbox
 		new Element('div',{
@@ -96,8 +145,21 @@ window.addEvent('domready', function() {
 		accessDec = new LightBox('adminAccessDec'+userAlias, {
 			onShow: function() {
 				decreaseAccess = 'adminAccessDec'+userAlias+'YES'
-				$(decreaseAccess).addEvent('click',function() {
-					debug("DECREASING ACCESS FOR "+userAlias);
+				$(decreaseAccess).addEvent('click',function() {					
+					//Send Request to User Access Decrease Script
+					new Request.JSON({
+						url: 'codeCore/php/secure/adminAccessDec.php',
+						onSuccess: function(responseJSON, responseTEXT) {
+							json = handleResponse(responseTEXT,null);
+							if(!json) return;
+							//display new access level
+							if(json.status == 1) {
+								userAccess.set('html',json.access);
+								userTitle.set('html',json.title);
+							}
+						}					
+					}).send('alias='+userAlias+'&access_level='+userAccess.get('html'));
+					
 					this.trigger();
 				}.bind(this));
 			},
@@ -106,8 +168,11 @@ window.addEvent('domready', function() {
 			},
 			onRemove: function() {
 				//destroy confirmation box
-				$('adminAccessDec'+userAlias).destroy();
-				$$('.adminAccessDecContent').destroy();
+				confirmD = $('adminAccessDec'+userAlias);
+				if(confirmD) confirmD.destroy();
+				confirmD2 = $$('.adminAccessDecContent');
+				if(confirmD2) confirmD2.destroy();
+				
 			},	
 		}).trigger();
 	});

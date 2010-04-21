@@ -18,9 +18,11 @@ function handleResponse(response, errorBox) {
 		if(DEBUG) 
 			alert('JSON ERROR! : '+response);
 		
-		//display an error message to the user
-		$(errorBox).setStyle('display','block');
-		$(errorBox).set('html',"Fatal Error. Please Contact Administrator if this persists");
+		if(errorBox) {	
+			//display an error message to the user
+			$(errorBox).setStyle('display','block');
+			$(errorBox).set('html',"Fatal Error. Please Contact Administrator if this persists");
+		}
 		
 		//Log Error
 		new Request.JSON({
@@ -92,10 +94,22 @@ function addAssets(styles,scripts) {
 
 /**
   * @function load the user edit interface
+  * @param the module name
   * @param the container to load into
   */
-function loadAdminPanel(container) {
-	$(container).load('codeCore/php/secure/adminPanel.php');
-	//delay asset adding to make sure content is loaded first
-	(function() { addAssets(["style/secure/adminPanel.css.php"],["codeCore/js/secure/adminPanel.js"]); } ).delay(1000);
+function CORE_LOAD(module, container) {
+	switch(module) {
+		case 'AdminPanel':
+			$(container).set('load',{
+				onSuccess: function(r1,r2,r3) {
+					if(r3 == "Unauthorized")
+						return;
+					addAssets(["style/secure/adminPanel.css.php"],["codeCore/js/secure/adminPanel.js"]);
+				}
+			});
+			$(container).load('codeCore/php/secure/adminPanel.php');
+			break;
+		default:
+			break;
+	}
 }

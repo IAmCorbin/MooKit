@@ -21,7 +21,7 @@ window.addEvent('domready', function() {
 							document.title="MooKit Version 1 - test3";
 							break;
 						case "#adminPanel":
-							loadAdminPanel(this.container);
+							CORE_LOAD('AdminPanel',this.container);
 							break;
 						case "#logout":
 							new Request.HTML({ 
