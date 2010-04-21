@@ -47,7 +47,7 @@ class DatabaseConnection {
 	public function get_row($query, $rType="object") {
 		//check for valid connection
 		if(!@$this->mysqli->ping()) {
-			trigger_DB_error('E_DB_CONN');
+			$this->trigger_DB_error('E_DB_CONN');
 			return false;
 		}
 		//Add LIMIT 1 to query if not passed
