@@ -1,7 +1,7 @@
 <?php header("Content-type: text/css");  ?>
 
 /* SIGNUP FORM */
-	#signup { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: none; background: #000; z-index: 2000;}
+	#signup { position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; background: #000; z-index: 2000;}
 	.signupContent { position:fixed !important; position: absolute; /*ie6 and above*/ left: 20%; top: -200px; width: 600px; height: 250px; padding: 10px; border: solid black 8px; background: #AFA; z-index: 2001; display: none;}
 	#signupClose { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; }
         #signupForm>div {width: 50%;} /* Input Containers */
