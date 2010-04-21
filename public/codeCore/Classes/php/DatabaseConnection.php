@@ -127,6 +127,15 @@ class DatabaseConnection {
 		return $this->insert($query);
 	}
 	/**
+	  * Delete Database Rows
+	  * @param string $query 	The Update sql
+	  * @returns int			the number rows affected
+	  */
+	public function delete($query) {
+		//call the insert function as it does the same thing, simply tests for a valid connection, executes query, and returned the number of rows affected
+		return $this->insert($query);
+	}
+	/**
 	  * Change a MySQLi_Result object to desired format
 	  * @param MySQLi_Result object $results   	The mysqli result object you want to format
 	  * @param string $rType				The format you want -  "assoc"- associative array, "json" - javascript object notation, "enum" - enumerated array, "object" -  array of objects
