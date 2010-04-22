@@ -84,8 +84,11 @@ class MooKit {
 		$this->addScript('codeCore/Classes/js','mootools-1.2.4.4-more.js');
 		if(DEBUG) $this->addScript('codeCore/js','debug.js'); else array_push($this->scriptsPublic,'<script type="text/javascript"> var DEBUG = false </script>');
 		$this->addScript('codeCore/js','errorHandler.js');
+		//load core JavaScript Classes
 		$this->addScript('codeCore/Classes/js','LightBox.js');
 		$this->addScript('codeCore/Classes/js','DeepLinker.js');
+		$this->addScript('codeCore/Classes/js','PaginatingTable.js');
+		$this->addScript('codeCore/Classes/js','SortingTable.js');
 		
 	}
 	/**

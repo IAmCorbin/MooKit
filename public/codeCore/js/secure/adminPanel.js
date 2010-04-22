@@ -176,4 +176,15 @@ window.addEvent('domready', function() {
 			},	
 		}).trigger();
 	});
+	
+	
+	//Add Table Sorting and Pagination	
+	new SortingTable( 'users', {
+		details: true,
+		paginator: new PaginatingTable( 'users', 'users_pagination', { per_page: 5 } )
+	});
+
+	
+
+	
 });

@@ -1,8 +1,21 @@
 <?php header("Content-type: text/css");  ?>
 
-table.users { border: double black 4px; }
-table.users tr td { padding: 5px;}
-tr.usersHead td { font-weight: bold; font-size: 20px; background: #CCF;}
+.adminTitle { font-family: Monospace; font-weight: bold; font-size: 30px; border-bottom: 4px groove #AAA; margin-bottom: 5px; }
+
+<? /* <!-- USER TABLE STYLE --> */ ?>
+#users { clear: left; border: double black 4px; }
+#users *, #users_pagination * { font-family: Monospace; }
+#users tr td { padding: 5px;}
+#users thead th { font-weight: bold; font-size: 20px; background: #CCF;}
+#users thead th.forward_sort { background: #F00; }
+#users thead th.reverse_sort { background: #0F0; }
+
+tr.userRow { background-color: #AAF; cursor: pointer; }
+tr.userRow:hover { background-color: #FAA; }
+tr.alt { background-color: #88D; }
+#users_pagination li { margin-left: 50px; margin: 10px; float: left; list-style-type: none; }
+#users_pagination li a.currentPage { background: #AAA }
+
 
 <? /*<!-- DELETE USER BUTTON --> */?>
 td.adminDeleteUser { font-family: Monospace; font-weight: bold; text-align: center; font-size: 30px; }
@@ -27,6 +40,3 @@ div.adminAccessDecContent { position:fixed !important; position: absolute; /*ie6
 .adminAccessDecClose { font-weight: bold; font-size: 30px; cursor: pointer; border: solid black 1px; background: #888; width: 70px; height: 40px; float: left; margin-left: 30px; margin: 20px; z-index: 3002; }
 
 
-
-.userTest { background-color: #AAF; cursor: pointer; }
-.userTest:hover { background-color: #FAA; }
