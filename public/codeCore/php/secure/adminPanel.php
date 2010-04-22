@@ -40,7 +40,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 					"<td>$user->nameFirst</td>".
 					"<td>$user->nameLast</td>".
 					"<td>$user->email</td>".
-					"<td><span>$user->access_level</span><span class=\"adminAccessInc\">+</span><span class=\"adminAccessDec\">-</span></td>".
+					"<td><span class=\"adminAccessDec\">-</span>&nbsp;&nbsp;&nbsp;<span>$user->access_level</span><span class=\"adminAccessInc\">+</span></td>".
 					"<td>$access_level</td>".
 					'<td class="adminDeleteUser">X</td>'.
 				"</tr>";

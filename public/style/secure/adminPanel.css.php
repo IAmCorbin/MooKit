@@ -6,7 +6,7 @@
 #users { clear: left; border: double black 4px; }
 #users *, #users_pagination * { font-family: Monospace; }
 #users tr td { padding: 5px;}
-#users thead th { height: 50px; font-weight: bold; font-size: 20px; background: #CCF; vertical-align: top; }
+#users thead th { padding: 5px; height: 50px; font-weight: bold; font-size: 20px; background: #CCF; vertical-align: top; }
 #users thead th span { display: block; position: relative; bottom: 0px; left: 40%; width: 14px; height: 15px; }
 <? //Was trying to modify SortingTable class to change class of different element 
 /*#users thead th span.forward_sort {  background: url('../../img/sprites.png') no-repeat 0px 0px; }

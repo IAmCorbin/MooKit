@@ -1,6 +1,6 @@
 /**
  * @class The Lightbox Class creates a layer that can be toggled on and off and contain multiple elements of content
- * Febuary 18th, 2010
+ * @birth Febuary 18th, 2010
  * 
  * To use:
  *   1. Create a div on the page with an ID of your choice
@@ -32,9 +32,9 @@
  * @version 1.0
  *
  * @requires MooTools 1.2
+ * {@link http://mootools.net/}
  * 
  * @package MooKit
- * {@link http://mootools.net/}
  *
  * @property	{Element}  	lightbox 				the lightbox element
  * @property	{bool}	 	hidden				visablility flag
@@ -51,7 +51,6 @@
 var LightBox = new Class({
 	Implements: [Options,Events],
 	options: {
-		//how long does it take the lightbox to fade in and out
 		fade: true,
 		fadeSpeed: '200',
 		removeDelay: '0'
@@ -116,8 +115,9 @@ var LightBox = new Class({
 	fadeLightbox: function() {
 		if(this.options.fade) {
 			//fade out lightbox
-			this.closeButton.fade(0);
 			this.lightbox.fade(0);
+			//fade closebutton with a delay
+			(function() { this.closeButton.fade(0); }.bind(this)).delay(this.options.fadeSpeed);
 		}
 		this.removeLightbox.delay(this.options.removeDelay,this);
 	},
@@ -132,5 +132,149 @@ var LightBox = new Class({
 		//set visability flag
 		this.hidden = true;
 		this.fireEvent('remove');
+	}
+});
+
+/**
+ * @class The ConfirmBox Class creates a LightBox object used to ask the user a simple question before continuing with processing
+ * @birth April 22nd, 2010
+ * @author Corbin Tarrant
+ *  ___            ___         __ 
+ *    |   /\  |\/| |       __   |_/  |__   -   _
+ *  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |
+ * 
+ * @link http://www.IAmCorbin.net
+ * @version 1.0
+ *
+ * @requires MooTools 1.2, LightBox
+ * {@link http://mootools.net/}
+ *
+ * @package MooKit
+ * 
+ *
+ * @property	{bool}		options.name 			The name of the confirmationBox
+ * @property	{bool}		options.font 			The Font
+ * @property	{bool}		options.fontSize		The Font size
+ * @property	{bool}		options.back 			The color of the lightbox
+ * @property	{bool}		options.color 			text color
+ * @property	{bool}		options.boxBorder 		border style of the box
+ * @property	{bool}		options.boxCurved 		Used to add an optional classname to apply a curved style to the box and buttons, defaults to an empty string
+ * @property	{bool}		options.boxBack 		background color of the box
+ * @property	{bool}		options.boxButtonColor	Box Button color
+ * @property	{bool}		options.boxMSG 		The Box Message
+ * @property	{bool}		options.boxYES 		The Confirm Button Text
+ * @property	{bool}		options.boxNO			The Cancel Button Text
+ * @property	{$empty}	options.onDisplay		Event fired when ConfirmBox is displayed
+ * @property	{$empty}	options.onConfirm		Event fired when Confirm Button is Clicked
+ */
+var ConfirmBox = new Class({
+	Implements: [Options,Events],
+	options: {
+		name: 'confirmBox',
+		font: 'Monospace',
+		fontSize: '23px',
+		back: '#AAA',
+		color: '#FFF',
+		boxBorder: 'solid black 2px',
+		boxCurved: '',
+		boxBack: '#333',
+		boxButtonColor: '#555',
+		boxMSG: 'Are You Sure?',
+		boxYES: 'YES',
+		boxNO: 'NO&nbsp;'
+		/*
+		onDisplay: $empty,
+		onConfirm: $empty
+		*/
+	},
+	/**
+	  * @constructor
+	  * @param {string[]} 	options 		passed in options
+	  */
+	initialize: function(options) {
+		this.setOptions(options);
+		
+		//The Background Layer
+		new Element('div',{
+			id: this.options.name,
+			styles: { 
+				position: 'fixed', left: '0', top: '0',
+				width: '100%', height: '100%',
+				display: 'none',
+				background: this.options.back,
+				zIndex: '10000'
+			},
+			
+		}).inject(document.body);
+		//Button Styles
+		buttonStyles = new Hash({
+			float: 'left',
+			fontWeight: 'bold', fontSize: this.options.fontSize, fontFamily: this.options.font,
+			cursor: 'pointer',
+			border: 'solid black 1px',
+			background: this.options.boxButtonColor,
+			marginLeft: '30px',
+			margin: '20px',
+			padding: '10px',
+			position: 'absolute', left: '10%', bottom: '0'
+		});
+		//The Confirm Button
+		confirmButton = new Element('span',{
+			id: this.options.name+'Confirm',
+			styles: buttonStyles,
+			class: this.options.boxCurved,
+			html: this.options.boxYES
+		});
+		//The Close Button
+		buttonStyles.erase('left');
+		buttonStyles.set('right','10%');
+		closeButton = new Element('span',{
+			id: this.options.name+'Close',
+			styles: buttonStyles,
+			class: this.options.boxCurved,
+			html: this.options.boxNO
+		});
+		//The Message Box
+		confirmBox = new Element('div',{
+			class: this.options.boxCurved+' '+this.options.name+'Content',
+			styles: {
+				position: 'fixed', left: '40%', top: '100px',
+				width: this.options.boxMSG.length*this.options.fontSize+'px', height: confirmButton.getStyle('lineHeight').toInt()*5+'px',
+				fontFamily: this.options.font, fontSize: this.options.fontSize, color: this.options.color,
+				display: 'none',
+				border: this.options.boxBorder,
+				backgroundColor: this.options.boxBack,
+				padding: '10px',
+				zIndex: '10001'
+			},
+			html: '<div>'+this.options.boxMSG+'</div><br />'
+		});
+		//inject buttons into box
+		confirmButton.inject(confirmBox);
+		closeButton.inject(confirmBox);
+		//add confirmBox to DOM
+		confirmBox.inject(document.body);
+		//Create the Lightbox
+		confirmLB = new LightBox(this.options.name, {
+			onShow: function() {
+				this.fireEvent('display');
+			}.bind(this),
+			onHide: function() { 
+				this.fadeLightbox.delay('200',this);
+			},
+			onRemove: function() {
+				//destroy confirmation box
+				$(this.options.name).destroy();
+				$$('.'+this.options.name+'Content').destroy();
+			}.bind(this),	
+		});
+		confirmLB.trigger();
+		
+		//Add Confirm Button Event
+		$(this.options.name+'Confirm').addEvent('click', function() {
+			this.fireEvent('confirm');
+			confirmLB.trigger();
+		}.bind(this));
+		
 	}
 });
