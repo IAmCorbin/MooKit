@@ -44,7 +44,7 @@ body { background-image : url('../img/back.jpg'); }
 
 /* STRUCTURE */
 	#mainNav { float: left; margin-top: 75px; }
-	#content { float: left; margin-top: 75px; }
+	#content { float: left; margin-top: 75px; padding-bottom: 50px;  }
 /* END STRUCTURE  */
 
 /* CUSTOM */
