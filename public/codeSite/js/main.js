@@ -31,7 +31,7 @@ window.addEvent('domready', function() {
 									//fade login and signup buttons back in
 									$$('.login_buttonWrap').fade(1);
 									$$('.signup_buttonWrap').fade(1);
-									window.location.hash = "#";
+									window.location.hash = "#test2";
 								}
 							}).send();
 							
