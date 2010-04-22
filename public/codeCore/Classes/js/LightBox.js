@@ -264,8 +264,8 @@ var ConfirmBox = new Class({
 			},
 			onRemove: function() {
 				//destroy confirmation box
-				$(this.options.name).destroy();
-				$$('.'+this.options.name+'Content').destroy();
+				if($(this.options.name))	$(this.options.name).destroy();
+				if($$('.'+this.options.name+'Content')) $$('.'+this.options.name+'Content').destroy();
 			}.bind(this),	
 		});
 		confirmLB.trigger();
