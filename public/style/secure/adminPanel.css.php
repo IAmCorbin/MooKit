@@ -6,13 +6,16 @@
 #users { clear: left; border: double black 4px; }
 #users *, #users_pagination * { font-family: Monospace; }
 #users tr td { padding: 5px;}
-#users thead th { font-weight: bold; font-size: 20px; background: #CCF;}
-#users thead th.forward_sort { background: #F00; }
-#users thead th.reverse_sort { background: #0F0; }
-
-tr.userRow { background-color: #AAF; cursor: pointer; }
-tr.userRow:hover { background-color: #FAA; }
-tr.alt { background-color: #88D; }
+#users thead th { height: 50px; font-weight: bold; font-size: 20px; background: #CCF; vertical-align: top; }
+#users thead th span { display: block; position: relative; bottom: 0px; left: 40%; width: 14px; height: 15px; }
+<? //Was trying to modify SortingTable class to change class of different element 
+/*#users thead th span.forward_sort {  background: url('../../img/sprites.png') no-repeat 0px 0px; }
+#users thead th span.reverse_sort { background: url('../../img/sprites.png') no-repeat -14px 0px; }*/ ?>
+#users thead th.forward_sort {  background: #88F; }
+#users thead th.reverse_sort { background: #C8B; }
+#users tbody tr { background-color: #AAF; cursor: pointer; }
+#users tbody tr:hover, #users tbody tr.alt:hover { background-color: #FAA; }
+#users tbody tr.alt { background-color: #88D; }
 #users_pagination li { margin-left: 50px; margin: 10px; float: left; list-style-type: none; }
 #users_pagination li a.currentPage { background: #AAA }
 

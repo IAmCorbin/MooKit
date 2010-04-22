@@ -122,7 +122,7 @@ var SortingTable = new Class({
         row.row.className = row.row.className.replace( this.removeAltClassRe, '$1').clean();
         if (row.detail)
           row.detail.className = row.detail.className.replace( this.removeAltClassRe, '$1').clean();
-        if (index % 2) {
+	if (index % 2) {
           row.row.addClass( 'alt' );
           if (row.detail) row.detail.addClass( 'alt' );
         }

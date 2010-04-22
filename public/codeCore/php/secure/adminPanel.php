@@ -13,6 +13,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 	}
 	$users = $DB->get_rows($query);
 ?>
+
 	<div id="adminPanel">
 		<div class="adminTitle">User Administration</div>
 		<form id="adminFindUsers" method="post" action="codeCore/php/secure/adminPanel.php">
@@ -22,19 +23,19 @@ if(Security::clearance() & ACCESS_ADMIN) {
 		<ul id="users_pagination"></ul>
 		<table id="users">
 			<thead>
-				<th>Alias</th>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Email</th>
-				<th>Access Level</th>
-				<th>Title</th>
+				<th>Alias<span class="sortArrow"></span></th>
+				<th>First Name<span class="sortArrow"></span></th>
+				<th>Last Name<span class="sortArrow"></span></th>
+				<th>Email<span class="sortArrow"></span></th>
+				<th>Access Level<span class="sortArrow"></span></th>
+				<th>Title<span class="sortArrow"></span></th>
 				<th class="nosort">Delete</th>
 			</thead>
 			<tbody>
 <?
 		foreach($users as $user) {
 			$access_level = getHumanAccess($user->access_level);
-			echo "<tr class=\"userRow\">".
+			echo "<tr>".
 					"<td name=$user->alias>$user->alias</td>".
 					"<td>$user->nameFirst</td>".
 					"<td>$user->nameLast</td>".

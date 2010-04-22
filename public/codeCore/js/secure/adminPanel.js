@@ -1,5 +1,10 @@
 window.addEvent('domready', function() {
 
+	//Add Table Sorting and Pagination	
+	new SortingTable( 'users', {
+		paginator: new PaginatingTable( 'users', 'users_pagination', { per_page: 5 } )
+	});
+
 	//find users
 	$('adminFindUsers').addEvent('submit',function(e) {
 		e.stop();
@@ -176,15 +181,4 @@ window.addEvent('domready', function() {
 			},	
 		}).trigger();
 	});
-	
-	
-	//Add Table Sorting and Pagination	
-	new SortingTable( 'users', {
-		details: true,
-		paginator: new PaginatingTable( 'users', 'users_pagination', { per_page: 5 } )
-	});
-
-	
-
-	
 });
