@@ -38,9 +38,9 @@ class MooKit {
 	
 	public function __construct($request) {
 		//Functions
-		require_once 'codeCore/php/htmLawed1.1.9.1.php';
-		require_once 'codeCore/php/functions.php';
-		require_once 'codeSite/php/functions.php';
+		require_once ROOT_DIR.'codeCore/php/htmLawed1.1.9.1.php';
+		require_once ROOT_DIR.'codeCore/php/functions.php';
+		require_once ROOT_DIR.'codeSite/php/functions.php';
 		
 		//Start Session and regenerate Session ID for security
 		session_start();
@@ -80,7 +80,7 @@ class MooKit {
 		$this->stylesPublic = array();
 		$this->stylesSecure = array();
 		//set core JavaScripts
-		$this->addScript('codeCore/Classes/js','mootools-1.2.4-core-yc.js');
+		$this->addScript('codeCore/Classes/js','mootools-1.2.4-core-nc.js');
 		$this->addScript('codeCore/Classes/js','mootools-1.2.4.4-more.js');
 		if(DEBUG) $this->addScript('codeCore/js','debug.js'); else array_push($this->scriptsPublic,'<script type="text/javascript"> var DEBUG = false </script>');
 		$this->addScript('codeCore/js','errorHandler.js');

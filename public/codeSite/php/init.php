@@ -9,7 +9,7 @@ date_default_timezone_set('America/Detroit');
 define('DEBUG', true); //DEBUG FLAG
 //This is the name of your main folder
 define('NAMESPACE','MooKit');
-//define root public directory
+//define root directory
 define('ROOT_DIR','/home/corbin/skillWebDevelopment/LAMP_devSite/MooKit/public/');
 //define the error log directory
 //    make sure you have also created the files according to LOG_INFO in that folder
