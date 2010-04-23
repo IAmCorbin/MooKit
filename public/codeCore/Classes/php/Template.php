@@ -22,22 +22,17 @@ class Template {
 	var $result;
 	/** @var string $parent parent template */
 	var $parent;
-	/** @var bool $gzip gzip encoding flag */
-	var $gzip = false;
 	
 	/**
 	 * Constructor
 	 *
 	 * @param string $path path to the template file you want to load
 	 * @param array $vars array of  (key=>value) variables
-	 * @param bool $gzip set gzip encoding on/off
 	 */
-	public function __construct($path=false, $vars=false, $gzip=false) {
+	public function __construct($path=false, $vars=false) {
 		$this->vars = ($vars === false) ? array() : $vars;
 		$this->extract($vars);
 		$this->path($path);
-		if($gzip)
-			$this->gzip = true;
 	}
 	/**
 	 * Magic PHP __toString 
@@ -85,9 +80,10 @@ class Template {
 	 * The Main Event
 	 *
 	 * Merge the vars with the template {and encode }
-	 * @returns the results of the var and template merge { gziped }
+ 	 * @param bool $gzip set gzip encoding on/off
+	 * @returns the results of the var and template merge
 	 */
-	public function run()	{
+	public function run($gzip=false)	{
 		//start output buffering
 		ob_start();
 		//merge variables recursively and set to current scope
@@ -98,8 +94,8 @@ class Template {
 		$this->result = ob_get_contents();
 		//Clean (erase) the output buffer and turn off output buffering
 		ob_end_clean();
-		//if gzip encoding turned on for this template, encode now
-		if($this->gzip === true) {
+		//if gzip encoding requested, attempt to encode now
+		if($gzip === true) {
 			//gzip encode if browser supports
 			if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
 				$this->result = gzencode($this->result);

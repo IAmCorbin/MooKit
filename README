@@ -9,7 +9,8 @@
 --  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |																					    --
 --																											    --
 --  Cody By Corbin Tarrant																						    --
---  http://www.IAmCorbin.net																						    --
+--  http://www.IAmCorbin.net
+--  http://www.github.com/IAmCorbin/MooKit/
 --																											    --
 --  This code is free to use and share, but must be passed on in turn. Don't be greedy, help each other, we are all One.				    --
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,7 +24,7 @@ MooKit is a web development toolkit using these technologies at it's core:
 	php - A widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTM ( http://php.net )
 	javascript - The most popular scripting language on the internet, and works in all major browsers ( http://www.w3schools.com/js/js_intro.asp )
 	Mootools - A compact, modular, Object-Oriented JavaScript framework designed for the intermediate to advanced JavaScript developer( http://mootools.net/ )
-	
+
 Goals:
 																							--
 	- The MooKit is a robust and scalable solution to any webDevelopment challange.						--
@@ -35,20 +36,11 @@ Goals:
 	- The MooKit allows for the creation of a solid structure(context), that can then be filled with dynamic content	--
 																							--
          ----------------------------------------------------------------------------------------------------------------------------------------------
-	 
-To Do:
-  -Navigation System needs to draw from database populated `links` table (Extra: Allow for user specified animations)
-  -Admin Code Area ( look at editarea_0_8_2 code )
-  -WYSYWG style(xhtml strict generation)  post editing
-  -Analyze phpmysqlautobackup and integrate similar system for backing up entire site and mysql database automatically
-  -bitwise permissions for pages
-  -Email class - New Account Validation Extension
-  -Create general documentation
-  -Improve Caching System
-  -Finish Seperating Core and Site Code
-  
-Debug:
-  -Further test for any XSS or SQL injection vunerabilities
+
+Important:
+	- MooKit needs write access to these locations:
+		logs/DBerrors.xml
+		logs/PHPerrors.xml
 
 ---------
 | Files |

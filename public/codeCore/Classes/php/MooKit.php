@@ -58,13 +58,18 @@ class MooKit {
 				return;
 			}
 		}
-		
+
 		//FILE HANDLING
 		if(is_readable($request) && !is_dir($request) ) {
-			//return file and abort application
+			//return file
 			include $request;
 			exit();
 		}
+		
+		//~ if(file_exists('cache/cache.htm')) {
+			//~ require ROOT_DIR.'cache.htm';
+			//~ exit("CACHED!");
+		//~ }
 	}
 	/**
 	  * Application Initialization
@@ -73,7 +78,7 @@ class MooKit {
 	  */ 
 	public function INIT($mainTpl='templates/main.tpl.php') {
 		//Setup main Template
-		$this->main = new Template($mainTpl,false,true);
+		$this->main = new Template($mainTpl);
 		//initialize arrays
 		$this->scriptsPublic = array();
 		$this->scriptsSecure = array();
@@ -128,6 +133,44 @@ class MooKit {
 		}
 	}
 	/**
+	  * Cache a php script
+	  */
+	public function cachePHP($path, $cachefile=NULL) {
+		if(!$cachefile)
+			$cachefile = 'cache/'.preg_replace('/\//','_',$path);
+		//start the output buffer
+		ob_start();
+		//output template to buffer
+		require $path;
+		// open the cache file for writing
+		$file = fopen($cachefile, 'w');
+		// save the contents of the output buffer to the file
+		fwrite($file, ob_get_contents());		
+		//turn off output buffer
+		ob_end_clean();
+		// close the file
+		fclose($file);
+	}
+	/**
+	  * Cache contents of a template to a file
+	  * @param Template $template 	the template to cache
+	  * @param string $cachefile 		[path and] filename of cache file
+	  */
+	public function cacheTpl(&$tpl, $cachefile="cache/cache.htm") {
+		//start the output buffer
+		ob_start();
+		//output template to buffer
+		echo $tpl;
+		// open the cache file for writing
+		$file = fopen($cachefile, 'w');
+		// save the contents of the output buffer to the file
+		fwrite($file, ob_get_contents());		
+		//turn off output buffer
+		ob_end_clean();
+		// close the file
+		fclose($file);
+	}
+	/**
 	  * Runs the application, outputs to the user's browser
 	  * 
 	  * @param bool styles 		used to disable all the styles
@@ -160,11 +203,6 @@ class MooKit {
 					if(preg_match("/\.js$/",$script))
 						$this->addScript('codeCore/js',$script); 
 			    }
-			    //if secure, add secure JavaScript - all in codeCore/js/secure/
-			    //~ if(Security::clearance()) { foreach(new DirectoryIterator('codeCore/js/secure') as $script) { 
-					//~ //make sure file is .js
-					//~ if(preg_match("/\.js$/",$script))
-						//~ $this->addScript('codeCore/js/secure',$script,'secure'); }}
 			//LOAD codeSite JavaScripts
 			    //Grab all public JavaScripts - all in codeSite/js/
 			    foreach(new DirectoryIterator('codeSite/js') as $script) { 
@@ -172,13 +210,6 @@ class MooKit {
 					if(preg_match("/\.js$/",$script))
 						$this->addScript('codeSite/js',$script); 
 				}
-			    //if secure, add secure JavaScript - all in codeSite/js/secure/
-			    //~ if(Security::clearance()) { foreach(new DirectoryIterator('codeSite/js/secure') as $script) { 
-					//~ //make sure file is .js
-					//~ if(preg_match("/\.js$/",$script))
-						//~ $this->addScript('codeSite/js/secure',$script,'secure'); 
-				//~ }}
-			
 			//set all scripts for main template
 			$this->main->scripts = array_merge($this->scriptsPublic, $this->scriptsSecure);
 		}
@@ -187,8 +218,11 @@ class MooKit {
 			$this->main->debugTpl = new Template('templates/debug.tpl.php');
 		else $this->main->debugTpl = null;
 		
-		//send output
-		echo $this->main;
+		
+		//cache page
+		//$this->cacheTpl($this->main);
+		//send output gzip encoded to browser
+		echo $this->main->run(false);
 	}
 }
 ?>
