@@ -14,7 +14,7 @@
 	<div id="mainNav">
 		<? if(isset($Menu)) $Menu->output(); // NAVIGATION BAR // ?>
 	</div>
-
+	<div style="display: none;" id="outdatedBrowserError"></div>
 	<? if(isset($loginTpl)) echo $loginTpl; // LOGIN FORM // ?>
 	<? if(isset($signupTpl)) echo $signupTpl; // SIGNUP FORM //?>
 	

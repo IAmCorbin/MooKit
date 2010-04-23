@@ -3,29 +3,59 @@
   */
 window.addEvent('domready', function() {
 
+	//display outdated browser error if applicable
+	//Outdated Web Browser Message
+	if(Browser.Engine.trident4 || Browser.Engine.webkit419) {
+		outdatedBrowserError = $('outdatedBrowserError');
+		outdatedBrowserError.appendText('You are using an outdated browser, some features of this site may not work. ');
+		new Element('a', {
+			target: '_blank',
+			href: 'http://getfirefox.com',
+			html: 'Get Firefox Here'
+		}).inject(outdatedBrowserError);
+		outdatedBrowserError.setStyles({
+			fontSize: '25px',
+			fontWeight: 'bold',
+			fontFamily: 'Monospace',
+			background: '#A55',
+			border: 'solid 3px #FAA',
+			width: '60%',
+			margin: 'auto',
+			display: 'block'
+		});
+		
+	}
+
+	//grab content area
+	contentArea = $('content');
+	//set fade speed
+	contentArea.set('tween',{duration: '100' });
 	//Set Up AJAX DeepLinker
 	var DL = new DeepLinker('content',{
 				cookies: false,
 				onUpdate: function() {
 					switch(window.location.hash) {
 						case "#test1":
-							this.container.load('codeSite/php/test1.php');
+							fancyLoad(this.container,'codeSite/php/test1.php');
 							document.title="MooKit Version 1 - test1";
 							break;
 						case "#test2":
-							this.container.load('codeSite/php/test2.php');
+							fancyLoad(this.container,'codeSite/php/test2.php');
 							document.title="MooKit Version 1 - test2";
 							break;
 						case "#test3":
-							this.container.load('codeSite/php/test3.php');
+							fancyLoad(this.container,'codeSite/php/test3.php');
 							document.title="MooKit Version 1 - test3";
 							break;
 						case "#adminPanel":
 							CORE_LOAD('AdminPanel',this.container);
 							break;
 						case "#logout":
-							new Request.HTML({ 
+							new Request.HTML({
 								url: 'codeSite/php/logout.php',
+								onRequest: function() {
+									contentArea.fade(0);
+								},
 								onSuccess: function() {
 									updateApp();
 									//fade login and signup buttons back in

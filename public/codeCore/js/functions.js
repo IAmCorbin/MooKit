@@ -107,9 +107,21 @@ function CORE_LOAD(module, container) {
 					addAssets(["style/secure/adminPanel.css.php"],["codeCore/js/secure/adminPanel.js"]);
 				}
 			});
-			$(container).load('codeCore/php/secure/adminPanel.php');
+			fancyLoad($(container),'codeCore/php/secure/adminPanel.php');
 			break;
 		default:
 			break;
 	}
+}
+
+/**
+  * @function create smooth ajax loading (fade out/in)
+  * @param the container to load into (also the fading element)
+  * @param what to load
+  */
+function fancyLoad(container, url, speed) {
+	speed = typeof(speed) == "undefined" ? 250 : speed;
+	container.fade(0);
+	( function() {container.load(url); } ).delay(speed);
+	( function() { container.fade(1); } ).delay(speed*2);
 }
