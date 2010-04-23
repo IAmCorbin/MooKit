@@ -10,6 +10,7 @@ require_once 'codeSite/php/init.php';
 define('ACCESS_ADMIN',4);
 define('ACCESS_CREATE',2);
 define('ACCESS_BASIC',1);
+define('ACCESS_NONE',0);
 
 // Set Error Reporting Level
 error_reporting(E_ALL);

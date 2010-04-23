@@ -114,9 +114,9 @@ function getHumanAccess($access_level) {
 			return $human = "Unauthorized User";
 		case 1:
 			return $human = "Basic User";
-		case 2:
+		case 3:
 			return $human = "Creator";
-		case 4:
+		case 7:
 			return $human = "Administrator";
 		default:
 			return $human = "Unknown (Error?)";

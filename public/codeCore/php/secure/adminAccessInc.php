@@ -9,19 +9,29 @@ if(Security::clearance() & ACCESS_ADMIN) {
 	$alias = $inputFilter->text($alias,true);
 	
 	//set new access level if below ADMIN ACCESS
-	if($access_level < ACCESS_ADMIN) {
-		$newAccess = $access_level*2;
-		//if user was unauthorized, set to BASIC ACCESS
-		if($access_level == 0)
-			$newAccess = 1;
-		
+	if($access_level & ACCESS_ADMIN) {
+		//already an admin, can't reaise access any higher
+		$status = 0;
+	} else {
+		if($access_level & ACCESS_CREATE) {
+			//if user was a Creator, set to Admin
+			$newAccess = $access_level | ACCESS_ADMIN;
+			
+		} else {
+			if($access_level & ACCESS_BASIC) {
+				//if user was Basic, set to Creator
+				$newAccess = $access_level | ACCESS_CREATE;
+			} else {
+				if($access_level == ACCESS_NONE)
+					//if user was unauthorized, set to BASIC ACCESS
+					$newAccess = $access_level | ACCESS_BASIC;
+			}
+		}
 		//connect to Database
 		$DB = new DatabaseConnection;
 		//update user's access level
 		$query = "UPDATE `users` SET `access_level`='$newAccess' WHERE `alias`='$alias' LIMIT 1;";
 		$status = $DB->delete($query);
-	} else {
-		$status = 0;
 	}
 	echo json_encode(array('status'=>$status,'access'=>$newAccess,'title'=>getHumanAccess($newAccess)));
 } else
