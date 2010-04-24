@@ -59,9 +59,10 @@ Class Filters {
 	 * Filter user entered text
 	 * @param string $user_text
 	 * @param bool $stripWS 	Switch to optionally strip all whitespace
+	 * @param bool $allowBlank    Switch to allow blank field
 	 * @returns string
 	 */
-	public function text($user_text, $stripWS = false) {
+	public function text($user_text, $stripWS = false,$allowBlank=false) {
 		if($user_text !== '') {
 			//optionally remove whitespace
 			if($stripWS) {
@@ -76,10 +77,12 @@ Class Filters {
 			if($text !== '')
 				return $text;
 			else 
-				$this->errors[sizeof($this->errors)] = 'Blank Field';
+				if(!$allowBlank)
+					$this->errors[sizeof($this->errors)] = 'Blank Field';
 		}
 		else {
-			$this->errors[sizeof($this->errors)] = 'Blank Field';
+			if(!$allowBlank)
+				$this->errors[sizeof($this->errors)] = 'Blank Field';
 		}
 	}
 	/**
@@ -91,9 +94,28 @@ Class Filters {
 	 */
 	public function alphnum_($user_text) {
 		if($user_text !== '') {
-			if(!preg_match("/^([a-zA-Z1-9\_]+)$/",$user_text)) {
+			if(!preg_match("/^([a-zA-Z0-9\_]+)$/",$user_text)) {
 				$this->errors[sizeof($this->errors)] = 'Non-Alphanumberic Characters Removed';
 				$text = preg_replace("/[^a-zA-Z1-9\_]/","",$user_text);
+				return $text;
+			} else {
+				return $user_text;
+			}
+		}
+		else {
+			$this->errors[sizeof($this->errors)] = 'Blank Field';
+		}
+	}
+	/**
+	  * Require a valid number
+	  * @param string $user_input
+	  * @returns filtered input
+	  */
+	public function number($user_text) {
+		if($user_text !== '') {
+			if(!preg_match("/^\-?([0-9]+)$/",$user_text)) {
+				$this->errors[sizeof($this->errors)] = 'Non-Numeric Characters Removed';
+				$text = preg_replace("/[^1-9\-]/","",$user_text);
 				return $text;
 			} else {
 				return $user_text;
