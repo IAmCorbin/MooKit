@@ -93,16 +93,22 @@
 	/**
 	  * Updates a post in the database
 	  * @param int $post_id - the post to update
-	  * @param string $title - post title
-	  * @param string $html - post html
 	  * @returns int - number of rows affected
 	  */
-	public function update($post_id,$title,$html) {
+	public function update($post_id) {
 		$post_id = mysqli_real_escape_string($post_id);
 		$title = mysqli_real_escape_string($this->title);
 		$html = mysqli_real_escape_string($this->html);
 		$query = "UPDATE `posts` SET `title`='$title' `html`='$html' `modTime`=NOW() WHERE `post_id`='$post_id';";
 		return $this->DB->update($query);
+	}
+	/**
+	  * Remove a post from the database
+	  */
+	public function delete($post_id) {
+		$post_id = mysqli_real_escape_string($post_id);
+		$query = "DELETE FROM `posts` WHERE `post_id`='$post_id';";
+		return $this->DB->delete($query);
 	}
 	/**
 	  * add a new permission to this post
