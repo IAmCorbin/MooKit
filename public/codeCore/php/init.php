@@ -6,11 +6,15 @@ function __autoload($class_name) { 	require_once "codeCore/Classes/php/".$class_
 //Require Site Settings
 require_once 'codeSite/php/init.php';
 
+//PERMISSIONS
 //define access levels
 define('ACCESS_ADMIN',4);
 define('ACCESS_CREATE',2);
 define('ACCESS_BASIC',1);
 define('ACCESS_NONE',0);
+//post access
+define('ACCESS_READ',4);
+define('ACCESS_WRITE',2);
 
 // Set Error Reporting Level
 error_reporting(E_ALL);

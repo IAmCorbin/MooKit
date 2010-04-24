@@ -109,4 +109,20 @@ window.addEvent('domready', function() {
 			}
 		});
 	});
+	
+	//**********************//
+	//Menu Administration//
+	//**********************//
+	$('adminAddLink').addEvent('submit',function(e) {
+		e.stop();
+		this.set('send',{
+			onSuccess: function(response) {
+				json = handleResponse(response);
+				if(!json)
+					return;
+				debug(this);
+			}
+		}).send();
+	});
+	
 });
