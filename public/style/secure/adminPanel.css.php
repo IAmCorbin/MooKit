@@ -42,4 +42,11 @@ div.adminAccessDec { position: fixed; left: 0; top: 0; width: 100%; height: 100%
 div.adminAccessDecContent { position:fixed !important; position: absolute; /*ie6 and above*/ left: 40%; top: 100px; width: 300px; height: 150px; border: solid black 2px; background-color: #AAA; display: none; text-align: center; padding: 20px; z-index: 3001; }
 .adminAccessDecClose { font-weight: bold; font-size: 30px; cursor: pointer; border: solid black 1px; background: #888; width: 70px; height: 40px; float: left; margin-left: 30px; margin: 20px; z-index: 3002; }
 
-
+<? /* <!-- Add Menu Link Form --> */ ?>
+#adminAddLink { width: 425px; border: inset green 4px; padding: 10px; background: #66A966; font-size: 10px; }
+#adminAddLink h1 { font-size: 14px; border-bottom: dashed black 2px; margin-bottom: 10px; }
+#adminAddLink label { display: block; position: relative;  }
+#adminAddLink label span { display: block; float: left; width: 70px; }
+#adminAddLink label input { margin-bottom: 5px; }
+#adminAddLink > input[type="submit"] { border:outset; background: #CCFFCC; }
+#adminAddLink > input[type="submit"]:hover { border: inset; background: #FFFFFF; }

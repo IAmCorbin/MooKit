@@ -17,7 +17,8 @@ if(Security::clearance() & ACCESS_ADMIN) {
 	<div id="adminPanel">
 		<div id="adminPanelUsers">
 			<div class="adminTitle">User Administration</div>
-			<form id="adminFindUsers" method="post" action="codeCore/php/secure/adminPanel.php">
+			<br />
+			<form class="singleton" id="adminFindUsers" method="post" action="codeCore/php/secure/adminPanel.php">
 				<input type="text" name="alias" size="20" value="<? if(isset($_POST['alias'])) echo $_POST['alias']; ?>" />
 				<input type="submit" value="find users" />
 			</form>
@@ -58,13 +59,44 @@ if(Security::clearance() & ACCESS_ADMIN) {
 				var_dump($mainMenu->menu);
 			?>
 			<form id="adminAddLink" method="post" action="codeCore/php/secure/adminAddLink.php">
-				<label>Link Name<input name="name" type="text" size="20" /></label><br />
-				<label>href<input name="href" type="text" size="40" /></label><br />
-				<label>description (optional)<input name="desc" type="text" size="20" /></label><br />
-				<label>ajax link?<input name="ajax" value="1" type="checkbox" /></label><br />
-				<label>weight<input name="weight" type="text" size="5" /></label><br />
-				<input type="submit" value="add" />
-			</form>
+				<h1>Add a Link</h1>
+				<label>
+					<span>Link Name</span>
+					<input name="name" type="text" size="20" />
+				</label>
+				<label>
+					<span>href</span>
+					<input name="href" type="text" size="40" />
+				</label>
+				<label>
+					<span>Description</span>
+					<input name="desc" type="text" size="20" /><- Optional: 
+				</label>
+				<label style="float: right;">
+					<span>Ajax link?</span>
+					<input name="ajax" value="1" type="checkbox" />
+				</label>
+				<label style="float: right;">
+					<span>Menu link?</span>
+					<input name="ajax" value="1" type="checkbox" />
+				</label>
+				<label style="float: left;">
+					<span>Weight</span>
+					<input name="weight" type="text" size="5" />
+				</label>
+				<label style="float: right;">
+					<span>Access Level</span>
+					<select>
+						<option>ADMIN</option>
+						<option>CREATE</option>
+						<option>BASIC</option>
+						<option>NONE</option>
+					</select>
+				</label>
+				<label style="clear: both;" >
+					<input type="submit" value="add" />
+				</label>
+			</form> 
 		</div>
 	</div><!-- CLOSE ADMIN PANEL -->
 <?

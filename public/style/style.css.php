@@ -7,6 +7,7 @@ $curved = '25px';
 * { margin: 0; padding: 0; z-index: 0; }
 html, body { height: 100%; }
 body { background-image : url('../img/back.jpg'); }
+input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2px 5px 2px 5px; }
 
 /* SHORTCUTS */
 	.floatLeft { float: left; }
@@ -48,11 +49,15 @@ body { background-image : url('../img/back.jpg'); }
 /* END STRUCTURE  */
 
 /* CUSTOM */
-	.curved { -moz-border-radius:<?echo $curved?>; <?/* Firefox */?> -webkit-border-radius:<?echo $curved?>; <?/* Safari and chrome */?> -khtml-border-radius:<?echo $curved?>; <?/* Linux browsers */?> border-radius:<?echo $curved?>; <?/* CSS3 */?> }
+	.curved, input[type="password"], input[type="text"] { -moz-border-radius:<?echo $curved?>; <?/* Firefox */?> -webkit-border-radius:<?echo $curved?>; <?/* Safari and chrome */?> -khtml-border-radius:<?echo $curved?>; <?/* Linux browsers */?> border-radius:<?echo $curved?>; <?/* CSS3 */?> }
 	.button { background: #AAA; border: outset #666 4px; margin: 8px;}
 	.button:hover { background: #888; border: outset 3px; cursor: pointer;}
 	
 	.blueBox { width: 50px; height: 50px; background: blue; }
+	
+	form.singleton { display: inline; padding: 2px; border: solid #555 5px; background: #333; }
+	form.singleton input { border: none; background: #333; color: #AAA; }
+	form.singleton input[type="submit"] { border-left: solid 5px #555; }
 /*  END CUSTOM */
 
 /* OTHER */
