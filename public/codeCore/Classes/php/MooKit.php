@@ -61,9 +61,23 @@ class MooKit {
 
 		//FILE HANDLING
 		if(is_readable($request) && !is_dir($request) ) {
-			//return file
-			include $request;
-			exit();
+			
+			if(preg_match('/\.(php|css|js)$/',$request)) {
+				//return file if a valid type
+				include $request;
+				exit();
+			}
+			if(preg_match('/\.(gif|jpg|jpeg|png)$/',$request,$type)) {
+				//return image
+				if($type[0]=='.jpg' || $type[0]=='.jpeg') $type='jpeg';
+				if($type[0]=='.gif') $type='gif';
+				if($type[0]=='.png') $type='png';
+				//set content type
+				header('Content-Type: image/'.$type[0]);
+				//output image
+				readfile($request);
+				exit();
+			}
 		}
 		
 		//~ if(file_exists('cache/cache.htm')) {
