@@ -82,7 +82,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 					</label>
 					<label style="float: right;">
 						<span>Menu link?</span>
-						<input name="ajaxMenu" value="1" type="checkbox" />
+						<input name="menuLink" value="1" type="checkbox" />
 					</label>
 					<label style="float: right;">
 						<span>Access Level</span>

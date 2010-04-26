@@ -91,12 +91,16 @@ class Link {
 		$href = mysqli_real_escape_string($this->DB->getLink(),$this->href);
 		$desc = mysqli_real_escape_string($this->DB->getLink(),$this->desc);
 		$ajax = mysqli_real_escape_string($this->DB->getLink(),$this->ajax);
-		$weight = mysqli_real_escape_string($this->DB->getLink(),$this->weight);
+		$weight = mysqli_real_escape_string($this->DB->getLink(),$weight);
 		if($mainMenu) $mainMenu = 1; else $mainMenu = 0;
 		if(!$weight) $weight = 0;
 		if(!$access_level) $access_level = 0;
 		$query = "UPDATE `links` SET `name`='$name', `href`='$href', `desc`='$desc', `ajaxLink`='$ajax', `mainMenu`='$mainMenu', `weight`='$weight', `access_level`='$access_level' WHERE `link_id`='$link_id';";
-		if(!$return = $this->DB->update($query))
+		
+		$return = $this->DB->update($query);
+		if($return==0)
+			return $return;
+		if(!$return)
 			$this->status = "E_UPDATE";
 		return $return;
 	}

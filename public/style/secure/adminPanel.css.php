@@ -51,3 +51,4 @@ form.adminEditLink label input[type="text"] { margin-bottom: 5px; border: none; 
 form.adminEditLink label input[type="submit"] { border:outset 2px #7777BA; background: #6666A9; text-transform: uppercase; }
 form.adminEditLink label input[type="submit"]:hover { border: inset 2px #7777BA; background: #6666A9; }
 
+.EDITING * { background: green, color: green; border: green; }

@@ -17,6 +17,8 @@ window.addEvent('domready', function() {
 		//Link Editing Event
 		//make sure this is not a cell in the sublink subtable
 		else if(e.target.getParent().getParent().getParent().id =="links") {
+			//Add class to flag which row to update when complete
+			e.target.getParent().addClass('EDITING');
 			//Create Link Edit Form
 			new Element('div',{ 
 				id: "adminEditingLink",
@@ -96,10 +98,11 @@ window.addEvent('domready', function() {
 					
 				},
 				onHide: function() { 
-					//hide form errors
+					//remove editing flag
+					var updateRow = links.getParent().getElement('.EDITING')[0];
+					updateRow.removeClass('EDITING');
 					this.content.setStyle('display','none');
-					//set animation options and remove signup form
-					this.fadeLightbox.delay('500',this);
+					this.fadeLightbox.delay('200',this);
 				},
 				onRemove: function() {
 					this.lightbox.destroy();
@@ -112,15 +115,23 @@ window.addEvent('domready', function() {
 				e.stop();
 				this.set('send',{
 					onSuccess: function(response) {
-						console.log(this);
 						json = handleResponse(response);
 						if(!json)
 							return;
 						if(json.status == "OK") {
+							//update table row
+							var updateRow = links.getParent().getElement('.EDITING')[0];
+							updateRow.getChildren('td[name="name"]').set('html',json.name);
+							updateRow.getChildren('td[name="href"]').set('html',json.href);
+							updateRow.getChildren('td[name="desc"]').set('html',json.desc);
+							updateRow.getChildren('td[name="weight"]').set('html',json.weight);
+							updateRow.getChildren('td[name="ajaxLink"]').set('html',json.ajaxLink);
+							updateRow.getChildren('td[name="menuLink"]').set('html',json.menuLink);
+							updateRow.getChildren('td[name="access_level"]').set('html',json.access_level);
+							//close lightbox
 							editingLightbox.trigger();
-							
 						}
-					}
+					}.bind(this)
 				}).send();
 			});
 		}

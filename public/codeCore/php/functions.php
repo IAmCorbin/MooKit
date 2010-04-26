@@ -171,14 +171,14 @@ function adminGetLinks($name, $rType="object") {
 				if($link->link_id != $lastLink_id) {
 					$access_level = getHumanAccess($link->access_level);
 					$return.= "<tr>".
-							"<td>$link->link_id</td>".
-							"<td>$link->name</td>".
-							"<td>$link->href</td>".
-							"<td>$link->desc</td>".
-							"<td>$link->weight</td>".
-							"<td>$link->ajaxLink</td>".
-							"<td>$link->mainMenu</td>".
-							"<td>$link->access_level</td>".
+							"<td name=\"link_id\">$link->link_id</td>".
+							"<td name=\"name\">$link->name</td>".
+							"<td name=\"href\">$link->href</td>".
+							"<td name=\"desc\">$link->desc</td>".
+							"<td name=\"weight\">$link->weight</td>".
+							"<td name=\"ajaxLink\">$link->ajaxLink</td>".
+							"<td name=\"menuLink\">$link->mainMenu</td>".
+							"<td name=\"access_level\">$link->access_level</td>".
 							"<td>".
 							//SubLinks Editing Table
 								"<table class=\"subLinks\">".
