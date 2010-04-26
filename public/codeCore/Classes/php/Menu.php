@@ -74,7 +74,7 @@ class Menu {
 	/** 
 	  * Create the main menu from database tables
 	  */
-	public function mainMenu() {
+	public function buildMain() {
 		
 	}
 }

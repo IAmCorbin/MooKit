@@ -36,12 +36,8 @@ class Link {
 	  * @param string $desc 		optional description
 	  * @param string $ajax		ajax link class
 	  * @param Array $sublinks	optional array of sublinks
-	  * @param bool $insert		database insert switch
-	  * @param bool $mainMenu	main menu link switch
-	  * @param bool $weight		link weight
-	  * @param int $access_level    link access level requirement
 	  */
-	public function __construct($name,$href,$desc=NULL,$ajax=NULL,$sublinks=NULL,$insert=FALSE,$mainMenu=FALSE,$weight=0,$access_level=0) {
+	public function __construct($name,$href,$desc=NULL,$ajax=NULL,$sublinks=NULL) {
 		$this->name = $name;
 		$this->href = $href;
 		$this->desc = $desc;
@@ -50,10 +46,6 @@ class Link {
 			$this->sublinks = $sublinks;
 		else
 			$this->sublinks = array();
-		if($insert) {
-			$this->DB = new DatabaseConnection;
-			$this->addNew($mainMenu,$weight,$access_level);
-		}
 	}
 	/** 
 	  * Create a new SubLink
@@ -71,7 +63,8 @@ class Link {
 	  * @param int $weight - link weight
 	  * @param int $access_level - link access level
 	  */
-	public function addNew($mainMenu=FALSE,$weight=0,$access_level=0) {
+	public function insert($mainMenu=FALSE,$weight=0,$access_level=0) {
+		$this->DB = new DatabaseConnection;
 		$name = mysqli_real_escape_string($this->DB->getLink(),$this->name);
 		$href = mysqli_real_escape_string($this->DB->getLink(),$this->href);
 		$desc = mysqli_real_escape_string($this->DB->getLink(),$this->desc);
@@ -91,7 +84,8 @@ class Link {
 	  * @returns int - number of rows affected
 	  * @param int $access_level - link access level
 	  */
-	public function update($link_id,$mainMenu=FALSE,$weight=NULL,$access_level=NULL) {
+	public function update($link_id,$mainMenu,$weight,$access_level) {
+		$this->DB = new DatabaseConnection;
 		$link_id = mysqli_real_escape_string($this->DB->getLink(),$link_id);
 		$name = mysqli_real_escape_string($this->DB->getLink(),$this->name);
 		$href = mysqli_real_escape_string($this->DB->getLink(),$this->href);
@@ -101,7 +95,7 @@ class Link {
 		if($mainMenu) $mainMenu = 1; else $mainMenu = 0;
 		if(!$weight) $weight = 0;
 		if(!$access_level) $access_level = 0;
-		$query = "UPDATE `links` SET `name`='$name' `href`='$href' `desc`='$desc' `ajaxLink`='$ajax' `mainMenu`='$mainMenu' `weight`='$weight' `access_level`='$access_level' WHERE `link_id`='$link_id';";
+		$query = "UPDATE `links` SET `name`='$name', `href`='$href', `desc`='$desc', `ajaxLink`='$ajax', `mainMenu`='$mainMenu', `weight`='$weight', `access_level`='$access_level' WHERE `link_id`='$link_id';";
 		if(!$return = $this->DB->update($query))
 			$this->status = "E_UPDATE";
 		return $return;

@@ -61,6 +61,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 			<ul id="links_pagination" class="pagination"></ul>
 			<table id="links">
 				<thead>
+					<th>id</th>
 					<th>name</th>
 					<th>href</th>
 					<th>description</th>
@@ -68,12 +69,13 @@ if(Security::clearance() & ACCESS_ADMIN) {
 					<th>ajax?</th>
 					<th>mainMenu?</th>
 					<th>access level</th>
+					<th>sublinks</th>
 					<th class="nosort">Delete</th>
 				</thead>
 				<tbody>
 <?
 			//grab all existing links and sublinks from the database
-			$links = Link::getAll(true);
+			$links = Link::getAll();
 			
 			$lastLink_id = null;
 				
@@ -83,6 +85,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 				if($link->link_id != $lastLink_id) {
 					$access_level = getHumanAccess($link->access_level);
 					echo "<tr>".
+							"<td>$link->link_id</td>".
 							"<td>$link->name</td>".
 							"<td>$link->href</td>".
 							"<td>$link->desc</td>".
@@ -90,6 +93,28 @@ if(Security::clearance() & ACCESS_ADMIN) {
 							"<td>$link->ajaxLink</td>".
 							"<td>$link->mainMenu</td>".
 							"<td>$link->access_level</td>".
+							"<td>".
+							//SubLinks Editing Table
+								"<table class=\"subLinks\">".
+									"<thead>".
+										"<th>name</th>".
+										"<th>href</th>".
+										"<th>desc</th>".
+									"</thead>".
+									"<tbody>";
+									foreach($links as $sublink) {
+										if($link->link_id === $sublink->link_id && $sublink->sublink_id) {
+											echo "<tr>".
+												"<td>".$sublink->sub_name."</td>".
+												"<td>".$sublink->sub_href."</td>".
+												"<td>".$sublink->sub_desc."</td>".
+											"</tr>";
+										}
+									}
+								echo "</tbody>".
+								"</table>".
+								'<form id="adminAddSublink" class="singleton"><input type="text" size="20" /></form>'.
+							"</td>".
 							'<td class="adminDeleteLink">X</td>'.
 						"</tr>";
 				}
@@ -119,11 +144,11 @@ if(Security::clearance() & ACCESS_ADMIN) {
 					</label>
 					<label style="float: right;">
 						<span>Ajax link?</span>
-						<input name="ajax" value="1" type="checkbox" />
+						<input name="ajaxLink" value="1" type="checkbox" />
 					</label>
 					<label style="float: right;">
 						<span>Menu link?</span>
-						<input name="ajax" value="1" type="checkbox" />
+						<input name="ajaxMenu" value="1" type="checkbox" />
 					</label>
 					<label style="float: right;">
 						<span>Access Level</span>

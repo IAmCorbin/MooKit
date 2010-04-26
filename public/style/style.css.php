@@ -70,7 +70,7 @@ input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2p
 	
 	.blueBox { width: 50px; height: 50px; background: blue; }
 	
-	form.singleton { display: inline; padding: 2px; border: solid #555 5px; background: #333; }
+	form.singleton { display: inline; padding: 4px; border: solid #555 5px; background: #333; }
 	form.singleton input { border: none; background: #333; color: #AAA; }
 	form.singleton input[type="submit"] { border-left: solid 5px #555; }
 /*  END CUSTOM */
