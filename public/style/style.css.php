@@ -9,6 +9,21 @@ html, body { height: 100%; }
 body { background-image : url('../img/back.jpg'); }
 input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2px 5px 2px 5px; }
 
+<? /* <!-- TABLE STYLE --> */ ?>
+	table { clear: left; border: double black 4px; }
+	table *, ul.pagination * { font-family: Monospace; }
+	table tr td { padding: 5px;}
+	table thead th { padding: 5px; height: 50px; font-weight: bold; font-size: 20px; background: #CCF; vertical-align: top; }
+	table thead th span { display: block; position: relative; bottom: 0px; left: 40%; width: 14px; height: 15px; }
+	table thead th.forward_sort {  background: #88F; }
+	table thead th.reverse_sort { background: #C8B; }
+	table tbody tr { background-color: #AAF; cursor: pointer; }
+	table tbody tr:hover { background-color: #FAA; }
+	table tbody tr.alt { background-color: #88D; }
+	ul.pagination li { margin-left: 50px; margin: 10px; float: left; list-style-type: none; }
+	ul.pagination li a.currentPage { background: #AAA }
+
+
 /* SHORTCUTS */
 	.floatLeft { float: left; }
 	.clearBoth { clear: both; }
