@@ -71,5 +71,11 @@ class Menu {
 	<? endforeach; //$links->links  
 	
 	}
+	/** 
+	  * Create the main menu from database tables
+	  */
+	public function mainMenu() {
+		
+	}
 }
 ?>

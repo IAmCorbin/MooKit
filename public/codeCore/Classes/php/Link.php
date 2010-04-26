@@ -118,12 +118,27 @@ class Link {
 			$this->status = "E_DELETE";
 		return $return;
 	}
-	/**
-	  * Return link as an associative array
-	  * @returns array
+	/** 
+	  * Grabs all the links from the database with their associated sublinks
+	  * @param bool $mainMenu - flag to grab only mainMenu links
+	  * @returns object - all the found links
 	  */
-	public function getLink() {
-		return get_object_vars($this);
+	public static function getAll($mainMenu=false) {
+		if($mainMenu) $mainMenu = " WHERE `links`.`mainMenu`=1 ";
+		//select all links with thier associated sublinks
+		$query = "SELECT `links`.* , `sublinks`.`sublink_id`, ".
+					"`subDetails`.`name` AS `sub_name`, ". 
+					"`subDetails`.`href` AS `sub_href`, ".
+					"`subDetails`.`desc` AS `sub_desc`, ".
+					"`subDetails`.`weight` AS `sub_weight`, ".
+					"`subDetails`.`mainMenu` AS `sub_mainMenu`, ".
+					"`subDetails`.`ajaxLink` AS `sub_ajaxLink`, ".
+					"`subDetails`.`access_level` AS `sub_access_level` ".
+						"FROM `links` ".
+						"LEFT JOIN `sublinks` ON `links`.`link_id`=`sublinks`.`link_id` ".
+						"LEFT JOIN `links` AS subDetails ON `sublinks`.`sublink_id`=subDetails.`link_id`".$mainMenu.";";
+		$DB = new DatabaseConnection;
+		return $DB->get_rows($query);
 	}
 }
 ?>

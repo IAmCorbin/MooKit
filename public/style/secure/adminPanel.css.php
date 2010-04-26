@@ -2,23 +2,8 @@
 
 .adminTitle { font-family: Monospace; font-weight: bold; font-size: 30px; border-bottom: 4px groove #AAA; margin-bottom: 5px; }
 
-<? /* <!-- USER TABLE STYLE --> */ ?>
-#users { clear: left; border: double black 4px; }
-#users *, #users_pagination * { font-family: Monospace; }
-#users tr td { padding: 5px;}
-#users thead th { padding: 5px; height: 50px; font-weight: bold; font-size: 20px; background: #CCF; vertical-align: top; }
-#users thead th span { display: block; position: relative; bottom: 0px; left: 40%; width: 14px; height: 15px; }
-<? //Was trying to modify SortingTable class to change class of different element 
-/*#users thead th span.forward_sort {  background: url('../../img/sprites.png') no-repeat 0px 0px; }
-#users thead th span.reverse_sort { background: url('../../img/sprites.png') no-repeat -14px 0px; }*/ ?>
-#users thead th.forward_sort {  background: #88F; }
-#users thead th.reverse_sort { background: #C8B; }
-#users tbody tr { background-color: #AAF; cursor: pointer; }
-#users tbody tr:hover, #users tbody tr.alt:hover { background-color: #FAA; }
-#users tbody tr.alt { background-color: #88D; }
-#users_pagination li { margin-left: 50px; margin: 10px; float: left; list-style-type: none; }
-#users_pagination li a.currentPage { background: #AAA }
-
+<? /* <!-- FIX ZEBRA HOVER COLORS --> */ ?>
+#links tbody tr.alt:hover, #users tbody tr.alt:hover { background-color: #FAA; }
 
 <? /*<!-- DELETE USER BUTTON --> */?>
 td.adminDeleteUser { font-family: Monospace; font-weight: bold; text-align: center; font-size: 30px; }
@@ -42,11 +27,27 @@ div.adminAccessDec { position: fixed; left: 0; top: 0; width: 100%; height: 100%
 div.adminAccessDecContent { position:fixed !important; position: absolute; /*ie6 and above*/ left: 40%; top: 100px; width: 300px; height: 150px; border: solid black 2px; background-color: #AAA; display: none; text-align: center; padding: 20px; z-index: 3001; }
 .adminAccessDecClose { font-weight: bold; font-size: 30px; cursor: pointer; border: solid black 1px; background: #888; width: 70px; height: 40px; float: left; margin-left: 30px; margin: 20px; z-index: 3002; }
 
+
+<? /*<!-- DELETE LINK BUTTON --> */?>
+td.adminDeleteLink { font-family: Monospace; font-weight: bold; text-align: center; font-size: 30px; }
+td.adminDeleteLink:hover { font-weight: bold; font-size: 30px; color: #500; }
+
 <? /* <!-- Add Menu Link Form --> */ ?>
 #adminAddLink { width: 425px; border: inset green 4px; padding: 10px; background: #66A966; font-size: 10px; }
+#adminAddLink * { font-family: monospace; }
 #adminAddLink h1 { font-size: 14px; border-bottom: dashed black 2px; margin-bottom: 10px; }
 #adminAddLink label { display: block; position: relative;  }
 #adminAddLink label span { display: block; float: left; width: 70px; }
-#adminAddLink label input { margin-bottom: 5px; }
-#adminAddLink > input[type="submit"] { border:outset; background: #CCFFCC; }
-#adminAddLink > input[type="submit"]:hover { border: inset; background: #FFFFFF; }
+#adminAddLink label input[type="text"] { margin-bottom: 5px; border: none; background: #77BA77; }
+#adminAddLink label input[type="submit"] { border:outset 2px #77BA77; background: #66A966; text-transform: uppercase; }
+#adminAddLink label input[type="submit"]:hover { border: inset 2px #77BA77; background: #66A966; }
+<? /* <!-- Add Edit Link Form --> */ ?>
+form.adminEditLink { width: 425px; border: inset blue 4px; padding: 10px; background: #6666A9; font-size: 10px; }
+form.adminEditLink * { font-family: monospace; }
+form.adminEditLink h1 { font-size: 14px; border-bottom: dashed black 2px; margin-bottom: 10px; }
+form.adminEditLink label { display: block; position: relative;  }
+form.adminEditLink label span { display: block; float: left; width: 70px; }
+form.adminEditLink label input[type="text"] { margin-bottom: 5px; border: none; background: #7777BA; }
+form.adminEditLink label input[type="submit"] { border:outset 2px #7777BA; background: #6666A9; text-transform: uppercase; }
+form.adminEditLink label input[type="submit"]:hover { border: inset 2px #7777BA; background: #6666A9; }
+
