@@ -14,7 +14,7 @@ function handleResponse(response, errorBox) {
 	if(DEBUG)
 		$('debugBox').set('html',response);
 	//make sure proper JSON was returned and not a php error
-	if(!response.test('^\{[^\}]+\}$')) {
+	if(!response.test('^\\[?(\{[^\}]+\}\,?)+\\]?$')) {
 		if(DEBUG) 
 			alert('JSON ERROR! : '+response);
 		
@@ -91,7 +91,25 @@ function addAssets(styles,scripts) {
 	});
 }
 
-
+/**
+  * @function convert an access_level integer to the access title
+  * @param the access_level to convert
+  */
+function getHumanAccess(access_level) {
+	switch(access_level) {
+		case 0:
+			return "Unauthorized User";
+		case 1:
+			return "Basic User";
+		case 3:
+			return "Creator";
+		case 7:
+			return "Administrator";
+		default:
+			return "Unknown (Error?)";
+			
+	}
+}
 /**
   * @function load the user edit interface
   * @param the module name
@@ -104,7 +122,7 @@ function CORE_LOAD(module, container) {
 				onSuccess: function(r1,r2,r3) {
 					if(r3 == "Unauthorized")
 						return;
-					addAssets(["style/secure/adminPanel.css.php"],["codeCore/js/secure/adminPanel.js"]);
+					addAssets(["style/secure/adminPanel.css.php"],["codeCore/js/secure/adminPanel.js","codeCore/js/secure/adminUsers.js","codeCore/js/secure/adminLinks.js"]);
 				}
 			});
 			fancyLoad($(container),'codeCore/php/secure/adminPanel.php');

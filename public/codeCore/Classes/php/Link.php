@@ -115,9 +115,10 @@ class Link {
 	/** 
 	  * Grabs all the links from the database with their associated sublinks
 	  * @param bool $mainMenu - flag to grab only mainMenu links
+	  * @param string $rType - the return type for the links
 	  * @returns object - all the found links
 	  */
-	public static function getAll($mainMenu=false) {
+	public static function getAll($mainMenu=false,$rType="object") {
 		if($mainMenu) $mainMenu = " WHERE `links`.`mainMenu`=1 ";
 		//select all links with thier associated sublinks
 		$query = "SELECT `links`.* , `sublinks`.`sublink_id`, ".
@@ -132,7 +133,39 @@ class Link {
 						"LEFT JOIN `sublinks` ON `links`.`link_id`=`sublinks`.`link_id` ".
 						"LEFT JOIN `links` AS subDetails ON `sublinks`.`sublink_id`=subDetails.`link_id`".$mainMenu.";";
 		$DB = new DatabaseConnection;
-		return $DB->get_rows($query);
+		return $DB->get_rows($query,$rType);
+	}
+	/** 
+	  * Grabs some of the links from the database with their associated sublinks
+	  * @param string $name - link name to search for
+	  * @param bool $mainMenu - flag to grab only mainMenu links
+	  * @param string $rType - the return type for the links
+	  * @returns object - all the found links
+	  */
+	public static function getSome($name,$mainMenu=false,$rType="object") {
+		$inputFilter = new Filters;
+		$name = $inputFilter->text($name);
+		//check for malicious input
+		if($inputFilter->ERRORS()) $name='';
+		if($mainMenu) 
+			$WHERE = " WHERE `links`.`mainMenu`=1 AND `links`.`name` LIKE '%$name%' ";
+		else
+			$WHERE = " WHERE `links`.`name` LIKE '%$name%' ";
+		//select all links with thier associated sublinks
+		$query = "SELECT `links`.* , `sublinks`.`sublink_id`, ".
+					"`subDetails`.`name` AS `sub_name`, ". 
+					"`subDetails`.`href` AS `sub_href`, ".
+					"`subDetails`.`desc` AS `sub_desc`, ".
+					"`subDetails`.`weight` AS `sub_weight`, ".
+					"`subDetails`.`mainMenu` AS `sub_mainMenu`, ".
+					"`subDetails`.`ajaxLink` AS `sub_ajaxLink`, ".
+					"`subDetails`.`access_level` AS `sub_access_level` ".
+						"FROM `links` ".
+						"LEFT JOIN `sublinks` ON `links`.`link_id`=`sublinks`.`link_id` ".
+						"LEFT JOIN `links` AS `subDetails` ON `sublinks`.`sublink_id`=`subDetails`.`link_id`".$WHERE.";";
+		$DB = new DatabaseConnection;
+		$links = $DB->get_rows($query,$rType);
+		return $links;
 	}
 }
 ?>

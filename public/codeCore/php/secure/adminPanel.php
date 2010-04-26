@@ -6,7 +6,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 		<div id="adminPanelUsers">
 			<div class="adminTitle">User Administration</div>
 			<br />
-			<form class="singleton" id="adminFindUsers" method="post" action="codeCore/php/secure/adminPanel.php">
+			<form class="singleton" id="adminGetUsers" method="post" action="codeCore/php/secure/adminGetUsers.php">
 				<input type="text" name="alias" size="20" value="<? if(isset($_POST['alias'])) echo $_POST['alias']; ?>" />
 				<input type="submit" value="find users" />
 			</form>
@@ -23,30 +23,9 @@ if(Security::clearance() & ACCESS_ADMIN) {
 				</thead>
 				<tbody>
 <?
-			$DB = new DatabaseConnection;
-			
-			if(isset($_POST['alias'])) {
-				$inputFilter = new Filters;
-				$alias = $inputFilter->text($_POST['alias'],true);
-				$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE '%$alias%' LIMIT 20;";
-			} else {
-			$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 10;";
-			}
-			
-			$users = $DB->get_rows($query);
-
-			foreach($users as $user) {
-				$access_level = getHumanAccess($user->access_level);
-				echo "<tr>".
-						"<td name=$user->alias>$user->alias</td>".
-						"<td>$user->nameFirst</td>".
-						"<td>$user->nameLast</td>".
-						"<td>$user->email</td>".
-						"<td><span class=\"adminAccessDec\">-</span>&nbsp;&nbsp;&nbsp;<span>$user->access_level</span><span class=\"adminAccessInc\">+</span></td>".
-						"<td>$access_level</td>".
-						'<td class="adminDeleteUser">X</td>'.
-					"</tr>";
-			}
+		if(!isset($_POST['alias'])) $_POST['alias'] = '';
+		$users = adminGetUsers($_POST['alias'],"rows");
+		echo $users;
 ?>				
 				</tbody>
 			</table>
@@ -54,7 +33,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 		<br />
 		<div id="adminPanelMenu">
 			<div class="adminTitle">Menu Administration</div>
-			<form class="singleton" id="adminFindLinks" method="post" action="codeCore/php/secure/adminGetLinks.php">
+			<form class="singleton" id="adminGetLinks" method="post" action="codeCore/php/secure/adminGetLinks.php">
 				<input type="text" name="name" size="20" value="<? if(isset($_POST['links'])) echo $_POST['links']; ?>" />
 				<input type="submit" value="find links" />
 			</form>
@@ -74,52 +53,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 				</thead>
 				<tbody>
 <?
-			//grab all existing links and sublinks from the database
-			$links = Link::getAll();
-			
-			$lastLink_id = null;
-				
-
-			foreach($links as $link) {
-				//avoid double display of links
-				if($link->link_id != $lastLink_id) {
-					$access_level = getHumanAccess($link->access_level);
-					echo "<tr>".
-							"<td>$link->link_id</td>".
-							"<td>$link->name</td>".
-							"<td>$link->href</td>".
-							"<td>$link->desc</td>".
-							"<td>$link->weight</td>".
-							"<td>$link->ajaxLink</td>".
-							"<td>$link->mainMenu</td>".
-							"<td>$link->access_level</td>".
-							"<td>".
-							//SubLinks Editing Table
-								"<table class=\"subLinks\">".
-									"<thead>".
-										"<th>name</th>".
-										"<th>href</th>".
-										"<th>desc</th>".
-									"</thead>".
-									"<tbody>";
-									foreach($links as $sublink) {
-										if($link->link_id === $sublink->link_id && $sublink->sublink_id) {
-											echo "<tr>".
-												"<td>".$sublink->sub_name."</td>".
-												"<td>".$sublink->sub_href."</td>".
-												"<td>".$sublink->sub_desc."</td>".
-											"</tr>";
-										}
-									}
-								echo "</tbody>".
-								"</table>".
-								'<form id="adminAddSublink" class="singleton"><input type="text" size="20" /></form>'.
-							"</td>".
-							'<td class="adminDeleteLink">X</td>'.
-						"</tr>";
-				}
-				$lastLink_id=$link->link_id;
-			}
+			echo adminGetLinks($_POST['name'],"rows");
 ?>				
 				</tbody>
 			</table>

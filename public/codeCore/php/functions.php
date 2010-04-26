@@ -123,4 +123,91 @@ function getHumanAccess($access_level) {
 			
 	}
 }
+/**
+  * @param string $alias - the user alias to search for
+  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
+  */
+function adminGetUsers($alias, $rType="object") {
+	$DB = new DatabaseConnection;
+				
+	if(isset($alias)) {
+		$inputFilter = new Filters;
+		$alias = $inputFilter->text($alias,true);
+		$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE '%$alias%' LIMIT 20;";
+	} else {
+		$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 10;";
+	}
+	//build rows if requested
+	if($rType === "rows") {
+		$users = $DB->get_rows($query);
+		foreach($users as $user) {
+			$access_level = getHumanAccess($user->access_level);
+			$return .= "<tr>".
+					"<td>$user->alias</td>".
+					"<td>$user->nameFirst</td>".
+					"<td>$user->nameLast</td>".
+					"<td>$user->email</td>".
+					"<td><span class=\"adminAccessDec\">-</span>&nbsp;&nbsp;&nbsp;<span>$user->access_level</span><span class=\"adminAccessInc\">+</span></td>".
+					"<td>$access_level</td>".
+					'<td class="adminDeleteUser">X</td>'.
+				"</tr>";
+		}
+		return $return;
+	} else
+		return $DB->get_rows($query,$rType);
+}
+/**
+  * @param string $name - the link name to search for
+  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
+  */
+function adminGetLinks($name, $rType="object") {
+	if($rType === "rows") {
+		$links = Link::getSome($name);
+		//grab all existing links and sublinks from the database
+			$lastLink_id = null;
+			
+			foreach($links as $link) {
+				//avoid double display of links
+				if($link->link_id != $lastLink_id) {
+					$access_level = getHumanAccess($link->access_level);
+					$return.= "<tr>".
+							"<td>$link->link_id</td>".
+							"<td>$link->name</td>".
+							"<td>$link->href</td>".
+							"<td>$link->desc</td>".
+							"<td>$link->weight</td>".
+							"<td>$link->ajaxLink</td>".
+							"<td>$link->mainMenu</td>".
+							"<td>$link->access_level</td>".
+							"<td>".
+							//SubLinks Editing Table
+								"<table class=\"subLinks\">".
+									"<thead>".
+										"<th>name</th>".
+										"<th>href</th>".
+										"<th>desc</th>".
+									"</thead>".
+									"<tbody>";
+									foreach($links as $sublink) {
+										if($link->link_id === $sublink->link_id && $sublink->sublink_id) {
+											$return.="<tr>".
+												"<td>".$sublink->sub_name."</td>".
+												"<td>".$sublink->sub_href."</td>".
+												"<td>".$sublink->sub_desc."</td>".
+											"</tr>";
+										}
+									}
+								$return.="</tbody>".
+								"</table>".
+								'<form id="adminAddSublink" class="singleton"><input type="text" size="20" /></form>'.
+							"</td>".
+							'<td class="adminDeleteLink">X</td>'.
+						"</tr>";
+				}
+				$lastLink_id=$link->link_id;
+			}
+			return $return;
+	} else
+		return Link::getAll(false,"json");
+}
 ?>

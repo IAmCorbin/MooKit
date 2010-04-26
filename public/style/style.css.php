@@ -72,7 +72,7 @@ input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2p
 	
 	form.singleton { display: inline; padding: 4px; border: solid #555 5px; background: #333; }
 	form.singleton input { border: none; background: #333; color: #AAA; }
-	form.singleton input[type="submit"] { border-left: solid 5px #555; }
+	form.singleton input[type="submit"] { border-left: solid 5px #555; }	
 /*  END CUSTOM */
 
 /* OTHER */
@@ -80,3 +80,7 @@ input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2p
 	#debugBox { width: 80%; height: 10px; position:fixed !important; position: absolute; /*ie6 and above*/ bottom: 0px; left: 10%; background: #FFF; border: solid #000 4px; border-bottom: none; overflow: auto;}
 	.break { width: 100%; border-bottom: 3px solid #000; margin: 15px 0 15px 0; }
 /* END OTHER */
+
+<? /* <!-- LOADING ANIMATIONS --> */ ?>
+.loadingB { background: url('../img/anim/loadingW.gif') no-repeat; !important; }
+.loadingW { background: url('../img/anim/loadingW.gif') no-repeat !important; }

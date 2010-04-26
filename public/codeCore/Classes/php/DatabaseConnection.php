@@ -143,12 +143,13 @@ class DatabaseConnection {
 	public function formatResults(&$results, $rType="object") {
 		$resultSet = array();
 		switch($rType) {	
-			case "assoc" | "json":
+			case "assoc":
 				while($row = $results->fetch_assoc())
 					$resultSet[] = $row;
-			case "assoc":
 				return $resultSet;
 			case "json":
+				while($row = $results->fetch_assoc())
+					$resultSet[] = $row;
 				return json_encode($resultSet);
 			case "enum":
 				while($row = $results->fetch_row())
