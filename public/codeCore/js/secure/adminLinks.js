@@ -12,7 +12,10 @@ window.addEvent('domready', function() {
 		//Link Delete Event
 		if(e.target.className == "adminDeleteLink")
 			new ConfirmBox({
-				boxMSG: "Are you sure you want to delete this link?"
+				boxMSG: "Are you sure you want to delete this link?",
+				onConfirm: function() {
+				
+				}
 			});
 		//Link Editing Event
 		//make sure this is not a cell in the sublink subtable
