@@ -50,5 +50,6 @@ form.adminEditLink label span { display: block; float: left; width: 70px; }
 form.adminEditLink label input[type="text"] { margin-bottom: 5px; border: none; background: #7777BA; }
 form.adminEditLink label input[type="submit"] { border:outset 2px #7777BA; background: #6666A9; text-transform: uppercase; }
 form.adminEditLink label input[type="submit"]:hover { border: inset 2px #7777BA; background: #6666A9; }
-
+<? /* <!-- SubLinks --> */ ?>
+li.sublinkAdd:hover { border: outset black 1px; background: #999; }
 .EDITING * { background: green, color: green; border: green; }

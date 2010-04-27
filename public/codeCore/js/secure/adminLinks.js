@@ -136,4 +136,180 @@ window.addEvent('domready', function() {
 			});
 		}
 	});
+	//***************//
+	//Sublink Events//
+	//***************//
+	//Adding Sublinks
+	addSublink = $$('.adminAddSublink');
+	addSublink.addEvents({
+		click: function(e) {
+			e.target.set('value','');
+		},
+		submit: function(e) {
+			e.stop();
+		},
+		keydown: function(e) {
+			if(e.key == "enter") {
+				//get X and Y positioning of the input
+				LOC = getXY(e.target);
+				new Request.HTML({
+					url: 'codeCore/php/secure/adminGetLinks.php',
+					method: 'post',
+					onRequest: function() {
+						//add loading graphic
+						e.target.addClass('loadingW');
+					},
+					onSuccess: function(r1,r2,r3) {
+						//if no results were found, clear the box and return
+						if(r3 == 1) {
+							e.target.set('value',''); 
+							return;
+						} 
+						//otherwise handle the response
+						json = handleResponse(r3);
+						if(!json) return;
+						//create the results box
+						var sublinkResults = new Element('ul',{
+							id: 'sublinkSearchResults',
+							styles: {
+								position: 'absolute',
+								height: e.target.offsetHeight*3,
+								left: LOC.X,
+								top: LOC.Y+e.target.offsetHeight+2,
+								background: '#AAA',
+								border: 'outset 2px #FFF',
+								cursor: 'pointer',
+								overflow: 'auto'
+							},
+							events: {
+								//handle adding
+								click: function(e) {
+									if(e.target.className=="sublinkAdd" || e.target.getParent().className=="sublinkAdd") {
+										//grab the data from the DOM
+										if(e.target.className=="sublinkAdd")
+											var link = e.target.getParent().getParent().getParent().getParent();
+										else if(e.target.getParent().className=="sublinkAdd")
+											var link = e.target.getParent().getParent().getParent().getParent().getParent();
+										
+										var link_id = link.getFirst().get('html');
+										if(e.target.className=="sublinkAdd")
+											var sublink = e.target;
+										else if(e.target.getParent().className=="sublinkAdd")
+											var sublink = e.target.getParent();
+										var sublink_id = sublink.getElement('span').get('html');
+										var sublink_name = sublink.getFirst('a').get('html');
+										var sublink_href = sublink.getFirst('a').getNext().get('html');
+										var sublink_desc = sublink.getLast('a').get('html');
+										var sublinkTable = e.target.getParent('td[name="sublinks"]').getElement('table').getElement('tbody')
+										new Request.HTML({
+											method: 'post',
+											url: 'codeCore/php/secure/adminAddSublink.php',
+											onSuccess: function(r1,r2,r3) {
+												if(r3 == '1') {
+													//add sublink row
+													newSublinkRow = new Element('tr',{ class: "sublinkRow" });
+													sublinkID = new Element('td', { 
+														styles: { display: 'none' }, 
+														html: sublink_id,
+													});
+													new Element('td', { html: sublink_name }).inject(newSublinkRow);
+													new Element('td', { html: sublink_href }).inject(newSublinkRow);
+													new Element('td', { html: sublink_desc }).inject(newSublinkRow);
+													//attempt to clone the events of an existing sublink row - otherwise will need to reload this area to attach the delete event
+													var cloneAttempt = sublinkTable.getElement('tr[class="sublinkRow"]');
+													if(cloneAttempt)
+														newSublinkRow.cloneEvents(cloneAttempt);
+													//inject row into this link sublink table
+													newSublinkRow.inject(sublinkTable);
+													//remove the results box
+													e.target.getParent('ul').destroy();
+												} else { //Error Adding sublink
+													e.target.getParent('form').getElement('input').set('html','Error Adding Sublink');
+													//remove the results box
+													e.target.getParent('ul').destroy();
+												}
+											}
+										}).send('link_id='+link_id+"&sublink_id="+sublink_id);
+									}
+								}
+							}
+						});
+						//add the results
+						json.each(function(row) {
+							var sublinkResult = new Element('li',{
+								class: 'sublinkAdd',
+								html: "<a>"+row.name+"</a> - <a>"+row.href+"</a> <a>("+row.desc+")</a>"
+							});
+							//add the link id as a hidden element
+							new Element('span', {
+								styles: {
+									display: 'none'
+								},
+								html: row.link_id
+							}).inject(sublinkResult);
+							//add the result to the results box
+							sublinkResult.inject(sublinkResults);
+						});
+						//Cancel Button
+						new Element('div', {
+							styles: {
+								background: 'red',
+								width: '30px',
+								height: '10px',
+								color: 'black',
+								float: 'right'
+							},
+							html: ' X ',
+							events: {
+								click: function(e) {
+									e.stop();
+									//CLOSE
+									e.target.getParent('ul').destroy();
+								}
+							}
+						}).inject(sublinkResults,"top");
+						//add the results box to the document
+						sublinkResults.inject(e.target.getParent());
+						//remove loading graphic
+						e.target.removeClass('loadingW');
+						e.target.set('html','');
+					}
+				}).send('name='+e.target.value+'&rType=json&notSubs=true');	
+			}
+		}
+	});
+	//Delete Sublinks
+	//grab all sublink rows
+	var sublinks = $$('.sublinkRow');
+	sublinks.each(function(element) {
+		element.addEvents({
+			//right click options
+			contextmenu: function(e) {
+				e.stop();
+				if(e.target.tagName == "TD") {
+					var link = e.target.getParent().getParent().getParent().getParent().getParent();
+					var link_id = link.getFirst().get('html');
+					var sublink = e.target.getParent();
+					var sublink_id =  sublink.getFirst().get('html');
+					new ConfirmBox({
+						boxMSG: 'Are you sure that you no longer want "'+sublink.getFirst().getNext().get('html')+'" to be a sublink of "'+link.getFirst().getNext().get('html')+'"?',
+						back: '#F00',
+						onConfirm: function() {
+							//Delete The Sublink Table Entry
+							new Request.HTML({
+								method: 'post',
+								url: 'codeCore/php/secure/adminDeleteSublink.php',
+								onSuccess: function(r1,r2,r3) {
+									if(r3 == '1')
+									//remove sublinks row
+									sublink.destroy();
+								}
+									
+							}).send('link_id='+link_id+"&sublink_id="+sublink_id);
+						}
+					});
+				}
+			}
+		});
+	});
 });

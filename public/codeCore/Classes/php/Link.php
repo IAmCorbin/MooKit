@@ -144,32 +144,75 @@ class Link {
 	  * @param string $name - link name to search for
 	  * @param bool $mainMenu - flag to grab only mainMenu links
 	  * @param string $rType - the return type for the links
+	  * @param bool $notSubs - switch to turn off the sublink table join
 	  * @returns object - all the found links
 	  */
-	public static function getSome($name,$mainMenu=false,$rType="object") {
+	public static function getSome($name,$mainMenu=false,$rType="object",$notSubs=false) {
 		$inputFilter = new Filters;
 		$name = $inputFilter->text($name);
 		//check for malicious input
-		if($inputFilter->ERRORS()) $name='';
+		if($inputFilter->ERRORS()) { $name=''; }
 		if($mainMenu) 
 			$WHERE = " WHERE `links`.`mainMenu`=1 AND `links`.`name` LIKE '%$name%' ";
 		else
 			$WHERE = " WHERE `links`.`name` LIKE '%$name%' ";
-		//select all links with thier associated sublinks
-		$query = "SELECT `links`.* , `sublinks`.`sublink_id`, ".
-					"`subDetails`.`name` AS `sub_name`, ". 
+		//select links with thier associated sublinks
+		if(!$notSubs) {
+			$sublinkID = ",`sublinks`.`sublink_id`, ";
+			$subDetails = "`subDetails`.`name` AS `sub_name`, ". 
 					"`subDetails`.`href` AS `sub_href`, ".
 					"`subDetails`.`desc` AS `sub_desc`, ".
 					"`subDetails`.`weight` AS `sub_weight`, ".
 					"`subDetails`.`mainMenu` AS `sub_mainMenu`, ".
 					"`subDetails`.`ajaxLink` AS `sub_ajaxLink`, ".
-					"`subDetails`.`access_level` AS `sub_access_level` ".
-						"FROM `links` ".
-						"LEFT JOIN `sublinks` ON `links`.`link_id`=`sublinks`.`link_id` ".
-						"LEFT JOIN `links` AS `subDetails` ON `sublinks`.`sublink_id`=`subDetails`.`link_id`".$WHERE.";";
+					"`subDetails`.`access_level` AS `sub_access_level` ";
+			$JOIN = "LEFT JOIN `sublinks` ON `links`.`link_id`=`sublinks`.`link_id` ".
+				     "LEFT JOIN `links` AS `subDetails` ON `sublinks`.`sublink_id`=`subDetails`.`link_id`";
+		} else {
+			$sublinkID = '';
+			$subDetails = '';
+			$JOIN = '';
+		}
+		//compile query
+		$query = "SELECT `links`.* ".$sublinkID.$subDetails."FROM `links` ".$JOIN.$WHERE.";";
+		//connect to Database
 		$DB = new DatabaseConnection;
-		$links = $DB->get_rows($query,$rType);
-		return $links;
+		//run query and return the result
+		return $DB->get_rows($query,$rType);
+	}
+	/**
+	  * Adds a new sublink record in the sublinks table
+	  * @param int $link_id - the parent link
+	  * @param int $link_id - the child link
+	  * @return int - number of rows affected
+	  */
+	public static function insertSub($link_id, $sublink_id) {
+		//check for valid input
+		$inputFilter = new Filters;
+		$link_id = $inputFilter->number($link_id);
+		$sublink_id = $inputFilter->number($sublink_id);
+		if($inputFilter->ERRORS()) return "E_DATA";
+		
+		$query = "INSERT INTO `sublinks`(`link_id`,`sublink_id`) VALUES($link_id,$sublink_id);";
+		$DB = new DatabaseConnection;
+		return $DB->insert($query);
+	}
+	/**
+	  * deletes a sublink record from the sublinks table
+	  * @param int $link_id - the parent link
+	  * @param int $link_id - the child link
+	  * @return int - number of rows affected
+	  */
+	public static function deleteSub($link_id,$sublink_id) {
+		//check for valid input
+		$inputFilter = new Filters;
+		$link_id = $inputFilter->number($link_id);
+		$sublink_id = $inputFilter->number($sublink_id);
+		if($inputFilter->ERRORS()) return "E_DATA";
+		
+		$query = "DELETE FROM `sublinks` WHERE `link_id`='$link_id' AND `sublink_id`='$sublink_id';";
+		$DB = new DatabaseConnection;
+		return $DB->delete($query);
 	}
 }
 ?>

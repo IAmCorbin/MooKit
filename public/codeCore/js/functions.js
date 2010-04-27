@@ -143,3 +143,23 @@ function fancyLoad(container, url, speed) {
 	( function() {container.load(url); } ).delay(speed);
 	( function() { container.fade(1); } ).delay(speed*2);
 }
+
+/**
+  * Find the absolute position of an element on the page by iterating through all parents
+  * returns an object with the X and Y position
+  */
+function getXY(obj) {
+	if (obj) {
+		var curleft = 0;
+		var curtop = 0;
+		if (obj.offsetParent) {
+			curleft = obj.offsetLeft;
+			curtop = obj.offsetTop;
+			while (obj = obj.offsetParent) {
+				curleft += obj.offsetLeft;
+				curtop += obj.offsetTop;
+			}
+		}
+		return { X: curleft, Y: curtop };
+	}
+}

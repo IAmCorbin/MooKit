@@ -30,6 +30,7 @@ CREATE TABLE `links` (
 CREATE TABLE `sublinks` (
 	`link_id` SMALLINT UNSIGNED NOT NULL,
 	`sublink_id` SMALLINT UNSIGNED NOT NULL,
+	UNIQUE KEY `Ulink_sublink` (`link_id`,`sublink_id`),
 	CONSTRAINT `FKsublinks_link_id` FOREIGN KEY (link_id) REFERENCES `links` (link_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT `FKsublinks_sublink_id` FOREIGN KEY (sublink_id) REFERENCES `links` (link_id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

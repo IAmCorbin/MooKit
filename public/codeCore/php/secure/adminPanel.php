@@ -35,6 +35,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 			<div class="adminTitle">Menu Administration</div>
 			<form class="singleton" id="adminGetLinks" method="post" action="codeCore/php/secure/adminGetLinks.php">
 				<input type="text" name="name" size="20" value="<? if(isset($_POST['links'])) echo $_POST['links']; ?>" />
+				<input type="hidden" name="rType" value="rows" />
 				<input type="submit" value="find links" />
 			</form>
 			<ul id="links_pagination" class="pagination"></ul>
@@ -48,12 +49,12 @@ if(Security::clearance() & ACCESS_ADMIN) {
 					<th>ajax?</th>
 					<th>mainMenu?</th>
 					<th>access level</th>
-					<th>sublinks</th>
+					<th>sublinks (right-click to remove)</th>
 					<th class="nosort">Delete</th>
 				</thead>
 				<tbody>
 <?
-			echo adminGetLinks($_POST['name'],"rows");
+			echo adminGetLinks($_POST['name'],false,"rows");
 ?>				
 				</tbody>
 			</table>

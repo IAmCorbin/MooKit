@@ -157,12 +157,15 @@ function adminGetUsers($alias, $rType="object") {
 		return $DB->get_rows($query,$rType);
 }
 /**
+  * Search and return found links from the database
   * @param string $name - the link name to search for
+  * @param bool $mainMenu - flag to grab only mainMenu links
   * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
+  * @param bool $notSubs - switch to turn off the sublink table join
   */
-function adminGetLinks($name, $rType="object") {
+function adminGetLinks($name, $mainMenu=false, $rType="object",$notSubs=false) {
 	if($rType === "rows") {
-		$links = Link::getSome($name);
+		$links = Link::getSome($name,$mainMenu,"object",$notSubs);
 		//grab all existing links and sublinks from the database
 			$lastLink_id = null;
 			
@@ -179,10 +182,11 @@ function adminGetLinks($name, $rType="object") {
 							"<td name=\"ajaxLink\">$link->ajaxLink</td>".
 							"<td name=\"menuLink\">$link->mainMenu</td>".
 							"<td name=\"access_level\">$link->access_level</td>".
-							"<td>".
+							"<td name=\"sublinks\">".
 							//SubLinks Editing Table
 								"<table class=\"subLinks\">".
 									"<thead>".
+										"<th style=\"display: none;\">id</th>".
 										"<th>name</th>".
 										"<th>href</th>".
 										"<th>desc</th>".
@@ -190,7 +194,8 @@ function adminGetLinks($name, $rType="object") {
 									"<tbody>";
 									foreach($links as $sublink) {
 										if($link->link_id === $sublink->link_id && $sublink->sublink_id) {
-											$return.="<tr>".
+											$return.="<tr class=\"sublinkRow\">".
+												"<td style=\"display: none;\">".$sublink->sublink_id."</td>".
 												"<td>".$sublink->sub_name."</td>".
 												"<td>".$sublink->sub_href."</td>".
 												"<td>".$sublink->sub_desc."</td>".
@@ -199,7 +204,7 @@ function adminGetLinks($name, $rType="object") {
 									}
 								$return.="</tbody>".
 								"</table>".
-								'<form id="adminAddSublink" class="singleton"><input type="text" size="20" /></form>'.
+								'<form class="adminAddSublink singleton"><input type="text" name="name" size="20" value="Add a Sublink" /></form>'.
 							"</td>".
 							'<td class="adminDeleteLink">X</td>'.
 						"</tr>";
@@ -208,6 +213,6 @@ function adminGetLinks($name, $rType="object") {
 			}
 			return $return;
 	} else
-		return Link::getAll(false,"json");
+		return Link::getSome($name,$mainMenu,$rType,$notSubs);
 }
 ?>
