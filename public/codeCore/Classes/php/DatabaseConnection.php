@@ -19,7 +19,8 @@ class DatabaseConnection {
 	 *@var $mysqli		mysqli database object
 	 */ 
 	var $mysqli = NULL;
-	
+	/** @var $status - holds 1 or error status **/
+	var $STATUS = "1";
 	/**
 	 * Constructor - Create persistent mysqli database object
 	 *
@@ -174,6 +175,7 @@ class DatabaseConnection {
 	  *			
 	  */
 	public function trigger_DB_error($error, $sql = NULL) {
+		$this->STATUS = $error;
 		switch($error) {
 			case 'E_DB_CONN':
 				$msg = date(DATE_RFC850)." : Error establishing MySQLi object DB connection";
@@ -229,13 +231,6 @@ class DatabaseConnection {
 	 */
 	public function getLink() {
 		return $this->mysqli;
-	}
-	/**
-	 * Closes this connection
-	 */
-	public function cleanUp() {
-		// close connection
-		$this->mysqli->close();
 	}
 }
 ?>

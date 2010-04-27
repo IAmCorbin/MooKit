@@ -26,7 +26,7 @@ class Link {
 	/** @var Array $sublinks	an array of Link objects */
 	var $sublinks;
 	/** @var string $status    holds OK or database errors */	
-	var $status = "OK";
+	var $status = "1";
 	
 	/**
 	  * Constructor
@@ -109,12 +109,29 @@ class Link {
 	  * @param int $link_id - the link to remove
 	  * @returns int - the number of rows affected
 	  */
-	public function delete($link_id) {
-		$link_id = mysqli_real_escape_string($this->DB->getLink(),$link_id);
-		$query = "DELETE FROM `links` WHERE `link_id`='$link_id';";
-		if(!$return = $this->DB->update($query))
-			$this->status = "E_DELETE";
-		return $return;
+	public static function delete($link_id) {
+		//check for valid input and return error if not valid
+		$inputFilter = new Filters;
+		$inputFilter->number($link_id);
+		if($inputFilter->ERRORS()) return "E_DATA";
+		//establish database connection
+		$DB = new DatabaseConnection;
+			//turn off mysqli autocommit to process as a transaction
+			$DB->mysqli->autocommit(FALSE);
+			//remove all sublinks
+			$query = "DELETE FROM `sublinks` WHERE `link_id`='$link_id';";
+			$DB->delete($query);
+			//remove link
+			$query = "DELETE FROM `links` WHERE `link_id`='$link_id';";
+			$DB->delete($query);
+			//rollback or commit
+			if($DB->STATUS !== "1") {
+				$DB->mysqli->rollback();
+			} else if($DB->STATUS === "1")
+				$DB->mysqli->commit();
+		//close the database connection
+		$DB->mysqli->close();
+		return $DB->STATUS;
 	}
 	/** 
 	  * Grabs all the links from the database with their associated sublinks

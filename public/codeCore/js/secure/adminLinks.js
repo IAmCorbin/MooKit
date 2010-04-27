@@ -9,17 +9,31 @@ window.addEvent('domready', function() {
 	links = $('links').getElement('tbody').getElements('tr');
 	//Link Events
 	links.addEvent('click',function(e) {
+		//grab link id, name, and href
+		var link_id = e.target.getParent().getFirst();
+		var name = link_id.getNext();
+		var href = name.getNext();
 		//Link Delete Event
 		if(e.target.className == "adminDeleteLink")
 			new ConfirmBox({
-				boxMSG: "Are you sure you want to delete this link?",
+				back: "#F00",
+				boxMSG: "Are you sure you want to delete the link '"+name.get('html')+" - "+href.get('html')+"'?",
 				onConfirm: function() {
-				
+					new Request({
+						url: 'codeCore/php/secure/adminDeleteLink.php',
+						method: 'post',
+						onSuccess: function(response) {
+							response = handleResponse(response);
+							if(!response) return;
+							link_id.getParent().destroy();
+						}
+					}).send('link_id='+link_id.get('html'));
 				}
 			});
 		//Link Editing Event
 		//make sure this is not a cell in the sublink subtable
 		else if(e.target.getParent().getParent().getParent().id =="links") {
+		//~ else if(e.target.getParent('table').id=="links" && e.target.tagName!="INPUT") {
 			//Add class to flag which row to update when complete
 			e.target.getParent().addClass('EDITING');
 			//Create Link Edit Form
@@ -33,21 +47,26 @@ window.addEvent('domready', function() {
 				styles: { position:'fixed', left: '20%', top: '10px', width: '600px', height: '250px', padding: '10px', border: 'solid black 8px', background: '#FFF', zIndex: '5001', display: 'none' }
 			});
 			//close button
-			new Element('div', { id: "adminEditingLinkClose", styles: { background: 'red', width: '25px', height: '25px' }, html: 'Cancel' }).inject(editingContent);
+			new Element('div', { id: "adminEditingLinkClose", styles: { cursor: 'pointer', background: 'red', width: '25px', height: '25px' }, html: 'Cancel' }).inject(editingContent);
 			//get link data from the event
-			link_id = e.target.getParent().getFirst().get('html');
-			name = e.target.getParent().getFirst().getNext().get('html');
-			href = e.target.getParent().getFirst().getNext().getNext().get('html');
-			desc = e.target.getParent().getFirst().getNext().getNext().getNext().get('html');
-			weight = e.target.getParent().getFirst().getNext().getNext().getNext().getNext().get('html');
+			var desc = href.getNext();
+			var weight = desc.getNext();
+			var ajaxLink = weight.getNext();
+			var menuLink = ajaxLink.getNext();
+			var access_level = menuLink.getNext();
+			//setup data for display
+			var name = name.get('html');
+			var href = href.get('html');
+			var desc = desc.get('html');
+			var weight = weight.get('html');
 			//checkboxes
-			if(e.target.getParent().getLast().getPrevious().getPrevious().getPrevious().getPrevious().get('html').toInt()) ajaxLink='checked="yes"'; else ajaxLink='';
-			if(e.target.getParent().getLast().getPrevious().getPrevious().getPrevious().get('html').toInt()) menuLink='checked="yes"'; else menuLink=''; 
+			if(ajaxLink.get('html').toInt()) ajaxLink='checked="yes"'; else ajaxLink='';
+			if(menuLink.get('html').toInt()) menuLink='checked="yes"'; else menuLink=''; 
 			//pick access_level select option
-			if(e.target.getParent().getLast().getPrevious().getPrevious().get('html').toInt() ==  0) access_none="SELECTED"; else access_none="";
-			if(e.target.getParent().getLast().getPrevious().getPrevious().get('html').toInt() ==  1) access_basic="SELECTED"; else access_basic="";
-			if(e.target.getParent().getLast().getPrevious().getPrevious().get('html').toInt() ==  2) access_create="SELECTED"; else access_create="";
-			if(e.target.getParent().getLast().getPrevious().getPrevious().get('html').toInt() ==  4) access_admin="SELECTED"; else access_admin="";
+			if(access_level.get('html').toInt() ==  0) access_none="SELECTED"; else access_none="";
+			if(access_level.get('html').toInt() ==  1) access_basic="SELECTED"; else access_basic="";
+			if(access_level.get('html').toInt() ==  2) access_create="SELECTED"; else access_create="";
+			if(access_level.get('html').toInt() ==  4) access_admin="SELECTED"; else access_admin="";
 			//The Form Itself
 			new Element('form', {
 				id: "adminEditLinkForm",
@@ -89,7 +108,7 @@ window.addEvent('domready', function() {
 							</select>\
 						</label>\
 						<label style="clear: both;" >\
-							<input type="hidden" name="link_id" value="'+link_id+'" />\
+							<input type="hidden" name="link_id" value="'+link_id.get('html')+'" />\
 							<input id="adminEditLinkSubmit" type="submit" value="update" />\
 						</label>'
 			}).inject(editingContent);
@@ -118,19 +137,18 @@ window.addEvent('domready', function() {
 				e.stop();
 				this.set('send',{
 					onSuccess: function(response) {
-						json = handleResponse(response);
-						if(!json)
-							return;
-						if(json.status == "OK") {
+						response = handleResponse(response);
+						if(!response) return;
+						if(response.status == "1") {
 							//update table row
 							var updateRow = links.getParent().getElement('.EDITING')[0];
-							updateRow.getChildren('td[name="name"]').set('html',json.name);
-							updateRow.getChildren('td[name="href"]').set('html',json.href);
-							updateRow.getChildren('td[name="desc"]').set('html',json.desc);
-							updateRow.getChildren('td[name="weight"]').set('html',json.weight);
-							updateRow.getChildren('td[name="ajaxLink"]').set('html',json.ajaxLink);
-							updateRow.getChildren('td[name="menuLink"]').set('html',json.menuLink);
-							updateRow.getChildren('td[name="access_level"]').set('html',json.access_level);
+							updateRow.getChildren('td[name="name"]').set('html',response.name);
+							updateRow.getChildren('td[name="href"]').set('html',response.href);
+							updateRow.getChildren('td[name="desc"]').set('html',response.desc);
+							updateRow.getChildren('td[name="weight"]').set('html',response.weight);
+							updateRow.getChildren('td[name="ajaxLink"]').set('html',response.ajaxLink);
+							updateRow.getChildren('td[name="menuLink"]').set('html',response.menuLink);
+							updateRow.getChildren('td[name="access_level"]').set('html',response.access_level);
 							//close lightbox
 							editingLightbox.trigger();
 						}
@@ -155,22 +173,21 @@ window.addEvent('domready', function() {
 			if(e.key == "enter") {
 				//get X and Y positioning of the input
 				LOC = getXY(e.target);
-				new Request.HTML({
+				new Request({
 					url: 'codeCore/php/secure/adminGetLinks.php',
 					method: 'post',
 					onRequest: function() {
 						//add loading graphic
 						e.target.addClass('loadingW');
 					},
-					onSuccess: function(r1,r2,r3) {
+					onSuccess: function(response) {
+						response = handleResponse(response);
 						//if no results were found, clear the box and return
-						if(r3 == 1) {
-							e.target.set('value',''); 
+						if(!response || response == 1) {
+							e.target.set('value','No Results'); 
+							e.target.removeClass('loadingW');
 							return;
 						} 
-						//otherwise handle the response
-						json = handleResponse(r3);
-						if(!json) return;
 						//create the results box
 						var sublinkResults = new Element('ul',{
 							id: 'sublinkSearchResults',
@@ -204,11 +221,12 @@ window.addEvent('domready', function() {
 										var sublink_href = sublink.getFirst('a').getNext().get('html');
 										var sublink_desc = sublink.getLast('a').get('html');
 										var sublinkTable = e.target.getParent('td[name="sublinks"]').getElement('table').getElement('tbody')
-										new Request.HTML({
+										new Request({
 											method: 'post',
 											url: 'codeCore/php/secure/adminAddSublink.php',
-											onSuccess: function(r1,r2,r3) {
-												if(r3 == '1') {
+											onSuccess: function(response) {
+												response = handleResponse(response);
+												if(response) {
 													//add sublink row
 													newSublinkRow = new Element('tr',{ class: "sublinkRow" });
 													sublinkID = new Element('td', { 
@@ -238,7 +256,7 @@ window.addEvent('domready', function() {
 							}
 						});
 						//add the results
-						json.each(function(row) {
+						response.each(function(row) {
 							var sublinkResult = new Element('li',{
 								class: 'sublinkAdd',
 								html: "<a>"+row.name+"</a> - <a>"+row.href+"</a> <a>("+row.desc+")</a>"

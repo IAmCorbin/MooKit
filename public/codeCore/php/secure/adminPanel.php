@@ -75,7 +75,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 					</label>
 					<label style="float: left;">
 						<span>Weight</span>
-						<input name="weight" type="text" size="5" />
+						<input name="weight" value="0" type="text" size="5" />
 					</label>
 					<label style="float: right;">
 						<span>Ajax link?</span>

@@ -17,8 +17,8 @@ if(Security::clearance() & ACCESS_ADMIN) {
 	}
 
 	$link = new Link($name,$href,$desc,$ajaxLink,NULL);
-	$link->insert($_POST['menuLink'],$weight,$_POST['access_level']);
-	echo json_encode(array('status'=>$link->status));
+	$link->insert($menuLink,$weight,$_POST['access_level']);
+	echo json_encode(array('status'=>$link->status,'name'=>$name,'href'=>$href,'desc'=>$desc,'weight'=>$weight,'ajaxLink'=>$ajaxLink,'menuLink'=>$menuLink,'access_level'=>$access_level));
 } else
 	echo "Unauthorized";
 ?>

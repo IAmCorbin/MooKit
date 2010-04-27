@@ -58,10 +58,24 @@ window.addEvent('domready', function() {
 		e.stop();
 		this.set('send',{
 			onSuccess: function(response) {
-				json = handleResponse(response);
-				if(!json)
-					return;
-			}
+				response = handleResponse(response);
+				if(!response) return;
+				//create new link row
+				var newLinkRow = new Element('tr');
+				new Element('td', { name: "link_id", html: 'new' }).inject(newLinkRow);
+				new Element('td', { name: "name", html: response.name }).inject(newLinkRow);
+				new Element('td', { name: "href", html: response.href }).inject(newLinkRow);
+				new Element('td', { name: "desc", html: response.desc }).inject(newLinkRow);
+				new Element('td', { name: "weight", html: response.weight }).inject(newLinkRow);
+				new Element('td', { name: "ajaxLink", html: response.ajaxLink }).inject(newLinkRow);
+				new Element('td', { name: "menuLink", html: response.menuLink }).inject(newLinkRow);
+				new Element('td', { name: "access_level", html: response.access_level }).inject(newLinkRow);
+				new Element('td', { name: "sublinks", html: 'New Link: Reload to add sublinks or delete' }).inject(newLinkRow);
+				new Element('td', { class: "adminDeleteLink", html: "." }).inject(newLinkRow);
+				//add new row to links table
+				newLinkRow.inject($('links').getElement('tbody'));
+				this.reset();
+			}.bind(this)
 		}).send();
 	});
 	

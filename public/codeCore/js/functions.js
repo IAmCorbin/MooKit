@@ -13,6 +13,9 @@ function debug(input) { if(DEBUG && window.console) console.log(input); }
 function handleResponse(response, errorBox) {
 	if(DEBUG)
 		$('debugBox').set('html',response);
+	//allow a reponse of 1
+	if(response == 1)
+		return response;
 	//make sure proper JSON was returned and not a php error
 	if(!response.test('^\\[?(\{[^\}]+\}\,?)+\\]?$')) {
 		if(DEBUG) 
