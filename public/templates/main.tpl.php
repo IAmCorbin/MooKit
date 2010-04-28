@@ -11,6 +11,10 @@
 	
 </head>
 <body>
+	<? echo "<div class=\"userInfo\"><div>".(isset($_SESSION['alias'])? "Welcome ".$_SESSION['alias'] : "Welcome Guest - Please Signup to access more features")
+									."</div><div>Time: ".date(DATE_RFC822)."</div>"
+									."<div>You are visiting from ".$_SERVER['REMOTE_ADDR']."(".$_SERVER['REMOTE_ADDR'].")</div>"
+									."<div>Using ".$_SERVER['HTTP_USER_AGENT']."</div></div>";?>
 	<div id="mainNav">
 		<? if(isset($Menu)) $Menu->output(); // NAVIGATION BAR // ?>
 	</div>

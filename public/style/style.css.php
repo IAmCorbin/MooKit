@@ -64,7 +64,7 @@ input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2p
 /* END STRUCTURE  */
 
 /* CUSTOM */
-	.curved, input[type="password"], input[type="text"] { -moz-border-radius:<?echo $curved?>; <?/* Firefox */?> -webkit-border-radius:<?echo $curved?>; <?/* Safari and chrome */?> -khtml-border-radius:<?echo $curved?>; <?/* Linux browsers */?> border-radius:<?echo $curved?>; <?/* CSS3 */?> }
+	.curved, input[type="password"], input[type="text"], div.userInfo { -moz-border-radius:<?echo $curved?>; <?/* Firefox */?> -webkit-border-radius:<?echo $curved?>; <?/* Safari and chrome */?> -khtml-border-radius:<?echo $curved?>; <?/* Linux browsers */?> border-radius:<?echo $curved?>; <?/* CSS3 */?> }
 	.button { background: #AAA; border: outset #666 4px; margin: 8px;}
 	.button:hover { background: #888; border: outset 3px; cursor: pointer;}
 	
@@ -76,6 +76,10 @@ input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2p
 /*  END CUSTOM */
 
 /* OTHER */
+	div.userInfo { background: #AAF; border: solid 5px #AAA; width: 400px; position: absolute; right: 10%; top: 5%; padding: 10px; } 
+	div.userInfo:hover { background: #AFA; border: solid 5px #FFF; }
+	div.userInfo > div { border: solid black 1px; padding: 5px; background: #77F;}
+	div.userInfo > div:hover { background: #99F;}
 	#w3_validated { position: absolute; bottom: 10px; right: 10px; }
 	#debugBox { width: 80%; height: 10px; position:fixed !important; position: absolute; /*ie6 and above*/ bottom: 0px; left: 10%; background: #FFF; border: solid #000 4px; border-bottom: none; overflow: auto;}
 	.break { width: 100%; border-bottom: 3px solid #000; margin: 15px 0 15px 0; }
