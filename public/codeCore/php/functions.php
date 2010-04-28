@@ -213,7 +213,7 @@ function adminGetLinks($name, $mainMenu=false, $rType="object",$notSubs=false) {
 			}
 			return $return;
 	} else
-		return Link::getSome($name,$mainMenu,$rType,$notSubs);
+		return Link::getSome($name,$mainMenu,$rType,$notSubs,ACCESS_ADMIN);
 }
 /**
   * print a line break with an optional centered message
