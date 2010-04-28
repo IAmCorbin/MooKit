@@ -63,7 +63,7 @@ class Menu {
 			$numLinks = sizeof($this->links)-1;
 			for($x=0; $x<$numLinks; $x++) {
 				//sort links
-				if( $this->links[$x]->weight > $this->links[$x+1]->weight ) {
+				if( (int)$this->links[$x]->weight > (int)$this->links[$x+1]->weight ) {
 					list($this->links[$x+1],$this->links[$x]) = array($this->links[$x],$this->links[$x+1]);
 					$SORTEDLINKS = FALSE;
 				}
@@ -78,7 +78,7 @@ class Menu {
 				$numSublinks = sizeof($this->links[$x]->sublinks)-1;
 				for($y = 0; $y < $numSublinks; $y++) { 
 					//compare sublink weight with next weight and swap if needed
-					if( $this->links[$x]->sublinks[$y]->weight > $this->links[$x]->sublinks[$y+1]->weight ) {
+					if( (int)$this->links[$x]->sublinks[$y]->weight > (int)$this->links[$x]->sublinks[$y+1]->weight ) {
 						list($this->links[$x]->sublinks[$y+1],$this->links[$x]->sublinks[$y]) = array($this->links[$x]->sublinks[$y],$this->links[$x]->sublinks[$y+1]);
 						$SORTEDSUBLINKS = FALSE;
 					}
