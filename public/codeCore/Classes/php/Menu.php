@@ -55,7 +55,46 @@ class Menu {
 	  * Sort all the links and sublinks by weight
 	  */
 	public function sortWeight() {
-		
+		//used to frag another sort check when links are swapped
+		$SORTEDLINKS = FALSE;
+		while(!$SORTEDLINKS) {
+			linebreak("SORTING LINKS","2");
+			$SORTEDLINKS = TRUE;
+			//sort links
+			$numLinks = sizeof($this->links)-1;
+			for($x=0; $x<$numLinks; $x++) {
+				//sort links
+				echo "Comparing ".$this->links[$x]->name."(".$this->links[$x]->weight.") with ".$this->links[$x+1]->name."(".(int)$this->links[$x+1]->weight.")<br />";
+				if( $this->links[$x]->weight > $this->links[$x+1]->weight ) {
+					echo "Swapping ".$this->links[$x]->name."(".$this->links[$x]->weight.") with ".$this->links[$x+1]->name."(".(int)$this->links[$x+1]->weight.")<br />";
+					list($this->links[$x+1],$this->links[$x]) = array($this->links[$x],$this->links[$x+1]);
+					$SORTEDLINKS = FALSE;
+				}
+			}
+		}
+		linebreak("DONE SORTING LINKS","2");
+		//used to flag another sort check when sublinks are swapped
+		var_dump($this->links[0]->sublinks[2]->weight);
+		$SORTEDSUBLINKS = FALSE;
+		while(!$SORTEDSUBLINKS) {
+			$SORTEDSUBLINKS = TRUE;
+			//sort sublinks
+			for($x=0; $x<$numLinks; $x++) {
+				linebreak("SORTING ".$this->links[$x]->name." SUBLINKS","2","|");
+				$numSublinks = sizeof($this->links[$x]->sublinks)-1;
+				if($numSublinks<1) linebreak('',1,' - no sublinks - ',3);
+				for($y = 0; $y < $numSublinks; $y++) { 
+					echo "Comparing ".$this->links[$x]->sublinks[$y]->name."(".$this->links[$x]->sublinks[$y]->weight.") with ".$this->links[$x]->sublinks[$y+1]->name."(".$this->links[$x]->sublinks[$y+1]->weight.")<br />";
+					//compare sublink weight with next weight and swap if needed
+					if( $this->links[$x]->sublinks[$y]->weight > $this->links[$x]->sublinks[$y+1]->weight ) {
+						echo "Swapping ".$this->links[$x]->sublinks[$y]->name."(".$this->links[$x]->sublinks[$y]->weight.") with ".$this->links[$x]->sublinks[$y+1]->name."(".$this->links[$x]->sublinks[$y+1]->weight.")<br />";
+						list($this->links[$x]->sublinks[$y+1],$this->links[$x]->sublinks[$y]) = array($this->links[$x]->sublinks[$y],$this->links[$x]->sublinks[$y+1]);
+						$SORTEDSUBLINKS = FALSE;
+					}
+				}
+			}
+		}
+		linebreak("DONE SORTING SUBLINKS");		
 	}
 	/**
 	  * Output all the links and sublinks in formatted html
@@ -117,6 +156,7 @@ class Menu {
 			$lastLink_id = $link->link_id;
 		}
 		$mainMenu->sortWeight();
+		//linebreak(var_dump($mainMenu));
 		return $mainMenu;
 	}
 }

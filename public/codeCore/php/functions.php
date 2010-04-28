@@ -215,4 +215,26 @@ function adminGetLinks($name, $mainMenu=false, $rType="object",$notSubs=false) {
 	} else
 		return Link::getSome($name,$mainMenu,$rType,$notSubs);
 }
+/**
+  * print a line break with an optional centered message
+  */
+function linebreak($msg=NULL,$rows=1,$char="~",$cols=100) {
+	if($msg && !$rows) $rows = 4;
+	for($x = 0; $x < $rows; $x++) {
+		for($y = 0; $y < $cols; $y++)
+			echo $char;
+		echo "<br />";
+		//optional message
+		if($msg && $x==round($rows/2)-1) {
+			$msgLength = strlen($msg);
+			$msgMiddle = round(($cols/2)-($msgLength/2));
+			for($y = 0; $y < $cols-$msgLength; $y++) {
+				echo $char;
+				//echo message in the middle
+				if($y == $msgMiddle) echo $msg;
+			}
+			echo "<br />";
+		}
+	}
+}
 ?>
