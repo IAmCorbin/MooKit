@@ -9,5 +9,5 @@ window.addEvent('domready', function() {
 		});
 	});
 
-
+	$$('.linkDesc').setStyle('display','none');
 });

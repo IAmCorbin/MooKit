@@ -9,12 +9,12 @@ window.addEvent('domready', function() {
 	links = $('links').getElement('tbody').getElements('tr');
 	//Link Events
 	links.addEvent('click',function(e) {
-		//grab link id, name, and href
-		var link_id = e.target.getParent().getFirst();
-		var name = link_id.getNext();
-		var href = name.getNext();
 		//Link Delete Event
-		if(e.target.className == "adminDeleteLink")
+		if(e.target.className == "adminDeleteLink") {
+			//grab link_id, name, and href
+			var link_id = e.target.getParent().getFirst();
+			var name = link_id.getNext();
+			var href = name.getNext();
 			new ConfirmBox({
 				back: "#F00",
 				boxMSG: "Are you sure you want to delete the link '"+name.get('html')+" - "+href.get('html')+"'?",
@@ -32,8 +32,7 @@ window.addEvent('domready', function() {
 			});
 		//Link Editing Event
 		//make sure this is not a cell in the sublink subtable
-		else if(e.target.getParent().getParent().getParent().id =="links") {
-		//~ else if(e.target.getParent('table').id=="links" && e.target.tagName!="INPUT") {
+		} else if(e.target.getParent().getParent().getParent().id =="links") {
 			//Add class to flag which row to update when complete
 			e.target.getParent().addClass('EDITING');
 			//Create Link Edit Form
@@ -49,6 +48,9 @@ window.addEvent('domready', function() {
 			//close button
 			new Element('div', { id: "adminEditingLinkClose", styles: { cursor: 'pointer', background: 'red', width: '25px', height: '25px' }, html: 'Cancel' }).inject(editingContent);
 			//get link data from the event
+			var link_id = e.target.getParent().getFirst();
+			var name = link_id.getNext();
+			var href = name.getNext();
 			var desc = href.getNext();
 			var weight = desc.getNext();
 			var ajaxLink = weight.getNext();

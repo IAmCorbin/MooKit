@@ -32,7 +32,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 		</div><!-- CLOSE ADMIN PANEL USERS -->
 		<br />
 		<div id="adminPanelMenu">
-			<div class="adminTitle">Menu Administration</div>
+			<div class="adminTitle">Link Administration</div>
 			<form class="singleton" id="adminGetLinks" method="post" action="codeCore/php/secure/adminGetLinks.php">
 				<input type="text" name="name" size="20" value="<? if(isset($_POST['links'])) echo $_POST['links']; ?>" />
 				<input type="hidden" name="rType" value="rows" />

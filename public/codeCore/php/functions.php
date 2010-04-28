@@ -165,7 +165,7 @@ function adminGetUsers($alias, $rType="object") {
   */
 function adminGetLinks($name, $mainMenu=false, $rType="object",$notSubs=false) {
 	if($rType === "rows") {
-		$links = Link::getSome($name,$mainMenu,"object",$notSubs);
+		$links = Link::getSome($name,$mainMenu,"object",$notSubs,ACCESS_ADMIN);
 		//grab all existing links and sublinks from the database
 			$lastLink_id = null;
 			

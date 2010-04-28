@@ -21,6 +21,8 @@ class Link {
 	var $href;
 	/** @var string $desc	optional description */
 	var $desc;
+	/** @var int $weight	the link weight - used for display ordering */
+	var $weight;
 	/** @var string $ajax	ajax link class	*/
 	var $ajax;
 	/** @var Array $sublinks	an array of Link objects */
@@ -34,13 +36,15 @@ class Link {
 	  * @param string $name		link name
 	  * @param string $href		link location	
 	  * @param string $desc 		optional description
+	  * @param int $weight		the link weight - used for display ordering
 	  * @param string $ajax		ajax link class
 	  * @param Array $sublinks	optional array of sublinks
 	  */
-	public function __construct($name,$href,$desc=NULL,$ajax=NULL,$sublinks=NULL) {
+	public function __construct($name,$href,$desc=NULL,$weight,$ajax=NULL,$sublinks=NULL) {
 		$this->name = $name;
 		$this->href = $href;
 		$this->desc = $desc;
+		$this->weight = $weight;
 		$this->ajax = $ajax;
 		if($sublinks)
 			$this->sublinks = $sublinks;
@@ -52,10 +56,11 @@ class Link {
 	  * @param string $name		link name
 	  * @param string $href		link location	
 	  * @param string $desc		link description	
+	  * @param int $weight		the link weight - used for display ordering
 	  * @param string $ajax		ajax link switch
 	  */
-	public function addSub($name, $href,$desc=NULL,$ajax=NULL) {
-		array_push($this->sublinks,new Link($name,$href,$desc,$ajax));
+	public function addSub($name, $href,$desc=NULL,$weight,$ajax=NULL) {
+		array_push($this->sublinks,new Link($name,$href,$desc,$weight,$ajax));
 	}
 	/**
 	  * Add this link to the database
@@ -63,13 +68,19 @@ class Link {
 	  * @param int $weight - link weight
 	  * @param int $access_level - link access level
 	  */
-	public function insert($mainMenu=FALSE,$weight=0,$access_level=0) {
+	public function insert($mainMenu=FALSE,$access_level=0) {
+		//check for valid input and return error if not valid
+		$inputFilter = new Filters;
+		$inputFilter->number($link_id);
+		if($inputFilter->ERRORS()) return "E_DATA";
+		//establish database connection
 		$this->DB = new DatabaseConnection;
-		$name = mysqli_real_escape_string($this->DB->getLink(),$this->name);
-		$href = mysqli_real_escape_string($this->DB->getLink(),$this->href);
-		$desc = mysqli_real_escape_string($this->DB->getLink(),$this->desc);
+		//escape query variables
+		$name = mysqli_real_escape_string($this->DB->mysqli,$this->name);
+		$href = mysqli_real_escape_string($this->DB->mysqli,$this->href);
+		$desc = mysqli_real_escape_string($this->DB->mysqli,$this->desc);
 		if($this->ajax) $ajax = '1';
-		$weight = mysqli_real_escape_string($this->DB->getLink(),$weight);
+		$weight = mysqli_real_escape_string($this->DB->mysqli,$weight);
 		if($mainMenu) $mainMenu = 1; else $mainMenu = 0;
 		$query = "INSERT INTO `links`(`name`,`href`,`desc`,`ajaxLink`,`mainMenu`,`weight`,`access_level`) VALUES('$name','$href','$desc','$ajax','$mainMenu','$weight','$access_level');";
 		if(!$return = $this->DB->insert($query))
@@ -84,14 +95,14 @@ class Link {
 	  * @returns int - number of rows affected
 	  * @param int $access_level - link access level
 	  */
-	public function update($link_id,$mainMenu,$weight,$access_level) {
+	public function update($link_id,$mainMenu,$access_level) {
 		$this->DB = new DatabaseConnection;
-		$link_id = mysqli_real_escape_string($this->DB->getLink(),$link_id);
-		$name = mysqli_real_escape_string($this->DB->getLink(),$this->name);
-		$href = mysqli_real_escape_string($this->DB->getLink(),$this->href);
-		$desc = mysqli_real_escape_string($this->DB->getLink(),$this->desc);
-		$ajax = mysqli_real_escape_string($this->DB->getLink(),$this->ajax);
-		$weight = mysqli_real_escape_string($this->DB->getLink(),$weight);
+		$link_id = mysqli_real_escape_string($this->DB->mysqli,$link_id);
+		$name = mysqli_real_escape_string($this->DB->mysqli,$this->name);
+		$href = mysqli_real_escape_string($this->DB->mysqli,$this->href);
+		$desc = mysqli_real_escape_string($this->DB->mysqli,$this->desc);
+		$ajax = mysqli_real_escape_string($this->DB->mysqli,$this->ajax);
+		$weight = mysqli_real_escape_string($this->DB->mysqli,$this->weight);
 		if($mainMenu) $mainMenu = 1; else $mainMenu = 0;
 		if(!$weight) $weight = 0;
 		if(!$access_level) $access_level = 0;
@@ -162,9 +173,10 @@ class Link {
 	  * @param bool $mainMenu - flag to grab only mainMenu links
 	  * @param string $rType - the return type for the links
 	  * @param bool $notSubs - switch to turn off the sublink table join
+	  * @param bool $access_level - the maximum access level of the links
 	  * @returns object - all the found links
 	  */
-	public static function getSome($name,$mainMenu=false,$rType="object",$notSubs=false) {
+	public static function getSome($name='',$mainMenu=false,$rType="object",$notSubs=false,$access_level=false) {
 		$inputFilter = new Filters;
 		$name = $inputFilter->text($name);
 		//check for malicious input
@@ -173,6 +185,9 @@ class Link {
 			$WHERE = " WHERE `links`.`mainMenu`=1 AND `links`.`name` LIKE '%$name%' ";
 		else
 			$WHERE = " WHERE `links`.`name` LIKE '%$name%' ";
+		if(!$access_level)
+			$access_level = "0";
+		$WHERE .= " AND `links`.`access_level` <= '".$access_level."' ";
 		//select links with thier associated sublinks
 		if(!$notSubs) {
 			$sublinkID = ",`sublinks`.`sublink_id`, ";

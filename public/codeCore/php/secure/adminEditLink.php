@@ -19,8 +19,8 @@ if(Security::clearance() & ACCESS_ADMIN) {
 		return;
 	}
 
-	$link = new Link($name,$href,$desc,$ajaxLink);
-	$link->update($link_id,$menuLink,$weight,$access_level);
+	$link = new Link($name,$href,$desc,$weight,$ajaxLink);
+	$link->update($link_id,$menuLink,$access_level);
 	//remove slashes from url
 	$href = stripslashes($href);
 	//return status and updated row information
