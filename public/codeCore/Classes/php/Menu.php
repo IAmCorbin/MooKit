@@ -97,12 +97,12 @@ class Menu {
 		foreach($this->links as $link): ?>
 		<<?echo $linkContainer ?>>
 			<a class="<?=$linkClass?> <? if(isset($link->ajax)) { echo $link->ajax; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $link->href; ?>"><? echo $link->name; ?></a>
-			<? if(isset($link->desc))	echo "<span class=\"linkDesc\">$link->desc</span>";
+			<? if(isset($link->desc) && $link->desc!='')	echo "<span class=\"linkDesc\">$link->desc</span>";
 			if(isset($link->sublinks))  { ?>
 				<?	foreach($link->sublinks as $sublink): /* <!-- Optional Sublinks --> */ ?>
 					<<? echo $sublinkContainer?>>
 						<a class="<? echo $sublinkClass?> <? if(isset($sublink->ajax)) { echo $sublink->ajax; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $sublink->href ?>"><?=$sublink->name ?></a>
-						<? if(isset($sublink->desc))	echo "<span class=\"linkDesc\">$sublink->desc</span>"; ?>
+						<? if(isset($sublink->desc) && $sublink->desc!='')	echo "<span class=\"linkDesc\">$sublink->desc</span>"; ?>
 					</<? echo $sublinkContainer?>>
 				 <? endforeach;//$links->sublinks' ?> 
 			<? } ?> 
