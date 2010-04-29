@@ -88,12 +88,12 @@ class Menu {
 	}
 	/**
 	  * Output all the links and sublinks in formatted html
-	  * @param string $linkClass			CSS class for links
-	  * @param string $sublinkClass		CSS class for sublinks
 	  * @param string $linkContainer		must be a valid html element, these will hold the links
 	  * @param string $sublinkContainer	must be a valid html element, these will hold the sublinks
+	  * @param string $linkClass			CSS class for links
+	  * @param string $sublinkClass		CSS class for sublinks
 	  */
-	public function output($linkClass='link',$sublinkClass="sublink",$linkContainer="div",$sublinkContainer="span") {
+	public function output($linkContainer="div",$sublinkContainer="span",$linkClass='link',$sublinkClass="sublink") {
 		foreach($this->links as $link): ?>
 		<<?echo $linkContainer ?>>
 			<a class="<?=$linkClass?> <? if(isset($link->ajax)) { echo $link->ajax; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $link->href; ?>"><? echo $link->name; ?></a>
@@ -118,7 +118,7 @@ class Menu {
 	public static function buildMain($ajax='ajaxLink',$subAjax='ajaxLink') {
 		//grab links
 		$access_level = Security::clearance();
-		$menuLinks = Link::getSome('',TRUE,"object",false,$access_level);
+		$menuLinks = Link::get('',TRUE,"object",false,$access_level);
 		//create Menu object
 		$mainMenu = new Menu;
 		//store last link id to determine if this is a sublink row

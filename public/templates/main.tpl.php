@@ -24,13 +24,14 @@
 	<? if(isset($scripts)) foreach($scripts as $script) echo $script."\n\t"; ?>
 </head>
 <body>
-	<? echo "<div class=\"userInfo\"><div>".(isset($_SESSION['alias'])? "Welcome ".$_SESSION['alias']." (".getHumanAccess($_SESSION['access_level']).")" : "Welcome Guest - Please Sign Up or Log In to access more features")
-									."</div><div>Time: ".date(DATE_RFC822)."</div>"
-									."<div>You are visiting from ".$_SERVER['REMOTE_ADDR']."(".$_SERVER['REMOTE_ADDR'].")</div>"
-									."<div>Using ".$_SERVER['HTTP_USER_AGENT']."</div></div>";?>
-	<div id="mainNav">
-		<? if(isset($Menu)) $Menu->output(); // NAVIGATION BAR // ?>
+	<div class="userInfo">
+		<? if(isset($userInfo)) echo$userInfo; ?>
 	</div>
+	
+	<div id="mainNav">
+		<? if(isset($Menu)) $Menu->output('span','span','link','sublink'); // NAVIGATION BAR // ?>
+	</div>
+	
 	<div style="display: none;" id="outdatedBrowserError"></div>
 	<? if(isset($loginTpl)) echo $loginTpl; // LOGIN FORM // ?>
 	<? if(isset($signupTpl)) echo $signupTpl; // SIGNUP FORM //?>

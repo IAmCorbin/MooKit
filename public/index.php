@@ -11,6 +11,22 @@
   *
   * codeCore/php/init.php - Included via php's auto_prepend_file - set in .htaccess
   *
+  
+  <!--  
+	This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	-->
+  
   */
 //set default request if one is not sent
 if(!isset($_GET['request']))
@@ -28,10 +44,15 @@ switch($_GET['request']) {
 		//set title
 		$Demo->main->title = "Demo MooKit Version 0.7 Application"; 	
 
+		$Demo->main->userInfo = "<div>".(isset($_SESSION['alias'])? "Welcome ".$_SESSION['alias']." (".getHumanAccess($_SESSION['access_level']).")" : "Welcome Guest - Please Sign Up or Log In to access more features")
+									."</div><div>Time: ".date(DATE_RFC822)."</div>"
+									."<div>You are visiting from ".$_SERVER['REMOTE_ADDR']."(".$_SERVER['REMOTE_ADDR'].")</div>"
+									."<div>Using ".$_SERVER['HTTP_USER_AGENT']."</div>";
+
 		//SUB TEMPLATES
 		
 		//Menu
-		$Demo->main->Menu = updateMenu();	
+		$Demo->main->Menu = Menu::buildMain();
 			
 		//Login Form							
 		$Demo->main->loginTpl = new Template('templates/loginForm.tpl.php');

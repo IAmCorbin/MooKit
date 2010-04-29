@@ -6,7 +6,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 		$notSubs = false;
 	else
 		$notSubs = true;
-	echo adminGetLinks($_POST['name'],false,$_POST['rType'],$notSubs);
+	echo adminGetLinks($_POST['rType'],$_POST['name'],false,$notSubs);
 } else
 	echo "Unauthorized";
 ?>

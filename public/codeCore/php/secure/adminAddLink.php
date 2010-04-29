@@ -1,25 +1,19 @@
 <?
 //require Administrator Access
 if(Security::clearance() & ACCESS_ADMIN) {
-	$inputFilter = new Filters;
-
-	$name = $inputFilter->text($_POST['name']);
-	$href = $inputFilter->text($_POST['href']);
-	$desc = $inputFilter->text($_POST['desc'],false,true); //allow blank field
-	$weight = $inputFilter->number($_POST['weight']);
-	$access_level = $inputFilter->number($_POST['access_level']);
-	if(!isset($_POST['ajaxLink'])) $ajaxLink = '0'; else $ajaxLink = $_POST['ajaxLink'];
-	if(!isset($_POST['menuLink'])) $menuLink = '0'; else $menuLink = $_POST['menuLink'];
-	if($_POST['desc'] == '') $_POST['desc'] = NULL;
-
-	if($inputFilter->ERRORS()) {
-		echo json_encode(array('status'=>"E_FILTER"));
+	//make sure these keys exist and are not blank
+	if(!array_keys_exist(array("name","href"),$_POST,FALSE,TRUE)) {
+		echo json_encode(array('status'=>'E_MISSING_DATA'));
 		return;
 	}
-
-	$link = new Link($name,$href,$desc,$weight,$ajaxLink,NULL);
-	$link->insert($menuLink,$access_level);
-	echo json_encode(array('status'=>$link->status,'name'=>$name,'href'=>$href,'desc'=>$desc,'weight'=>$weight,'ajaxLink'=>$ajaxLink,'menuLink'=>$menuLink,'access_level'=>$access_level));
+	//if required keys passed, set any other missing to empty strings
+	array_keys_exist(array("name","href","desc","weight","ajaxLink","menuLink","access_level"), $_POST, TRUE);
+	//create the link object
+	$link = new Link($_POST['name'],$_POST['href'],$_POST['desc'],$_POST['weight'],$_POST['ajaxLink'],$_POST['menuLink'],$_POST['access_level']);
+	//attempt to add it to the database
+	$link->insert();
+	//return results
+	echo json_encode(array('status'=>$link->status,'name'=>$link->name,'href'=>$link->href,'desc'=>$link->desc,'weight'=>$link->weight,'ajaxLink'=>$link->ajaxLink,'menuLink'=>$link->menuLink,'access_level'=>$link->access_level));
 } else
 	echo "Unauthorized";
 ?>

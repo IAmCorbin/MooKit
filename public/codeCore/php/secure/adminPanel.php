@@ -24,7 +24,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 				<tbody>
 <?
 		if(!isset($_POST['alias'])) $_POST['alias'] = '';
-		$users = adminGetUsers($_POST['alias'],"rows");
+		$users = adminGetUsers("rows", $_POST['alias']);
 		echo $users;
 ?>				
 				</tbody>
@@ -54,7 +54,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 				</thead>
 				<tbody>
 <?
-			echo adminGetLinks($_POST['name'],false,"rows");
+			echo adminGetLinks("rows");
 ?>				
 				</tbody>
 			</table>

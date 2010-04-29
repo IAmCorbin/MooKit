@@ -12,7 +12,6 @@ if(Security::clearance() & ACCESS_ADMIN) {
 	if($_POST['desc'] == '') $_POST['desc'] = NULL;
 	if(!isset($_POST['ajaxLink'])) $ajaxLink = '0'; else $ajaxLink = $_POST['ajaxLink'];
 	if(!isset($_POST['menuLink'])) $menuLink = '0'; else $menuLink = $_POST['menuLink'];
-	trigger_error($menuLink);
 
 	if($inputFilter->ERRORS()) {
 		echo json_encode(array('status'=>"E_FILTER"));

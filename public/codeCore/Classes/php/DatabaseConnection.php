@@ -40,6 +40,21 @@ class DatabaseConnection {
 			$this->trigger_DB_error('E_DB_CONN');
 	}
 	/**
+	  * Escape variables for query use
+	  * @param array $vars	array of variables to escape
+	  */
+	public function escapeStrings($vars) {
+		$n = sizeof($vars)-1;
+		foreach($vars as $key => $value) {
+			echo "\nQUERY VARS BEFORE - ".$key." INSIDE: "; echo $vars[$key];
+			$vars[$key] = $this->mysqli->real_escape_string($value);
+			echo "\nQUERY VARS   AFTER -  INSIDE: "; echo $vars[$key];
+		}
+		echo "\nsending back"; var_dump($vars);
+		echo "\n";
+		return $vars;
+	}
+	/**
 	 * Grab a single row from the database
 	 *@param string $query		a valid mysql query
 	 *@param string $rType		{@see formatResults}

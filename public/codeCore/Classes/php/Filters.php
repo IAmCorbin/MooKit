@@ -23,10 +23,10 @@ Class Filters {
 	 * @param array $htmLawed htmLawed configuration settings
 	 */
 	public function __construct($htmLawed = null) {
-		$errors[0] = 'none';
+		$errors = array();
 		if(!$htmLawed)
 			$htmLawed = array('safe'=>1,
-							'tidy'=>1,
+							'tidy'=>0,
 							'deny_attribute'=>'* -href -target -style -class',
 							'schemes'=>'style: *; href: *; target: *');
 		$this->htmLawedConfig = $htmLawed;
@@ -63,27 +63,26 @@ Class Filters {
 	 * @returns string
 	 */
 	public function text($user_text, $stripWS = false,$allowBlank=false) {
-		if($user_text !== '') {
-			//optionally remove whitespace
-			if($stripWS) {
-				//if whitespace is found
-				if(preg_match("/\ /",$user_text)) {
-					$this->errors[sizeof($this->errors)] = 'Whitespace Removed';
-					$user_text = str_replace(" ","",$user_text);
-				}
-			}
-			//sanitize to remove invalid characters
-			$text = filter_var($user_text, FILTER_SANITIZE_STRING);
-			if($text !== '')
-				return $text;
-			else 
-				if(!$allowBlank)
-					$this->errors[sizeof($this->errors)] = 'Blank Field';
+		//optional check for blank field
+		if(!$allowBlank && $user_text == '') {
+			$this->errors[] = 'Blank Field';
+			return $user_text;
 		}
-		else {
-			if(!$allowBlank)
-				$this->errors[sizeof($this->errors)] = 'Blank Field';
+		//optionally remove whitespace
+		if($stripWS && preg_match("/\ /",$user_text)) {
+			$user_text = str_replace(" ","",$user_text);
+			$this->errors[] = 'Whitespace Removed';
 		}
+		//sanitize to remove invalid characters
+		$text = filter_var($user_text, FILTER_SANITIZE_STRING);
+		if($text !== $user_text ) {
+			$this->errors[] = 'FILTER_SANITIZE_STRING';
+		}
+		//optional recheck for blank field
+		if(!$allowBlank && $text == '') {
+			$this->errors[] = 'Blank Field';
+		}
+		return $text;			
 	}
 	/**
 	 * Require All Alphanumeric or Underscore for characters
@@ -93,17 +92,16 @@ Class Filters {
 	 * @returns string
 	 */
 	public function alphnum_($user_text) {
-		if($user_text !== '') {
-			if(!preg_match("/^([a-zA-Z0-9\_]+)$/",$user_text)) {
-				$this->errors[sizeof($this->errors)] = 'Non-Alphanumberic Characters Removed';
-				$text = preg_replace("/[^a-zA-Z1-9\_]/","",$user_text);
-				return $text;
-			} else {
-				return $user_text;
-			}
+		if($user_text == '') {
+			$this->errors[] = 'Blank Field';
 		}
-		else {
-			$this->errors[sizeof($this->errors)] = 'Blank Field';
+		$user_text = $this->text($user_text);
+		if(!preg_match("/^([a-zA-Z0-9\_]+)$/",$user_text)) {
+			$this->errors[sizeof($this->errors)] = 'Non-Alphanumberic Characters Removed';
+			$text = preg_replace("/[^a-zA-Z1-9\_]/","",$user_text);
+			return $text;
+		} else {
+			return $user_text;
 		}
 	}
 	/**
@@ -164,10 +162,18 @@ Class Filters {
 	 * Filter input with htmLawed
 	 * @link http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/
 	 * @param string $input the input to filter
+	 * @param bool $allowBlank    Switch to allow blank field
 	 * @return string
 	 */
-	 public function htmLawed($input) {
-		return htmLawed($input,$this->htmLawedConfig);
+	 public function htmLawed($input,$allowBlank=TRUE) {
+		if(!$allowBlank && $input == '')
+			$this->errors[] = 'Blank Field';
+		//run through htmLawed
+		$lawedText = htmLawed($input,$this->htmLawedConfig);
+		//flag error if text was changed
+		if($lawedText !== $text)
+			$this->errors[] = 'htmLawed inside text filter';
+		return $lawedText;
 	 }
 	/**
 	 * ERRORS
