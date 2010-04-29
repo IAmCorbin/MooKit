@@ -47,24 +47,21 @@ class Link {
 	  * @param int $access_level 	the access_level required to use the link
 	  * @param Array $sublinks	optional array of sublinks
 	  */
-	public function __construct($name, $href, $desc=NULL, $weight=0, $ajax=NULL, $menuLink=0, $access_level=0, $sublinks=NULL) {
-		//filter input
+	public function __construct($name, $href, $desc=NULL, $weight=0, $ajaxLink=NULL, $menuLink=0, $access_level=0, $sublinks=NULL) {
+		//filter input and set object data
 		$inputFilter = new Filters();
-		//echo "BEFORE FILTER: ".$name." | ".$href."\n";
-		$this-> name = $inputFilter->alphnum_($name);
+		$this-> name = $inputFilter->text($name);
 		$this->href = $inputFilter->text($href);
-		//echo "AFTER FILTER: ".$this->name." | ".$this->href."\n";
 		$this->desc = $inputFilter->text($desc,false,true); //allow blank field
-			//if($this->desc == '') $this->desc = NULL;
 		$this->weight = $inputFilter->number($weight);
-		if($this->ajaxLink != '') $this->ajax =  $inputFilter->number($ajax);
-		if($this->menuLink != '') $this->menuLink = $inputFilter->number($menuLink);
+		if($ajaxLink != '') $this->ajaxLink =  $inputFilter->number($ajaxLink);
+		if($menuLink != '') $this->menuLink = $inputFilter->number($menuLink);
 		$this->access_level = $inputFilter->number($access_level);
 		//check for errors and set status
-		var_export($inputFilter->errors);
-		if($inputFilter->ERRORS()) 
+		if($inputFilter->ERRORS()) {
+			if(DEBUG) { echo $this->name; var_dump($inputFilter->errors); }
 			$this->status = $this->ERROR = "E_FILTER";
-			
+		}
 		//set sublinks if passed
 		if($sublinks)
 			$this->sublinks = $sublinks;
@@ -86,9 +83,6 @@ class Link {
 	}
 	/**
 	  * Add this link to the database
-	  * @param bool $mainMenu - switch to put link in main menu
-	  * @param int $weight - link weight
-	  * @param int $access_level - link access level
 	  */
 	public function insert() {
 		//if there is an error, do not attempt insert
@@ -97,14 +91,13 @@ class Link {
 		$this->DB = new DatabaseConnection;
 		//place query variables into array for escaping
 		$q = array('name'=>$this->name, 'href'=>$this->href, 'desc'=>$this->desc);
-		echo "\nQUERY VARS BEFORE: "; var_dump($q); linebreak();
 		//escape
 		$q = $this->DB->escapeStrings($q);
-		echo "\nQUERY VARS AFTER: "; var_dump($q);	linebreak();
-		if($this->ajaxLink) $ajax = 1;
-		if($this->mainMenu) $mainMenu = 1; else $mainMenu = 0;
-		$query = "INSERT INTO `links`(`name`,`href`,`desc`,`ajaxLink`,`mainMenu`,`weight`,`access_level`) VALUES('".$q['name']."','".$q['href']."','".$q['desc']."','$ajax','$mainMenu','$this->weight','$this->access_level');";
-		echo $query;
+		if($this->ajaxLink) $ajaxLink = 1; else $ajaxLink =0;
+		if($this->menuLink) $menuLink = 1; else $menuLink = 0;
+		//build query
+		$query = "INSERT INTO `links`(`name`,`href`,`desc`,`ajaxLink`,`menuLink`,`weight`,`access_level`) VALUES('".$q['name']."','".$q['href']."','".$q['desc']."','$ajaxLink','$menuLink','$this->weight','$this->access_level');";
+
 		//attempt insert
 		if(!$this->status = $this->DB->insert($query))
 			$this->status = $this->ERROR = "E_INSERT";
@@ -113,34 +106,29 @@ class Link {
 	/**
 	  * Updates a link in the database
 	  * @param int $link_id - the link to update
-	  * @param bool $mainMenu - main menu switch
-	  * @param int $weight - optional link weight
 	  * @returns int - number of rows affected
-	  * @param int $access_level - link access level
 	  */
 	public function update($link_id) {
+		//check for valid id passed
+		if(preg_match('/[^0-9]/',$link_id))
+			$this->status = "E_ID";
 		//if there is an error, do not attempt update
-		if($this->ERROR) return $this->ERROR;
+		if($this->ERROR) return $this->status;
 		//establish database connection
 		$this->DB = new DatabaseConnection;
-		//escape query variables
-		$link_id = mysqli_real_escape_string($this->DB->mysqli,$link_id);
-		$name = mysqli_real_escape_string($this->DB->mysqli,$this->name);
-		$href = mysqli_real_escape_string($this->DB->mysqli,$this->href);
-		$desc = mysqli_real_escape_string($this->DB->mysqli,$this->desc);
-		$ajax = mysqli_real_escape_string($this->DB->mysqli,$this->ajaxLink);
-		$weight = mysqli_real_escape_string($this->DB->mysqli,$this->weight);
-		if($mainMenu) $this->mainMenu = 1; else $mainMenu = 0;
-		if(!$weight) $this->weight = 0;
-		if(!$access_level) $access_level = 0;
-		$query = "UPDATE `links` SET `name`='$name', `href`='$href', `desc`='$desc', `ajaxLink`='$ajax', `mainMenu`='$mainMenu', `weight`='$weight', `access_level`='$access_level' WHERE `link_id`='$link_id';";
-		
-		$return = $this->DB->update($query);
-		if($return==0)
-			return $return;
-		if(!$return)
+		//place query variables into array for escaping
+		$q = array('name'=>$this->name, 'href'=>$this->href, 'desc'=>$this->desc);
+		//escape
+		$q = $this->DB->escapeStrings($q);
+		if($this->ajaxLink) $ajaxLink = 1; else $ajaxLink = 0;
+		if($this->menuLink) $menuLink = 1; else $menuLink = 0;
+		//build query
+		$query = "UPDATE `links` SET `name`='".$q['name']."', `href`='".$q['href']."', `desc`='".$q['desc']."', `ajaxLink`=$ajaxLink, `menuLink`=$menuLink, `weight`=".(int)$this->weight.", `access_level`=".(int)$this->access_level." WHERE `link_id`=".(int)$link_id.";";
+		//attempt update
+		if(!$this->status = $this->DB->update($query)) {
 			$this->status = $this->ERROR = "E_UPDATE";
-		return $return;
+		}
+		return $this->status;
 	}
 	/**
 	  * Removes a link from the database
@@ -174,19 +162,19 @@ class Link {
 	/** 
 	  * Grabs some of the links from the database with their associated sublinks
 	  * @param string $name - link name to search for
-	  * @param bool $mainMenu - flag to grab only mainMenu links
+	  * @param bool $menuLink - flag to grab only menu links
 	  * @param string $rType - the return type for the links
 	  * @param bool $notSubs - switch to turn off the sublink table join
 	  * @param bool $access_level - the maximum access level of the links
 	  * @returns object - all the found links
 	  */
-	public static function get($name='',$mainMenu=false,$rType="object",$notSubs=false,$access_level=false) {
+	public static function get($name='',$menuLink=FALSE,$rType="object",$notSubs=FALSE,$access_level=FALSE) {
 		$inputFilter = new Filters;
 		$name = $inputFilter->text($name);
 		//check for malicious input
 		if($inputFilter->ERRORS()) { $name=''; }
-		if($mainMenu) 
-			$WHERE = " WHERE `links`.`mainMenu`=1 AND `links`.`name` LIKE '%$name%' ";
+		if($menuLink) 
+			$WHERE = " WHERE `links`.`menuLink`=1 AND `links`.`name` LIKE '%$name%' ";
 		else
 			$WHERE = " WHERE `links`.`name` LIKE '%$name%' ";
 		if(!$access_level)
@@ -201,7 +189,7 @@ class Link {
 					"`subDetails`.`href` AS `sub_href`, ".
 					"`subDetails`.`desc` AS `sub_desc`, ".
 					"`subDetails`.`weight` AS `sub_weight`, ".
-					"`subDetails`.`mainMenu` AS `sub_mainMenu`, ".
+					"`subDetails`.`menuLink` AS `sub_menuLink`, ".
 					"`subDetails`.`ajaxLink` AS `sub_ajaxLink`, ".
 					"`subDetails`.`access_level` AS `sub_access_level` ";
 		} else {

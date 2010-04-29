@@ -29,27 +29,24 @@ class Menu {
 	}
 	/** 
 	  * Create a new Link
-	  * @param string $name		link name
-	  * @param string $href		link location	
-	  * @param string $desc		link description
-	  * @param string $weight	link weight
-	  * @param string $ajax		ajax link class
+	  * @param string $name		name
+	  * @param string $href		location	
+	  * @param string $desc		description
+	  * @param int $weight		weight
+	  * @param bool $ajaxLink	ajax flag
+	  * @param bool $ajaxLink	menu flag
+	  * @param int $access_level	access level
 	  * @param Array $sublinks	optional array of sublinks
 	  */
-	public function add($name, $href, $desc, $weight,$ajax=NULL, $sublinks=NULL) {
-		array_push($this->links,new Link($name,$href,$desc,$weight,$ajax,$sublinks));
+	public function add($name, $href, $desc=NULL, $weight=0,$ajaxLink=NULL, $menuLink=0, $access_level=0, $sublinks=NULL) {
+		array_push($this->links,new Link($name,$href,$desc,$weight,$ajaxLink,$menuLink,$access_level,$sublinks));
 	}
 	/**
 	  * Add a new SubLink to the last created Link
-	  * @param string $name		link name
-	  * @param string $href		link location	
-	  * @param string $desc		link description
-	  * @param string $weight	link weight
-	  * @param string $ajax		ajax link class
-	  * @param Array $sublinks	optional array of sublinks
+	  * @see $this->add
 	  */
-	public function addSub($name, $href,$desc,$weight, $ajax=NULL, $sublinks=NULL) {
-		$this->links[sizeof($this->links)-1]->addSub($name, $href, $desc, $weight, $ajax, $sublinks);
+	public function addSub($name, $href, $desc=NULL, $weight=0,$ajaxLink=NULL, $menuLink=0, $access_level=0, $sublinks=NULL) {
+		$this->links[sizeof($this->links)-1]->addSub($name, $href, $desc, $weight, $ajaxLink, $menuLink, $access_level, $sublinks);
 	}
 	/**
 	  * Sort all the links and sublinks by weight
@@ -92,16 +89,17 @@ class Menu {
 	  * @param string $sublinkContainer	must be a valid html element, these will hold the sublinks
 	  * @param string $linkClass			CSS class for links
 	  * @param string $sublinkClass		CSS class for sublinks
+	  * @param string $ajaxLinkClass		CSS class for ajaxlinks
 	  */
-	public function output($linkContainer="div",$sublinkContainer="span",$linkClass='link',$sublinkClass="sublink") {
+	public function output($linkContainer="div",$sublinkContainer="span",$linkClass='link',$sublinkClass="sublink",$ajaxLinkClass='ajaxLink') {
 		foreach($this->links as $link): ?>
 		<<?echo $linkContainer ?>>
-			<a class="<?=$linkClass?> <? if(isset($link->ajax)) { echo $link->ajax; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $link->href; ?>"><? echo $link->name; ?></a>
+			<a class="<?=$linkClass?> <? if($link->ajaxLink) { echo $ajaxLinkClass; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $link->href; ?>"><? echo $link->name; ?></a>
 			<? if(isset($link->desc) && $link->desc!='')	echo "<span class=\"linkDesc\">$link->desc</span>";
 			if(isset($link->sublinks))  { ?>
 				<?	foreach($link->sublinks as $sublink): /* <!-- Optional Sublinks --> */ ?>
 					<<? echo $sublinkContainer?>>
-						<a class="<? echo $sublinkClass?> <? if(isset($sublink->ajax)) { echo $sublink->ajax; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $sublink->href ?>"><?=$sublink->name ?></a>
+						<a class="<? echo $sublinkClass?> <? if($sublink->ajaxLink) { echo $ajaxLinkClass; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $sublink->href ?>"><?=$sublink->name ?></a>
 						<? if(isset($sublink->desc) && $sublink->desc!='')	echo "<span class=\"linkDesc\">$sublink->desc</span>"; ?>
 					</<? echo $sublinkContainer?>>
 				 <? endforeach;//$links->sublinks' ?> 
@@ -111,11 +109,11 @@ class Menu {
 	
 	}
 	/** 
-	  * Create the main menu from database tables
+	  * Create the main menu from database tables using the user's access_level
 	  * @param string $ajax -  the CSS class for ajax links
 	  * @param string $ajax -  the CSS class for ajax sublinks
 	  */
-	public static function buildMain($ajax='ajaxLink',$subAjax='ajaxLink') {
+	public static function buildMain() {
 		//grab links
 		$access_level = Security::clearance();
 		$menuLinks = Link::get('',TRUE,"object",false,$access_level);
@@ -124,29 +122,23 @@ class Menu {
 		//store last link id to determine if this is a sublink row
 		$lastLink_id = null;
 		foreach($menuLinks as $link) {
-			//set ajax link class if flagged
-			if($link->ajaxLink)  $link->ajax = $ajax;  else $link->ajax=NULL;
 			//avoid double display of links
 			if($link->link_id != $lastLink_id) {
 				//add this link to the menu
-				$mainMenu->add($link->name,$link->href,$link->desc,$link->weight,$link->ajax);
+				$mainMenu->add($link->name,$link->href,$link->desc,$link->weight,$link->ajaxLink,$link->menuLink,$link->access_level);
 				//add first sublink
 				if($link->sublink_id) {
-					//set ajax link class if flagged
-					if($link->sub_ajaxLink)  $link->sub_ajaxLink = $subAjax;  else $link->sub_ajaxLink=NULL;
 					//add first sublink
-					$mainMenu->addSub($link->sub_name,$link->sub_href,$link->sub_desc,$link->sub_weight,$link->sub_ajaxLink);
+					$mainMenu->addSub($link->sub_name,$link->sub_href,$link->sub_desc,$link->sub_weight,$link->sub_ajaxLink,$link->sub_menuLink,$link->sub_access_level);
 				}
 			} else {
-				//set ajax link class if flagged
-				if($link->sub_ajaxLink)  $link->sub_ajaxLink = $subAjax;  else $link->sub_ajaxLink=NULL;
 				//add subsequent sublink
-				$mainMenu->addSub($link->sub_name,$link->sub_href,$link->sub_desc,$link->sub_weight,$link->sub_ajaxLink);
+				$mainMenu->addSub($link->sub_name,$link->sub_href,$link->sub_desc,$link->sub_weight,$link->sub_ajaxLink,$link->sub_menuLink,$link->sub_access_level);
 			}
 			$lastLink_id = $link->link_id;
 		}
+		//sort weight and then return sorted menu
 		$mainMenu->sortWeight();
-		//linebreak(var_dump($mainMenu));
 		return $mainMenu;
 	}
 }

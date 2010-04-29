@@ -141,16 +141,16 @@ set_error_handler("ErrorHandler");
 	  * Search and return found links from the database
 	  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
 	  * @param string $name - the link name to search for
-	  * @param bool $mainMenu - flag to grab only mainMenu links
+	  * @param bool $menuLink - flag to grab only menu links
 	  * @param bool $notSubs - switch to turn off the sublink table join
 	  */
-	function adminGetLinks($rType="object", $name=NULL, $mainMenu=FALSE, $notSubs=FALSE) {
+	function adminGetLinks($rType="object", $name=NULL, $menuLink=FALSE, $notSubs=FALSE) {
 		if($rType === "rows") {
 			//grab links and sublinks from the database
 			if($name)
-				$links = Link::get($name,$mainMenu,"object",$notSubs,ACCESS_ADMIN);
+				$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
 			else
-				$links = Link::get($name,$mainMenu,"object",$notSubs,ACCESS_ADMIN);
+				$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
 
 				$lastLink_id = null;
 				$return = '';
@@ -166,7 +166,7 @@ set_error_handler("ErrorHandler");
 									"<td name=\"desc\">$link->desc</td>".
 									"<td name=\"weight\">$link->weight</td>".
 									"<td name=\"ajaxLink\">$link->ajaxLink</td>".
-									"<td name=\"menuLink\">$link->mainMenu</td>".
+									"<td name=\"menuLink\">$link->menuLink</td>".
 									"<td name=\"access_level\">$link->access_level</td>".
 									"<td name=\"sublinks\">".
 									//SubLinks Editing Table
@@ -199,7 +199,7 @@ set_error_handler("ErrorHandler");
 					}
 				return $return;
 		} else
-			return Link::get($name,$mainMenu,$rType,$notSubs,ACCESS_ADMIN);
+			return Link::get($name,$menuLink,$rType,$notSubs,ACCESS_ADMIN);
 	}
 /////////END///////////////////////////////END////////////////
 //Database Information Retrieval Functions//

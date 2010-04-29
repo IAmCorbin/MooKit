@@ -46,8 +46,8 @@ if(Security::clearance() & ACCESS_ADMIN) {
 					<th>href</th>
 					<th>description</th>
 					<th>weight</th>
-					<th>ajax?</th>
-					<th>mainMenu?</th>
+					<th>ajaxLink?</th>
+					<th>menuLink?</th>
 					<th>access level</th>
 					<th>sublinks (right-click to remove)</th>
 					<th class="nosort">Delete</th>

@@ -65,22 +65,22 @@ Class Filters {
 	public function text($user_text, $stripWS = false,$allowBlank=false) {
 		//optional check for blank field
 		if(!$allowBlank && $user_text == '') {
-			$this->errors[] = 'Blank Field';
+			$this->errors[] = 'Blank Field : '.$user_text;
 			return $user_text;
 		}
 		//optionally remove whitespace
 		if($stripWS && preg_match("/\ /",$user_text)) {
 			$user_text = str_replace(" ","",$user_text);
-			$this->errors[] = 'Whitespace Removed';
+			$this->errors[] = 'Whitespace Removed : '.$user_text;
 		}
 		//sanitize to remove invalid characters
 		$text = filter_var($user_text, FILTER_SANITIZE_STRING);
 		if($text !== $user_text ) {
-			$this->errors[] = 'FILTER_SANITIZE_STRING';
+			$this->errors[] = $user_text.'-> FILTER_SANITIZE_STRING -> '.$text;
 		}
 		//optional recheck for blank field
 		if(!$allowBlank && $text == '') {
-			$this->errors[] = 'Blank Field';
+			$this->errors[] = 'Blank Field : '.$text;
 		}
 		return $text;			
 	}
@@ -93,12 +93,12 @@ Class Filters {
 	 */
 	public function alphnum_($user_text) {
 		if($user_text == '') {
-			$this->errors[] = 'Blank Field';
+			$this->errors[] = 'Blank Field : '.$user_text;
 		}
 		$user_text = $this->text($user_text);
-		if(!preg_match("/^([a-zA-Z0-9\_]+)$/",$user_text)) {
-			$this->errors[sizeof($this->errors)] = 'Non-Alphanumberic Characters Removed';
+		if(!preg_match("/^([a-zA-Z0-9\_\ ]+)$/",$user_text)) {
 			$text = preg_replace("/[^a-zA-Z1-9\_]/","",$user_text);
+			$this->errors[] = 'Non-Alphanumberic Characters Removed : '.$text;
 			return $text;
 		} else {
 			return $user_text;
@@ -112,7 +112,7 @@ Class Filters {
 	public function number($user_text) {
 		if($user_text !== '') {
 			if(!preg_match("/^\-?([0-9]+)$/",$user_text)) {
-				$this->errors[sizeof($this->errors)] = 'Non-Numeric Characters Removed';
+				$this->errors[sizeof($this->errors)] = 'Non-Numeric Characters Removed : '.$user_text;
 				$text = preg_replace("/[^1-9\-]/","",$user_text);
 				return $text;
 			} else {
@@ -120,7 +120,7 @@ Class Filters {
 			}
 		}
 		else {
-			$this->errors[sizeof($this->errors)] = 'Blank Field';
+			$this->errors[sizeof($this->errors)] = 'Blank Field  : '.$user_text;
 		}
 	}
 	/**
@@ -138,10 +138,10 @@ Class Filters {
 			if(filter_var($url, FILTER_VALIDATE_URL))
 				return $url;
 			else
-				$this->errors[sizeof($this->errors)] = 'Invalid URL';
+				$this->errors[] = 'Invalid URL : '.$user_ur;;
 		}
 		else {
-			$this->errors[sizeof($this->errors)] = 'Invalid URL';
+			$this->errors[] = 'Invalid URL : '.$user_url;
 		}
 	}
 	/**
@@ -167,12 +167,12 @@ Class Filters {
 	 */
 	 public function htmLawed($input,$allowBlank=TRUE) {
 		if(!$allowBlank && $input == '')
-			$this->errors[] = 'Blank Field';
+			$this->errors[] = 'Blank Field : '.$input;
 		//run through htmLawed
 		$lawedText = htmLawed($input,$this->htmLawedConfig);
 		//flag error if text was changed
 		if($lawedText !== $text)
-			$this->errors[] = 'htmLawed inside text filter';
+			$this->errors[] = $input.' -> htmLawed inside text filter -> '.$input;
 		return $lawedText;
 	 }
 	/**

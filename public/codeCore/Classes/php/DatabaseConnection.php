@@ -46,12 +46,8 @@ class DatabaseConnection {
 	public function escapeStrings($vars) {
 		$n = sizeof($vars)-1;
 		foreach($vars as $key => $value) {
-			echo "\nQUERY VARS BEFORE - ".$key." INSIDE: "; echo $vars[$key];
 			$vars[$key] = $this->mysqli->real_escape_string($value);
-			echo "\nQUERY VARS   AFTER -  INSIDE: "; echo $vars[$key];
 		}
-		echo "\nsending back"; var_dump($vars);
-		echo "\n";
 		return $vars;
 	}
 	/**
