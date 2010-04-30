@@ -24,7 +24,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program. Look for COPYING. If not, see <http://www.gnu.org/licenses/>.
 	-->
   
   */
@@ -62,10 +62,6 @@ switch($_GET['request']) {
 		//Content Area
 		$contentTpl = new Template('templates/content.tpl.php');
 		$DB = new DatabaseConnection;
-		if(Security::clearance()) {
-			//User Info Table
-			$contentTpl->userInfo = $DB->get_row("SELECT * FROM `users` WHERE `alias`='".$_SESSION['alias']."' LIMIT 1;");
-		}
 		
 		//Show Posts
 		$contentTpl->postTpl = new Template('templates/post.tpl.php');

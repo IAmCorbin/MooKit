@@ -4,7 +4,7 @@
 			<div id="pickPostError"></div>
 		</form>
 
-		<div class="floatLeft">
+		<div class="floatL">
 			<form name="Post" id="updatePost" method="post" action="codeSite/php/secure/postUpdate.php">
 					 <label>Title<br /><input id="postTitleEdit" class="required msgPos:'postEditTitleError'" type="text" size="60" name="title" value="<?= $postTitle?>" /></label><div id="postEditTitleError"></div><br /><br />
 					 <label>Text<br /><textarea  id="postTextEdit" class="required msgPos:'postEditTextError'" name="text" rows=10 cols=70><?= $postText ?></textarea></label><div id="postEditTextError"></div><br />
@@ -12,7 +12,7 @@
 				<input type="submit" class="button" value="Post" />
 			</form>
 		</div>
-		<div class="floatLeft displayPost">
+		<div class="floatL displayPost">
 			<div id="renderTitle"><?= $postTitle; ?></div>
 			<div id="renderText"><?= $postText; ?></div>
 		</div>
