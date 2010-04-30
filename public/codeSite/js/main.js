@@ -35,6 +35,10 @@ window.addEvent('domready', function() {
 				cookies: false,
 				onUpdate: function() {
 					switch(window.location.hash) {
+						case "#front":
+							fancyLoad(this.container,'codeSite/php/test3.php');
+							document.title="MooKit Version 1 - test1";
+							break;
 						case "#test1":
 							fancyLoad(this.container,'codeSite/php/test1.php');
 							document.title="MooKit Version 1 - test1";

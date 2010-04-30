@@ -93,18 +93,18 @@ class Menu {
 	  */
 	public function output($linkContainer="div",$sublinkContainer="span",$linkClass='link',$sublinkClass="sublink",$ajaxLinkClass='ajaxLink') {
 		foreach($this->links as $link): ?>
-		<<?echo $linkContainer ?>>
-			<a class="<?=$linkClass?> <? if($link->ajaxLink) { echo $ajaxLinkClass; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $link->href; ?>"><? echo $link->name; ?></a>
+		<? echo "<".$linkContainer." class=".$linkClass.">"; ?>
+			<? echo '<a '; if($link->ajaxLink) { echo 'class="'.$ajaxLinkClass; } ?> <? echo " target=\"_blank\" href=\"$link->href\">$link->name</a>"; ?>
 			<? if(isset($link->desc) && $link->desc!='')	echo "<span class=\"linkDesc\">$link->desc</span>";
 			if(isset($link->sublinks))  { ?>
 				<?	foreach($link->sublinks as $sublink): /* <!-- Optional Sublinks --> */ ?>
-					<<? echo $sublinkContainer?>>
-						<a class="<? echo $sublinkClass?> <? if($sublink->ajaxLink) { echo $ajaxLinkClass; } ?>" <? echo 'target="_blank"'; ?> href="<? echo $sublink->href ?>"><?=$sublink->name ?></a>
+					<? echo "<$sublinkContainer class=\"$sublinkClass\">"; ?>
+						<? echo '<a '; if($sublink->ajaxLink) { echo 'class="'.$ajaxLinkClass; } ?> <? echo "\" target=\"_blank\" href=\"$sublink->href\">$sublink->name</a>"; ?>
 						<? if(isset($sublink->desc) && $sublink->desc!='')	echo "<span class=\"linkDesc\">$sublink->desc</span>"; ?>
-					</<? echo $sublinkContainer?>>
+					<? echo "</".$sublinkContainer.">"; ?>
 				 <? endforeach;//$links->sublinks' ?> 
 			<? } ?> 
-		</<? echo $linkContainer ?>>
+		<? echo "</".$linkContainer.">"; ?>
 	<? endforeach; //$links->links  
 	
 	}
