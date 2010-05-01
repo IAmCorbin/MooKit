@@ -130,6 +130,16 @@ function CORE_LOAD(module, container) {
 			});
 			fancyLoad($(container),'codeCore/php/secure/adminPanel.php');
 			break;
+		case 'CreatePanel':
+			$(container).set('load',{
+				onSuccess: function(r1,r2,r3) {
+					if(r3 == "Unauthorized")
+						return;
+					addAssets(["style/secure/createPanel.css.php"],["codeCore/js/secure/createPanel.js"]);
+				}
+			});
+			fancyLoad($(container),'codeCore/php/secure/createPanel.php');
+			break;
 		default:
 			break;
 	}

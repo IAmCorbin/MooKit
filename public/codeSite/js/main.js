@@ -58,6 +58,9 @@ window.addEvent('domready', function() {
 						case "#adminPanel":
 							CORE_LOAD('AdminPanel',this.container);
 							break;
+						case "#createPanel":
+							CORE_LOAD('CreatePanel',this.container);
+							break;
 						case "#logout":
 							new Request.HTML({
 								url: 'codeSite/php/logout.php',

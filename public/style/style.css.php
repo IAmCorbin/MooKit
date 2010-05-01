@@ -43,7 +43,7 @@ input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2p
 /* END SLIDE BUTTONS */
 
 /* DEFAULT LINK STYLES */
-	.link > a:first-child { font-size: 30px; color: #0FF; background: #AAF; padding: 3px; padding: 5px; margin: 2px; }
+	.link > a:first-child { font-size: 20px; color: #0FF; background: #AAF; padding: 3px; padding: 5px; margin: 2px; }
 		.link > a:first-child:hover { background: #88F; }
 	.sublink { position: absolute; }
 	.sublink > a:first-child { font-size: 10px; color: #00F; background: #0FF; margin: 20px; padding: 2px; }
