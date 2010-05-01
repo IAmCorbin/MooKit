@@ -20,7 +20,7 @@ var SubDisplay = new Class({
 	Implements: [Options,Events],
 	options: {
 		sublinkClass: 'sublink',
-		fadeDelay: 200
+		fadeDelay: 100
 	/** 
 	  * @constructor
 	  * @param 	{element}[]	sublinks	all of the sublink containers
@@ -42,6 +42,8 @@ var SubDisplay = new Class({
 			});
 			var offsetSubs = 0;
 			sublinks.each(function(sublink) {
+				//setup FX chaining
+				sublink.set('morph',{ link:'chain'});
 				if(offsetSubs==0) { //don't offset first sublink, just set initial width
 					offsetSubs += sublink.getStyle('left').toInt();
 				} else {
@@ -55,12 +57,9 @@ var SubDisplay = new Class({
 		this.links.addEvents({
 			//Mouse Enter Display
 			mouseenter: function(e) { 
-				sublink = e.target.getParent().getLast();
-				debug("links : mouseenter");
+				var sublink = e.target.getParent().getLast();
 				if(!sublink.retrieve('display')) {
-					debug("|| links : mouseenter : STORE display "+sublink.retrieve('displayID'));
 					sublink.store('display',1);
-					debug("|| links : mouseenter : STORED display "+sublink.retrieve('displayID'));
 					this.displaySublinks(e.target.getParent()); 
 				}
 			}.bind(this), 
@@ -68,9 +67,7 @@ var SubDisplay = new Class({
 			mousemove: function(e) {
 				sublink = e.target.getParent().getLast();
 				if(!sublink.retrieve('mmDisplay')) {
-					debug("|| links : mousemove : STORE mmDisplay | "+sublink.retrieve('mmDisplay'));
 					sublink.store('mmDisplay',1);
-					debug("|| links : mousemove : STORED mmDisplay | "+sublink.retrieve('mmDisplay'));
 					(function() { 
 						if(sublink.getStyle('display') == 'none') {
 							this.displaySublinks(e.target.getParent());
@@ -81,89 +78,61 @@ var SubDisplay = new Class({
 			}.bind(this),
 			//vanish
 			mouseleave: function(e) { 
-				debug("links : mouseleave"); 
 				var sublinks = e.target.getParent().getElements('.sublink');
-				//setup to fade links
-				var sublinkDestructor = (function() { 
-					debug(this);
-					this.hideSublinks(sublinks);
-				}.bind(this)).delay(this.options.fadeDelay);
-				//store id on the last sublink so we can cancel fading
-				sublinks.getLast().store('destructorID',sublinkDestructor);
-				debug("STORING destructorID "+sublinkDestructor);
+				this.delayedVanish(sublinks);
 			}.bind(this)
 		});
 		//ADD SUBLINK EVENTS
 		this.sublinks.addEvents({
 			mouseenter: function() {
-				debug('sublink - mouseenter');
 				//cancel vanishing
-				var sublink = this.getParent().getParent().getLast();
-				var sublinkDestructor = sublink.retrieve('destructorID');
-				debug("CLEAR desctortorID"+sublinkDestructor);
+				var sublinkDestructor = this.getParent('span[class="link"]').getElements('span[class="sublink"]').getLast().retrieve('destructorID');
 				$clear(sublinkDestructor);
-				sublink.erase('destructorID');
+				sublink.eliminate('destructorID');
 			},
 			mouseleave: function(e) {
-				debug('sublink - mouseleave');
-				debug(e.target);
 				var sublinks = e.target.getParent().getParent().getElements('.sublink');
-				//setup to fade links
-				var sublinkDestructor = (function() { 
-					debug(this);
-					this.hideSublinks(sublinks);
-				}.bind(this)).delay(this.options.fadeDelay);
-				//store id so we can cancel if user's mouse reenters a sublink or parent link
-				sublinks.getLast().store('destructorID',sublinkDestructor);
-				debug("STORING destructorID "+sublinkDestructor);
+				this.delayedVanish(sublinks);
 			}.bind(this)
 		});
+	},
 	/** 
 	  * display the sublinks of passed in link
 	  * @param 	{element} 	link		the link you want to display sublinks for
 	  */
-	},displaySublinks: function(link) {
-		debug("~~~~~~~~displaySublinks~~~~~~~~~");
+	displaySublinks: function(link) {
 		var sublinks = link.getElements('.sublink');
 		//cancel vanishing - clear any anonymous vanishing functions that may be about to trigger hideSublinks
 		var sublinkDestructor = sublinks.getLast().retrieve('destructorID');
-		debug("CLEAR destructorID : "+sublinkDestructor);
 		$clear(sublinkDestructor);
-		sublink.eliminate('destructorID');
+		sublinks.getLast().eliminate('destructorID');
 		//display sublinks
-		debug('FADE IN SUBS');
 		sublinks.each(function(sublink) {
-			//see if Fx.Morph instance has already been created
-			var sublinkMorph = sublink.retrieve('morph');
-			//create a new Fx.Morph for these sublinks if it doesn't exist
-			if(!sublinkMorph) {
-				debug("Creating new Fx.Morph for ");
-				debug(sublink);
-				sublinkMorph = new Fx.Morph(sublink, { 'link': 'chain' });
-				sublink.store('morph',sublinkMorph);
-			}
-			sublinkMorph.start({ 'display':'block'});
-			sublinkMorph.start({ 'opacity':'1'});
+			sublink.morph({display: 'block'});
+			sublink.morph({opacity: '1'});
 		});
-		debug("~~END~~~displaySublinks~~~~END~~~");
+	},
+	delayedVanish: function(sublinks) {
+		//setup to fade links
+		var sublinkDestructor = (function() { 
+			this.hideSublinks(sublinks);
+		}.bind(this)).delay(this.options.fadeDelay);
+		//store id so we can cancel if user's mouse reenters a sublink or parent link
+		sublinks.getLast().store('destructorID',sublinkDestructor);
+	},
 	/**
 	  * hide the passed in sublink elements
 	  * @var 	{element}[]	sublinks		the sublinks to hide
 	  */
-	},hideSublinks: function(sublinks) {
-		debug("~~~~~~~~~hideSublinks~~~~~~~~~~");
+	hideSublinks: function(sublinks) {
 		sublinks.each(function(sublink) {
-			var sublinkMorph = sublink.retrieve('morph');
-			sublinkMorph.start({ 'opacity':'0'});
-			sublinkMorph.start({ 'display':'none'});
+			sublink.morph({opacity: '0'});
+			sublink.morph({display: 'none'});
 		});
-		//destroy the reference to this function -- eliminate all flags so we can retrigger sublink display
+		//eliminate all flags so we can retrigger sublink display
 		sublinks.getLast().eliminate('destructorID');
-		debug("ELIMINATE mmDisplay & displayID : "+sublinks.getLast().retrieve('mmDisplay')+"|"+sublinks.getLast().retrieve('displayID'));
 		sublinks.getLast().eliminate('mmDisplay');
 		sublinks.getLast().eliminate('displayID');
-		debug("ELIMINATE mmDisplay & displayID : "+sublinks.getLast().retrieve('mmDisplay')+"|"+sublinks.getLast().retrieve('displayID'));
-		debug("~~~~END~~~~hideSublinks~~~~~END~~");
 	}
 });
 
