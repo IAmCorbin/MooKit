@@ -24,7 +24,7 @@
 	<? if(isset($scripts)) foreach($scripts as $script) echo $script."\n\t"; ?>
 </head>
 <body>
-	<div class="userInfo">
+	<div id="userInfo">
 		<? if(isset($userInfo)) echo$userInfo; ?>
 	</div>
 	

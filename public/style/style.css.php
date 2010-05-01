@@ -57,16 +57,16 @@ input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2p
 	.phpError { display: none; width: 80%; }
 
 /* STRUCTURE */
-	div.userInfo { background: #AAF; border: solid 5px #AAA; width: 400px; position: absolute; right: 2%; top: 20%; padding: 10px; } 
-		div.userInfo:hover { background: #AFA; border: solid 5px #FFF; }
-		div.userInfo > div { border: solid black 1px; padding: 5px; background: #77F;}
-		div.userInfo > div:hover { background: #99F;}
+	div#userInfo { background: #AAF; border: solid 5px #AAA; width: 400px; position: absolute; right: 2%; top: 20%; padding: 10px; } 
+		div#userInfo:hover { background: #AFA; border: solid 5px #FFF; }
+		div#userInfo > div { border: solid black 1px; padding: 5px; background: #77F;}
+		div#userInfo > div:hover { background: #99F;}
 	#mainNav { margin: 10px auto 10px auto; left: 10px; top: 2px; width: 80%; }
 	#content { float: left; margin: 5% 5% 5% 5%; padding-bottom: 50px;  }
 
 /* CUSTOM */
 	.curved, input[type="password"], 
-		input[type="text"], div.userInfo, span.linkDesc, .link > a:first-child, .sublink > a:first-child
+		input[type="text"], div#userInfo, span.linkDesc, .link > a:first-child, .sublink > a:first-child
 		{ -moz-border-radius:<?echo $curved?>; <?/* Firefox */?> -webkit-border-radius:<?echo $curved?>; <?/* Safari and chrome */?> -khtml-border-radius:<?echo $curved?>; <?/* Linux browsers */?> border-radius:<?echo $curved?>; <?/* CSS3 */?> }
 	.button { background: #AAA; border: outset #666 4px; margin: 8px;}
 		.button:hover { background: #888; border: outset 3px; cursor: pointer;}

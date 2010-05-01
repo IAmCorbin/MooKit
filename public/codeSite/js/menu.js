@@ -20,7 +20,7 @@ var SubDisplay = new Class({
 	Implements: [Options,Events],
 	options: {
 		sublinkClass: 'sublink',
-		fadeDelay: 100
+		fadeDelay: 1500
 	/** 
 	  * @constructor
 	  * @param 	{element}[]	sublinks	all of the sublink containers
