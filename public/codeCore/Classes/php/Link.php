@@ -170,9 +170,12 @@ class Link {
 	  */
 	public static function get($name='',$menuLink=FALSE,$rType="object",$notSubs=FALSE,$access_level=FALSE) {
 		$inputFilter = new Filters;
-		$name = $inputFilter->text($name);
-		//check for malicious input
-		if($inputFilter->ERRORS()) { $name=''; }
+		//connect to Database
+		$DB = new DatabaseConnection;
+		//filter and escape $name
+			$name = $inputFilter->text($name);
+			if($inputFilter->ERRORS()) { $name=''; }
+			$name = $DB->escapeString($name);
 		if($menuLink) 
 			$WHERE = " WHERE `links`.`menuLink`=1 AND `links`.`name` LIKE '%$name%' ";
 		else
@@ -199,8 +202,6 @@ class Link {
 		}
 		//compile query
 		$query = "SELECT `links`.* ".$sublinkID.$subDetails."FROM `links` ".$JOIN.$WHERE.";";
-		//connect to Database
-		$DB = new DatabaseConnection;
 		//run query and return the result
 		return $DB->get_rows($query,$rType);
 	}
