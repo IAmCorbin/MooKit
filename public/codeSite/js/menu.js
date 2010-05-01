@@ -31,7 +31,7 @@ var SubDisplay = new Class({
 		this.linkContainers = this.sublinkContainers.getParent('.link');
 		this.links = this.linkContainers.getFirst('a');
 		this.sublinks = this.sublinkContainers.getFirst('a');
-		//Initialize Positioning and display
+		//Initialize Positioning and display for each set of sublinks
 		this.sublinkContainers.setStyle('display','none');
 		this.linkContainers.each(function(link) {
 			LOC = getXY(link);
@@ -40,15 +40,22 @@ var SubDisplay = new Class({
 				top: LOC.Y+link.getStyle('lineHeight').toInt()+10+'px',
 				left: LOC.X
 			});
+			//offset sublinks
 			var offsetSubs = 0;
 			sublinks.each(function(sublink) {
 				//setup FX chaining
 				sublink.set('morph',{ link:'chain'});
-				if(offsetSubs==0) { //don't offset first sublink, just set initial width
-					offsetSubs += sublink.getStyle('left').toInt();
+				if(offsetSubs==0) { //don't offset first sublink, just set initial positioning
+					offsetSubs = sublink.getStyle('left').toInt();
+					debug("offsetSubs"+offsetSubs);
+					debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				} else {
-					offsetSubs +=  sublink.getPrevious().getElement('a').get('text').length*10;
+					previousSize = sublink.getPrevious().getElement('a').get('text');
+					debug("previousSize = "+previousSize.length);
+					offsetSubs +=  previousSize.length*7;
+					debug("new offsetSubs = "+offsetSubs);
 					sublink.setStyle('left', offsetSubs+'px');
+					debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				}
 			});
 		});
