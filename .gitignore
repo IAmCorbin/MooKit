@@ -1,0 +1,11 @@
+*~
+logs/DBerrors.xml
+logs/PHPerrors.xml
+logs/phpErrors.log
+public/codeCore/Classes/js/SortingTableMOD.js
+public/codeCore/Classes/php/Email.php
+public/img/icons/
+public/img/sprites.png
+mod_rewrite_debug.php
+sql/tmp.todo.post
+
