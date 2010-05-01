@@ -40,6 +40,13 @@ class DatabaseConnection {
 			$this->trigger_DB_error('E_DB_CONN');
 	}
 	/**
+	  * Escape single variable for query use
+	  * @param array $var	variable to escape
+	  */
+	public function escapeString($var) {
+		return $this->mysqli->real_escape_string($var);
+	}
+	/**
 	  * Escape variables for query use
 	  * @param array $vars	array of variables to escape
 	  */
