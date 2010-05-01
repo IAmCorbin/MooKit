@@ -47,15 +47,10 @@ var SubDisplay = new Class({
 				sublink.set('morph',{ link:'chain'});
 				if(offsetSubs==0) { //don't offset first sublink, just set initial positioning
 					offsetSubs = sublink.getStyle('left').toInt();
-					debug("offsetSubs"+offsetSubs);
-					debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				} else {
 					previousSize = sublink.getPrevious().getElement('a').get('text');
-					debug("previousSize = "+previousSize.length);
 					offsetSubs +=  previousSize.length*7;
-					debug("new offsetSubs = "+offsetSubs);
 					sublink.setStyle('left', offsetSubs+'px');
-					debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				}
 			});
 		});
