@@ -173,7 +173,7 @@ class Link {
 		//connect to Database
 		$DB = new DatabaseConnection;
 		//filter and escape $name
-			$name = $inputFilter->text($name);
+			$name = $inputFilter->text($name,FALSE,TRUE);
 			if($inputFilter->ERRORS()) { $name=''; }
 			$name = $DB->escapeString($name);
 		if($menuLink) 
