@@ -100,8 +100,18 @@
 		$DB = new DatabaseConnection;
 		//escape variables for query
 		$q = $DB->escapeStrings(array('user_id'=>$user_id,'title'=>$title));
-		$query = "SELECT `post_id`, `title`, `creator_id`,`createTime`,`modTime` FROM `posts` WHERE `title` LIKE '%".$q['title']."%' AND `creator_id`='".$q['user_id']."';";
-		return $DB->get_rows($query,$rType);
+		//grab all the user's posts
+		$columns = "`posts`.`post_id`, `posts`.`title`, `posts`.`creator_id`,`posts`.`createTime`,`posts`.`modTime`";
+		$query = "SELECT $columns FROM `posts` WHERE `title` LIKE '%".$q['title']."%' AND `creator_id`='".$q['user_id']."';";
+		$posts = $DB->get_rows($query,$rType);
+		//grab all the posts the user has specific permissions for
+		$query = "SELECT $columns FROM `posts` INNER JOIN `postUserPermissions` AS `perms` ON `posts`.`post_id`=`perms`.`post_id` WHERE `perms`.`user_id`='".$q['user_id']."';";
+		//grab, merge and return results
+		$otherPosts = $DB->get_rows($query,$rType);
+		if(is_array($otherPosts))
+			return array_merge($posts, $otherPosts);
+		else
+			return $posts;
 	}
 	/**
 	  * add a new permission to this post
