@@ -89,14 +89,13 @@ Class Filters {
 	 * 
 	 * Remove all non-alphanumeric characters
 	 * @param string $text
+	 * @param bool $stripWS 	Passed to text() - Switch to optionally strip all whitespace
+	 * @param bool $allowBlank    Passed to text() - Switch to allow blank field
 	 * @returns string
 	 */
-	public function alphnum_($user_text) {
-		if($user_text == '') {
-			$this->errors[] = 'Blank Field : '.$user_text;
-		}
-		$user_text = $this->text($user_text);
-		if(!preg_match("/^([a-zA-Z0-9\_\ ]+)$/",$user_text)) {
+	public function alphnum_($user_text, $stripWS=FALSE, $allowBlank=FALSE) {
+		$user_text = $this->text($user_text, $stripWS, $allowBlank);
+		if(!preg_match("/^([a-zA-Z0-9\_\ ]*)$/",$user_text)) {
 			$text = preg_replace("/[^a-zA-Z1-9\_]/","",$user_text);
 			$this->errors[] = 'Non-Alphanumberic Characters Removed : '.$text;
 			return $text;
@@ -183,6 +182,7 @@ Class Filters {
 	 */
 	public function ERRORS() {
 		if( sizeof($this->errors) > 0 ) {
+			if(DEBUG) { echo "|-FILTER ERRORS-|"; var_dump($this->errors); }
 			return $this->errors;
 		} else {
 			return NULL;
