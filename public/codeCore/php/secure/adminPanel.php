@@ -24,8 +24,8 @@ if(Security::clearance() & ACCESS_ADMIN) {
 				<tbody>
 <?
 		if(!isset($_POST['alias'])) $_POST['alias'] = '';
-		$users = adminGetUsers("rows", $_POST['alias']);
-		echo $users;
+		echo adminGetUsers("rows", $_POST['alias']);
+		
 ?>				
 				</tbody>
 			</table>
@@ -53,12 +53,9 @@ if(Security::clearance() & ACCESS_ADMIN) {
 					<th class="nosort">Delete</th>
 				</thead>
 				<tbody>
-<?
-			echo adminGetLinks("rows");
-?>				
+					<?	echo adminGetLinks("rows"); ?>				
 				</tbody>
 			</table>
-			
 				<form id="adminAddLink" method="post" action="codeCore/php/secure/adminAddLink.php">
 					<h1>Add a Link</h1>
 					<label>
