@@ -147,9 +147,6 @@ set_error_handler("ErrorHandler");
 	function adminGetLinks($rType="object", $name=NULL, $menuLink=FALSE, $notSubs=FALSE) {
 		if($rType === "rows") {
 			//grab links and sublinks from the database
-			if($name)
-				$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
-			else
 				$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
 
 				$lastLink_id = null;
@@ -200,6 +197,32 @@ set_error_handler("ErrorHandler");
 				return $return;
 		} else
 			return Link::get($name,$menuLink,$rType,$notSubs,ACCESS_ADMIN);
+	}
+	/**
+	  * Search and return found posts from the database
+	  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
+	  * @param string $title - the post title to search for
+	  */
+	function createGetPosts($rType="object", $title=NULL) {
+		if($rType == "rows") {
+			//grab all posts connected to this user
+			$posts = Post::get($_SESSION['user_id'],$title);
+			//$posts = array(array('id'=>'5','title'=>'Test Post','creatorName'=>'me','createTime'=>date(DATE_RFC822),'modTime'=>'never'));
+			$return = '';
+			if(is_array($posts))
+				foreach($posts as $post) {
+					$return .= "<tr>".
+								"<td name=\"post_id\">$post->post_id</td>".
+								"<td name=\"title\">$post->title</td>".
+								"<td name=\"creator_id\">$post->creator_id</td>".
+								"<td name=\"createTime\">$post->createTime</td>".
+								"<td name=\"modTime\">$post->modTime</td>".
+								'<td class="adminDeletePost">X</td>'.
+							"</tr>";
+				}
+			return $return;
+		} else
+			return Post::get;
 	}
 /////////END///////////////////////////////END////////////////
 //Database Information Retrieval Functions//

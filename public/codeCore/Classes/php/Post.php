@@ -35,28 +35,22 @@
 	  * @param string $title - post title
 	  * @param string $html - post html
 	  */	
-	function __construct($post_id=NULL,$title=NULL,$html=NULL) {
-		//if passed, grab existing post database
-		if($post_id) {
-			if(!$this->retrieve($post_id))
-				$this->error = 'E_RETRIEVE';
-		} else{
-			//Filter User Input
-			$inputFilter = new Filters;
-			$this->title = $inputFilter->text($this->title);
-			$this->title = $inputFilter->htmLawed($this->title); 
-			$this->html = $inputFilter->htmLawed($this->html);
-			//Check for Errors
-			if($inputFilter->ERRORS())
-				$this->error = 'E_FILTER';		
-			//set post data
-			$this->creator_id = $_SESSION['user_id'];
-			$this->title = $title;
-			$this->html = $html;
-			//add post
-			if(!$this->addNew())
-				$this->error = 'E_INSERT';
-		}
+	function __construct($title=NULL,$html=NULL) {
+		//Filter User Input
+		$inputFilter = new Filters;
+		$this->title = $inputFilter->text($this->title);
+		$this->title = $inputFilter->htmLawed($this->title); 
+		$this->html = $inputFilter->htmLawed($this->html);
+		//Check for Errors
+		if($inputFilter->ERRORS())
+			$this->error = 'E_FILTER';		
+		//set post data
+		$this->creator_id = $_SESSION['user_id'];
+		$this->title = $title;
+		$this->html = $html;
+		//add post
+		if(!$this->addNew())
+			$this->error = 'E_INSERT';
 	}
 	/**
 	  * Add a new post to the database, using this objects data
@@ -66,29 +60,8 @@
 		$creator_id = mysqli_real_escape_string($this->creator_id);
 		$title = mysqli_real_escape_string($this->title);
 		$html = mysqli_real_escape_string($this->html);
-		$query = "INSERT INTO `posts`(`creator_id`,`title`,`html`,`createTime`) VALUES($creator_id,$title,$html,NOW());"
+		$query = "INSERT INTO `posts`(`creator_id`,`title`,`html`,`createTime`) VALUES($creator_id,$title,$html,NOW());";
 		return $this->DB->insert($query);
-	}
-	/**
-	  * Grab a post from the database
-	  * @param int $post_id - the desired post id
-	  * @returns bool true on success, false on failure
-	  */
-	public function retrieve($post_id) {
-		$post_id = mysqli_real_escape_string($post_id);
-		$query = "SELECT `creator_id`,`title`,`html`,`createTime`,`modTime` FROM `posts` WHERE `post_id`='$post_id';";
-		$row = $this->DB->get_row($query);
-		//set this object's data
-		if(is_object($row)) {
-			$this->post_id = $post_id;
-			$this->creator_id = $row->creator_id;
-			$this->title = $row->title;
-			$this->html = $row->html;
-			$this->createTime = $row->createTime;
-			$this->modTime = $row->modTime;
-			return true;
-		}
-		return false;
 	}
 	/**
 	  * Updates a post in the database
@@ -109,6 +82,26 @@
 		$post_id = mysqli_real_escape_string($post_id);
 		$query = "DELETE FROM `posts` WHERE `post_id`='$post_id';";
 		return $this->DB->delete($query);
+	}
+	/**
+	  * Grab a post from the database
+	  * @param 	int 		$id 		the user id to get posts for
+	  * @param 	string	$title	the title to search for - optional
+	  * @param 	string 	$rType 	the return type for the posts
+	  * @returns 	bool 	true on success, false on failure
+	  */
+	public static function get($user_id,$title,$rType="object") {
+		//filter input
+		$inputFilter = new Filters;
+		$user_id = $inputFilter->number($user_id);
+		$title = $inputFilter->alphnum_($title,FALSE,TRUE);
+		if($inputFilter->ERRORS()) { return "E_FILTER"; }
+		//connect to Database
+		$DB = new DatabaseConnection;
+		//escape variables for query
+		$q = $DB->escapeStrings(array('user_id'=>$user_id,'title'=>$title));
+		$query = "SELECT `post_id`, `title`, `creator_id`,`createTime`,`modTime` FROM `posts` WHERE `title` LIKE '%".$q['title']."%' AND `creator_id`='".$q['user_id']."';";
+		return $DB->get_rows($query,$rType);
 	}
 	/**
 	  * add a new permission to this post
