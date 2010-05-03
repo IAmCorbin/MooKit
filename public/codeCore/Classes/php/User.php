@@ -16,48 +16,71 @@
 class User {
 	/** @var DatabaseConnection $DB	database object */
 	var $DB = NULL;
-	/** @var string $json_status	stores the status (success/failure) of user manipulation, to be sent back to javascript */
+	/** @var 		string 	$json_status	stores the status (success/failure) of user manipulation, to be sent back to javascript */
 	var $json_status = NULL;
-	/** @var int $user_id		users's id */
+	/** @var 		int 		$user_id		users's id */
 	var $user_id = NULL;
-	/** @var string $nameFirst	user's first name */
+	/** @var 		string 	$nameFirst	user's first name */
 	var $nameFirst = NULL;
-	/** @var string $namelast	user's last name */
+	/** @var 		string 	$namelast	user's last name */
 	var $nameLast = NULL;
-	/** @var string $alias		user's username */
+	/** @var 		string 	$alias		user's username */
 	var $alias = NULL;
-	/** @var string $email		user's email */
+	/** @var 		string 	$email		user's email */
 	var $email = NULL;
-	/** @var string $registered	date and time user registered */
+	/** @var 		string 	$registered	date and time user registered */
 	var $registered = NULL;
-	/** @var string $lastLogin	date and time user last logged in */
+	/** @var 		string 	$lastLogin	date and time user last logged in */
 	var $lastLogin = NULL;
-	/** @var string $ip_address	user's ip address */
+	/** @var 		string 	$ip_address	user's ip address */
 	var $ip_address = NULL;
-	/** @var string $access_level	user's permissions */
+	/** @var 		string 	$access_level	user's permissions */
 	var $access_level = NULL;
 	
 	/** 
 	  * Constructor 
-	  *@param array $filteredInput - array filled with filtered user input
+	  *@param array $userInput - array filled with filtered user input : if creating a new user pass keys{ alias, nameFirst, nameLast, password, vpassword, email }, if authenticating an existing user pass keys{ alias, password, vpassword }
 	  *@param bool $newUser - switch to create a new user or retrieve an existing one
 	  *@param function $newUserCallback - function that will be called if a new user is successfully added
 	  */
-	function __construct($filteredInput, $newUser = true, $newUserCallback = null) {
+	function __construct($userInput, $newUser = TRUE, $newUserCallback = NULL) {
 		//make sure $filteredInput is an array
-		if(!is_array($filteredInput)) {
+		if(!is_array($userInput)) {
 			$this->json_status = json_encode(array('status'=>'E_MISSING_DATA'));
 			return;
 		}
 		//establish database connection
 		$this->DB = new DatabaseConnection;
 		
-		if($newUser) {
+		if($newUser) {		
 			//check for valid passed data
-			if(!array_keys_exist(array('alias','nameFirst','nameLast','password','email'),$filteredInput)) {
+			if(!array_keys_exist(array('alias','nameFirst','nameLast','password','email'),$userInput)) {
 				$this->json_status = json_encode(array('status'=>'E_MISSING_DATA'));
 				return;
 			}
+			//filter input
+			$inputFilter = new Filters;
+			//Validate User Input
+			$filteredInput['alias'] = $inputFilter->text($userInput['alias'], true); //also strip whitespace
+			$filteredInput['alias'] = $inputFilter->alphnum_($filteredInput['alias']); //only allow alphanumeric or underscore for alias
+			$filteredInput['nameFirst'] = $inputFilter->text($userInput['nameFirst'],true); //also strip whitespace
+			$filteredInput['nameLast'] = $inputFilter->text($userInput['nameLast'],true); //also strip whitespace
+			$filteredInput['password'] = $inputFilter->text($userInput['password']);
+			$filteredInput['vpassword'] = $inputFilter->text($userInput['vpassword']);
+			$filteredInput['email'] = $inputFilter->email($userInput['email']);
+
+			//Check for matching passwords
+			if($filteredInput['password'] != $filteredInput['vpassword']) {
+				$this->json_status = json_encode(array('status'=>"E_BADPASS",'alias'=>$filteredInput['alias'],'nameFirst'=>$filteredInput['nameFirst'],'nameLast'=>$filteredInput['nameLast'],'email'=>$filteredInput['email']));
+				return;
+			}
+			//Check for Filter Errors
+			if($errors = $inputFilter->ERRORS()) {
+				//Filter Error - Send back filteredInput so user can correct and resend
+				$this->json_status =  json_encode(array('status'=>"E_FILTERS",'alias'=>$filteredInput['alias'],'nameFirst'=>$filteredInput['nameFirst'],'nameLast'=>$filteredInput['nameLast'],'email'=>$filteredInput['email']));	
+				return;
+			}
+			
 			//attempt to add this user
 			if($userStatus = $this->addNew($filteredInput['alias'],$filteredInput['password'],$filteredInput['nameFirst'],$filteredInput['nameLast'],$filteredInput['email'])) {
 					//Fire New User Callback if it was passed
@@ -68,8 +91,21 @@ class User {
 			}
 		} else {
 			//check for valid passed data
-			if(!array_keys_exist(array('alias','password'),$filteredInput)) {
+			if(!array_keys_exist(array('alias','password'),$userInput)) {
 				$this->json_status = json_encode(array('status'=>'E_MISSING_DATA'));
+				return;
+			}
+			//filter input
+			$inputFilter = new Filters;
+			//Validate User Input
+			$filteredInput['alias'] = $inputFilter->text($userInput['alias'], true); //also strip whitespace
+			$filteredInput['alias'] = $inputFilter->alphnum_($filteredInput['alias']); //only allow alphanumeric or underscore for alias
+			$filteredInput['password'] = $inputFilter->text($userInput['password']);
+
+			//Check for Filter Errors
+			if($errors = $inputFilter->ERRORS()) {
+				//Filter Error - Send back filteredInput so user can correct and resend
+				$this->json_status =  json_encode(array('status'=>"E_FILTERS",'alias'=>$filteredInput['alias']));	
 				return;
 			}
 			
@@ -90,6 +126,7 @@ class User {
 			if($this->retrieve($filteredInput['alias'],$encPass)) {
 				//set authenticated session variables
 				$this->AUTH();
+				//update last login time in database to now
 				$this->updateLastLogin();
 				return true;
 			} else {
@@ -101,7 +138,6 @@ class User {
 	}
 	/**
 	 * Add a new user to the database
-	 *@param array $filteredInput - array filled with filtered user input
 	 *@param string $alias - new user's alias
 	 *@param string $password - new user's password
 	 *@param string $nameFirst - new user's first name

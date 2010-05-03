@@ -6,20 +6,11 @@
 	//~ return;
 //~ }
 
-//Validate User Input
-$inputFilter = new Filters;
-$filteredInput['alias'] = $inputFilter->text($_POST['alias'],true);
-$filteredInput['password'] = $inputFilter->text($_POST['password']);
-
-//Check for Errors
-if($errors = $inputFilter->ERRORS()) {
-	//handle filter errors
-	echo json_encode(array('status'=>'E_FILTERS','alias'=>$filteredInput['alias']));
-	return;
-} else {
-	//no filter errors - user authentication
-	$user = new User($filteredInput, false);
-	//Send Status back to javascript
-	echo $user->json_status;
-}
+//Authuenticate User
+$user =  new User(array('alias'=>$_POST['alias'],
+				      'password'=>$_POST['password'],
+				      'vpassword'=>$_POST['vpassword']),
+			      FALSE); // Not a new user, just authenticate
+//Send Status back to javascript
+echo $user->json_status;
 ?>
