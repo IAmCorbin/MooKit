@@ -1,18 +1,27 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---  MooKit V 0.1	Alpha																						    --
---  																											    --
---  My Object Oriented Toolkit																						    --
---  																											    --
---  March 24, 2010	 																							    --
---  ___            ___          __ 																					    	    --
---    |   /\  |\/| |         __   |_/  |__  -   _																					    --
---  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |																					    --
---																											    --
---  Cody By Corbin Tarrant																						    --
---  http://www.IAmCorbin.net
---  http://www.github.com/IAmCorbin/MooKit/
---																											    --
---  This code is free to use and share, but must be passed on in turn. Don't be greedy, help each other, we are all One.				    --
+--  MooKit V 0.1	Alpha																					    --
+--  																									    --
+--  My Object Oriented Toolkit																				    --
+--  																									    --
+--  March 24, 2010	 																					    --
+--  ___            ___          __ 																				    	    --
+--    |   /\  |\/| |         __   |_/  |__  -   _																			    --
+--  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |																			    --
+--																									    --
+--  Cody By Corbin Tarrant																					    --
+--  http://www.IAmCorbin.net 																				    --
+--  http://www.github.com/IAmCorbin/MooKit/																	    --
+--																									    --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~															    --
+--  		     _____   		     __    |	  		--															    --
+-- 			|    |__    __   __	|/  |__    |	  		--															    --
+-- 			|    |   |  l__\ |   |	|\   __|   o	  		--															    --
+-- 						   				--															    --
+-- 	-- htmLawed Creator	   				--															    --
+-- 	-- sortableTables/paginatingTables Creator	--															    --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~															    --
+-- 																									    --
+--  This code is free to use and share, but must be passed on in turn. Don't be greedy, help each other, we are all One.		    --
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  This program is free software: you can redistribute it and/or modify
