@@ -8,8 +8,7 @@
 
 //Authuenticate User
 $user =  new User(array('alias'=>$_POST['alias'],
-				      'password'=>$_POST['password'],
-				      'vpassword'=>$_POST['vpassword']),
+				      'password'=>$_POST['password']),
 			      FALSE); // Not a new user, just authenticate
 //Send Status back to javascript
 echo $user->json_status;
