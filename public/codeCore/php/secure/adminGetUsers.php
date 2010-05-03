@@ -1,7 +1,7 @@
 <?
 //require Administrator Access
 if(Security::clearance() & ACCESS_ADMIN) {
-	echo adminGetUsers($_POST['alias'],"rows");
+	echo adminGetUsers("rows", $_POST['alias']);
 } else 
 	echo "Unauthorized";
 ?>

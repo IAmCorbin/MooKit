@@ -44,7 +44,7 @@ class DatabaseConnection {
 	  * @param array $var	variable to escape
 	  */
 	public function escapeString($var) {
-		return $this->mysqli->real_escape_string($var);
+		return $this->mysqli->escape_string($var);
 	}
 	/**
 	  * Escape variables for query use
@@ -53,7 +53,7 @@ class DatabaseConnection {
 	public function escapeStrings($vars) {
 		$n = sizeof($vars)-1;
 		foreach($vars as $key => $value) {
-			$vars[$key] = $this->mysqli->real_escape_string($value);
+			$vars[$key] = $this->mysqli->escape_string($value);
 		}
 		return $vars;
 	}

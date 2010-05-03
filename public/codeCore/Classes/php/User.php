@@ -199,6 +199,27 @@ class User {
 		return true;
 	}
 	/**
+	  * SELECT user's from the database WHERE LIKE $alias
+	  * @param 	string	$alias	The aliases to search for used LIKE '%$alias%'
+	  * @param 	string 	$rType 	the return type for the users
+	  * @returns 	mixed	the requested database return type
+	  */
+	public static function get($alias, $rType="object") {
+		$DB = new DatabaseConnection;
+		
+		if(isset($alias)) {
+			$inputFilter = new Filters;
+			$alias = $inputFilter->text($alias,true);
+			//~ $Qalias = $DB->escapeString($alias);
+			//~ echo "<br />Qalias=".$Qalias;
+			
+			$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE '%$alias%' LIMIT 20;";
+		} else {
+			$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 20;";
+		}
+		return $DB->get_rows($query,$rType);		
+	}
+	/**
 	  * Update user's lastLogin datetime
 	  * @return bool
 	  */
@@ -211,10 +232,10 @@ class User {
 	}
 	/**
 	 * Encrypt a password
-	 *@param string $user		username 
-	 *@param string $pass		password to encrypt
-	 *@param string $regTime	the user's registration time
-	 *@return string 			encrypted password
+	 *@param 	string 	$user		username 
+	 *@param 	string 	$pass		password to encrypt
+	 *@param 	string 	$regTime	the user's registration time
+	 *@return 	string 	encrypted password
 	 */
 	public function encryptPassword($user,$pass,$regTime) { 
 		//create salt from the sha1 of the user's registration time

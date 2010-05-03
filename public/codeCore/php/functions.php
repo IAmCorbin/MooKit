@@ -107,19 +107,10 @@ set_error_handler("ErrorHandler");
 	  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
 	  * @param string $alias - the user alias to search for
 	  */
-	function adminGetUsers($rType="object", $alias) {
-		$DB = new DatabaseConnection;
-					
-		if(isset($alias)) {
-			$inputFilter = new Filters;
-			$alias = $inputFilter->text($alias,true);
-			$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE '%$alias%' LIMIT 20;";
-		} else {
-			$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 10;";
-		}
+	function adminGetUsers($rType="object", $alias=NULL) {
+		$users = User::get($alias, "object");
 		//build rows if requested
 		if($rType === "rows") {
-			$users = $DB->get_rows($query);
 			$return = '';
 			foreach($users as $user) {
 				$access_level = getHumanAccess($user->access_level);
@@ -135,7 +126,7 @@ set_error_handler("ErrorHandler");
 			}
 			return $return;
 		} else
-			return $DB->get_rows($query,$rType);
+			return $users;
 	}
 	/**
 	  * Search and return found links from the database
@@ -145,58 +136,58 @@ set_error_handler("ErrorHandler");
 	  * @param bool $notSubs - switch to turn off the sublink table join
 	  */
 	function adminGetLinks($rType="object", $name=NULL, $menuLink=FALSE, $notSubs=FALSE) {
+		//grab links and sublinks from the database
+		$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
+		//build rows if requested
 		if($rType === "rows") {
-			//grab links and sublinks from the database
-				$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
-
-				$lastLink_id = null;
-				$return = '';
-				if(is_array($links))
-					foreach($links as $link) {
-						//avoid double display of links
-						if($link->link_id != $lastLink_id) {
-							$access_level = getHumanAccess($link->access_level);
-							$return .= "<tr>".
-									"<td name=\"link_id\">$link->link_id</td>".
-									"<td name=\"name\">$link->name</td>".
-									"<td name=\"href\">$link->href</td>".
-									"<td name=\"desc\">$link->desc</td>".
-									"<td name=\"weight\">$link->weight</td>".
-									"<td name=\"ajaxLink\">$link->ajaxLink</td>".
-									"<td name=\"menuLink\">$link->menuLink</td>".
-									"<td name=\"access_level\">$link->access_level</td>".
-									"<td name=\"sublinks\">".
-									//SubLinks Editing Table
-										"<table class=\"subLinks\">".
-											"<thead>".
-												"<th style=\"display: none;\">id</th>".
-												"<th>name</th>".
-												"<th>href</th>".
-												"<th>desc</th>".
-											"</thead>".
-											"<tbody>";
-											foreach($links as $sublink) {
-												if($link->link_id === $sublink->link_id && $sublink->sublink_id) {
-													$return.="<tr class=\"sublinkRow\">".
-														"<td style=\"display: none;\">".$sublink->sublink_id."</td>".
-														"<td>".$sublink->sub_name."</td>".
-														"<td>".$sublink->sub_href."</td>".
-														"<td>".$sublink->sub_desc."</td>".
-													"</tr>";
-												}
+			$lastLink_id = null;
+			$return = '';
+			if(is_array($links))
+				foreach($links as $link) {
+					//avoid double display of links
+					if($link->link_id != $lastLink_id) {
+						$access_level = getHumanAccess($link->access_level);
+						$return .= "<tr>".
+								"<td name=\"link_id\">$link->link_id</td>".
+								"<td name=\"name\">$link->name</td>".
+								"<td name=\"href\">$link->href</td>".
+								"<td name=\"desc\">$link->desc</td>".
+								"<td name=\"weight\">$link->weight</td>".
+								"<td name=\"ajaxLink\">$link->ajaxLink</td>".
+								"<td name=\"menuLink\">$link->menuLink</td>".
+								"<td name=\"access_level\">$link->access_level</td>".
+								"<td name=\"sublinks\">".
+								//SubLinks Editing Table
+									"<table class=\"subLinks\">".
+										"<thead>".
+											"<th style=\"display: none;\">id</th>".
+											"<th>name</th>".
+											"<th>href</th>".
+											"<th>desc</th>".
+										"</thead>".
+										"<tbody>";
+										foreach($links as $sublink) {
+											if($link->link_id === $sublink->link_id && $sublink->sublink_id) {
+												$return.="<tr class=\"sublinkRow\">".
+													"<td style=\"display: none;\">".$sublink->sublink_id."</td>".
+													"<td>".$sublink->sub_name."</td>".
+													"<td>".$sublink->sub_href."</td>".
+													"<td>".$sublink->sub_desc."</td>".
+												"</tr>";
 											}
-										$return.="</tbody>".
-										"</table>".
-										'<form class="adminAddSublink singleton"><input type="text" name="name" size="20" value="Add a Sublink" /></form>'.
-									"</td>".
-									'<td class="adminDeleteLink">X</td>'.
-								"</tr>";
-						}
-						$lastLink_id=$link->link_id;
+										}
+									$return.="</tbody>".
+									"</table>".
+									'<form class="adminAddSublink singleton"><input type="text" name="name" size="20" value="Add a Sublink" /></form>'.
+								"</td>".
+								'<td class="adminDeleteLink">X</td>'.
+							"</tr>";
 					}
-				return $return;
+					$lastLink_id=$link->link_id;
+				}
+			return $return;
 		} else
-			return Link::get($name,$menuLink,$rType,$notSubs,ACCESS_ADMIN);
+			return $links;
 	}
 	/**
 	  * Search and return found posts from the database
@@ -204,10 +195,10 @@ set_error_handler("ErrorHandler");
 	  * @param string $title - the post title to search for
 	  */
 	function createGetPosts($rType="object", $title=NULL) {
+		//grab all posts connected to this user
+		$posts = Post::get($_SESSION['user_id'],$title);
+		//build rows if requested
 		if($rType == "rows") {
-			//grab all posts connected to this user
-			$posts = Post::get($_SESSION['user_id'],$title);
-			//$posts = array(array('id'=>'5','title'=>'Test Post','creatorName'=>'me','createTime'=>date(DATE_RFC822),'modTime'=>'never'));
 			$return = '';
 			if(is_array($posts))
 				foreach($posts as $post) {
@@ -222,7 +213,7 @@ set_error_handler("ErrorHandler");
 				}
 			return $return;
 		} else
-			return Post::get;
+			return $posts;
 	}
 /////////END///////////////////////////////END////////////////
 //Database Information Retrieval Functions//
@@ -232,9 +223,10 @@ set_error_handler("ErrorHandler");
 //                    Assorted Functions               //
 /////////////////////////////////////////////////////////////////////
 /** check an array for existing keys 
-  * @param array $array 		the array to test
-  * @param array $keys		an array containing all the keys to check for
-  * @param bool $setBlank	switch to optionally set missing key values to empty strings instead of returning false
+  * @param 	array 	$array 		the array to test
+  * @param 	array 	$keys		an array containing all the keys to check for
+  * @param 	bool 	$setBlank	switch to set missing key values to empty strings instead of returning false
+  * @param 	bool 	$blankChk	switch to check for blank values and return false if found
   */
  function array_keys_exist($keyArray, &$array, $setBlank=FALSE, $blankChk=FALSE) {
 	foreach($keyArray as $key) {
