@@ -15,10 +15,10 @@
  * @package MooKit
  */
 class DatabaseConnection { 
-	/**
-	 *@var $mysqli		mysqli database object
-	 */ 
+	/** @var 	$mysqli	mysqli database object */ 
 	var $mysqli = NULL;
+	/** @var 	$stmt 	holds the current prepared statement */
+	var $stmt = NULL;
 	/** @var $status - holds 1 or error status **/
 	var $STATUS = "1";
 	/**
@@ -153,6 +153,87 @@ class DatabaseConnection {
 	public function delete($query) {
 		//call the insert function as it does the same thing, simply tests for a valid connection, executes query, and returned the number of rows affected
 		return $this->insert($query);
+	}
+	/**
+	  * Setup a Prepared Statement
+	  * @param 	string	$query	the query to prepare
+	  * @param	bool		$exec	switch to execute the statement
+	  * @return	mysqli->prepare() status
+	  */
+	public function prepare($query,$exec=FALSE) {
+		$this->stmt = $this->mysqli->prepare($query);
+		//execute statement
+		if($exec)
+			$this->execute();
+	}
+	/**
+	  * Bind prepared statement query variables
+	  * @param 	string	$types		mysqli->bind_param($types)
+	  * @param	array	$vars		the variables to bind
+	  * @param	bool		$exec		switch to execute the statement
+	  */
+	public function bind_param($types, $vars, $exec=TRUE) {
+		//prepend types to the beginning of variables to pass into the bind_param function
+		array_unshift($vars,$types);
+		//bind the variables
+		call_user_func_array(array($this->stmt,'bind_param'),$vars);
+		//execute statement
+		if($exec)
+			$this->execute();
+	}
+	/**
+	  * Executes the current stmt
+	  * @param	bool		$bind	switch to trigger bind_results
+	  * @returns bool
+	  */
+	public function execute() {
+		return $this->stmt->execute();
+	}
+	/**
+	  * Bind The Query Results to variables
+	  * @param	array	$result		results will be bound to this array
+	  * @param  	string	$rType		the return type of the variables - "object" or "array"
+	  * @param	bool		$close		switch to close the stmt
+	  */
+	public function bind_results(&$results, $rType="object", $close=TRUE) {
+		$results = array();
+		$fields = array();
+		$metadata = $this->stmt->result_metadata();
+		$pointers = array();
+		$count = 0;
+		//Grab column names and set pointer references
+		while($field = $metadata->fetch_field()) {
+			$pointers[] = &$fields[$field->name];
+		}
+		//bind variables
+		call_user_func_array(array($this->stmt,'bind_result'), $pointers);
+		//set rows
+		while($this->stmt->fetch()) {
+			$row = array();
+			foreach($fields as $k=>$v) {
+				$row[$k] = $v;
+			}
+			$results[$count] = $row;
+			$count++;
+		}
+		$metadata->free();
+		//close statement
+		if($close) 
+			$this->close();
+		//~ //return in desired result format
+		//~ if($rType == "object") {
+			//~ //cast to objects
+			//~ for($x=0; $x< sizeof($out); $x++) {
+				//~ $out[$x] = (object)$out[$x];
+			//~ }
+		//~ }
+	}
+	/** 
+	  * Close the current Prepared Statment 
+	  * @returns bool
+	  */
+	public function close() {
+		return $this->stmt->close();
 	}
 	/**
 	  * Change a MySQLi_Result object to desired format

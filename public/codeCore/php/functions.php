@@ -108,7 +108,7 @@ set_error_handler("ErrorHandler");
 	  * @param string $alias - the user alias to search for
 	  */
 	function adminGetUsers($rType="object", $alias=NULL) {
-		$users = User::get($alias, "object");
+		$users = User::get($alias);
 		//build rows if requested
 		if($rType === "rows") {
 			$return = '';

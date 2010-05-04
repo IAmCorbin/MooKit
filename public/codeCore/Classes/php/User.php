@@ -210,14 +210,16 @@ class User {
 		if(isset($alias)) {
 			$inputFilter = new Filters;
 			$alias = $inputFilter->text($alias,true);
-			//~ $Qalias = $DB->escapeString($alias);
-			//~ echo "<br />Qalias=".$Qalias;
 			
-			$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE '%$alias%' LIMIT 20;";
+			$DB->prepare("SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE CONCAT('%',?,'%') LIMIT 20;");
+			$DB->bind_param('s',array($alias));
+			$DB->bind_results($results);
+			linebreak("RESULTS");
+			var_dump($results);
 		} else {
 			$query = "SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 20;";
 		}
-		return $DB->get_rows($query,$rType);		
+		return $results; //$DB->get_rows($query,$rType);		
 	}
 	/**
 	  * Update user's lastLogin datetime
