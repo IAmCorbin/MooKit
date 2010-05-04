@@ -219,20 +219,20 @@ class DatabaseConnection {
 		$metadata->free();
 		//close statement
 		if($close) 
-			$this->close();
-		//~ //return in desired result format
-		//~ if($rType == "object") {
-			//~ //cast to objects
-			//~ for($x=0; $x< sizeof($out); $x++) {
-				//~ $out[$x] = (object)$out[$x];
-			//~ }
-		//~ }
+			$this->closeStmt();
+		//return in desired result format
+		if($rType == "object") {
+			//cast to objects
+			for($x=0; $x< sizeof($results); $x++) {
+				$results[$x] = (object)$results[$x];
+			}
+		}
 	}
 	/** 
 	  * Close the current Prepared Statment 
 	  * @returns bool
 	  */
-	public function close() {
+	public function closeStmt() {
 		return $this->stmt->close();
 	}
 	/**

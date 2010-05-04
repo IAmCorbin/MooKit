@@ -1,9 +1,9 @@
 window.addEvent('domready', function() {
 
 	//Add User Table Sorting and Pagination	
-	//~ new SortingTable( 'users', {
-		//~ paginator: new PaginatingTable( 'users', 'users_pagination', { per_page: 5 } )
-	//~ });
+	new SortingTable( 'users', {
+		paginator: new PaginatingTable( 'users', 'users_pagination', { per_page: 5 } )
+	});
 
 	//delete user
 	$$('td.adminDeleteUser').addEvent('click',function() {
