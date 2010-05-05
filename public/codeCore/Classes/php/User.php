@@ -110,8 +110,8 @@ class User {
 			}
 			
 			//get user's registration time
-			$query = "SELECT `registered` FROM `users` WHERE `alias`='".$filteredInput['alias']."' LIMIT 1;";
-			$user = $this->DB->get_row($query);
+			$user = $this->DB->get_row("SELECT `registered` FROM `users` WHERE `alias`=? LIMIT 1;",
+									's',array($filteredInput['alias']));
 			if(is_object($user) && isset($user->registered)) {
 				//store user's registration DATETIME
 				$this->regTime = $user->registered;
@@ -178,8 +178,9 @@ class User {
 	  */
 	public function retrieve($alias, $encPass) {
 		//grab user data from database
-		$query = "SELECT `user_id`,`alias`,`nameFirst`,`nameLast`,`email`,`lastLogin`,INET_NTOA(ip_address) as ip_address,`access_level` FROM `users` WHERE `alias`='$alias' AND `password`='$encPass';";
-		$user = $this->DB->get_row($query);
+		$user = $this->DB->get_row("SELECT `user_id`,`alias`,`nameFirst`,`nameLast`,`email`,`lastLogin`,INET_NTOA(ip_address) as ip_address,`access_level` 
+							      FROM `users` WHERE `alias`=? AND `password`=?;",
+							      'ss',array($alias,$encPass));
 		if(!is_object($user)) {
 			$this->json_status =  json_encode(array('status'=>'E_NO_ACCESS'));
 			return false;
@@ -213,8 +214,7 @@ class User {
 						's',array($alias));
 						
 		} else {
-			$results = $DB->get_rows("SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 20;",
-						NULL,NULL);
+			$results = $DB->get_rows("SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 20;");
 		}
 		return $results;
 	}
@@ -223,8 +223,9 @@ class User {
 	  * @return bool
 	  */
 	public function updateLastLogin() {
-		$query = "UPDATE `users` SET `lastLogin`='".date('Y-m-d H:i:s')."' WHERE `alias`='$this->alias';";
-		if($this->DB->update($query))
+		
+		if($this->DB->update("UPDATE `users` SET `lastLogin`='".date('Y-m-d H:i:s')."' WHERE `alias`=?;",
+						  's',array($this->alias)))
 			return true;
 		else
 			return false;

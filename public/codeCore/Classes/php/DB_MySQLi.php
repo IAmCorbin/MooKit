@@ -132,21 +132,25 @@ class DB_MySQLi {
 	}
 	/**
 	  * Update Database Rows
-	  * @param string $query 	The Update sql
-	  * @returns int			the number rows affected
+	  * @param 	string 	$query 		The Update sql
+	  * @param 	string	$types		mysqli->bind_param($types)
+	  * @param	array	$vars		the variables to bind
+	  * @returns 	int		the number rows affected
 	  */
-	public function update($query) {
+	public function update($query, $types=NULL, $vars=NULL) {
 		//call the insert function as it does the same thing, tests for a valid connection, executes query, and returned the number of rows affected
-		return $this->insert($query);
+		return $this->insert($query, $types, $vars);
 	}
 	/**
 	  * Delete Database Rows
-	  * @param string $query 	The Update sql
-	  * @returns int			the number rows affected
+	  * @param 	string 	$query 		The Update sql
+	  * @param 	string	$types		mysqli->bind_param($types)
+	  * @param	array	$vars		the variables to bind
+	  * @returns 	int		the number rows affected
 	  */
-	public function delete($query) {
+	public function delete($query, $types, $vars) {
 		//call the insert function as it does the same thing, tests for a valid connection, executes query, and returned the number of rows affected
-		return $this->insert($query);
+		return $this->insert($query, $types, $vars);
 	}
 	/**
 	  * Setup a Prepared Statement
