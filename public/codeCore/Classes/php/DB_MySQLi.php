@@ -71,29 +71,34 @@ class DB_MySQLi {
 			return false;
 		}
 		//prepare query
-		if($this->prepare($query)) {
-			if($types && $vars) {
-				//bind variables, execute query, bind results, and format
-				if($this->bind_param($types,$vars)) {
-					if($this->bind_results($results,$rType)) {
-						$this->formatResults($results, $rType);
-						return $results;
-					} else
-						return false;
-				} else
-					return false;
-			} else{ //skip variable binding, execute query, bind results, and format
-				if($this->execute()) {
-					if($this->bind_results($results,$rType)) {
-						$this->formatResults($results, $rType);
-						return $results;
-					} else
-						return false;
-				} else
-					return false;
-			}
-		} else
+		if(!$this->prepare($query))
 			return false;
+
+		if($types && $vars) {
+			//bind variables and execute query
+			if(!$this->bind_param($types,$vars))
+				return false;
+			
+			//bind results
+			if(!$this->bind_results($results,$rType))
+				return false;
+			
+			//format and return
+			$this->formatResults($results, $rType);
+			return $results;
+		} else{ 
+			//execute query
+			if(!$this->execute())
+				return false;
+			
+			//bind results
+			if(!$this->bind_results($results,$rType))
+				return false;
+			
+			//format and return
+			$this->formatResults($results, $rType);
+			return $results;
+		}
 	}
 	/**
 	  * Insert a new row in the Database
@@ -108,27 +113,25 @@ class DB_MySQLi {
 			$this->trigger_DB_error('E_DB_CONN');
 			return false;
 		}
-		// execute query
+		
 		//prepare query
-		if($this->prepare($query)) {
-			if($types && $vars) {
-				//bind variables, execute query, get affected rows and return
-				if($this->bind_param($types,$vars)) {
-					$affectedRows = $this->stmt->affected_rows;
-					$this->closeStmt();
-					return $affectedRows;
-				} else
-					return false;
-			} else { //skip variable binding, execute query, get affected rows and return
-				if($this->execute()) {
-					$affectedRows = $this->stmt->affected_rows;
-					$this->closeStmt();
-					return $affectedRows;
-				} else
-					return false;
-			}
-		} else
+		if(!$this->prepare($query))
 			return false;
+
+		if($types && $vars) {
+			//bind variables and execute query
+			if(!$this->bind_param($types,$vars))
+				return false;
+		} else { //skip variable binding and just execute query
+			if(!$this->execute())
+				return false;
+		}
+		
+		//get affected rows and return
+		$affectedRows = $this->stmt->affected_rows;
+		$this->closeStmt();
+		return $affectedRows;
+	
 	}
 	/**
 	  * Update Database Rows
@@ -195,7 +198,7 @@ class DB_MySQLi {
 	  */
 	public function execute() {
 		if(!$this->stmt->execute()) {
-			trigger_DB_error("E_DB_EXEC");
+			$this->trigger_DB_error("E_DB_EXEC");
 			$this->closeStmt();
 			return false;
 		} else 
@@ -218,7 +221,7 @@ class DB_MySQLi {
 		}
 		//bind variables
 		if(!call_user_func_array(array($this->stmt,'bind_result'), $pointers)) {
-			trigger_DB_error("E_DB_BIND_RESULTS");
+			$this->trigger_DB_error("E_DB_BIND_RESULTS");
 			$this->closeStmt();
 			return false;
 		}
