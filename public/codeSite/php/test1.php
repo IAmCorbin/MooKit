@@ -1,7 +1,7 @@
 <?php 
-$DB = new DatabaseConnection;
+$DB = new DB_MySQLi;
 
-$users = $DB->get_rows("SELECT * FROM `users`","object");
+$users = $DB->get_rows("SELECT * FROM `users`");
 
 echo '<div style="text-align: center; width: 100%;">';
 foreach($users as $user)
