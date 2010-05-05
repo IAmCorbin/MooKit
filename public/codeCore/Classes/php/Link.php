@@ -13,54 +13,65 @@
  * @package MooKit
  */
 class Link {
-	/** @var DatabaseConnection $DB optional database object */
+	/** @var 	DB_MySQLi	$DB 		database object */
 	var $DB= NULL;
-	/** @var string $name		link name	*/
+	/** @var 	string 		$json_status	stores the status (success/failure) of user manipulation, to be sent back to javascript */
+	var $json_status = NULL;
+	/** @var 	string 		$name		link name	*/
 	var $name;
-	/** @var string $href		link location	*/
+	/** @var 	string 		$href		link location	*/
 	var $href;
-	/** @var string $desc		optional description */
+	/** @var 	string 		$desc		optional description */
 	var $desc;
-	/** @var int $weight		the link weight - used for display ordering */
+	/** @var 	int 			$weight		the link weight - used for display ordering */
 	var $weight;
-	/** @var string $ajax		ajax link class	*/
+	/** @var 	string 		$ajax		ajax link class	*/
 	var $ajaxLink;
-	/** @var bool $menuLink		is this a menu link? */
+	/** @var 	bool 		$menuLink	is this a menu link? */
 	var $menuLink;
-	/** @var int $access_level 	the access_level required to use the link */
+	/** @var 	int 			$access_level 	the access_level required to use the link */
 	var $access_level;
-	/** @var Array $sublinks		an array of Link objects */
+	/** @var 	array 		$sublinks		an array of Link objects */
 	var $sublinks;
-	/** @var string $status    		holds 1 or database errors */	
+	/** @var 	string 		$status    		holds 1 or database errors */	
 	var $status = "1";
-	var $ERROR = NULL;
 	
 	/**
 	  * Constructor
 	  *
-	  * @param string $name		link name
-	  * @param string $href		link location	
-	  * @param string $desc 		optional description
-	  * @param int $weight		the link weight - used for display ordering
-	  * @param string $ajax		ajax link class
-	  * @param bool $menuLink 	is this a menu link?
-	  * @param int $access_level 	the access_level required to use the link
-	  * @param Array $sublinks	optional array of sublinks
+	  * @param 	array	$userInput	array containing keys { name, href, desc, weight, ajaxLink, menuLink, access_level }
+	  * @param 	array 	$sublinks		optional array of sublinks
 	  */
-	public function __construct($name, $href, $desc=NULL, $weight=0, $ajaxLink=NULL, $menuLink=0, $access_level=0, $sublinks=NULL) {
+	public function __construct($userInput, $sublinks=NULL) {
+		//make sure $userInput is an array
+		if(!is_array($userInput)) {
+			$this->json_status = json_encode(array('status'=>'E_MISSING_DATA'));
+			return;
+		}
+		
+		//make sure these keys exist and are not blank
+		if(!array_keys_exist(array("name","href"),$userInput, FALSE,TRUE)) {
+			$this->json_status = json_encode(array('status'=>'E_MISSING_DATA'));
+			return;
+		}
+		//if required keys passed, set any other missing to empty strings
+		array_keys_exist(array("name","href","desc","weight","ajaxLink","menuLink","access_level"), $userInput, TRUE);
+		
 		//filter input and set object data
 		$inputFilter = new Filters();
-		$this-> name = $inputFilter->text($name);
-		$this->href = $inputFilter->text($href);
-		$this->desc = $inputFilter->text($desc,false,true); //allow blank field
-		$this->weight = $inputFilter->number($weight);
-		if($ajaxLink != '') $this->ajaxLink =  $inputFilter->number($ajaxLink);
-		if($menuLink != '') $this->menuLink = $inputFilter->number($menuLink);
-		$this->access_level = $inputFilter->number($access_level);
+		$this-> name = $inputFilter->text($userInput['name']);
+		$this->href = $inputFilter->text($userInput['href']);
+		$this->desc = $inputFilter->text($userInput['desc'],false,true); //allow blank field
+		if($userInput['weight'] != '') $this->weight = $inputFilter->number($userInput['weight']);
+			else $this->weight = 0;
+		if($userInput['ajaxLink'] != '') $this->ajaxLink =  $inputFilter->number($userInput['ajaxLink']);
+		if($userInput['menuLink'] != '') $this->menuLink = $inputFilter->number($userInput['menuLink']);
+		if($userInput['access_level'] != '') $this->access_level = $inputFilter->number($userInput['access_level']);
+			else $this->access_level = 0;
 		//check for errors and set status
 		if($inputFilter->ERRORS()) {
 			if(DEBUG) { echo $this->name; var_dump($inputFilter->errors); }
-			$this->status = $this->ERROR = "E_FILTER";
+			$this->json_status = json_encode(array('status'=>"E_FILTERS",'name'=>$this->name,'href'=>$this->href,'desc'=>$this->desc,'weight'=>$this->weight));
 		}
 		//set sublinks if passed
 		if($sublinks)
@@ -70,70 +81,61 @@ class Link {
 	}
 	/** 
 	  * Create a new SubLink and adds it to $this->sublinks
-	  * @param string $name		link name
-	  * @param string $href		link location	
-	  * @param string $desc		link description	
-	  * @param int $weight		the link weight - used for display ordering
-	  * @param string $ajaxLink	ajax link switch
-	  * @param bool $menuLink 	is this a menu link?
-	  * @param int $access_level 	the access_level required to use the link
+	  * @param 	array	$userInput	array containing keys { name, href, desc, weight, ajaxLink, menuLink, access_level }
+	  * @param	array	$sublinks		optional array of sublinks
 	  */
-	public function addSub($name, $href, $desc=NULL, $weight=0, $ajaxLink=NULL, $menuLink=0, $access_level=0, $sublinks=NULL) {
-		array_push($this->sublinks,new Link($name,$href,$desc,$weight,$ajaxLink,$menuLink,$access_level,$sublinks));
+	public function addSub($userInput, $sublinks=NULL) {
+		array_push($this->sublinks,new Link($userInput,$sublinks));
 	}
 	/**
 	  * Add this link to the database
 	  */
 	public function insert() {
-		//if there is an error, do not attempt insert
-		if($this->ERROR) return $this->ERROR;
 		//establish database connection
-		$this->DB = new DatabaseConnection;
-		//place query variables into array for escaping
-		$q = array('name'=>$this->name, 'href'=>$this->href, 'desc'=>$this->desc);
-		//escape
-		$q = $this->DB->escapeStrings($q);
+		$this->DB = new DB_MySQLi;
+		//set type of link
 		if($this->ajaxLink) $ajaxLink = 1; else $ajaxLink =0;
 		if($this->menuLink) $menuLink = 1; else $menuLink = 0;
-		//build query
-		$query = "INSERT INTO `links`(`name`,`href`,`desc`,`ajaxLink`,`menuLink`,`weight`,`access_level`) VALUES('".$q['name']."','".$q['href']."','".$q['desc']."','$ajaxLink','$menuLink','$this->weight','$this->access_level');";
-
 		//attempt insert
-		if(!$this->status = $this->DB->insert($query))
-			$this->status = $this->ERROR = "E_INSERT";
-		return $this->status;
+		if($this->DB->insert("INSERT INTO `links`(`name`,`href`,`desc`,`ajaxLink`,`menuLink`,`weight`,`access_level`) 
+						  VALUES(?,?,?,?,?,?,?);",
+						  'sssiiii',array($this->name,$this->href,$this->desc,$ajaxLink,$menuLink,$this->weight,$this->access_level))) {
+			$this->json_status = json_encode(array('status'=>'1','name'=>$this->name,'href'=>$this->href,'desc'=>$this->desc,'ajaxLink'=>$ajaxLink,'menuLink'=>$menuLink,'weight'=>$this->weight,'access_level'=>$this->access_level));
+			return true;
+		} else {
+			$this->json_status =  json_encode(array('status'=>'E_INSERT'));
+			return false;
+		}
 	}
 	/**
 	  * Updates a link in the database
-	  * @param int $link_id - the link to update
-	  * @returns int - number of rows affected
+	  * @param 	int 	$link_id 		the link to update
+	  * @returns 	int 	number of rows affected
 	  */
 	public function update($link_id) {
 		//check for valid id passed
 		if(preg_match('/[^0-9]/',$link_id))
-			$this->status = "E_ID";
-		//if there is an error, do not attempt update
-		if($this->ERROR) return $this->status;
+			$this->json_status = json_encode(array('status'=>"E_ID"));
 		//establish database connection
-		$this->DB = new DatabaseConnection;
-		//place query variables into array for escaping
-		$q = array('name'=>$this->name, 'href'=>$this->href, 'desc'=>$this->desc);
-		//escape
-		$q = $this->DB->escapeStrings($q);
+		$this->DB = new DB_MySQLi;
+		//set type of link
 		if($this->ajaxLink) $ajaxLink = 1; else $ajaxLink = 0;
 		if($this->menuLink) $menuLink = 1; else $menuLink = 0;
-		//build query
-		$query = "UPDATE `links` SET `name`='".$q['name']."', `href`='".$q['href']."', `desc`='".$q['desc']."', `ajaxLink`=$ajaxLink, `menuLink`=$menuLink, `weight`=".(int)$this->weight.", `access_level`=".(int)$this->access_level." WHERE `link_id`=".(int)$link_id.";";
 		//attempt update
-		if(!$this->status = $this->DB->update($query)) {
-			$this->status = $this->ERROR = "E_UPDATE";
+		if($this->DB->update("UPDATE `links` SET `name`=?, `href`=?, `desc`=?, `ajaxLink`=?, `menuLink`=?, `weight`=?, `access_level`=? 
+						   WHERE `link_id`=?;",
+						   'sssiiiii',array($this->name, $this->href, $this->desc, $ajaxLink, $menuLink, $this->weight, $this->access_level, $link_id))) {
+			$this->json_status = json_encode(array('status'=>'1','name'=>$this->name,'href'=>$this->href,'desc'=>$this->desc,'ajaxLink'=>$ajaxLink,'menuLink'=>$menuLink,'weight'=>$this->weight,'access_level'=>$this->access_level));
+			return true;
+		} else {
+			$this->json_status =  json_encode(array('status'=>'E_UPDATE'));
+			return false;
 		}
-		return $this->status;
 	}
 	/**
 	  * Removes a link from the database
-	  * @param int $link_id - the link to remove
-	  * @returns int - the number of rows affected
+	  * @param 	int 	$link_id - 	the link to remove
+	  * @returns 	int 	the number of rows affected
 	  */
 	public static function delete($link_id) {
 		//check for valid input and return error if not valid
@@ -161,12 +163,12 @@ class Link {
 	}
 	/** 
 	  * Grabs some of the links from the database with their associated sublinks
-	  * @param string $name - link name to search for
-	  * @param bool $menuLink - flag to grab only menu links
-	  * @param string $rType - the return type for the links
-	  * @param bool $notSubs - switch to turn off the sublink table join
-	  * @param bool $access_level - the maximum access level of the links
-	  * @returns object - all the found links
+	  * @param 	string 	$name 		link name to search for
+	  * @param 	bool 	$menuLink 	flag to grab only menu links
+	  * @param 	string 	$rType 		the return type for the links
+	  * @param 	bool 	$notSubs 		switch to turn off the sublink table join
+	  * @param 	bool 	$access_level 	the maximum access level of the links
+	  * @returns 	object 	all the found links
 	  */
 	public static function get($name='',$menuLink=FALSE,$rType="object",$notSubs=FALSE,$access_level=FALSE) {
 		$inputFilter = new Filters;
@@ -207,9 +209,9 @@ class Link {
 	}
 	/**
 	  * Adds a new sublink record in the sublinks table
-	  * @param int $link_id - the parent link
-	  * @param int $link_id - the child link
-	  * @return int - number of rows affected
+	  * @param 	int 	$link_id 		the parent link
+	  * @param 	int 	$link_id 		the child link
+	  * @return 	int 	number of rows affected
 	  */
 	public static function insertSub($link_id, $sublink_id) {
 		//check for valid input
@@ -224,9 +226,9 @@ class Link {
 	}
 	/**
 	  * deletes a sublink record from the sublinks table
-	  * @param int $link_id - the parent link
-	  * @param int $link_id - the child link
-	  * @return int - number of rows affected
+	  * @param	int	$link_id 		the parent link
+	  * @param	int	$link_id 		the child link
+	  * @return	int 	number of rows affected
 	  */
 	public static function deleteSub($link_id,$sublink_id) {
 		//check for valid input

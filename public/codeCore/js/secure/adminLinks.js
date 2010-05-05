@@ -139,18 +139,18 @@ window.addEvent('domready', function() {
 				e.stop();
 				this.set('send',{
 					onSuccess: function(response) {
-						response = handleResponse(response);
-						if(!response) return;
-						if(response.status == "1") {
+						json = handleResponse(response);
+						if(!json) return;
+						if(json.status == "1") {
 							//update table row
 							var updateRow = links.getParent().getElement('.EDITING')[0];
-							updateRow.getChildren('td[name="name"]').set('html',response.name);
-							updateRow.getChildren('td[name="href"]').set('html',response.href);
-							updateRow.getChildren('td[name="desc"]').set('html',response.desc);
-							updateRow.getChildren('td[name="weight"]').set('html',response.weight);
-							updateRow.getChildren('td[name="ajaxLink"]').set('html',response.ajaxLink);
-							updateRow.getChildren('td[name="menuLink"]').set('html',response.menuLink);
-							updateRow.getChildren('td[name="access_level"]').set('html',response.access_level);
+							updateRow.getChildren('td[name="name"]').set('html',json.name);
+							updateRow.getChildren('td[name="href"]').set('html',json.href);
+							updateRow.getChildren('td[name="desc"]').set('html',json.desc);
+							updateRow.getChildren('td[name="weight"]').set('html',json.weight);
+							updateRow.getChildren('td[name="ajaxLink"]').set('html',json.ajaxLink);
+							updateRow.getChildren('td[name="menuLink"]').set('html',json.menuLink);
+							updateRow.getChildren('td[name="access_level"]').set('html',json.access_level);
 							//close lightbox
 							editingLightbox.trigger();
 						}

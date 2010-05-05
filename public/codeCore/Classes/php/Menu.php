@@ -29,24 +29,19 @@ class Menu {
 	}
 	/** 
 	  * Create a new Link
-	  * @param string $name		name
-	  * @param string $href		location	
-	  * @param string $desc		description
-	  * @param int $weight		weight
-	  * @param bool $ajaxLink	ajax flag
-	  * @param bool $ajaxLink	menu flag
-	  * @param int $access_level	access level
-	  * @param Array $sublinks	optional array of sublinks
+	  * @param 	array	$userInput	array containing keys { name, href, desc, weight, ajaxLink, menuLink, access_level }
+	  * @param 	array 	$sublinks		optional array of sublinks
 	  */
-	public function add($name, $href, $desc=NULL, $weight=0,$ajaxLink=NULL, $menuLink=0, $access_level=0, $sublinks=NULL) {
-		array_push($this->links,new Link($name,$href,$desc,$weight,$ajaxLink,$menuLink,$access_level,$sublinks));
+	public function add($userInput, $sublinks=NULL) {
+		array_push($this->links,new Link($userInput,$sublinks));
 	}
 	/**
 	  * Add a new SubLink to the last created Link
-	  * @see $this->add
+	  * @param 	array	$userInput	array containing keys { name, href, desc, weight, ajaxLink, menuLink, access_level }
+	  * @param	array	$sublinks		optional array of sublinks
 	  */
-	public function addSub($name, $href, $desc=NULL, $weight=0,$ajaxLink=NULL, $menuLink=0, $access_level=0, $sublinks=NULL) {
-		$this->links[sizeof($this->links)-1]->addSub($name, $href, $desc, $weight, $ajaxLink, $menuLink, $access_level, $sublinks);
+	public function addSub($userInput, $sublinks=NULL) {
+		$this->links[sizeof($this->links)-1]->addSub($userInput, $sublinks);
 	}
 	/**
 	  * Sort all the links and sublinks by weight
@@ -125,15 +120,33 @@ class Menu {
 			//avoid double display of links
 			if($link->link_id != $lastLink_id) {
 				//add this link to the menu
-				$mainMenu->add($link->name,$link->href,$link->desc,$link->weight,$link->ajaxLink,$link->menuLink,$link->access_level);
+				$mainMenu->add(array('name'=>$link->name,
+								     'href'=>$link->href,
+								     'desc'=>$link->desc,
+								     'weight'=>$link->weight,
+								     'ajaxLink'=>$link->ajaxLink,
+								     'menuLink'=>$link->menuLink,
+								     'access_level'=>$link->access_level));
 				//add first sublink
 				if($link->sublink_id) {
 					//add first sublink
-					$mainMenu->addSub($link->sub_name,$link->sub_href,$link->sub_desc,$link->sub_weight,$link->sub_ajaxLink,$link->sub_menuLink,$link->sub_access_level);
+					$mainMenu->addSub(array('name'=>$link->sub_name,
+										   'href'=>$link->sub_href,
+										   'desc'=>$link->sub_desc,
+										   'weight'=>$link->sub_weight,
+										   'ajaxLink'=>$link->sub_ajaxLink,
+										   'menuLink'=>$link->sub_menuLink,
+										   'access_level'=>$link->sub_access_level));
 				}
 			} else {
 				//add subsequent sublink
-				$mainMenu->addSub($link->sub_name,$link->sub_href,$link->sub_desc,$link->sub_weight,$link->sub_ajaxLink,$link->sub_menuLink,$link->sub_access_level);
+				$mainMenu->addSub(array('name'=>$link->sub_name,
+										   'href'=>$link->sub_href,
+										   'desc'=>$link->sub_desc,
+										   'weight'=>$link->sub_weight,
+										   'ajaxLink'=>$link->sub_ajaxLink,
+										   'menuLink'=>$link->sub_menuLink,
+										   'access_level'=>$link->sub_access_level));
 			}
 			$lastLink_id = $link->link_id;
 		}
