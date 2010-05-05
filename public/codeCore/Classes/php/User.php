@@ -164,7 +164,7 @@ class User {
 		if($this->DB->insert("INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`,`ip_address`) 
 						 VALUES(?,?,?,?,?,?,INET_ATON(?));",
 						 'sssssss',array($alias,$nameFirst,$nameLast,$encPass,$email,$regTime,$ip_address))) {
-			$this->json_status = json_encode(array('status'=>'OK'));
+			$this->json_status = json_encode(array('status'=>'1'));
 			return true;
 		} else {
 			$this->json_status =  json_encode(array('status'=>'E_INSERT'));
@@ -196,7 +196,7 @@ class User {
 		$this->ip_address = $user->ip_address;
 		$this->access_level = $user->access_level;
 		//success
-		$this->json_status = json_encode(array('status'=>'OK'));
+		$this->json_status = json_encode(array('status'=>'1'));
 		return true;
 	}
 	/**

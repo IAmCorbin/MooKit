@@ -60,7 +60,7 @@ window.addEvent('domready', function() {
 							}
 							//check return status
 							switch(json.status) {
-								case "OK":
+								case "1":
 									debug("USER ADDED!");
 									$('signupPHPError').setStyle('display','none');
 									signup.trigger(); 

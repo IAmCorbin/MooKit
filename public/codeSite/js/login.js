@@ -61,7 +61,7 @@ window.addEvent('domready', function() {
 						}
 							
 						switch(json.status) {
-							case  "OK":
+							case  "1":
 								//clear PHPError
 								$('loginPHPError').setStyle('display','none');	
 								//update hash with location
