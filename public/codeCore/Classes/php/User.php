@@ -161,9 +161,9 @@ class User {
 		//generate encrypted password
 		$encPass = $this->encryptPassword($alias,$password,$regTime); 
 		//add new user to database
-		if($this->DB->insert(
-			"INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`,`ip_address`) 
-			VALUES('$alias','$nameFirst','$nameLast','$encPass','$email','$regTime',INET_ATON('$ip_address'));") == 1) {
+		if($this->DB->insert("INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`,`ip_address`) 
+						 VALUES(?,?,?,?,?,?,INET_ATON(?));",
+						 'sssssss',array($alias,$nameFirst,$nameLast,$encPass,$email,$regTime,$ip_address))) {
 			$this->json_status = json_encode(array('status'=>'OK'));
 			return true;
 		} else {

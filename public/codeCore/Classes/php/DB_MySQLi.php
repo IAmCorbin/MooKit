@@ -61,7 +61,6 @@ class DB_MySQLi {
 	 * @param 	string 	$query		a valid mysql query to prepare and excecute
 	 * @param 	string	$types		mysqli->bind_param($types)
 	 * @param	array	$vars		the variables to bind
-	 * @param	array	$results		results will be bound to this array
 	 * @param 	string 	$rType		{@see formatResults}
 	 * @return 	mixed	array of results or false
 	 */
@@ -98,24 +97,38 @@ class DB_MySQLi {
 	}
 	/**
 	  * Insert a new row in the Database
-	  * @param string $query 	The Insert sql
-	  * @returns int			the number rows affected
+	  * @param 	string 	$query 		The Insert sql
+	  * @param 	string	$types		mysqli->bind_param($types)
+	  * @param	array	$vars		the variables to bind
+	  * @returns 	int		the number rows affected
 	  */
-	public function insert($query) {
+	public function insert($query, $types=NULL, $vars=NULL) {
 		//check for valid connection
 		if(!@$this->mysqli->ping()) {
 			$this->trigger_DB_error('E_DB_CONN');
 			return false;
 		}
 		// execute query
-		if(!$results = @$this->mysqli->query($query)) {
-			//log error
-			$this->trigger_DB_error('E_DB_QUERY',$query);
+		//prepare query
+		if($this->prepare($query)) {
+			if($types && $vars) {
+				//bind variables, execute query, get affected rows and return
+				if($this->bind_param($types,$vars)) {
+					$affectedRows = $this->stmt->affected_rows;
+					$this->closeStmt();
+					return $affectedRows;
+				} else
+					return false;
+			} else { //skip variable binding, execute query, get affected rows and return
+				if($this->execute()) {
+					$affectedRows = $this->stmt->affected_rows;
+					$this->closeStmt();
+					return $affectedRows;
+				} else
+					return false;
+			}
+		} else
 			return false;
-		} else {
-			//query successful - return number of rows affected
-			return $this->mysqli->affected_rows;
-		}	
 	}
 	/**
 	  * Update Database Rows
