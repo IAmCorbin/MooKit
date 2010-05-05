@@ -3,5 +3,5 @@
 if(Security::clearance() & ACCESS_ADMIN) {
 	echo Link::delete($_POST['link_id']);
 } else
-	echo "Unauthorized";
+	echo json_encode(array('status'=>"E_NOAUTH"));
 ?>

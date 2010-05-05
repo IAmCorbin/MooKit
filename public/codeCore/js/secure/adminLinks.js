@@ -257,7 +257,6 @@ window.addEvent('domready', function() {
 								}
 							}
 						});
-						debug(json);
 						//add the results
 						json.each(function(row) {
 							var sublinkResult = new Element('li',{
@@ -320,13 +319,15 @@ window.addEvent('domready', function() {
 						back: '#F00',
 						onConfirm: function() {
 							//Delete The Sublink Table Entry
-							new Request.HTML({
+							new Request({
 								method: 'post',
 								url: 'codeCore/php/secure/adminDeleteSublink.php',
-								onSuccess: function(r1,r2,r3) {
-									if(r3 == '1')
-									//remove sublinks row
-									sublink.destroy();
+								onSuccess: function(response) {
+									json = handleResponse(response);
+									if(!json) return;
+									if(json.status == 1)
+										//remove sublinks row
+										sublink.destroy();
 								}
 									
 							}).send('link_id='+link_id+"&sublink_id="+sublink_id);

@@ -70,8 +70,8 @@ class Link {
 			else $this->access_level = 0;
 		//check for errors and set status
 		if($inputFilter->ERRORS()) {
-			if(DEBUG) { echo $this->name; var_dump($inputFilter->errors); }
 			$this->json_status = json_encode(array('status'=>"E_FILTERS",'name'=>$this->name,'href'=>$this->href,'desc'=>$this->desc,'weight'=>$this->weight));
+			return;
 		}
 		//set sublinks if passed
 		if($sublinks)
@@ -141,7 +141,7 @@ class Link {
 		//check for valid input and return error if not valid
 		$inputFilter = new Filters;
 		$inputFilter->number($link_id);
-		if($inputFilter->ERRORS()) return "E_FILTER";
+		if($inputFilter->ERRORS()) return json_encode(array('status'=>"E_FILTER"));
 		//establish database connection
 		$DB = new DB_MySQLi;
 			//turn off mysqli autocommit to process as a transaction
@@ -159,7 +159,7 @@ class Link {
 				$DB->mysqli->commit();
 		//close the database connection
 		$DB->close();
-		return $DB->STATUS;
+		return json_encode(array('status'=>$DB->STATUS));
 	}
 	/** 
 	  * Grabs some of the links from the database with their associated sublinks
@@ -220,8 +220,9 @@ class Link {
 		if($inputFilter->ERRORS()) return "E_FILTER";
 		
 		$DB = new DB_MySQLi;
-		return $DB->insert("INSERT INTO `sublinks`(`link_id`,`sublink_id`) VALUES(?,?);",
-						'ii',array($link_id,$sublink_id));
+		$DB->insert("INSERT INTO `sublinks`(`link_id`,`sublink_id`) VALUES(?,?);",
+				     'ii',array($link_id,$sublink_id));
+		return json_encode(array('status'=>$DB->STATUS));
 	}
 	/**
 	  * deletes a sublink record from the sublinks table
@@ -237,8 +238,9 @@ class Link {
 		if($inputFilter->ERRORS()) return "E_FILTER";
 		
 		$DB = new DB_MySQLi;
-		return $DB->delete("DELETE FROM `sublinks` WHERE `link_id`=? AND `sublink_id`=?;",
-						'ii',array($link_id,$sublink_id));
+		$DB->delete("DELETE FROM `sublinks` WHERE `link_id`=? AND `sublink_id`=?;",
+		  		      'ii',array($link_id,$sublink_id));
+		return json_encode(array('status'=>$DB->STATUS));
 	}
 }
 ?>
