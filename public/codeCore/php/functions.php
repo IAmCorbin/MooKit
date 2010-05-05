@@ -115,6 +115,7 @@ set_error_handler("ErrorHandler");
 			foreach($users as $user) {
 				$access_level = getHumanAccess($user->access_level);
 				$return .= "<tr>".
+						"<td>$user->user_id</td>".
 						"<td>$user->alias</td>".
 						"<td>$user->nameFirst</td>".
 						"<td>$user->nameLast</td>".

@@ -63,6 +63,9 @@ function checkJSONerrors(status, errorBox) {
 		case "E_INSERT":
 			$(errorBox).set('html',"Error adding user, please try again later. If problem persists contact the administrator");
 			break;
+		case "E_ID":
+			$(errorBox).set('html',"Invalid input, please try again or contact the administrator if this problem persists");
+			break;
 		case "E_NOAUTH":
 			$(errorBox).set('html',"Unauthorized");
 	}

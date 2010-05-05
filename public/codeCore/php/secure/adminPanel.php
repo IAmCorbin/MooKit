@@ -13,6 +13,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 			<ul id="users_pagination" class="pagination"></ul>
 			<table id="users">
 				<thead>
+					<th>ID<span class="sortArrow"></span></th>
 					<th>Alias<span class="sortArrow"></span></th>
 					<th>First Name<span class="sortArrow"></span></th>
 					<th>Last Name<span class="sortArrow"></span></th>

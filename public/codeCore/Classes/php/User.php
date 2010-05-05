@@ -14,27 +14,27 @@
   * @package MooKit
   */
 class User {
-	/** @var DatabaseConnection $DB	database object */
+	/** @var 		DB_MySQLi 	$DB			database object */
 	var $DB = NULL;
-	/** @var 		string 	$json_status	stores the status (success/failure) of user manipulation, to be sent back to javascript */
+	/** @var 		string 		$json_status	stores the status (success/failure) of user manipulation, to be sent back to javascript */
 	var $json_status = NULL;
-	/** @var 		int 		$user_id		users's id */
+	/** @var 			int 		$user_id		users's id */
 	var $user_id = NULL;
-	/** @var 		string 	$nameFirst	user's first name */
+	/** @var 			string 	$nameFirst	user's first name */
 	var $nameFirst = NULL;
-	/** @var 		string 	$namelast	user's last name */
+	/** @var 			string 	$namelast	user's last name */
 	var $nameLast = NULL;
-	/** @var 		string 	$alias		user's username */
+	/** @var 			string 	$alias		user's username */
 	var $alias = NULL;
-	/** @var 		string 	$email		user's email */
+	/** @var 			string 	$email		user's email */
 	var $email = NULL;
-	/** @var 		string 	$registered	date and time user registered */
+	/** @var 			string 	$registered	date and time user registered */
 	var $registered = NULL;
-	/** @var 		string 	$lastLogin	date and time user last logged in */
+	/** @var 			string 	$lastLogin	date and time user last logged in */
 	var $lastLogin = NULL;
-	/** @var 		string 	$ip_address	user's ip address */
+	/** @var 			string 	$ip_address	user's ip address */
 	var $ip_address = NULL;
-	/** @var 		string 	$access_level	user's permissions */
+	/** @var 			string 	$access_level	user's permissions */
 	var $access_level = NULL;
 	
 	/** 
@@ -200,25 +200,6 @@ class User {
 		return true;
 	}
 	/**
-	  * SELECT users from the database WHERE LIKE $alias
-	  * @param 	string	$alias	The aliases to search for used LIKE '%$alias%'
-	  * @param 	string 	$rType 	the return type for the users
-	  * @returns 	mixed	the requested database return type
-	  */
-	public static function get($alias, $rType="object") {
-		$DB = new DB_MySQLi;
-		if(isset($alias)) {
-			$inputFilter = new Filters;
-			$alias = $inputFilter->text($alias,true);
-			$results = $DB->get_rows("SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE CONCAT('%',?,'%') LIMIT 20;",
-						's',array($alias));
-						
-		} else {
-			$results = $DB->get_rows("SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 20;");
-		}
-		return $results;
-	}
-	/**
 	  * Update user's lastLogin datetime
 	  * @return bool
 	  */
@@ -229,6 +210,124 @@ class User {
 			return true;
 		else
 			return false;
+	}
+	/**
+	   * SELECT users from the database WHERE LIKE $alias
+	   * @param 	string	$alias	The aliases to search for used LIKE '%$alias%'
+	   * @param 	string 	$rType 	the return type for the users
+	   * @returns 	mixed	the requested database return type
+	   */
+	public static function get($alias, $rType="object") {
+		$DB = new DB_MySQLi;
+		if(isset($alias)) {
+			$inputFilter = new Filters;
+			$alias = $inputFilter->text($alias,true);
+			$results = $DB->get_rows("SELECT `user_id`, `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE CONCAT('%',?,'%') LIMIT 20;",
+						's',array($alias));
+						
+		} else {
+			$results = $DB->get_rows("SELECT `user_id`, `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 20;");
+		}
+		return $results;
+	}
+	/**
+	  * Delete a user from the Database
+	  * @param 	int	$user_id		The user to delete
+	  * @return 	status
+	  */
+	public static function delete($user_id) {
+		//check for valid input and return error if not valid
+		$inputFilter = new Filters;
+		$user_id = $inputFilter->number($user_id);
+		if($inputFilter->ERRORS()) return json_encode(array('status'=>"E_FILTER"));
+		//establish database connection
+		$DB = new DB_MySQLi;
+		//delete user
+		$DB->delete("DELETE FROM `users` WHERE `user_id`=?;",
+				      'i',array($user_id));
+		//close the database connection
+		$DB->close();
+		return json_encode(array('status'=>$DB->STATUS));
+	}
+	/**
+	  * Increase the access level of a user
+	  * @param	int	$user_id		The user to increase access for
+	  * @return 	json_status with updated access level and title
+	  */
+	public static function accessInc($user_id) {			
+		$status = "1";
+		$inputFilter = new Filters;
+		$user_id = $inputFilter->number($user_id);
+		if($inputFilter->ERRORS()) return json_encode(array('status'=>"E_FILTERS"));
+		//connect to Database
+		$DB = new DB_MySQLi;
+		//get current access_level
+		if(!$user = $DB->get_row("SELECT `access_level` FROM `users` WHERE `user_id`=?;",
+						     'i',array($user_id)))
+			return json_encode(array('status'=>"E_ID"));
+		$access_level = $user->access_level;
+		//set new access level if below ADMIN ACCESS
+		if($access_level & ACCESS_ADMIN) {
+			//already an admin, can't reaise access any higher
+			return json_encode(array('status'=>'0'));
+		} else {
+			if($access_level & ACCESS_CREATE) {
+				//if user was a Creator, set to Admin
+				$newAccess = $access_level | ACCESS_ADMIN;
+				
+			} else {
+				if($access_level & ACCESS_BASIC) {
+					//if user was Basic, set to Creator
+					$newAccess = $access_level | ACCESS_CREATE;
+				} else {
+					if($access_level == ACCESS_NONE)
+						//if user was unauthorized, set to BASIC ACCESS
+						$newAccess = $access_level | ACCESS_BASIC;
+				}
+			}
+			//update user's access level
+			$DB->update("UPDATE `users` SET `access_level`=? WHERE `user_id`=?;",
+					       'ii',array($newAccess,$user_id));
+		}
+		return json_encode(array('status'=>$status,'access'=>$newAccess,'title'=>getHumanAccess($newAccess)));
+	}
+	/**
+	  * Decrease the access level of a user
+	  * @param	int	$user_id		The user to increase access for
+	  * @return 	json_status with updated access level and title
+	  */
+	public static function accessDec($user_id) {			
+		$status = "1";
+		$inputFilter = new Filters;
+		$user_id = $inputFilter->number($user_id);
+		if($inputFilter->ERRORS()) return json_encode(array('status'=>"E_FILTERS"));
+		//connect to Database
+		$DB = new DB_MySQLi;
+		//get current access_level
+		if(!$user = $DB->get_row("SELECT `access_level` FROM `users` WHERE `user_id`=?;",
+							  'i',array($user_id)))
+			return json_encode(array('status'=>"E_ID"));
+		$access_level = $user->access_level;
+		
+		//set new access level if current is above 0
+		if($access_level == ACCESS_NONE) {
+			return json_encode(array('status'=>'0'));
+		} else {
+			if($access_level & ACCESS_ADMIN) {
+				$newAccess = $access_level ^= ACCESS_ADMIN;
+			} else {
+				if($access_level & ACCESS_CREATE) {
+					$newAccess = $access_level ^= ACCESS_CREATE;
+				} else {
+					if($access_level == ACCESS_BASIC)
+						$newAccess = $access_level ^= ACCESS_BASIC;
+				}
+			}	
+			//update user's access level
+			$status = $DB->update("UPDATE `users` SET `access_level`=? WHERE `user_id`=?;",
+							       'ii',array($newAccess,$user_id));		
+		}
+		echo json_encode(array('status'=>$status,'access'=>$newAccess,'title'=>getHumanAccess($newAccess)));
 	}
 	/**
 	 * Encrypt a password
