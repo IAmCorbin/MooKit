@@ -15,12 +15,17 @@ window.addEvent('domready', function() {
 			onSuccess: function(response) {
 				//grab the user's table body
 				var usersTableBody = $('users').getElement('tbody');
-				//remove all the user rows from the table
-				usersTableBody.getElements('tr').destroy();
-				//add found users to table
-				usersTableBody.set('html',response);
-				//reload javascript
-				addAssets([""],["codeCore/js/secure/adminUsers.js"]);
+				//handle response from php
+				var json = handleResponse(response);
+				if(!json) return;
+				if(json.status == 1) {
+					//remove all the user rows from the table
+					usersTableBody.getElements('tr').destroy();
+					//add found users to table
+					usersTableBody.set('html',json.html);
+					//reload javascript
+					addAssets([""],["codeCore/js/secure/adminUsers.js"]);
+				}
 				input.removeClass('loadingW');
 			}
 		}).send();

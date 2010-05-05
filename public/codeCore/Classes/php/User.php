@@ -44,7 +44,7 @@ class User {
 	  *@param function $newUserCallback - function that will be called if a new user is successfully added
 	  */
 	function __construct($userInput, $newUser = TRUE, $newUserCallback = NULL) {
-		//make sure $filteredInput is an array
+		//make sure $userInput is an array
 		if(!is_array($userInput)) {
 			$this->json_status = json_encode(array('status'=>'E_MISSING_DATA'));
 			return;
@@ -182,7 +182,7 @@ class User {
 							      FROM `users` WHERE `alias`=? AND `password`=?;",
 							      'ss',array($alias,$encPass));
 		if(!is_object($user)) {
-			$this->json_status =  json_encode(array('status'=>'E_NO_ACCESS'));
+			$this->json_status =  json_encode(array('status'=>'E_NOAUTH'));
 			return false;
 		}
 	
