@@ -44,12 +44,14 @@ window.addEvent('domready', function() {
 				input.addClass('loadingW');
 			}.bind(this),
 			onSuccess: function(response) {
+				var json = handleResponse(response);
+				if(!json) return;
 				//grab the links's table body
 				var linksTableBody = $('links').getElement('tbody');
 				//remove all the link rows from the table
 				linksTableBody.getElements('tr').destroy();
 				//add found links to table
-				linksTableBody.set('html',response);
+				linksTableBody.set('html',json.html);
 				//reload javascript
 				addAssets([""],["codeCore/js/secure/adminLinks.js"]);
 				input.removeClass('loadingW');

@@ -80,7 +80,7 @@ class DB_MySQLi {
 				return false;
 			
 			//bind results
-			if(!$this->bind_results($results,$rType))
+			if(!$this->bind_results($results))
 				return false;
 			
 			//format and return
@@ -92,7 +92,7 @@ class DB_MySQLi {
 				return false;
 			
 			//bind results
-			if(!$this->bind_results($results,$rType))
+			if(!$this->bind_results($results))
 				return false;
 			
 			//format and return
@@ -151,7 +151,7 @@ class DB_MySQLi {
 	  * @param	array	$vars		the variables to bind
 	  * @returns 	int		the number rows affected
 	  */
-	public function delete($query, $types, $vars) {
+	public function delete($query, $types=NULL, $vars=NULL) {
 		//call the insert function as it does the same thing, tests for a valid connection, executes query, and returned the number of rows affected
 		return $this->insert($query, $types, $vars);
 	}
@@ -247,6 +247,13 @@ class DB_MySQLi {
 	public function closeStmt() {
 		return $this->stmt->close();
 	}
+	/** 
+	  * Close the current mysqli connection 
+	  * @returns bool
+	  */
+	public function close() {
+		return $this->mysqli->close();
+	}
 	/**
 	  * Change query results to desired format
 	  * @param 	array  	$results		The mysqli result object you want to format
@@ -261,7 +268,7 @@ class DB_MySQLi {
 				}
 				break;
 			case "json":
-				json_encode($results);
+				$results = json_encode($results);
 				break;
 		} //END SWITCH
 	}

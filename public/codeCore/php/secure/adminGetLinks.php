@@ -6,7 +6,15 @@ if(Security::clearance() & ACCESS_ADMIN) {
 		$notSubs = false;
 	else
 		$notSubs = true;
-	echo adminGetLinks($_POST['rType'],$_POST['name'],false,$notSubs);
+	switch($_POST['rType']) {
+		case 'json':
+			echo adminGetLinks("json",$_POST['name'],false,$notSubs);
+			break;
+		case 'rows':
+			echo json_encode(array('status'=>'1','html'=>adminGetLinks("rows",$_POST['name'],false,$notSubs)));
+			break;
+	}
+	
 } else
-	echo "Unauthorized";
+	echo json_encode(array('status'=>"E_NOAUTH"));
 ?>

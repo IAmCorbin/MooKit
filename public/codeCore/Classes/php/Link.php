@@ -143,22 +143,22 @@ class Link {
 		$inputFilter->number($link_id);
 		if($inputFilter->ERRORS()) return "E_FILTER";
 		//establish database connection
-		$DB = new DatabaseConnection;
+		$DB = new DB_MySQLi;
 			//turn off mysqli autocommit to process as a transaction
 			$DB->mysqli->autocommit(FALSE);
 			//remove all sublinks
-			$query = "DELETE FROM `sublinks` WHERE `link_id`='$link_id';";
-			$DB->delete($query);
+			$DB->delete("DELETE FROM `sublinks` WHERE `link_id`=?;",
+					      'i',array($link_id));
 			//remove link
-			$query = "DELETE FROM `links` WHERE `link_id`='$link_id';";
-			$DB->delete($query);
+			$DB->delete("DELETE FROM `links` WHERE `link_id`=?;",
+					      'i',array($link_id));
 			//rollback or commit
 			if($DB->STATUS !== "1") {
 				$DB->mysqli->rollback();
 			} else if($DB->STATUS === "1")
 				$DB->mysqli->commit();
 		//close the database connection
-		$DB->mysqli->close();
+		$DB->close();
 		return $DB->STATUS;
 	}
 	/** 
@@ -167,24 +167,22 @@ class Link {
 	  * @param 	bool 	$menuLink 	flag to grab only menu links
 	  * @param 	string 	$rType 		the return type for the links
 	  * @param 	bool 	$notSubs 		switch to turn off the sublink table join
-	  * @param 	bool 	$access_level 	the maximum access level of the links
+	  * @param 	bool 	$access_level 	the maximum access level of the links to grab
 	  * @returns 	object 	all the found links
 	  */
 	public static function get($name='',$menuLink=FALSE,$rType="object",$notSubs=FALSE,$access_level=FALSE) {
 		$inputFilter = new Filters;
 		//connect to Database
-		$DB = new DatabaseConnection;
-		//filter and escape $name
-			$name = $inputFilter->text($name,FALSE,TRUE);
-			if($inputFilter->ERRORS()) { $name=''; }
-			$name = $DB->escapeString($name);
-		if($menuLink) 
-			$WHERE = " WHERE `links`.`menuLink`=1 AND `links`.`name` LIKE '%$name%' ";
+		$DB = new DB_MySQLi;
+		//filter $name
+		$name = $inputFilter->text($name,FALSE,TRUE);
+		if($inputFilter->ERRORS()) { $name=''; }
+		if(!$access_level) $access_level = "0";
+		if($menuLink)
+			$WHERE = " WHERE `links`.`menuLink`=1 AND `links`.`name` LIKE CONCAT('%',?,'%') ";
 		else
-			$WHERE = " WHERE `links`.`name` LIKE '%$name%' ";
-		if(!$access_level)
-			$access_level = "0";
-		$WHERE .= " AND `links`.`access_level` <= '".$access_level."' ";
+			$WHERE = " WHERE `links`.`name` LIKE CONCAT('%',?,'%') ";		
+		$WHERE .= " AND `links`.`access_level` <= ? ";
 		//select links with thier associated sublinks
 		if(!$notSubs) {
 			$JOIN = "LEFT JOIN `sublinks` ON `links`.`link_id`=`sublinks`.`link_id` ".
@@ -205,7 +203,8 @@ class Link {
 		//compile query
 		$query = "SELECT `links`.* ".$sublinkID.$subDetails."FROM `links` ".$JOIN.$WHERE.";";
 		//run query and return the result
-		return $DB->get_rows($query,$rType);
+		return $DB->get_rows($query,
+						    'si',array($name,$access_level),$rType);
 	}
 	/**
 	  * Adds a new sublink record in the sublinks table
@@ -220,9 +219,9 @@ class Link {
 		$sublink_id = $inputFilter->number($sublink_id);
 		if($inputFilter->ERRORS()) return "E_FILTER";
 		
-		$query = "INSERT INTO `sublinks`(`link_id`,`sublink_id`) VALUES($link_id,$sublink_id);";
-		$DB = new DatabaseConnection;
-		return $DB->insert($query);
+		$DB = new DB_MySQLi;
+		return $DB->insert("INSERT INTO `sublinks`(`link_id`,`sublink_id`) VALUES(?,?);",
+						'ii',array($link_id,$sublink_id));
 	}
 	/**
 	  * deletes a sublink record from the sublinks table
@@ -237,9 +236,9 @@ class Link {
 		$sublink_id = $inputFilter->number($sublink_id);
 		if($inputFilter->ERRORS()) return "E_FILTER";
 		
-		$query = "DELETE FROM `sublinks` WHERE `link_id`='$link_id' AND `sublink_id`='$sublink_id';";
-		$DB = new DatabaseConnection;
-		return $DB->delete($query);
+		$DB = new DB_MySQLi;
+		return $DB->delete("DELETE FROM `sublinks` WHERE `link_id`=? AND `sublink_id`=?;",
+						'ii',array($link_id,$sublink_id));
 	}
 }
 ?>

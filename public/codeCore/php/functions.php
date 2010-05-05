@@ -135,11 +135,11 @@ set_error_handler("ErrorHandler");
 	  * @param bool $menuLink - flag to grab only menu links
 	  * @param bool $notSubs - switch to turn off the sublink table join
 	  */
-	function adminGetLinks($rType="object", $name=NULL, $menuLink=FALSE, $notSubs=FALSE) {
-		//grab links and sublinks from the database
-		$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
+	function adminGetLinks($rType="object", $name='', $menuLink=FALSE, $notSubs=FALSE) {
 		//build rows if requested
 		if($rType === "rows") {
+			//grab links and sublinks from the database
+			$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
 			$lastLink_id = null;
 			$return = '';
 			if(is_array($links))
@@ -187,7 +187,8 @@ set_error_handler("ErrorHandler");
 				}
 			return $return;
 		} else
-			return $links;
+			//grab links and sublinks from the database
+			return Link::get($name,$menuLink,$rType,$notSubs,ACCESS_ADMIN);
 	}
 	/**
 	  * Search and return found posts from the database

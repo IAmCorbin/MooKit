@@ -109,9 +109,8 @@ class Menu {
 	  * @param string $ajax -  the CSS class for ajax sublinks
 	  */
 	public static function buildMain() {
-		//grab links
-		$access_level = Security::clearance();
-		$menuLinks = Link::get('',TRUE,"object",false,$access_level);
+		//grab links for current security clearance
+		$menuLinks = Link::get('',TRUE,"object",false,Security::clearance());
 		//create Menu object
 		$mainMenu = new Menu;
 		//store last link id to determine if this is a sublink row
@@ -127,7 +126,7 @@ class Menu {
 								     'ajaxLink'=>$link->ajaxLink,
 								     'menuLink'=>$link->menuLink,
 								     'access_level'=>$link->access_level));
-				//add first sublink
+				//add first sublink - need this because the first sublink is stored on the row of the link itself
 				if($link->sublink_id) {
 					//add first sublink
 					$mainMenu->addSub(array('name'=>$link->sub_name,

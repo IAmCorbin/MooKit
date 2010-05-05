@@ -23,8 +23,8 @@ window.addEvent('domready', function() {
 						url: 'codeCore/php/secure/adminDeleteLink.php',
 						method: 'post',
 						onSuccess: function(response) {
-							response = handleResponse(response);
-							if(!response) return;
+							json = handleResponse(response);
+							if(!json) return;
 							link_id.getParent().destroy();
 						}
 					}).send('link_id='+link_id.get('html'));
@@ -183,9 +183,9 @@ window.addEvent('domready', function() {
 						e.target.addClass('loadingW');
 					},
 					onSuccess: function(response) {
-						response = handleResponse(response);
+						json = handleResponse(response);
 						//if no results were found, clear the box and return
-						if(!response || response == 1) {
+						if(!json) {
 							e.target.set('value','No Results'); 
 							e.target.removeClass('loadingW');
 							return;
@@ -204,7 +204,7 @@ window.addEvent('domready', function() {
 								overflow: 'auto'
 							},
 							events: {
-								//handle adding
+								//handle adding, this will be caught from the bubbling event 'click' from the li we add
 								click: function(e) {
 									if(e.target.className=="sublinkAdd" || e.target.getParent().className=="sublinkAdd") {
 										//grab the data from the DOM
@@ -227,8 +227,8 @@ window.addEvent('domready', function() {
 											method: 'post',
 											url: 'codeCore/php/secure/adminAddSublink.php',
 											onSuccess: function(response) {
-												response = handleResponse(response);
-												if(response) {
+												json = handleResponse(response);
+												if(json) {
 													//add sublink row
 													newSublinkRow = new Element('tr',{ class: "sublinkRow" });
 													sublinkID = new Element('td', { 
@@ -257,8 +257,9 @@ window.addEvent('domready', function() {
 								}
 							}
 						});
+						debug(json);
 						//add the results
-						response.each(function(row) {
+						json.each(function(row) {
 							var sublinkResult = new Element('li',{
 								class: 'sublinkAdd',
 								html: "<a>"+row.name+"</a> - <a>"+row.href+"</a> <a>("+row.desc+")</a>"
