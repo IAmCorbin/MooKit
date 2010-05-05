@@ -14,21 +14,21 @@
  * @package MooKit
  */
  class Post {
-	/** @var DatabaseConnection $DB database object */
+	/** @var 	DB_MySQLi 	$DB 		database object */
 	var $DB;
-	/** @var int $post_id - the post id */
+	/** @var 	int 			$post_id 	 	the post id */
 	var $post_id;
-	/** @var int $creator_id - post creator's id */
+	/** @var 	int 			$creator_id  	post creator's id */
 	var $creator_id;
-	/** @var string $title - title of this post */
+	/** @var 	string 		$title 	 	title of this post */
 	var $title;
-	/** @var string $html - html for this post */
+	/** @var 	string 		$html 	 	html for this post */
 	var $html;
-	/** @var date $dateTime - date and time post was created */
+	/** @var 	date 		$dateTime 	date and time post was created */
 	var $createTime;
-	/** @var date $dateTime - date and time post was last modified */
+	/** @var 	date 		$dateTime 	date and time post was last modified */
 	var $modTime;
-	/** @var string $error status */
+	/** @var 	string 		$error 		status */
 	var $error = NULL;	
 	/** Constructor 
 	  * @param int $post_id - only pass this if retrieving an existing post
@@ -97,7 +97,7 @@
 		$title = $inputFilter->alphnum_($title,FALSE,TRUE);
 		if($inputFilter->ERRORS()) { return "E_FILTER"; }
 		//connect to Database
-		$DB = new DatabaseConnection;
+		$DB = new DB_MySQLi;
 		//escape variables for query
 		$q = $DB->escapeStrings(array('user_id'=>$user_id,'title'=>$title));
 		//grab all the user's posts
