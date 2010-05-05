@@ -50,7 +50,7 @@ class User {
 			return;
 		}
 		//establish database connection
-		$this->DB = new DatabaseConnection;
+		$this->DB = new DB_MySQLi;
 		
 		if($newUser) {		
 			//check for valid passed data
@@ -146,8 +146,8 @@ class User {
 	 */
 	public function addNew($alias,$password,$nameFirst,$nameLast,$email) {
 		//check database for duplicate username
-		$query = "SELECT `alias` FROM `users` WHERE `alias`='$alias' OR `email`='$email' LIMIT 1;";
-		$user = $this->DB->get_row($query);
+		$user = $this->DB->get_row("SELECT `alias` FROM `users` WHERE `alias`=? OR `email`=? LIMIT 1;",
+						    'ss', array($alias,$email));
 		if(is_object($user) && isset($user->alias)) {
 			$this->json_status =  json_encode(array('status'=>'E_DUPLICATE','alias'=>$alias,'nameFirst'=>$nameFirst,'nameLast'=>$nameLast,'email'=>$email));
 			return false;
@@ -199,23 +199,22 @@ class User {
 		return true;
 	}
 	/**
-	  * SELECT user's from the database WHERE LIKE $alias
+	  * SELECT users from the database WHERE LIKE $alias
 	  * @param 	string	$alias	The aliases to search for used LIKE '%$alias%'
 	  * @param 	string 	$rType 	the return type for the users
 	  * @returns 	mixed	the requested database return type
 	  */
 	public static function get($alias, $rType="object") {
-		$DB = new DatabaseConnection;
-		
+		$DB = new DB_MySQLi;
 		if(isset($alias)) {
 			$inputFilter = new Filters;
 			$alias = $inputFilter->text($alias,true);
-			$DB->prepare("SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE CONCAT('%',?,'%') LIMIT 20;");
-			$DB->bind_param('s',array($alias));
-			$DB->bind_results($results);
+			$results = $DB->get_rows("SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE CONCAT('%',?,'%') LIMIT 20;",
+						's',array($alias));
+						
 		} else {
-			$DB->prepare("SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 20;",TRUE); //and excecute it
-			$DB->bind_results($results);
+			$results = $DB->get_rows("SELECT `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 20;",
+						NULL,NULL);
 		}
 		return $results;
 	}
