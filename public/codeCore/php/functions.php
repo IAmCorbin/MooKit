@@ -210,7 +210,7 @@ set_error_handler("ErrorHandler");
 								"<td name=\"creator_id\">$post->creator_id</td>".
 								"<td name=\"createTime\">$post->createTime</td>".
 								"<td name=\"modTime\">$post->modTime</td>".
-								'<td class="adminDeletePost">X</td>'.
+								'<td class="createDeletePost">X</td>'.
 							"</tr>";
 				}
 			return $return;

@@ -55,4 +55,34 @@ window.addEvent('domready', function() {
 			}.bind(this)
 		}).send();
 	});
+	
+	//Edit Post
+	
+	
+	//Delete Post
+	$$('td.createDeletePost').addEvent('click',function() {
+		post = this.getParent();	
+		postID = post.getFirst();
+		postTitle = postID.getNext().get('html');
+		postID = postID.get('html');
+		
+		new ConfirmBox({
+			boxCurved: 'curved',
+			back: '#F00',
+			boxMSG: 'Delete Post '+postID+":"+postTitle+'?',
+			onConfirm: function() {
+				//Send Request to Delete User Script
+				new Request({
+					url: 'codeCore/php/secure/createDeletePost.php',
+					onSuccess: function(response) {
+						json = handleResponse(response);
+						if(!json) return;
+						if(json.status == 1)
+							//remove user row from display
+							post.destroy();
+					}					
+				}).send('post_id='+postID);
+			}
+		});
+	});
 });

@@ -142,8 +142,33 @@
 	  * Remove a post from the database
 	  */
 	public static function delete($post_id) {
-		return $this->DB->delete("DELETE FROM `posts` WHERE `post_id`=?;",
-							'i',array($post_id));
+		//Filter id 
+		$inputFilter = new Filters;
+		$post_id = $inputFilter->number($post_id);
+		if($inputFilter->ERRORS()) {
+			return json_encode(array('status'=>"E_FILTERS"));
+		}
+		//connect to database
+		$DB = new DB_MySQLi;
+			//turn off mysqli autocommit to process as a transaction
+			$DB->mysqli->autocommit(FALSE);
+			//remove all sublinks
+			$DB->delete("DELETE FROM `postUserPermissions` WHERE `post_id`=?;",
+					      'i',array($post_id));
+			//remove link
+			$DB->delete("DELETE FROM `postGroupPermissions` WHERE `post_id`=?;",
+					      'i',array($post_id));
+			//delete post
+			$DB->delete("DELETE FROM `posts` WHERE `post_id`=?;",
+						       'i',array($post_id));
+			//rollback or commit
+			if($DB->STATUS !== "1") {
+				$DB->mysqli->rollback();
+			} else if($DB->STATUS === "1")
+				$DB->mysqli->commit();
+		//close the database connection
+		$DB->close();
+		return json_encode(array('status'=>$DB->STATUS));
 	}
 	/**
 	  * Change post user and group permissions
