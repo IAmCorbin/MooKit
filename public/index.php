@@ -57,9 +57,10 @@ switch($_GET['request']) {
 
 		//Content Area
 		$contentTpl = new Template('templates/content.tpl.php');
-		$DB = new DatabaseConnection;
 		
+
 		//Show Posts
+		$DB = new DB_MySQLi;
 		$contentTpl->postTpl = new Template('templates/post.tpl.php');
 		//display most recent post
 		$post = $DB->get_rows("SELECT `title`,`html` FROM `posts` ORDER BY `createTime` DESC LIMIT 3;");
