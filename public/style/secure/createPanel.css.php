@@ -1,3 +1,3 @@
 <?php header("Content-type: text/css");  ?>
 
-.testCreate { width: 500px; height: 500px; background: #0A0; }
+.createTitle { font-family: Monospace; font-weight: bold; font-size: 30px; border-bottom: 4px groove #AAA; margin-bottom: 5px; }

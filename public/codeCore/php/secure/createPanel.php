@@ -8,7 +8,7 @@ if(Security::clearance() & ACCESS_CREATE) {
 
 <div id="createPanel">
 	<div id="createPanelPosts">
-		<div class="adminTitle">Post Management</div>
+		<div class="createTitle">Post Management</div>
 		<br />
 		<form class="singleton" id="createGetPosts" method="post" action="codeCore/php/secure/createGetPosts.php">
 			<input type="text" name="title" size="20" value="<? if(isset($_POST['title'])) echo $_POST['title']; ?>" />
@@ -34,18 +34,17 @@ if(Security::clearance() & ACCESS_CREATE) {
 	</div>
 	<div class="floatL">
 		<form id="createAddPost" method="post" action="codeCore/php/secure/createAddPost.php">
-				 <label>Title<br /><input id="postTitleEdit" class="required msgPos:'postEditTitleError'" type="text" size="60" name="title" value="<?= $postTitle?>" /></label><div id="postEditTitleError"></div><br /><br />
-				 <label>Text<br /><textarea  id="postTextEdit" class="required msgPos:'postEditTextError'" name="text" rows=10 cols=70><?= $postText ?></textarea></label><div id="postEditTextError"></div><br />
-				 <input type="hidden" id="postEditID" name="post_id" value="<?=$postID?>" />
+				 <label>Title<br /><input id="postTitleEdit" class="required msgPos:'postEditTitleError'" type="text" size="60" name="title" /></label><div id="postEditTitleError"></div><br /><br />
+				 <label>Text<br /><textarea  id="postTextEdit" class="required msgPos:'postEditTextError'" name="html" rows=10 cols=70></textarea></label><div id="postEditTextError"></div><br />
 			<input type="submit" class="button" value="Post" />
 		</form>
 	</div>
 	<div class="floatL displayPost">
-		<div id="renderTitle"><?= $postTitle; ?></div>
-		<div id="renderText"><?= $postText; ?></div>
+		<div id="renderTitle"></div>
+		<div id="renderText"></div>
 	</div>
 </div>
 <?
 } else
-	echo "Unauthorized";
+	echo json_encode(array('status'=>"E_NOAUTH"));
 ?>

@@ -1,7 +1,9 @@
 <?
 //require Create Access
 if(Security::clearance() & ACCESS_CREATE) {
-	echo json_encode(array('status'=>'1','html'=>createGetPosts("rows", $_POST['title'])));
+	$post = new Post(array('title'=>$_POST['title'],
+					     'html'=>$_POST['html']));
+	echo $post->json_status;
 } else
 	echo json_encode(array('status'=>"E_NOAUTH"));
 ?>

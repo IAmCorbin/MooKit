@@ -170,8 +170,8 @@ Class Filters {
 		//run through htmLawed
 		$lawedText = htmLawed($input,$this->htmLawedConfig);
 		//flag error if text was changed
-		if($lawedText !== $text)
-			$this->errors[] = $input.' -> htmLawed inside text filter -> '.$input;
+		if($lawedText !== $input)
+			$this->errors[] = $input.' -> htmLawed -> '.$input;
 		return $lawedText;
 	 }
 	/**

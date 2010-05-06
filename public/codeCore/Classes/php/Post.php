@@ -16,6 +16,8 @@
  class Post {
 	/** @var 	DB_MySQLi 	$DB 		database object */
 	var $DB;
+	/** @var 	string 		$json_status	stores the status (success/failure) of post manipulation, and any variables to be sent back to javascript */
+	var $json_status = NULL;
 	/** @var 	int 			$post_id 	 	the post id */
 	var $post_id;
 	/** @var 	int 			$creator_id  	post creator's id */
@@ -28,40 +30,74 @@
 	var $createTime;
 	/** @var 	date 		$dateTime 	date and time post was last modified */
 	var $modTime;
-	/** @var 	string 		$error 		status */
-	var $error = NULL;	
 	/** Constructor 
-	  * @param int $post_id - only pass this if retrieving an existing post
-	  * @param string $title - post title
-	  * @param string $html - post html
+	  * @param 	array 	$userInput 		array filled with user input : if creating a new post pass keys{ title, html }, if updating a post pass keys{ post_id, title, html }
+	  * @param 	bool		$newPost			switch to create or update a post
+	  * @param 	function 	$newUserCallback 	function that will be called if a new post is successfully added
 	  */	
-	function __construct($title=NULL,$html=NULL) {
+	function __construct($userInput, $newPost=TRUE, $newPostCallback=NULL) {
+		//make sure $userInput is an array
+		if(!is_array($userInput)) {
+			$this->json_status = json_encode(array('status'=>'E_MISSING_DATA'));
+			return;
+		}
+		//check for valid passed data
+		if(!array_keys_exist(array('title','html'),$userInput)) {
+				$this->json_status = json_encode(array('status'=>'E_MISSING_DATA'));
+				return;
+			}
 		//Filter User Input
 		$inputFilter = new Filters;
-		$this->title = $inputFilter->text($this->title);
-		$this->title = $inputFilter->htmLawed($this->title); 
-		$this->html = $inputFilter->htmLawed($this->html);
+		$this->title = $inputFilter->htmLawed($inputFilter->text($userInput['title']));
+		$this->html = $inputFilter->htmLawed($userInput['html']);
 		//Check for Errors
-		if($inputFilter->ERRORS())
-			$this->error = 'E_FILTER';		
-		//set post data
-		$this->creator_id = $_SESSION['user_id'];
-		$this->title = $title;
-		$this->html = $html;
-		//add post
-		if(!$this->addNew())
-			$this->error = 'E_INSERT';
+		if($inputFilter->ERRORS()) {
+			$this->json_status =  json_encode(array('status'=>"E_FILTERS",'title'=>$this->title));		
+			return;
+		}
+		//connect to database
+		$this->DB = new DB_MySQLi;
+		if($newPost) {
+			$this->creator_id = $_SESSION['user_id'];
+			//add post
+			if($this->addNew()) { //Fire New User Callback if it was passed
+				$this->json_status = json_encode(array('status'=>'1','title'=>$this->title));
+				if(is_callable($newPostCallback))
+					call_user_func($newPostCallback);
+				return;
+			} else {
+				$this->json_status =  json_encode(array('status'=>"E_INSERT",'title'=>$this->title));
+				return;
+			}
+		} else {
+			//check for valid passed data
+			if(!array_key_exists('post_id',$userInput)) {
+				$this->json_status = json_encode(array('status'=>'E_MISSING_DATA'));
+				return;
+			}
+			//Filter id 
+			$post_id = $inputFilter->number($userInput['post_id']);
+			if($inputFilter->ERRORS()) {
+				$this->json_status =  json_encode(array('status'=>"E_FILTERS",'title'=>$this->title));
+				return;
+			}
+			//update post
+			if($this->update($post_id)) {
+				$this->json_status = json_encode(array('status'=>'1','title'=>$this->title));
+				return;
+			} else {
+				$this->json_status =  json_encode(array('status'=>"E_UPDATE",'title'=>$this->title));
+				return;
+			}
+		}
 	}
 	/**
 	  * Add a new post to the database, using this objects data
 	  * @returns the number of rows affected
 	  */
 	public function addNew() {
-		$creator_id = mysqli_real_escape_string($this->creator_id);
-		$title = mysqli_real_escape_string($this->title);
-		$html = mysqli_real_escape_string($this->html);
-		$query = "INSERT INTO `posts`(`creator_id`,`title`,`html`,`createTime`) VALUES($creator_id,$title,$html,NOW());";
-		return $this->DB->insert($query);
+		return $this->DB->insert("INSERT INTO `posts`(`creator_id`,`title`,`html`,`createTime`) VALUES(?,?,?,NOW());",
+							'iss',array($this->creator_id, $this->title, $this->html));
 	}
 	/**
 	  * Updates a post in the database
@@ -69,19 +105,8 @@
 	  * @returns int - number of rows affected
 	  */
 	public function update($post_id) {
-		$post_id = mysqli_real_escape_string($post_id);
-		$title = mysqli_real_escape_string($this->title);
-		$html = mysqli_real_escape_string($this->html);
-		$query = "UPDATE `posts` SET `title`='$title' `html`='$html' `modTime`=NOW() WHERE `post_id`='$post_id';";
-		return $this->DB->update($query);
-	}
-	/**
-	  * Remove a post from the database
-	  */
-	public function delete($post_id) {
-		$post_id = mysqli_real_escape_string($post_id);
-		$query = "DELETE FROM `posts` WHERE `post_id`='$post_id';";
-		return $this->DB->delete($query);
+		return $this->DB->update("UPDATE `posts` SET `title`=? `html`=? `modTime`=NOW() WHERE `post_id`=?;",
+							  'ssi',array($this->title, $this->html, $post_id));
 	}
 	/**
 	  * Grab a post from the database
@@ -95,84 +120,91 @@
 		$inputFilter = new Filters;
 		$user_id = $inputFilter->number($user_id);
 		$title = $inputFilter->alphnum_($title,FALSE,TRUE);
-		if($inputFilter->ERRORS()) { return "E_FILTER"; }
+		if($inputFilter->ERRORS()) {
+			$this->json_status =  json_encode(array('status'=>"E_FILTERS",'user_id'=>$user_id,'title'=>$title));
+			return;
+		}
 		//connect to Database
 		$DB = new DB_MySQLi;
-		//escape variables for query
-		$q = $DB->escapeStrings(array('user_id'=>$user_id,'title'=>$title));
 		//grab all the user's posts
 		$columns = "`posts`.`post_id`, `posts`.`title`, `posts`.`creator_id`,`posts`.`createTime`,`posts`.`modTime`";
-		$query = "SELECT $columns FROM `posts` WHERE `title` LIKE '%".$q['title']."%' AND `creator_id`='".$q['user_id']."';";
-		$posts = $DB->get_rows($query,$rType);
-		//grab all the posts the user has specific permissions for
-		$query = "SELECT $columns FROM `posts` INNER JOIN `postUserPermissions` AS `perms` ON `posts`.`post_id`=`perms`.`post_id` WHERE `perms`.`user_id`='".$q['user_id']."';";
-		//grab, merge and return results
-		$otherPosts = $DB->get_rows($query,$rType);
+		$posts = $DB->get_rows("SELECT $columns FROM `posts` WHERE `title` LIKE CONCAT('%',?,'%') AND `creator_id`=? LIMIT 30;",
+							'si',array($title,$user_id),$rType);
+		//grab all the posts the user has specific permissions for //grab, merge and return results
+		$otherPosts = $DB->get_rows("SELECT $columns FROM `posts` INNER JOIN `postUserPermissions` AS `perms` ON `posts`.`post_id`=`perms`.`post_id` WHERE `perms`.`user_id`=? AND `title` LIKE CONCAT('%',?,'%') ;",
+								'is',array($user_id, $title),$rType);
 		if(is_array($otherPosts))
 			return array_merge($posts, $otherPosts);
 		else
 			return $posts;
 	}
 	/**
-	  * add a new permission to this post
-	  * @param string $U_G user or group permissions - should pass 'user' or 'group'
-	  * @param int $id - the user or group id to add
-	  * @param int $access_level - the permission level
-	  * @return int - the number of rows affected
+	  * Remove a post from the database
 	  */
-	public function addPermission($U_G, $id, $access_level) {
-		if($U_G === 'user')
-			$table = 'postUserPermissions';
-		else if($U_G ==='group')
-			$table = 'postGroupPermissions';
-		else return false;
-		$U_G = mysqli_real_escape_string($U_G);
-		$id = mysqli_real_escape_string($id);
-		$post_id = mysqli_real_escape_string($this->post_id);
-		$access_level = mysqli_real_escape_string($access_level);
-		$query = "INSERT INTO `$table`(`".$U_G."_id`,`post_id`,`access_level`) VALUES('$id','$post_id','$access_level');";
-		return $this->DB->insert($query);
+	public static function delete($post_id) {
+		return $this->DB->delete("DELETE FROM `posts` WHERE `post_id`=?;",
+							'i',array($post_id));
 	}
 	/**
-	  * Modify a permission for this post
-	  * @param string $U_G user or group permissions - should pass 'user' or 'group'
-	  * @param int $id - the user or group id to mod
-	  * @param int $access_level - the new permission level
-	  * @return int - the number of rows affected
+	  * Change post user and group permissions
+	  * @param 	int 		$post_id 		the post_id to change permissions for
+	  * @param 	int 		$id 			the user or group id to add
+	  * @param 	int 		$access_level 	the new bitwise permission level - write=2, deny=1
+	  * @param 	string 	$U_G 		user or group permissions - should pass 'user' or 'group'
+	  * @return 	bool 	the number of rows affected
 	  */
-	public function changePermission($U_G, $id, $access_level) {
-		if($U_G === 'user')
-			$table = 'postUserPermissions';
-		else if($U_G ==='group')
-			$table = 'postGroupPermissions';
-		else return false;
-		$U_G = mysqli_real_escape_string($U_G);
-		$id = mysqli_real_escape_string($id);
-		$post_id = mysqli_real_escape_string($this->post_id);
-		$access_level = mysqli_real_escape_string($access_level);
-		$query = "UPDATE `$table` SET `".$U_G."_id`='$id' `access_level`='$access_level' WHERE `post_id`='$post_id';";
-		return $this->DB->update($query);
+	public static function chmod($post_id, $id, $access_level, $U_G="user") {
+		if($U_G === 'user') {
+			$q['table'] = 'postUserPermissions';
+			$q['id'] = 'user_id';
+		} else if($U_G ==='group') {
+			$q['table'] = 'postGroupPermissions';
+			$q['id'] = 'group_id';
+		} else return false;
+		//filter input
+		$inputFilter = new Filters;
+		$post_id = $inputFilter->number($post_id);
+		$id = $inputFilter->number($id);
+		$access_level = $inputFilter->number($access_level);
+		if($inputFilter->ERRORS()) {
+			$this->json_status =  json_encode(array('status'=>"E_FILTERS"));
+			return;
+		}
+		//connect to database
+		$DB = new DB_MySQLi;
+		//if setting $access_level to 0, just delete the row
+		if($access_level == 0) {
+			if($DB->delete("DELETE FROM `".$q['table']."` WHERE `".$q['id']."`=? AND `post_id`=?;",
+					     'ii',array($id,$post_id))) {
+				$this->json_status = json_encode(array('status'=>'1'));
+				return;
+			} else
+				$this->json_status = json_encode(array('status'=>'E_DELETE'));
+				return;
+		}
+		//check current access state
+		if($old_access = $DB->get_row("SELECT `access_level` FROM `".$q['table']."` WHERE `post_id`=? AND `".$q['id']."`=?;",
+							      'ii',array($post_id,$id))) {
+			//Access Exists, Update access_level
+			 if($this->DB->update("UPDATE `".$q['table']."` SET `".$q['id']."`=?, `access_level`=? WHERE `post_id`=?;",
+							   'iii',array($id, $access_level, $post_id))) {
+				$this->json_status = json_encode(array('status'=>'1'));
+				return;
+			} else {
+				$this->json_status = json_encode(array('status'=>'E_UPDATE'));
+				return;
+			}
+		} else {
+			//Access Does Not Exist, Insert new row
+			if($this->DB->insert("INSERT INTO `".$q['table']."`(`".$q['id']."`,`post_id`,`access_level`) VALUES(?,?,?);",
+						         'iii',array($id,$post_id,$access_level))) {
+				$this->json_status = json_encode(array('status'=>'1'));
+				return;
+			} else {
+				$this->json_status = json_encode(array('status'=>'E_INSERT'));
+				return;
+			}
+		}
 	}
-	/**
-	  * Remove a permission from this post
-	  * @param string $U_G user or group permissions - should pass 'user' or 'group'
-	  * @return int - number of rows affected
-	  */
-	public function removePermission($U_G, $group_id) {
-		if($U_G === 'user')
-			$table = 'postUserPermissions';
-		else if($U_G ==='group')
-			$table = 'postGroupPermissions';
-		else return false;
-		$U_G = mysqli_real_escape_string($U_G);
-		$id = mysqli_real_escape_string($id);
-		$post_id = mysqli_real_escape_string($this->post_id);
-		$query = "DELETE FROM `$table` WHERE `".$U_G."_id`='$id' AND `post_id`='$post_id';";
-		return $this->DB->delete($query);
-	}
-	/** Return the error status of the post 
-	 * @returns string error status
-	 */	
-	public function errorStatus() { return $this->error; }
  }
 ?>

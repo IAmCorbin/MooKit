@@ -15,6 +15,7 @@ define('ACCESS_NONE',0);
 //post access
 define('ACCESS_READ',4);
 define('ACCESS_WRITE',2);
+define('ACCESS_DENY',1);
 
 // Set Error Reporting Level
 error_reporting(E_ALL);
