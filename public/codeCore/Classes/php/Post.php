@@ -83,7 +83,7 @@
 			}
 			//update post
 			if($this->update($post_id)) {
-				$this->json_status = json_encode(array('status'=>'1','title'=>$this->title));
+				$this->json_status = json_encode(array('status'=>'1','title'=>$this->title,'modTime'=>date('Y-m-d H:i:s')));
 				return;
 			} else {
 				$this->json_status =  json_encode(array('status'=>"E_UPDATE",'title'=>$this->title));
@@ -105,38 +105,50 @@
 	  * @returns int - number of rows affected
 	  */
 	public function update($post_id) {
-		return $this->DB->update("UPDATE `posts` SET `title`=? `html`=? `modTime`=NOW() WHERE `post_id`=?;",
-							  'ssi',array($this->title, $this->html, $post_id));
+		return $this->DB->update("UPDATE `posts` SET `title`=?, `html`=?, `modTime`=NOW() WHERE `post_id`=?;",
+							  'ssi', array($this->title, $this->html, $post_id));
 	}
 	/**
 	  * Grab a post from the database
 	  * @param 	int 		$id 		the user id to get posts for
 	  * @param 	string	$title	the title to search for - optional
+	  * @param 	string	$title	the id of the post to grab - optional
 	  * @param 	string 	$rType 	the return type for the posts
 	  * @returns 	bool 	true on success, false on failure
 	  */
-	public static function get($user_id,$title,$rType="object") {
+	public static function get($user_id,$title=NULL,$post_id=NULL,$rType="object") {
 		//filter input
 		$inputFilter = new Filters;
 		$user_id = $inputFilter->number($user_id);
-		$title = $inputFilter->alphnum_($title,FALSE,TRUE);
+		if($title) $title = $inputFilter->alphnum_($title,FALSE,TRUE);
+		if($post_id) $post_id = $inputFilter->number($post_id);
 		if($inputFilter->ERRORS()) {
-			$this->json_status =  json_encode(array('status'=>"E_FILTERS",'user_id'=>$user_id,'title'=>$title));
-			return;
+			return json_encode(array('status'=>"E_FILTERS",'user_id'=>$user_id,'title'=>$title,'post_id'=>$post_id));
 		}
 		//connect to Database
 		$DB = new DB_MySQLi;
+		//set columns to grab
+		$columns = "`posts`.`post_id`, `users`.`alias` AS creator, `posts`.`title`, `posts`.`html`, `posts`.`createTime`, `posts`.`modTime`";
+		if($post_id) {
+			//grab a single post by ID
+			return $DB->get_row("SELECT $columns FROM `posts`,`users` WHERE `posts`.`creator_id`=`users`.`user_id` AND `posts`.`post_id`=? LIMIT 1;",
+							'i',array($post_id),$rType);
+		} else {
 		//grab all the user's posts
-		$columns = "`posts`.`post_id`, `posts`.`title`, `posts`.`creator_id`,`posts`.`createTime`,`posts`.`modTime`";
-		$posts = $DB->get_rows("SELECT $columns FROM `posts` WHERE `title` LIKE CONCAT('%',?,'%') AND `creator_id`=? LIMIT 30;",
+		$posts = $DB->get_rows("SELECT $columns FROM `posts`,`users` WHERE `posts`.`creator_id`=`users`.`user_id` AND `posts`.`title` LIKE CONCAT('%',?,'%') AND `posts`.`creator_id`=? LIMIT 30;",
 							'si',array($title,$user_id),$rType);
-		//grab all the posts the user has specific permissions for //grab, merge and return results
-		$otherPosts = $DB->get_rows("SELECT $columns FROM `posts` INNER JOIN `postUserPermissions` AS `perms` ON `posts`.`post_id`=`perms`.`post_id` WHERE `perms`.`user_id`=? AND `title` LIKE CONCAT('%',?,'%') ;",
-								'is',array($user_id, $title),$rType);
+		//grab all the posts the user has specific permissions for 
+		$otherPosts = $DB->get_rows("SELECT $columns FROM (`posts` JOIN `users` ON `posts`.`creator_id`=`users`.`user_id` AND `posts`.`title` LIKE CONCAT('%',?,'%')) 
+								  JOIN `postUserPermissions` ON `posts`.`post_id`=`postUserPermissions`.`post_id`
+								    AND `postUserPermissions`.`access_level`&".ACCESS_WRITE.
+								    " AND `postUserPermissions`.`user_id`=?;",
+								'si',array($title,$user_id),$rType);
+		//merge results
 		if(is_array($otherPosts))
 			return array_merge($posts, $otherPosts);
 		else
 			return $posts;
+		}
 	}
 	/**
 	  * Remove a post from the database

@@ -138,7 +138,7 @@ function CORE_LOAD(module, container) {
 				onSuccess: function(r1,r2,r3) {
 					if(r3 == "Unauthorized")
 						return;
-					addAssets(["style/secure/createPanel.css.php"],["codeCore/js/secure/createPanel.js"]);
+					addAssets(["style/secure/createPanel.css.php"],["codeCore/js/secure/createPanel.js","codeCore/js/secure/createPosts.js"]);
 				}
 			});
 			fancyLoad($(container),'codeCore/php/secure/createPanel.php');

@@ -195,27 +195,28 @@ set_error_handler("ErrorHandler");
 	  * Search and return found posts from the database
 	  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
 	  * @param string $title - the post title to search for
+	  * @param string $title - the post id to search for
 	  */
-	function createGetPosts($rType="object", $title=NULL) {
-		//grab all posts connected to this user
-		$posts = Post::get($_SESSION['user_id'],$title);
+	function createGetPosts($rType="object", $title=NULL, $post_id=NULL) {		
 		//build rows if requested
 		if($rType == "rows") {
-			$return = '';
+			$posts = Post::get($_SESSION['user_id'],$title,$post_id);
+			$rows = '';
 			if(is_array($posts))
 				foreach($posts as $post) {
-					$return .= "<tr>".
+					$rows .= "<tr>".
 								"<td name=\"post_id\">$post->post_id</td>".
 								"<td name=\"title\">$post->title</td>".
-								"<td name=\"creator_id\">$post->creator_id</td>".
+								"<td name=\"creator_id\">$post->creator</td>".
 								"<td name=\"createTime\">$post->createTime</td>".
 								"<td name=\"modTime\">$post->modTime</td>".
 								'<td class="createDeletePost">X</td>'.
 							"</tr>";
 				}
-			return $return;
-		} else
-			return $posts;
+			return $rows;
+		} else {
+			 return Post::get($_SESSION['user_id'],$title,$post_id,$rType);
+		}
 	}
 /////////END///////////////////////////////END////////////////
 //Database Information Retrieval Functions//
