@@ -6,8 +6,9 @@ if(Security::clearance() & ACCESS_ADMIN) {
 		<div id="adminPanelUsers">
 			<div class="adminTitle">User Administration</div>
 			<br />
-			<form class="singleton" id="adminGetUsers" method="post" action="codeCore/php/secure/adminGetUsers.php">
+			<form class="singleton" id="adminGetUsers" method="post" action="codeCore/php/secure/sharedGetUsers.php">
 				<input type="text" name="alias" size="20" value="<? if(isset($_POST['alias'])) echo $_POST['alias']; ?>" />
+				<input type="hidden" name="rType" value="rows" />
 				<input type="submit" value="find users" />
 			</form>
 			<ul id="users_pagination" class="pagination"></ul>
@@ -25,7 +26,7 @@ if(Security::clearance() & ACCESS_ADMIN) {
 				<tbody>
 <?
 		if(!isset($_POST['alias'])) $_POST['alias'] = '';
-		echo adminGetUsers("rows", $_POST['alias']);
+		echo sharedGetUsers("rows", $_POST['alias']);
 		
 ?>				
 				</tbody>

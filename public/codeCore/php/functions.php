@@ -107,14 +107,15 @@ set_error_handler("ErrorHandler");
 	  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
 	  * @param string $alias - the user alias to search for
 	  */
-	function adminGetUsers($rType="object", $alias=NULL) {
-		$users = User::get($alias);
-		//build rows if requested
-		if($rType === "rows") {
-			$return = '';
+	function sharedGetUsers($rType="object", $alias=NULL) {
+		
+		//build rows if requested and user is an administrator (this should only be done in the administrator panel)
+		if($rType === "rows" && (Security::clearance() & ACCESS_ADMIN) ) {
+			$users = User::get($alias,"object");
+			$rows = '';
 			foreach($users as $user) {
 				$access_level = getHumanAccess($user->access_level);
-				$return .= "<tr>".
+				$rows .= "<tr>".
 						"<td>$user->user_id</td>".
 						"<td>$user->alias</td>".
 						"<td>$user->nameFirst</td>".
@@ -125,9 +126,9 @@ set_error_handler("ErrorHandler");
 						'<td class="adminDeleteUser">X</td>'.
 					"</tr>";
 			}
-			return $return;
+			return $rows;
 		} else
-			return $users;
+			return User::get($alias,$rType);
 	}
 	/**
 	  * Search and return found links from the database
@@ -142,13 +143,13 @@ set_error_handler("ErrorHandler");
 			//grab links and sublinks from the database
 			$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
 			$lastLink_id = null;
-			$return = '';
+			$rows = '';
 			if(is_array($links))
 				foreach($links as $link) {
 					//avoid double display of links
 					if($link->link_id != $lastLink_id) {
 						$access_level = getHumanAccess($link->access_level);
-						$return .= "<tr>".
+						$rows .= "<tr>".
 								"<td name=\"link_id\">$link->link_id</td>".
 								"<td name=\"name\">$link->name</td>".
 								"<td name=\"href\">$link->href</td>".
@@ -169,7 +170,7 @@ set_error_handler("ErrorHandler");
 										"<tbody>";
 										foreach($links as $sublink) {
 											if($link->link_id === $sublink->link_id && $sublink->sublink_id) {
-												$return.="<tr class=\"sublinkRow\">".
+												$rows.="<tr class=\"sublinkRow\">".
 													"<td style=\"display: none;\">".$sublink->sublink_id."</td>".
 													"<td>".$sublink->sub_name."</td>".
 													"<td>".$sublink->sub_href."</td>".
@@ -177,7 +178,7 @@ set_error_handler("ErrorHandler");
 												"</tr>";
 											}
 										}
-									$return.="</tbody>".
+									$rows.="</tbody>".
 									"</table>".
 									'<form class="adminAddSublink singleton"><input type="text" name="name" size="20" value="Add a Sublink" /></form>'.
 								"</td>".
@@ -186,7 +187,7 @@ set_error_handler("ErrorHandler");
 					}
 					$lastLink_id=$link->link_id;
 				}
-			return $return;
+			return $rows;
 		} else
 			//grab links and sublinks from the database
 			return Link::get($name,$menuLink,$rType,$notSubs,ACCESS_ADMIN);

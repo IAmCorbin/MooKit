@@ -222,11 +222,17 @@ class User {
 		if(isset($alias)) {
 			$inputFilter = new Filters;
 			$alias = $inputFilter->text($alias,true);
-			$results = $DB->get_rows("SELECT `user_id`, `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` WHERE `alias` LIKE CONCAT('%',?,'%') LIMIT 20;",
+			//set return columns based on access level
+			$access_level = Security::clearance();
+			if($access_level & ACCESS_ADMIN)
+				$columns = "`user_id`, `alias`,`nameFirst`,`nameLast`,`email`,`access_level`";
+			else if($access_level & ACCESS_CREATE)
+				$columns = "`user_id`, `alias`, `nameFirst`,`nameLast`";
+			$results = $DB->get_rows("SELECT $columns FROM `users` WHERE `alias` LIKE CONCAT('%',?,'%') LIMIT 20;",
 						's',array($alias));
 						
 		} else {
-			$results = $DB->get_rows("SELECT `user_id`, `alias`,`nameFirst`,`nameLast`,`email`,`access_level` FROM `users` LIMIT 20;");
+			$results = $DB->get_rows("SELECT $columns FROM `users` LIMIT 20;");
 		}
 		return $results;
 	}
