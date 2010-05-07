@@ -271,7 +271,10 @@ class DB_MySQLi {
 				}
 				break;
 			case "json":
-				$results = json_encode($results);
+				if(sizeof($results) > 0)
+					$results = json_encode($results);
+				else
+					$results = json_encode(array('status'=>'0'));
 				break;
 		} //END SWITCH
 	}
