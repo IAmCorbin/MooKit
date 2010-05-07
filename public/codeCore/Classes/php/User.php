@@ -229,10 +229,10 @@ class User {
 			else if($access_level & ACCESS_CREATE)
 				$columns = "`user_id`, `alias`, `nameFirst`,`nameLast`";
 			$results = $DB->get_rows("SELECT $columns FROM `users` WHERE `alias` LIKE CONCAT('%',?,'%') LIMIT 20;",
-						's',array($alias));
+						's',array($alias), $rType);
 						
 		} else {
-			$results = $DB->get_rows("SELECT $columns FROM `users` LIMIT 20;");
+			$results = $DB->get_rows("SELECT $columns FROM `users` LIMIT 20;",NULL,NULL,$rType);
 		}
 		return $results;
 	}
