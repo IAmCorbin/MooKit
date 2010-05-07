@@ -98,14 +98,46 @@ window.addEvent('domready',function() {
 						onSuccess: function(response) {
 							json = handleResponse(response);
 							if(!json || $type(json) != "array") return;
-							debug(userPermissionsTable);
 							json.each(function(perm) {
-								var permRow = new Element('tr');
+								var permRow = new Element('tr', { class: 'postUserPermissionRow' });
 								new Element('td', { html: perm.user_id, styles: {display: 'none' }}).inject(permRow);
 								new Element('td', { html: perm.alias }).inject(permRow);
 								new Element('td', { html: perm.access_level }).inject(permRow);
 								new Element('td', { html: perm.access_level }).inject(permRow);
 								permRow.inject(userPermissionsTable.getElement('tbody'));
+							});
+							//~ //Delete User Permission On Right Click
+							//~ //grab all sublink rows
+							var userPermissions = $$('.postUserPermissionRow');
+							userPermissions.each(function(element) {
+								element.addEvent('contextmenu',function(e) {
+									e.stop();
+									if(e.target.tagName == "TD") {
+										//grab data
+										var user = e.target.getParent();
+										var user_id = user.getFirst();
+										var userAlias = user_id.getNext().get('html');
+										user_id = user_id.get('html');
+										new ConfirmBox({
+											boxMSG: 'Are you sure that you no longer want "'+userAlias+'" to have Modify access to "'+post.title+'"?',
+											back: '#F00',
+											onConfirm: function() {
+												//Delete The Sublink Table Entry
+												new Request({
+													method: 'post',
+													url: 'codeCore/php/secure/createDeletePostUserPerm.php',
+													onSuccess: function(response) {
+														json = handleResponse(response);
+														if(!json) return;
+														if(json.status == 1)
+															//remove sublinks row
+															user.destroy();
+													}
+												}).send('user_id='+user_id+"&post_id="+post.post_id+"&rType=json");
+											}
+										});
+									}
+								});
 							});
 						}
 					}).send('post_id='+post.post_id+'&rType=json');
@@ -115,7 +147,7 @@ window.addEvent('domready',function() {
 						class: 'singleton',
 						method: 'post',
 						action: '',
-						html: '<input type="text" value="Singleton user adding form here" />\
+						html: '<input type="text" value="Search for a user alias" />\
 							<input type="submit" value="add user" />'
 					}).inject(userPermissionsTable);
 					//Get Post Group Permissions from Database  and inject table rows
@@ -137,7 +169,7 @@ window.addEvent('domready',function() {
 						class: 'singleton',
 						method: 'post',
 						action: '',
-						html: '<input type="text" value="Singleton group adding form here" />\
+						html: '<input type="text" value="Search for a group name" />\
 							<input type="submit" value="add group" />'
 					}).inject(groupPermissionsTable);
 					//Add User and Group Permission Tables to Permission Section and Add to the Editing Box
@@ -236,52 +268,41 @@ window.addEvent('domready',function() {
 												//handle adding, this will be caught from the bubbling event 'click' from the li that will be added
 												click: function(e) {
 													if(e.target.className=="userAdd" || e.target.getParent().className=="userAdd") {
-														//grab the data from the DOM
-														//~ if(e.target.className=="userAdd")
-															//~ var user = e.target.getParent().getParent().getParent().getParent();
-														//~ else if(e.target.getParent().className=="userAdd")
-															//~ var user = e.target.getParent().getParent().getParent().getParent().getParent();
-														
-														//~ var user_id = user.getFirst().get('html');
-														//~ if(e.target.className=="userAdd")
-															//~ var sublink = e.target;
-														//~ else if(e.target.getParent().className=="userAdd")
-															//~ var sublink = e.target.getParent();
-														//~ var sublink_id = sublink.getElement('span').get('html');
-														//~ var sublink_name = sublink.getFirst('a').get('html');
-														//~ var sublink_href = sublink.getFirst('a').getNext().get('html');
-														//~ var sublink_desc = sublink.getLast('a').get('html');
-														//~ var sublinkTable = e.target.getParent('td[name="sublinks"]').getElement('table').getElement('tbody')
-														//~ new Request({
-															//~ method: 'post',
-															//~ url: 'codeCore/php/secure/createAddUserPerm.php',
-															//~ onSuccess: function(response) {
-																//~ json = handleResponse(response);
-																//~ if(json) {
-																	//~ //add sublink row
-																	//~ newSublinkRow = new Element('tr',{ class: "sublinkRow" });
-																	//~ sublinkID = new Element('td', { 
-																		//~ styles: { display: 'none' }, 
-																		//~ html: sublink_id,
-																	//~ });
-																	//~ new Element('td', { html: sublink_name }).inject(newSublinkRow);
-																	//~ new Element('td', { html: sublink_href }).inject(newSublinkRow);
-																	//~ new Element('td', { html: sublink_desc }).inject(newSublinkRow);
-																	//~ //attempt to clone the events of an existing sublink row - otherwise will need to reload this area to attach the delete event
-																	//~ var cloneAttempt = sublinkTable.getElement('tr[class="sublinkRow"]');
-																	//~ if(cloneAttempt)
-																		//~ newSublinkRow.cloneEvents(cloneAttempt);
-																	//~ //inject row into this link sublink table
-																	//~ newSublinkRow.inject(sublinkTable);
-																	//~ //remove the results box
-																	//~ e.target.getParent('ul').destroy();
-																//~ } else { //Error Adding sublink
-																	//~ e.target.getParent('form').getElement('input').set('html','Error Adding Sublink');
-																	//~ //remove the results box
-																	//~ e.target.getParent('ul').destroy();
-																//~ }
-															//~ }
-														//~ }).send('link_id='+link_id+"&sublink_id="+sublink_id);
+														if(e.target.className=="userAdd")
+															var user_id = e.target.getElement('span');
+														else
+															var user_id = e.target.getParent().getElement('span');
+														var userAlias = user_id.getParent().getFirst().get('html');
+														user_id = user_id.get('html');
+														var postUserPermissionsTable = e.target.getParent('div').getElement('table').getElement('tbody');
+														var msgBox = $('postUserPermissionsAddUser').getElement('input[type="text"]');
+														new Request({
+															method: 'post',
+															url: 'codeCore/php/secure/createAddPostUserPerm.php',
+															onRequest: function() {
+																msgBox.addClass('loadingW');
+															},
+															onSuccess: function(response) {
+																json = handleResponse(response);
+																if(json.status == 1) {
+																	//add user permission row
+																	newUserPermRow = new Element('tr', { class: 'postUserPermissionRow' });
+																	new Element('td', { styles: { display: 'none' }, html: user_id}).inject(newUserPermRow);
+																	new Element('td', { html: userAlias }).inject(newUserPermRow);
+																	new Element('td', { html: '2' }).inject(newUserPermRow);
+																	new Element('td', { html: '0' }).inject(newUserPermRow);
+																	//inject row into this link sublink table
+																	newUserPermRow.inject(postUserPermissionsTable);
+																	//remove the results box
+																	e.target.getParent('ul').destroy();
+																} else { //Error Adding sublink
+																	msgBox.set('value','User Exists or Error');
+																	//remove the results box
+																	e.target.getParent('ul').destroy();
+																}
+																msgBox.removeClass('loadingW');
+															}
+														}).send('user_id='+user_id+"&post_id="+post.post_id+"&access_level=2&rType=json");
 													}
 												}
 											}
@@ -290,7 +311,7 @@ window.addEvent('domready',function() {
 										json.each(function(user) {
 											var userResult = new Element('li',{
 												class: 'userAdd',
-												html: "<a>"+user.alias+"</a> - <a>"+user.nameFirst+" "+user.nameLast.desc+")</a>"
+												html: "<a>"+user.alias+"</a> - <a>"+user.nameFirst+" "+user.nameLast+")</a>"
 											});
 											//add the link id as a hidden element
 											new Element('span', {styles: {display: 'none'},html: user.user_id }).inject(userResult);
@@ -319,42 +340,6 @@ window.addEvent('domready',function() {
 							}
 						}
 					});
-					//Delete Sublinks
-					//grab all sublink rows
-					//~ var sublinks = $$('.sublinkRow');
-					//~ sublinks.each(function(element) {
-						//~ element.addEvents({
-							//~ //right click options
-							//~ contextmenu: function(e) {
-								//~ e.stop();
-								//~ if(e.target.tagName == "TD") {
-									//~ var link = e.target.getParent().getParent().getParent().getParent().getParent();
-									//~ var link_id = link.getFirst().get('html');
-									//~ var sublink = e.target.getParent();
-									//~ var sublink_id =  sublink.getFirst().get('html');
-									//~ new ConfirmBox({
-										//~ boxMSG: 'Are you sure that you no longer want "'+sublink.getFirst().getNext().get('html')+'" to be a sublink of "'+link.getFirst().getNext().get('html')+'"?',
-										//~ back: '#F00',
-										//~ onConfirm: function() {
-											//~ //Delete The Sublink Table Entry
-											//~ new Request({
-												//~ method: 'post',
-												//~ url: 'codeCore/php/secure/adminDeleteSublink.php',
-												//~ onSuccess: function(response) {
-													//~ json = handleResponse(response);
-													//~ if(!json) return;
-													//~ if(json.status == 1)
-														//~ //remove sublinks row
-														//~ sublink.destroy();
-												//~ }
-													
-											//~ }).send('link_id='+link_id+"&sublink_id="+sublink_id);
-										//~ }
-									//~ });
-								//~ }
-							//~ }
-						//~ });
-					//~ });
 					//Post Group Permissions - Add Group
 					$('postGroupPermissionsAddGroup').addEvents({
 						click: function(e) {

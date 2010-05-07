@@ -244,10 +244,39 @@
 		}
 	}
 	/**
+	  * Add a new user permission for a post
+	  * @param 	int 		$user_id 		the user id to addpermissions for
+	  * @param 	int 		$post_id 		the post id to add permissions for
+	  * @param 	int 		$access_level	the permission level
+	  * @param 	string 	$rType 		the return type for the permissions
+	  * @returns 	status
+	  */
+	public static function addUserPerm($user_id, $post_id, $access_level, $rType="object") {
+		//filter input
+		$inputFilter = new Filters;
+		$user_id = $inputFilter->number($user_id);
+		$post_id = $inputFilter->number($post_id);
+		$access_level = $inputFilter->number($access_level);
+		if($inputFilter->ERRORS()) { return json_encode(array('status'=>"E_FILTERS")); }
+		//connect to Database
+		$DB = new DB_MySQLi;
+		//make sure permission does not already exist
+		if($existCheck = $DB->get_row("SELECT `user_id` FROM `postUserPermissions` WHERE `user_id`=? AND `post_id`=?;",
+					'ii', array($user_id, $post_id))) {
+			if($rType  === "json")
+				return json_encode(array('status'=>'0'));
+			else
+				return $existCheck;
+		}
+		//Add new user permission
+		return  $DB->insert("INSERT INTO `postUserPermissions`(`user_id`,`post_id`,`access_level`) VALUES(?,?,?);",
+						'iii' ,array($user_id, $post_id, $access_level), $rType);
+	}
+	/**
 	  * Grab a post's User Permissions from the database
 	  * @param 	int 		$post_id 		the post id to get permissions for
 	  * @param 	string 	$rType 		the return type for the permissions
-	  * @returns 	bool 	true on success, false on failure
+	  * @returns 	results
 	  */
 	public static function getUserPerms($post_id=NULL,$rType="object") {
 		//filter input
@@ -259,6 +288,24 @@
 		return  $DB->get_rows("SELECT `perms`.`user_id`, `users`.`alias`, `perms`.`access_level` FROM `postUserPermissions` AS `perms`, `users` 
 							WHERE `perms`.`user_id`=`users`.`user_id` AND `perms`.`post_id`=?;",
 							   'i' ,array($post_id), $rType);
+	}
+		/**
+	  * Remove a user permission for a post
+	  * @param 	int 		$user_id 		the user id to addpermissions for
+	  * @param 	int 		$post_id 		the post id to add permissions for
+	  * @param 	string 	$rType 		the return type for the permissions
+	  * @returns 	bool 	status
+	  */
+	public static function deleteUserPerm($user_id, $post_id, $rType="object") {
+		//filter input
+		$inputFilter = new Filters;
+		$user_id = $inputFilter->number($user_id);
+		$post_id = $inputFilter->number($post_id);
+		if($inputFilter->ERRORS()) { return json_encode(array('status'=>"E_FILTERS")); }
+		//connect to Database
+		$DB = new DB_MySQLi;
+		return  $DB->delete("DELETE FROM `postUserPermissions` WHERE `user_id`=? AND `post_id`=?;",
+						'ii' ,array($user_id, $post_id), $rType);
 	}
  }
 ?>
