@@ -193,14 +193,12 @@ window.addEvent('domready', function() {
 						//create the results box
 						var sublinkResults = new Element('ul',{
 							id: 'sublinkSearchResults',
+							class: 'resultsBox',
 							styles: {
 								position: 'absolute',
 								height: e.target.offsetHeight*3,
 								left: LOC.X,
 								top: LOC.Y+e.target.offsetHeight+2,
-								background: '#AAA',
-								border: 'outset 2px #FFF',
-								cursor: 'pointer',
 								overflow: 'auto'
 							},
 							events: {
@@ -275,13 +273,7 @@ window.addEvent('domready', function() {
 						});
 						//Cancel Button
 						new Element('div', {
-							styles: {
-								background: 'red',
-								width: '30px',
-								height: '10px',
-								color: 'black',
-								float: 'right'
-							},
+							class: 'cancelButton',
 							html: ' X ',
 							events: {
 								click: function(e) {

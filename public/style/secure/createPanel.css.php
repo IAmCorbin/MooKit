@@ -8,3 +8,6 @@
 <? /*<!-- DELETE POST BUTTON --> */?>
 td.createDeletePost { font-family: Monospace; font-weight: bold; text-align: center; font-size: 30px; }
 td.createDeletePost:hover { font-weight: bold; font-size: 30px; color: #500; }
+
+<? /* <!-- AddUserPermission --> */ ?>
+li.userAdd:hover { border: outset black 1px; background: #999; }

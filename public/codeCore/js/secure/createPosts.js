@@ -201,9 +201,160 @@ window.addEvent('domready',function() {
 						},
 						submit: function(e) {
 							e.stop();
-							alert('GET USER');
+						},
+						keydown: function(e) {
+							if(e.key == "enter") {
+								//get X and Y positioning of the input
+								LOC = getXY(e.target);
+								new Request({
+									url: 'codeCore/php/secure/sharedGetUsers.php',
+									method: 'post',
+									onRequest: function() {
+										//add loading graphic
+										e.target.addClass('loadingW');
+									},
+									onSuccess: function(response) {
+										json = handleResponse(response);
+										//if no results were found, clear the box and return
+										if(!json || $type(json) != "array") {
+											e.target.set('value','No Users Found'); 
+											e.target.removeClass('loadingW');
+											return;
+										} 
+										//create the results box
+										var userResults = new Element('ul',{
+											id: 'userSearchResults',
+											class: 'resultsBox',
+											styles: {
+												position: 'absolute',
+												height: e.target.offsetHeight*3,
+												left: LOC.X,
+												top: LOC.Y+e.target.offsetHeight+2,
+												overflow: 'auto'
+											},
+											events: {
+												//handle adding, this will be caught from the bubbling event 'click' from the li that will be added
+												click: function(e) {
+													if(e.target.className=="userAdd" || e.target.getParent().className=="userAdd") {
+														//grab the data from the DOM
+														//~ if(e.target.className=="userAdd")
+															//~ var user = e.target.getParent().getParent().getParent().getParent();
+														//~ else if(e.target.getParent().className=="userAdd")
+															//~ var user = e.target.getParent().getParent().getParent().getParent().getParent();
+														
+														//~ var user_id = user.getFirst().get('html');
+														//~ if(e.target.className=="userAdd")
+															//~ var sublink = e.target;
+														//~ else if(e.target.getParent().className=="userAdd")
+															//~ var sublink = e.target.getParent();
+														//~ var sublink_id = sublink.getElement('span').get('html');
+														//~ var sublink_name = sublink.getFirst('a').get('html');
+														//~ var sublink_href = sublink.getFirst('a').getNext().get('html');
+														//~ var sublink_desc = sublink.getLast('a').get('html');
+														//~ var sublinkTable = e.target.getParent('td[name="sublinks"]').getElement('table').getElement('tbody')
+														//~ new Request({
+															//~ method: 'post',
+															//~ url: 'codeCore/php/secure/createAddUserPerm.php',
+															//~ onSuccess: function(response) {
+																//~ json = handleResponse(response);
+																//~ if(json) {
+																	//~ //add sublink row
+																	//~ newSublinkRow = new Element('tr',{ class: "sublinkRow" });
+																	//~ sublinkID = new Element('td', { 
+																		//~ styles: { display: 'none' }, 
+																		//~ html: sublink_id,
+																	//~ });
+																	//~ new Element('td', { html: sublink_name }).inject(newSublinkRow);
+																	//~ new Element('td', { html: sublink_href }).inject(newSublinkRow);
+																	//~ new Element('td', { html: sublink_desc }).inject(newSublinkRow);
+																	//~ //attempt to clone the events of an existing sublink row - otherwise will need to reload this area to attach the delete event
+																	//~ var cloneAttempt = sublinkTable.getElement('tr[class="sublinkRow"]');
+																	//~ if(cloneAttempt)
+																		//~ newSublinkRow.cloneEvents(cloneAttempt);
+																	//~ //inject row into this link sublink table
+																	//~ newSublinkRow.inject(sublinkTable);
+																	//~ //remove the results box
+																	//~ e.target.getParent('ul').destroy();
+																//~ } else { //Error Adding sublink
+																	//~ e.target.getParent('form').getElement('input').set('html','Error Adding Sublink');
+																	//~ //remove the results box
+																	//~ e.target.getParent('ul').destroy();
+																//~ }
+															//~ }
+														//~ }).send('link_id='+link_id+"&sublink_id="+sublink_id);
+													}
+												}
+											}
+										});
+										//add the results
+										json.each(function(user) {
+											var userResult = new Element('li',{
+												class: 'userAdd',
+												html: "<a>"+user.alias+"</a> - <a>"+user.nameFirst+" "+user.nameLast.desc+")</a>"
+											});
+											//add the link id as a hidden element
+											new Element('span', {styles: {display: 'none'},html: user.user_id }).inject(userResult);
+											//add the result to the results box
+											userResult.inject(userResults);
+										});
+										//Cancel Button
+										new Element('div', {
+											class: 'cancelButton',
+											html: ' X ',
+											events: {
+												click: function(e) {
+													e.stop();
+													//CLOSE
+													e.target.getParent('ul').destroy();
+												}
+											}
+										}).inject(userResults,"top");
+										//add the results box to the document
+										userResults.inject(e.target.getParent());
+										//remove loading graphic
+										e.target.removeClass('loadingW');
+										e.target.set('html','');
+									}
+								}).send('alias='+e.target.value+'&rType=json');
+							}
 						}
 					});
+					//Delete Sublinks
+					//grab all sublink rows
+					//~ var sublinks = $$('.sublinkRow');
+					//~ sublinks.each(function(element) {
+						//~ element.addEvents({
+							//~ //right click options
+							//~ contextmenu: function(e) {
+								//~ e.stop();
+								//~ if(e.target.tagName == "TD") {
+									//~ var link = e.target.getParent().getParent().getParent().getParent().getParent();
+									//~ var link_id = link.getFirst().get('html');
+									//~ var sublink = e.target.getParent();
+									//~ var sublink_id =  sublink.getFirst().get('html');
+									//~ new ConfirmBox({
+										//~ boxMSG: 'Are you sure that you no longer want "'+sublink.getFirst().getNext().get('html')+'" to be a sublink of "'+link.getFirst().getNext().get('html')+'"?',
+										//~ back: '#F00',
+										//~ onConfirm: function() {
+											//~ //Delete The Sublink Table Entry
+											//~ new Request({
+												//~ method: 'post',
+												//~ url: 'codeCore/php/secure/adminDeleteSublink.php',
+												//~ onSuccess: function(response) {
+													//~ json = handleResponse(response);
+													//~ if(!json) return;
+													//~ if(json.status == 1)
+														//~ //remove sublinks row
+														//~ sublink.destroy();
+												//~ }
+													
+											//~ }).send('link_id='+link_id+"&sublink_id="+sublink_id);
+										//~ }
+									//~ });
+								//~ }
+							//~ }
+						//~ });
+					//~ });
 					//Post Group Permissions - Add Group
 					$('postGroupPermissionsAddGroup').addEvents({
 						click: function(e) {

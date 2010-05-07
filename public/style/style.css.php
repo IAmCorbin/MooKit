@@ -71,6 +71,9 @@ input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2p
 		{ -moz-border-radius:<?echo $curved?>; <?/* Firefox */?> -webkit-border-radius:<?echo $curved?>; <?/* Safari and chrome */?> -khtml-border-radius:<?echo $curved?>; <?/* Linux browsers */?> border-radius:<?echo $curved?>; <?/* CSS3 */?> }
 	.button { background: #AAA; border: outset #666 4px; margin: 8px;}
 		.button:hover { background: #888; border: outset 3px; cursor: pointer;}
+	.cancelButton { width: 30px; height: 10px; color: black; float: right; background: #A00; }
+		.cancelButton:hover { background: #FAA; color: #FFF; font-weight: bold; }
+	.resultsBox { background: #AAA; border: outset 2px; #FFF; cursor: pointer; }
 	.blueBox { width: 50px; height: 50px; background: blue; }
 	form.singleton { display: inline; padding: 4px; border: solid #555 5px; background: #333; }
 		form.singleton input { border: none; background: #333; color: #AAA; }
