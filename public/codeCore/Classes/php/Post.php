@@ -243,5 +243,22 @@
 			}
 		}
 	}
+	/**
+	  * Grab a post's User Permissions from the database
+	  * @param 	int 		$post_id 		the post id to get permissions for
+	  * @param 	string 	$rType 		the return type for the permissions
+	  * @returns 	bool 	true on success, false on failure
+	  */
+	public static function getUserPerms($post_id=NULL,$rType="object") {
+		//filter input
+		$inputFilter = new Filters;
+		$post_id = $inputFilter->number($post_id);
+		if($inputFilter->ERRORS()) { return json_encode(array('status'=>"E_FILTERS")); }
+		//connect to Database
+		$DB = new DB_MySQLi;
+		return  $DB->get_rows("SELECT `perms`.`user_id`, `users`.`alias`, `perms`.`access_level` FROM `postUserPermissions` AS `perms`, `users` 
+							WHERE `perms`.`user_id`=`users`.`user_id` AND `perms`.`post_id`=?;",
+							   'i' ,array($post_id), $rType);
+	}
  }
 ?>
