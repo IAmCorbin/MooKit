@@ -52,7 +52,10 @@ class DB_MySQLi {
 		if(!preg_match('/LIMIT 1;$/',$query))
 			$query = preg_replace('/;$/',' LIMIT 1;',$query);
 		if($results = $this->get_rows($query, $types, $vars, $rType))
-			return $results[0];
+			if($rType === "json") {
+				return $results;
+			} else
+				return $results[0];
 		else 
 			return false;
 	}
