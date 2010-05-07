@@ -108,9 +108,10 @@ class DB_MySQLi {
 	  * @param 	string 	$query 		The Insert sql
 	  * @param 	string	$types		mysqli->bind_param($types)
 	  * @param	array	$vars		the variables to bind
+	  * @param 	string 	$rType		optionally (used to get a json return)
 	  * @returns 	int		the number rows affected
 	  */
-	public function insert($query, $types=NULL, $vars=NULL) {
+	public function insert($query, $types=NULL, $vars=NULL, $rType=NULL) {
 		//check for valid connection
 		if(!@$this->mysqli->ping()) {
 			$this->trigger_DB_error('E_DB_CONN');
@@ -133,7 +134,10 @@ class DB_MySQLi {
 		//get affected rows and return
 		$affectedRows = $this->stmt->affected_rows;
 		$this->closeStmt();
-		return $affectedRows;
+		if($rType)
+			return $this->formatResults($affectedRows, $rType);
+		else
+			return $affectedRows;
 	
 	}
 	/**
@@ -141,22 +145,24 @@ class DB_MySQLi {
 	  * @param 	string 	$query 		The Update sql
 	  * @param 	string	$types		mysqli->bind_param($types)
 	  * @param	array	$vars		the variables to bind
+	  * @param 	string 	$rType		optionally (used to get a json return)
 	  * @returns 	int		the number rows affected
 	  */
-	public function update($query, $types=NULL, $vars=NULL) {
+	public function update($query, $types=NULL, $vars=NULL, $rType=NULL) {
 		//call the insert function as it does the same thing, tests for a valid connection, executes query, and returned the number of rows affected
-		return $this->insert($query, $types, $vars);
+		return $this->insert($query, $types, $vars, $rType);
 	}
 	/**
 	  * Delete Database Rows
 	  * @param 	string 	$query 		The Update sql
 	  * @param 	string	$types		mysqli->bind_param($types)
 	  * @param	array	$vars		the variables to bind
+	  * @param 	string 	$rType		optionally (used to get a json return)
 	  * @returns 	int		the number rows affected
 	  */
-	public function delete($query, $types=NULL, $vars=NULL) {
+	public function delete($query, $types=NULL, $vars=NULL, $rType=NULL) {
 		//call the insert function as it does the same thing, tests for a valid connection, executes query, and returned the number of rows affected
-		return $this->insert($query, $types, $vars);
+		return $this->insert($query, $types, $vars, $rType);
 	}
 	/**
 	  * Setup a Prepared Statement
@@ -271,12 +277,15 @@ class DB_MySQLi {
 				}
 				break;
 			case "json":
-				if(sizeof($results) > 0)
+				if($results == "1")
+					$results = json_encode(array('status'=>'1'));
+				else if(sizeof($results) > 0)
 					$results = json_encode($results);
 				else
 					$results = json_encode(array('status'=>'0'));
 				break;
 		} //END SWITCH
+		return $results;
 	}
 	/**
 	  * Function to be thrown in the event of an error, logs the error
