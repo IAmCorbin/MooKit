@@ -25,6 +25,7 @@ input[type="text"], input[type="password"] { border: inset #AAA 1px; padding: 2p
 
 /* SHORTCUTS */
 	.floatL { float: left; }
+	.floatR { float: right; }
 	.clearB { clear: both; }
 
 /* SLIDE BUTTONS */
