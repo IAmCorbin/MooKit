@@ -1,4 +1,9 @@
 window.addEvent('domready',function() {
+	
+	//Add Post Table Sorting and Pagination	
+	new SortingTable( 'posts', {
+		paginator: new PaginatingTable( 'posts', 'posts_pagination', { per_page: 4 } )
+	});
 	//Edit Posts
 	//grab links
 	var posts = $('posts').getElement('tbody').getElements('tr');
@@ -50,7 +55,7 @@ window.addEvent('domready',function() {
 					//Post Editing Lightbox Content Box
 					var editingContent = new Element('div', {
 						class: "createEditingPostContent",
-						styles: { position:'fixed', left: '50%', top: '50px', width: '0%', height: '0%', padding: '10px', border: 'solid black 8px', background: '#FFF', zIndex: '5001', display: 'none', overflow: 'auto' }
+						styles: { position:'fixed', left: '200%', top: '300%', width: '0%', height: '0%', padding: '10px', border: 'solid black 8px', background: '#FFF', zIndex: '5001', display: 'none', overflow: 'auto' }
 					});
 					//close button
 					new Element('div', { id: "createEditingPostClose", styles: { cursor: 'pointer', background: 'red', width: '25px', height: '25px' }, html: 'Cancel' }).inject(editingContent);
@@ -156,10 +161,10 @@ window.addEvent('domready',function() {
 							var updateRow = posts.getParent().getElement('.EDITING')[0];
 							updateRow.removeClass('EDITING');
 							this.content.morph({
-								width: '0%',
-								height: '0%',
-								left: '50%',
-								top: '50%'
+								width: '0px',
+								height: '0px',
+								left: '200%',
+								top: '300%'
 							});
 							this.fadeLightbox.delay('200',this);
 						},
@@ -191,8 +196,8 @@ window.addEvent('domready',function() {
 					});
 					//Post User Permissions - Add User
 					$('postUserPermissionsAddUser').addEvents({
-						click: function() {
-							this.getElement('input[type="text"]').set('value','');
+						click: function(e) {
+							e.target.set('value','');
 						},
 						submit: function(e) {
 							e.stop();
@@ -201,8 +206,8 @@ window.addEvent('domready',function() {
 					});
 					//Post Group Permissions - Add Group
 					$('postGroupPermissionsAddGroup').addEvents({
-						click: function() {
-							this.getElement('input[type="text"]').set('value','');
+						click: function(e) {
+							e.target.set('value','');
 						},
 						submit: function(e) {
 							e.stop();
