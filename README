@@ -18,7 +18,10 @@
 -- 			|    |   |  l__\ |   |	|\   __|   o	  		--															    --
 -- 						   				--															    --
 -- 	-- htmLawed Creator	   				--															    --
+-- 		http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/index.php								    --
 -- 	-- sortableTables/paginatingTables Creator	--															    --
+-- 		http://madhatted.com/2008/1/11/the-joy-of-a-minimal-complete-javascript-table-sort							    --
+--  		             		            	     			--															    --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~															    --
 -- 																									    --
 --  This code is free to use and share, but must be passed on in turn. Don't be greedy, help each other, we are all One.		    --
@@ -50,9 +53,9 @@ MooKit is a web development toolkit using these technologies at it's core:
 
 Goals:
 																							--
-	- The MooKit is a robust and scalable solution to any webDevelopment challange.						--
+	- The MooKit is a robust and scalable solution to any webDevelopment challange.							--
 																							--
-	- The Mookit eliminates redundant data and creates a nicely organized, readable structure				--
+	- The Mookit eliminates redundant data and creates a nicely organized structure							--
 																							--
 	- The MooKit provides object oriented pieces you can snap together to create a site 						--
 																							--
@@ -60,7 +63,7 @@ Goals:
 																							--
          ----------------------------------------------------------------------------------------------------------------------------------------------
 
-Important:
+! Important !
 	- MooKit needs write access to these locations:
 		logs/DBerrors.xml
 		logs/PHPerrors.xml
@@ -68,93 +71,147 @@ Important:
 ---------
 | Files |
 ___________________________________________________________________________________________________________________________________
-	-------------------------------------------------------------------------------------
-	| codeCore:		| Core System Code
-	| 	Classes:			| Core Classes
-	| 		js:				| Core JavaScript Classes
-	|   		  --  DeepLinker.js				- adds a hash listener and caching system for deeplinking ajax content
-	|   		  --  LightBox.js				- adds "toggleable" layers to the page
-	|   		  --  mootools-1.2.4.4-more.js 	- The MooTools Core
-	|   		  --  mootools-1.2.4-core-yc.js		- The MooTools More
-	| 		php:				| Core PHP Classes
-	|   		  --  DatabaseConnection.php		- DatabaseConnection class
-	|    		  --  Filters.php					- User input filtering class
-	|   		  --  Menu.php					- Navigation system of links and sublinks
-	|   		  --  MooKit.php				- The Main Class - handles application initialization and template building
-	|   		  --  Post.php					- A Class representing a set of related html elements that serve a certain purpose (blog post, static page, game, video, etc...)
-	|   		  --  Security.php				- User Authentication Check
-	|   		  --  Template.php				- Allows for seperation of data gathering and presentation logic
-	|   		  --  User.php					- User Management
-	| 	functions:		| Core Functions
-	|   		php:				| Core PHP functions
-	|   		  --  auth.php					- function to reload content area as user authentication status changes
-	|   		  --  functions.php				- Core Global functions
-	|   		  --  htmLawed1.1.9.1.php		- Html Sanitizer ( http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/ )
-	| 	js:				| Core JavaSript
-	|   	  --  debug.js			- on screen slide-up debugging box
-	|   	  --  login.js			- creates login lightbox layer
-	|   	  --  main.js			- global JavaScript
-	|   	  --  signup.js			- creates signup lightbox layer
-	| 		secure:			| Secure Core JavaScript
-	|   		  --  auth.js			- containes authorized area JavaScript
-	|   		  --  postEdit.js			- ajax post editing
-	| 	php:				| Core PHP scripts		
-	|   	  --  authUpdate.php	- calls the function in auth.php to reload content
-	|   	  --  init.php			- php auto_prepend_file to index.php - PHP Class Autoloading and Gloabl Variables
-	|   	  --  login.php			- login script using the User and Database classes
-	|   	  --  logout.php		- remove authentication
-	|   	  --  signup.php		- signup script using the User and Database classes
-	|   	  --  test[123].php			- sample php scripts for testing
-	| 		secure:			| Secure Core PHP 
-	|   		  --  postGet.php		- get post data
-	|   		  --  postUpdate.php	- update a post
-	--------------------------------------------------------------------
-	| codeSite:		| Unique Site Code
-	|	Classes:			| Site Classes
-	| 		js:				| Site JavaScript Classes
-	| 		php:				| Site PHP Classes
-	| 	functions:		| Site functions
-	| 	js:				| Site JavaScript
-	|		secure:			| Secure Site JavaScript
-	|	php:				| Site PHP
-	|   	  --  DB.php			- Set Database Credentials Here
-	| 		secure:			| Secure Site PHP
-	--------------------------------------------------------------------
-	| docs:			| Site Documentation
-	|	phpDocs:			| Site PHP Documentation
-	|	jsDocs:			| Site JavaScript Documentation
-	|   --  MooKit.dia		- Site Dia Diagram
-	--------------------------------------------------------------------
-	| img:			| Site Graphics
-	--------------------------------------------------------------------
-	| logs:			| Site Logs
-	|   --  DBerrors.log		- MySQL Errors
-	--------------------------------------------------------------------
-	| SQL:			| CREATE SQL statements needed for site database
-	--------------------------------------------------------------------
-	| style:			| CSS Styles
-	|   --  content.css.php		- Main content
-	|   --  loginForm.css.php		- Login Lightbox
-	|   --  post.css.php			- Post Display
-	|   --  signupForm.css.php	- Signup Lightbox
-	|   --  style.css.php			- Global Styles
-	| 	secure:		| Secure Styles
-	|   	  --  postEdit.css.php	- Post Editing
-	--------------------------------------------------------------------
-	| templates:		| Site Template
-	|   --  404.tpl.php			- Error Template
-	|   --  content.tpl.php		- Main content
-	|   --  debug.tpl.php			- debug box
-	|   --  loginForm.tpl.php		- Login Lightbox
-	|   --  main.tpl.php			- Default main template
-	|   --  postEdit.tpl.php		- Post Editing
-	|   --  post.tpl.php			- Post Display
-	|   --  signupForm.tpl.php		- Signup Lightbox
-	-------------------------------------------------------------------------------------
-	|   -- index.php		| The Gatekeeper
-	|   -- README		| this file
-	|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-________________________________________________________________________________________________________________________________________
-
-
+|   -- .:
+|   --  COPYING		GNU GENERAL PUBLIC LICENSE
+|   --  README		This File
+-------------------------------------------------------------------------------------
+| docs | Documentation |----------------------------------------------
+|   --  js			- documentation JavaScript
+|   --  jsDocs		| System JavaScript Documentation
+|   --  phpDocs		| System PHP Documentation
+|   --  MooKit.dia	- Dia Diagram of the system
+|   --  style.css		- documentation style
+-------------------------------------------------------------------------------------
+| logs | System Logs |---------------------------------------------------- 
+|   --  DBerrors.xml		Database Error Log
+|   --  DBerrors.xsl		Database Error XML Template
+|   --  LOG_NOTES		notes
+|   --  phpErrors.log		phperrors
+|   --  PHPerrors.xml		PHP Error Log
+|   --  PHPerrors.xsl		PHP Error XML Template
+|   --  trimXMLerrors.php	Script to remove errors from DB and PHP logs
+----------------------------------------------------------------------------------
+| public | Main Public Entry |------------------------------------------
+|   --  index.php			The Gatekeeper
+|   --  php5.ini
+-------------------------------------------------------------------------------------
+	| codeCore | Core System Code |---------------------------
+	-----------------------------------------------------------------------------
+	| Classes | Core Classes |--------------------------------------
+	------------------------------------------------------------------------------
+			| js | Core JavaScript Classes |-------------------------------
+			|   --  DeepLinker.js				adds a hash listener and caching system for deeplinking ajax content
+			|   --  LightBox.js				adds "toggleable" layers to the page
+			|   --  mootools-1.2.4.4-more.js 	The MooTools Core
+			|   --  mootools-1.2.4-core-yc.js		The MooTools More
+			|   --  PaginatingTable.js			Creates Paginating Tables
+			|   --  SortingTable.js				Creates Sortable Tables
+			-------------------------------------------------------------------------------------
+			| php | Core PHP Classes |--------------------------------------------
+			|   --  DB_MySQLi.php			Database Connection Class that utilizes MySQLi objects and prepared statements
+			|   --  Filters.php			User input filtering class
+			|   --  Link.php				hyperlinks with descriptions and associated sublinks
+			|   --  Menu.php			Navigation system of links and sublinks - {@see Link}
+			|   --  MooKit.php			The Main Class - handles application initialization and template building
+			|   --  Post.php				A Class representing a set of related html elements that serve a certain purpose (blog post, static page, game, video, etc...)
+			|   --  Security.php			User Authentication Check
+			|   --  Template.php			Allows for seperation of data gathering and presentation logic
+			|   --  User.php				User Management
+			-----------------------
+		| js | Core JavaSript |------------------------------------------------------------
+		|   --  debug.js			on screen slide-up debugging box
+		|   --  errorHandler.js		JavaScript error handling function - just alerts error right now (if debug true)
+		|   --  functions.js		Global Functions
+		-------------------------------------------------------------------------------------------
+			| secure | Secure Core JavaScript |--------------------------------
+			|   --  adminLinks.js		Link Management
+			|   --  adminPanel.js		Administration Panel
+			|   --  adminUsers.js		User Management
+			|   --  createPanel.js		Creator Panel
+			|   --  createPosts.js		Post Management
+			-------------------------------------------------------------------------------------	
+		| php | Core PHP |-----------------------------------------------------------------	
+		|   --  functions.php			Global functions
+		|   --  htmLawed1.1.9.1.php	Html Sanitizer ( http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/ )
+		|   --  init.php				php auto_prepend_file to index.php - PHP Class Autoloading and Gloabl Variables (also includes ../codeSite/php/init.php)
+		|   --  logError.php			trigger a php error from JavaScript
+		---------------------------------------------------------------------------------------------
+			| secure | Secure Core PHP |---------------------------------------------------------------------------------------------------
+			|   --  adminAccessDec.php			Admin - Decrease a user's access_level	
+			|   --  adminAccessInc.php			Admin - Increase a user's access_level	
+			|   --  adminAddLink.php				Admin - Add a new Link
+			|   --  adminAddSublink.php			Admin - Add a new Sublink
+			|   --  adminDeleteLink.php			Admin - Remove a Link
+			|   --  adminDeleteSublink.php			Admin - Remove a Sublink
+			|   --  adminDeleteUser.php			Admin - Delete a User
+			|   --  adminEditLink.php				Admin - Edit a Link
+			|   --  adminGetLinks.php				Admin - Get Links
+			|   --  adminPanel.php				The Administration Panel
+			|   --  createAddPost.php				Creator - Add a new Post
+			|   --  createAddPostUserPerm.php		Creator - Add a new user permission access_level to a post
+			|   --  createDeletePost.php			Creator - Delete a Post
+			|   --  createDeletePostUserPerm.php	Creator - Remove user permission access_level for a post
+			|   --  createEditPost.php				Creator - Edit an existing Post
+			|   --  createGetPosts.php			Creator - Get Posts
+			|   --  createGetPostUserPerms.php		Creator - Get a current user permission access_level for a post
+			|   --  createPanel.php				The Creator Panel
+			|   --  sharedGetUsers.php			Shared - Get User's and information
+			------------------------------------------------------------------------------------------------------------------------------------------------
+	| codeSite | Unique Site Code |----------------------------------------------------
+	----------------------------------------------------------------------------------------------------
+		| Classes | Site Classes |--------------------------------------- 
+		-----------------------------------------------------------------------------
+			| js | Site JavaScript Classes |--------------------------------------------
+			----------------------------------------------------------------------------------------
+			| php | Site PHP Classes |-------------------------------------------------
+			----------------------------------------------------------------------------------------
+		| js | Site JavaScript |-------------------------------------------------------------
+		|   --  functions.js		Global functions
+		|   --  login.js			Login Form
+		|   --  main.js			Global JavaScript
+		|   --  menu.js			Application Menu 
+		|   --  signup.js			Signup Form
+		---------------------------------------------------------------------------------------------
+			| secure | Secure Site JavaScript |-------------------------
+			|   --  auth.js	| authorized JavaScript
+			-----------------------------------------------------------------------------
+		| php | Site PHP |-------------------------------------------------------------------
+		|   --  DB.php				Database Credentials
+		|   --  functions.php			Global Site Functions
+		|   --  init.php				Site Settings (Directories/Debug Flag/Timezone)
+		|   --  login.php				User Login
+		|   --  logout.php			User Logout
+		|   --  signup.php			User Signup
+		|   --  test[123].php			Test Scripts
+		|   --  updateMenu.php		Update the Main Menu
+		|   --  updateUserInfo.php		Update the User Info Box
+		---------------------------------------------------------------------------------------------
+			| secure | Secure Site PHP |----------------------------------
+			-----------------------------------------------------------------------------
+	| img | Site Graphics
+	-------------------------------
+	| style | Site Styles |------------------------------------------------------
+	|   --  content.css.php		Main content
+	|   --  loginForm.css.php		Login Lightbox
+	|   --  post.css.php			Post Display
+	|   --  signupForm.css.php	Signup Lightbox
+	|   --  style.css.php			Global Styles
+	-----------------------------------------------
+		| secure | Secure Styles |--------------------------------------
+		|   --  adminPanel.css.php	Administration Panel Style
+		|   --  createPanel.css.php	Creator Panel Style
+		--------------------------------------
+	| templates | Site Templates |------------------------------------------
+	|   --  404.tpl.php			Error Template
+	|   --  content.tpl.php		Main content
+	|   --  debug.tpl.php			debug box
+	|   --  loginForm.tpl.php		Login Lightbox
+	|   --  main.tpl.php			Default main template
+	|   --  post.tpl.php			Post Display
+	|   --  signupForm.tpl.php		Signup Lightbox
+	----------------------------------------------------------------------------------------
+| sql:
+|   --  SQL		CREATE SQL statements needed for site database
+-------------------------------------------------------------------------------------
+_______________________________________________________________________________________________________________________________________
 Note: Using Xdebug and kcachegrind for debugging analyzing php
