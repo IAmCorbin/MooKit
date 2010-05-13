@@ -1,21 +1,42 @@
-//
-// new SortingTable( 'my_table', {
-// zebra: true, // Stripe the table, also on initialize
-// details: false, // Has details every other row
-// paginator: false, // Pass a paginator object
-// onSorted: function(){}, // Callback to run after sort
-// dont_sort_class: 'nosort', // Class name on th's that don't sort
-// forward_sort_class: 'forward_sort', // Class applied to forward sort th's
-// reverse_sort_class: 'reverse_sort' // Class applied to reverse sort th's
-// });
-//
-// The above were the defaults. The regexes in load_conversions test a cell
-// begin sorted for a match, then use that conversion for all elements on that
-// column.
-//
-// Requires mootools Class, Array, Function, Element, Element.Selectors,
-// Element.Event, and you should probably get Window.DomReady if you're smart.
-// @author  { @link http://madhatted.com/2008/1/11/the-joy-of-a-minimal-complete-javascript-table-sort }
+/**
+ * @class Make a table sortable by clicking on the headers
+ * @author {@link http://madhatted.com/2008/1/11/the-joy-of-a-minimal-complete-javascript-table-sort}
+ * added this documentation May 13, 2010
+ * @package MooKit
+ * @requires MooTools 1.2 {@link http://mootools.net/}
+ * // new SortingTable( 'my_table', {
+ * // zebra: true, // Stripe the table, also on initialize
+ * // details: false, // Has details every other row
+ * // paginator: false, // Pass a paginator object
+ * // onSorted: function(){}, // Callback to run after sort
+ * // dont_sort_class: 'nosort', // Class name on th's that don't sort
+ * // forward_sort_class: 'forward_sort', // Class applied to forward sort th's
+ * // reverse_sort_class: 'reverse_sort' // Class applied to reverse sort th's
+ * // });
+ * //
+ * // The above were the defaults. The regexes in load_conversions test a cell
+ * // begin sorted for a match, then use that conversion for all elements on that
+ * // column.
+ * //
+ * // Requires mootools Class, Array, Function, Element, Element.Selectors,
+ * // Element.Event, and you should probably get Window.DomReady if you're smart.
+ * @author  { @link http://madhatted.com/2008/1/11/the-joy-of-a-minimal-complete-javascript-table-sort }
+ * @property 	{element}		table 					the table to add sorting to
+ * @property	{element}		tbody					the body of the table
+ * @property	{Array}			headers					the table headers
+ * @property	{element}		sort_column				the current sort by column
+ * @property	{Array}			conversions				stores conversion matchers and functions
+ * @property	{string}			conversion_matcher			conversion matcher in use
+ * @property	{string}			conversion_function			conversion function in use
+* @property 	{RegExp} 		removeAltClassRe			regular expression
+* @property 	{int} 			options.zebra	 			zebra stripe rows switch
+ * @property 	{bool} 			options.details 			row details switch
+ * @property 	{PaginatingTable} 	options.paginator			the table paginator
+ * @property 	{string} 			options.dont_sort_class 		class for non sorted columns
+ * @property 	{string} 			options.forward_sort_class 	class for forward sorted column header
+ * @property 	{string} 			options.reverse_sort_class 	class for reverse sorted column header
+ * @property 	{$empty}		options.onSorted 			event fired on sort
+ */
 var SortingTable = new Class({
 
   Implements: [Options, Events],
@@ -29,7 +50,11 @@ var SortingTable = new Class({
     forward_sort_class: 'forward_sort',
     reverse_sort_class: 'reverse_sort'
   },
-
+/** 
+  * @constructor
+  * @param 	{element}	table		the table to make sortable
+  * @param	{Array}		options		set options
+  */
   initialize: function( table, options ) {
     this.table = $(table);
     this.setOptions(options);
@@ -51,7 +76,7 @@ var SortingTable = new Class({
 
     this.load_conversions();
   },
-
+/** @function sort the table **/
   sort_by_header: function( header ){
     var rows = [];
     
@@ -132,7 +157,7 @@ var SortingTable = new Class({
    this.tbody.inject(before, 'after');
    this.fireEvent('sorted', this);
   },
-
+/** @function load all the sorting conversions **/
   load_conversions: function() {
     this.conversions = $A([
       // 1.75 MB, 301 GB, 34 KB, 8 TB
@@ -222,7 +247,7 @@ var SortingTable = new Class({
 
 SortingTable.removeAltClassRe = new RegExp('(^|\\s)alt(?:\\s|$)');
 SortingTable.implement({ removeAltClassRe: SortingTable.removeAltClassRe });
-
+/** @function zebra stripe the SortingTable **/
 SortingTable.stripe_table = function ( tr_elements ) {
   var counter = 0;
   tr_elements.each( function( tr ) {

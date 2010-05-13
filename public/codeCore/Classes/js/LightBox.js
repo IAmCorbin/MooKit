@@ -63,7 +63,7 @@ var LightBox = new Class({
 	/**
 	  * @constructor
 	  * @param {string} 	lightbox 		the ID of the lightbox
-	  * @param {string[]} 	options 		passed in options
+	  * @param {array} 	options 		passed in options
 	  */
 	initialize: function(lightbox, options) {
 		this.setOptions(options);
@@ -189,6 +189,9 @@ var ConfirmBox = new Class({
 	},
 	/**
 	  * @constructor
+	  *
+	  * Creates the elements needs for the confirmation box using the passed in options, then creates a lightbox with the element and trggers it
+	  *
 	  * @param {string[]} 	options 		passed in options
 	  */
 	initialize: function(options) {
@@ -255,7 +258,7 @@ var ConfirmBox = new Class({
 		//add confirmBox to DOM
 		confirmBox.inject(document.body);
 		//Create the Lightbox
-		confirmLB = new LightBox(this.options.name, {
+		this.confirmLB = new LightBox(this.options.name, {
 			onShow: function() {
 				this.fireEvent('display');
 			}.bind(this),
@@ -268,12 +271,12 @@ var ConfirmBox = new Class({
 				if($$('.'+this.options.name+'Content')) $$('.'+this.options.name+'Content').destroy();
 			}.bind(this),	
 		});
-		confirmLB.trigger();
+		this.confirmLB.trigger();
 		
 		//Add Confirm Button Event
 		$(this.options.name+'Confirm').addEvent('click', function() {
 			this.fireEvent('confirm');
-			confirmLB.trigger();
+			this.confirmLB.trigger();
 		}.bind(this));
 		
 	}

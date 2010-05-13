@@ -37,6 +37,8 @@ var DeepLinker = new Class({
 		*/
 	/** 
 	  * @constructor
+	  * @param 	{element}	container		the deep linking container
+	  * @param	{Array}		options		set options
 	  */
 	},initialize: function(container, options) {
 		//set deep linking container
@@ -47,9 +49,7 @@ var DeepLinker = new Class({
 		this.lastCache = null;
 		//start monitoring hash
 		this.hashMonitor = (function() { this.checkHash(); }.bind(this)).periodical(this.options.time);
-	/** 
-	  * @function check the current hash 
-	  */
+	/** @function check the current hash */
 	},checkHash : function() { 
 		if(window.location.hash !== this.lastHash) {
 			this.debug("|------  HASH CHANGED  :"+window.location.hash+":------|");
@@ -99,11 +99,10 @@ var DeepLinker = new Class({
 		this.lastHash =  window.location.hash;
 	/** 
 	  * @function debugging function
+	  * @param	{string}	input	debug message
 	  */
 	},debug: function(input) { if(this.options.DEBUG && window.console) console.log(input); 
-	/** 
-	  * @function save the current content to appropriate cache
-	  */
+	/** @function save the current content to appropriate cache */
 	},saveCache: function() { 
 		//do not cache secure content
 		if(!$('LOGGEDIN')) {
