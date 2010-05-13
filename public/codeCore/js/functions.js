@@ -1,14 +1,14 @@
 /**
   * @function Sinple Debug Function to easily allow all debugging messages to be turned on/off with a switch
-  * @param the debug message to display
+  * @param 	{string}	input	the debug message to display
   */
 function debug(input) { if(DEBUG && window.console) console.log(input); }
 
 
 /**
   * @function take a php response, check for errors, and return the JSON
-  * @param the php response from an ajax call
-  * @param Error Box - for error display
+  * @param 	{string}		response		the php response from an ajax call
+  * @param 	{element}	errorBox 		optional id of element to display errors in
   */
 function handleResponse(response, errorBox) {
 	if(DEBUG)
@@ -43,8 +43,8 @@ function handleResponse(response, errorBox) {
 
 /**
   * @function take a php response, check for errors, and return the JSON
-  * @param json.status
-  * @param Error Box - for error display
+  * @param 	{string}		status	json.status
+  * @param 	{element}	errorBox 	optional id of element to display errors in
   */
 function checkJSONerrors(status, errorBox) {
 	switch(status) {
@@ -73,8 +73,8 @@ function checkJSONerrors(status, errorBox) {
 
 /**
   * @function dynamically add array of CSS Stylesheets and JavaScripts
-  * @param array styles 	array of styles ( full directory path and filenames )
-  * @param array scripts 	array of scripts ( full directory path and filenames )
+  * @param 	{Array}	styles 	array of styles ( full directory path and filenames )
+  * @param 	{Array}	scripts 	array of scripts ( full directory path and filenames )
   */
 function addAssets(styles,scripts) {
 	//if previously loaded, destroy old css and javascript 
@@ -117,9 +117,9 @@ function getHumanAccess(access_level) {
 	}
 }
 /**
-  * @function load the user edit interface
-  * @param the module name
-  * @param the container to load into
+  * @function load a core module
+  * @param 	{string}	module		the module name
+  * @param 	{string}	container		the id of the container to load into
   */
 function CORE_LOAD(module, container) {
 	switch(module) {
@@ -150,8 +150,9 @@ function CORE_LOAD(module, container) {
 
 /**
   * @function create smooth ajax loading (fade out/in)
-  * @param the container to load into (also the fading element)
-  * @param what to load
+  * @param 	{element}	container		the container to load into (also the fading element)
+  * @param 	{string}		url			what to load
+  * @param 	{int}		speed		fade speed
   */
 function fancyLoad(container, url, speed) {
 	speed = typeof(speed) == "undefined" ? 250 : speed;
@@ -162,7 +163,8 @@ function fancyLoad(container, url, speed) {
 
 /**
   * Find the absolute position of an element on the page by iterating through all parents
-  * returns an object with the X and Y position
+  * @param	{element}	obj		the object to get position for
+  * @returns 	an object with the X and Y position
   */
 function getXY(obj) {
 	if (obj) {

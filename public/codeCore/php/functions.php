@@ -1,12 +1,205 @@
 <?php
+/////////////////////////////////////////////////////////////////////
+//Database Information Retrieval Functions//
+/////////////////////////////////////////////////////////////////////
 /**
- * Check for Magic Quotes and Strip if on and return mysql_real_escape_string
- */
-function magicMySQL($DB,$var) {
-	return mysqli_real_escape_string($DB,$var);
+  * Search and retrieve user information from the database
+  * @param 	string 	$rType 	the return type desired - if "rows" is passed it will build table rows from object
+  * @param 	string 	$alias 	the user alias to search for
+  * @return	mixed	users in desired rType
+  */
+function sharedGetUsers($rType="object", $alias=NULL) {
+	
+	//build rows if requested and user is an administrator (this should only be done in the administrator panel)
+	if($rType === "rows" && (Security::clearance() & ACCESS_ADMIN) ) {
+		$users = User::get($alias,"object");
+		$rows = '';
+		foreach($users as $user) {
+			$access_level = getHumanAccess($user->access_level);
+			$rows .= "<tr>".
+					"<td>$user->user_id</td>".
+					"<td>$user->alias</td>".
+					"<td>$user->nameFirst</td>".
+					"<td>$user->nameLast</td>".
+					"<td>$user->email</td>".
+					"<td><span class=\"adminAccessDec\">-</span>&nbsp;&nbsp;&nbsp;<span>$user->access_level</span><span class=\"adminAccessInc\">+</span></td>".
+					"<td>$access_level</td>".
+					'<td class="adminDeleteUser">X</td>'.
+				"</tr>";
+		}
+		return $rows;
+	} else
+		return User::get($alias,$rType);
+}
+/**
+  * Administrator - Search and return found links from the database
+  * @param 	string 	$rType 		the return type desired - if "rows" is passed it will build table rows from object
+  * @param 	string 	$name 		the link name to search for
+  * @param 	bool 	$menuLink 	switch to grab only menu links
+  * @param 	bool 	$notSubs 		switch to turn off the sublink table join
+  * @return	mixed	links in desired rType
+  */
+function adminGetLinks($rType="object", $name='', $menuLink=FALSE, $notSubs=FALSE) {
+	//build rows if requested
+	if($rType === "rows") {
+		//grab links and sublinks from the database
+		$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
+		$lastLink_id = null;
+		$rows = '';
+		if(is_array($links))
+			foreach($links as $link) {
+				//avoid double display of links
+				if($link->link_id != $lastLink_id) {
+					$access_level = getHumanAccess($link->access_level);
+					$rows .= "<tr>".
+							"<td name=\"link_id\">$link->link_id</td>".
+							"<td name=\"name\">$link->name</td>".
+							"<td name=\"href\">$link->href</td>".
+							"<td name=\"desc\">$link->desc</td>".
+							"<td name=\"weight\">$link->weight</td>".
+							"<td name=\"ajaxLink\">$link->ajaxLink</td>".
+							"<td name=\"menuLink\">$link->menuLink</td>".
+							"<td name=\"access_level\">$link->access_level</td>".
+							"<td name=\"sublinks\">".
+							//SubLinks Editing Table
+								"<table class=\"subLinks\">".
+									"<thead>".
+										"<th style=\"display: none;\">id</th>".
+										"<th>name</th>".
+										"<th>href</th>".
+										"<th>desc</th>".
+									"</thead>".
+									"<tbody>";
+									foreach($links as $sublink) {
+										if($link->link_id === $sublink->link_id && $sublink->sublink_id) {
+											$rows.="<tr class=\"sublinkRow\">".
+												"<td style=\"display: none;\">".$sublink->sublink_id."</td>".
+												"<td>".$sublink->sub_name."</td>".
+												"<td>".$sublink->sub_href."</td>".
+												"<td>".$sublink->sub_desc."</td>".
+											"</tr>";
+										}
+									}
+								$rows.="</tbody>".
+								"</table>".
+								'<form class="adminAddSublink singleton"><input type="text" name="name" size="20" value="Add a Sublink" /></form>'.
+							"</td>".
+							'<td class="adminDeleteLink">X</td>'.
+						"</tr>";
+				}
+				$lastLink_id=$link->link_id;
+			}
+		return $rows;
+	} else
+		//grab links and sublinks from the database
+		return Link::get($name,$menuLink,$rType,$notSubs,ACCESS_ADMIN);
+}
+/**
+  * Search and return found posts from the database
+  * @param 	string 	$rType 	the return type desired - if "rows" is passed it will build table rows from object
+  * @param 	string 	$title 	the post title to search for
+  * @param 	int	 	$post_id 	the post id to search for
+  * @return	mixed	links in desired rType
+  */
+function createGetPosts($rType="object", $title=NULL, $post_id=NULL) {		
+	//build rows if requested
+	if($rType == "rows") {
+		$posts = Post::get($_SESSION['user_id'],$title,$post_id);
+		$rows = '';
+		if(is_array($posts))
+			foreach($posts as $post) {
+				$rows .= "<tr>".
+							"<td name=\"post_id\">$post->post_id</td>".
+							"<td name=\"title\">$post->title</td>".
+							"<td name=\"creator_id\">$post->creator</td>".
+							"<td name=\"createTime\">$post->createTime</td>".
+							"<td name=\"modTime\">$post->modTime</td>".
+							'<td class="createDeletePost">X</td>'.
+						"</tr>";
+			}
+		return $rows;
+	} else {
+		 return Post::get($_SESSION['user_id'],$title,$post_id,$rType);
+	}
+}
+/////////END///////////////////////////////END////////////////
+//Database Information Retrieval Functions//
+/////////END///////////////////////////////END////////////////
+
+/////////////////////////////////////////////////////////////////////
+//                    Assorted Functions               //
+/////////////////////////////////////////////////////////////////////
+/** check an array for existing keys, checks each key with array_key_exists
+  * @param 	array 	$keyArray	an array containing all the keys to check for
+  * @param 	array 	$array 		the array to test - passed by reference
+  * @param 	bool 	$setBlank	switch to set missing key values to empty strings instead of returning false
+  * @param 	bool 	$blankChk	switch to check for blank values and return false if found
+  * @return	bool		true/false
+  */
+ function array_keys_exist($keyArray, &$array, $setBlank=FALSE, $blankChk=FALSE) {
+	foreach($keyArray as $key) {
+		if(!array_key_exists($key, $array)) {
+			if($setBlank) {
+				$array[$key] = '';
+			} else
+				return false;
+		}
+		if($blankChk)
+			if($array[$key] == '')
+				return false;
+	}
+	return true;
+}
+/**
+  * Translate a bitwise user access level into a human readable title
+  * @param	int	$access_level		the access level to translate
+  */
+function getHumanAccess($access_level) {
+	switch($access_level) {
+		case 0:
+			return $human = "Unauthorized User";
+		case 1:
+			return $human = "Basic User";
+		case 3:
+			return $human = "Creator";
+		case 7:
+			return $human = "Administrator";
+		default:
+			return $human = "Unknown (Error?)";
+			
+	}
 }
 
-/** Error Handling and Logging **/
+/**
+  * print a line break with an optional centered message - used for debugging
+  * @param	string	$msg	the message
+  * @param	int		$rows	the number of rows
+  * @param	string	$char	the character to use
+  * @param	int		$cols	number of columns
+  */
+function linebreak($msg=NULL,$rows=1,$char="~",$cols=100) {
+	if($msg && !$rows) $rows = 4;
+	for($x = 0; $x < $rows; $x++) {
+		for($y = 0; $y < $cols; $y++)
+			echo $char;
+		echo "<br />";
+		//optional message
+		if($msg && $x==round($rows/2)-1) {
+			$msgLength = strlen($msg);
+			$msgMiddle = round(($cols/2)-($msgLength/2));
+			for($y = 0; $y < $cols-$msgLength; $y++) {
+				echo $char;
+				//echo message in the middle
+				if($y == $msgMiddle) echo $msg;
+			}
+			echo "<br />";
+		}
+	}
+}
+/** 
+  * Error Handling and Logging 
+  * {@see http://php.net/manual/en/function.set-error-handler.php}
+**/
 function ErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {
     //Error Log filename
       $errorLogPath = ERROR_LOG_DIR."PHPerrors.xml";
@@ -97,194 +290,6 @@ function ErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {
     //}
 }
 set_error_handler("ErrorHandler");
-
-
-
-/////////////////////////////////////////////////////////////////////
-//Database Information Retrieval Functions//
-/////////////////////////////////////////////////////////////////////
-	/**
-	  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
-	  * @param string $alias - the user alias to search for
-	  */
-	function sharedGetUsers($rType="object", $alias=NULL) {
-		
-		//build rows if requested and user is an administrator (this should only be done in the administrator panel)
-		if($rType === "rows" && (Security::clearance() & ACCESS_ADMIN) ) {
-			$users = User::get($alias,"object");
-			$rows = '';
-			foreach($users as $user) {
-				$access_level = getHumanAccess($user->access_level);
-				$rows .= "<tr>".
-						"<td>$user->user_id</td>".
-						"<td>$user->alias</td>".
-						"<td>$user->nameFirst</td>".
-						"<td>$user->nameLast</td>".
-						"<td>$user->email</td>".
-						"<td><span class=\"adminAccessDec\">-</span>&nbsp;&nbsp;&nbsp;<span>$user->access_level</span><span class=\"adminAccessInc\">+</span></td>".
-						"<td>$access_level</td>".
-						'<td class="adminDeleteUser">X</td>'.
-					"</tr>";
-			}
-			return $rows;
-		} else
-			return User::get($alias,$rType);
-	}
-	/**
-	  * Search and return found links from the database
-	  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
-	  * @param string $name - the link name to search for
-	  * @param bool $menuLink - flag to grab only menu links
-	  * @param bool $notSubs - switch to turn off the sublink table join
-	  */
-	function adminGetLinks($rType="object", $name='', $menuLink=FALSE, $notSubs=FALSE) {
-		//build rows if requested
-		if($rType === "rows") {
-			//grab links and sublinks from the database
-			$links = Link::get($name,$menuLink,"object",$notSubs,ACCESS_ADMIN);
-			$lastLink_id = null;
-			$rows = '';
-			if(is_array($links))
-				foreach($links as $link) {
-					//avoid double display of links
-					if($link->link_id != $lastLink_id) {
-						$access_level = getHumanAccess($link->access_level);
-						$rows .= "<tr>".
-								"<td name=\"link_id\">$link->link_id</td>".
-								"<td name=\"name\">$link->name</td>".
-								"<td name=\"href\">$link->href</td>".
-								"<td name=\"desc\">$link->desc</td>".
-								"<td name=\"weight\">$link->weight</td>".
-								"<td name=\"ajaxLink\">$link->ajaxLink</td>".
-								"<td name=\"menuLink\">$link->menuLink</td>".
-								"<td name=\"access_level\">$link->access_level</td>".
-								"<td name=\"sublinks\">".
-								//SubLinks Editing Table
-									"<table class=\"subLinks\">".
-										"<thead>".
-											"<th style=\"display: none;\">id</th>".
-											"<th>name</th>".
-											"<th>href</th>".
-											"<th>desc</th>".
-										"</thead>".
-										"<tbody>";
-										foreach($links as $sublink) {
-											if($link->link_id === $sublink->link_id && $sublink->sublink_id) {
-												$rows.="<tr class=\"sublinkRow\">".
-													"<td style=\"display: none;\">".$sublink->sublink_id."</td>".
-													"<td>".$sublink->sub_name."</td>".
-													"<td>".$sublink->sub_href."</td>".
-													"<td>".$sublink->sub_desc."</td>".
-												"</tr>";
-											}
-										}
-									$rows.="</tbody>".
-									"</table>".
-									'<form class="adminAddSublink singleton"><input type="text" name="name" size="20" value="Add a Sublink" /></form>'.
-								"</td>".
-								'<td class="adminDeleteLink">X</td>'.
-							"</tr>";
-					}
-					$lastLink_id=$link->link_id;
-				}
-			return $rows;
-		} else
-			//grab links and sublinks from the database
-			return Link::get($name,$menuLink,$rType,$notSubs,ACCESS_ADMIN);
-	}
-	/**
-	  * Search and return found posts from the database
-	  * @param string $rType - the return type desired - if "rows" is passed it will build table rows from object
-	  * @param string $title - the post title to search for
-	  * @param string $title - the post id to search for
-	  */
-	function createGetPosts($rType="object", $title=NULL, $post_id=NULL) {		
-		//build rows if requested
-		if($rType == "rows") {
-			$posts = Post::get($_SESSION['user_id'],$title,$post_id);
-			$rows = '';
-			if(is_array($posts))
-				foreach($posts as $post) {
-					$rows .= "<tr>".
-								"<td name=\"post_id\">$post->post_id</td>".
-								"<td name=\"title\">$post->title</td>".
-								"<td name=\"creator_id\">$post->creator</td>".
-								"<td name=\"createTime\">$post->createTime</td>".
-								"<td name=\"modTime\">$post->modTime</td>".
-								'<td class="createDeletePost">X</td>'.
-							"</tr>";
-				}
-			return $rows;
-		} else {
-			 return Post::get($_SESSION['user_id'],$title,$post_id,$rType);
-		}
-	}
-/////////END///////////////////////////////END////////////////
-//Database Information Retrieval Functions//
-/////////END///////////////////////////////END////////////////
-
-/////////////////////////////////////////////////////////////////////
-//                    Assorted Functions               //
-/////////////////////////////////////////////////////////////////////
-/** check an array for existing keys 
-  * @param 	array 	$array 		the array to test
-  * @param 	array 	$keys		an array containing all the keys to check for
-  * @param 	bool 	$setBlank	switch to set missing key values to empty strings instead of returning false
-  * @param 	bool 	$blankChk	switch to check for blank values and return false if found
-  */
- function array_keys_exist($keyArray, &$array, $setBlank=FALSE, $blankChk=FALSE) {
-	foreach($keyArray as $key) {
-		if(!array_key_exists($key, $array)) {
-			if($setBlank) {
-				$array[$key] = '';
-			} else
-				return false;
-		}
-		if($blankChk)
-			if($array[$key] == '')
-				return false;
-	}
-	return true;
-}
-
-function getHumanAccess($access_level) {
-	switch($access_level) {
-		case 0:
-			return $human = "Unauthorized User";
-		case 1:
-			return $human = "Basic User";
-		case 3:
-			return $human = "Creator";
-		case 7:
-			return $human = "Administrator";
-		default:
-			return $human = "Unknown (Error?)";
-			
-	}
-}
-
-/**
-  * print a line break with an optional centered message
-  */
-function linebreak($msg=NULL,$rows=1,$char="~",$cols=100) {
-	if($msg && !$rows) $rows = 4;
-	for($x = 0; $x < $rows; $x++) {
-		for($y = 0; $y < $cols; $y++)
-			echo $char;
-		echo "<br />";
-		//optional message
-		if($msg && $x==round($rows/2)-1) {
-			$msgLength = strlen($msg);
-			$msgMiddle = round(($cols/2)-($msgLength/2));
-			for($y = 0; $y < $cols-$msgLength; $y++) {
-				echo $char;
-				//echo message in the middle
-				if($y == $msgMiddle) echo $msg;
-			}
-			echo "<br />";
-		}
-	}
-}
 /////////END///////////////////////////////END////////////////
 //                    Assorted Functions               //
 /////////END///////////////////////////////END////////////////
