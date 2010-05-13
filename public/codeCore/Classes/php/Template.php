@@ -14,20 +14,20 @@
  * @package MooKit
  */
 class Template {
-	/** @var array $vars variables to xfer */
+	/** @var 	array 	$vars 	variables to xfer */
 	var $vars;
-	/** @var string $path path to template file */
+	/** @var 	string 	$path 	path to template file */
 	var $path;
-	/** @var string $result result of template merge */
+	/** @var 	string 	$result 	result of template merge */
 	var $result;
-	/** @var string $parent parent template */
+	/** @var 	string 	$parent 	parent template */
 	var $parent;
 	
 	/**
 	 * Constructor
 	 *
-	 * @param string $path path to the template file you want to load
-	 * @param array $vars array of  (key=>value) variables
+	 * @param 	string 	$path 	path to the template file you want to load
+	 * @param 	array 	$vars 	array of  (key=>value) variables
 	 */
 	public function __construct($path=false, $vars=false) {
 		$this->vars = ($vars === false) ? array() : $vars;
@@ -61,14 +61,14 @@ class Template {
 		$this->vars[$name] = $value;
 	}
 	/** Magic PHP __get 
-	 * @returns array|string
+	 * @returns 	array|string
 	*/
 	public function __get($name) {
 		return isset($this->vars[$name]) ? $this->vars[$name] : "";
 	}
 	/** 
 	 * Merge a parent template's variables to this template's scope
-	 * @returns array if this template has a parent this returns the merged $vars arrays, otherwise it returns this templates $vars
+	 * @returns 	array 	if this template has a parent this returns the merged $vars arrays, otherwise it returns this templates $vars
 	 */
 	public function mergevars()	{
 		if (isset($this->parent))
@@ -80,8 +80,8 @@ class Template {
 	 * The Main Event
 	 *
 	 * Merge the vars with the template {and encode }
- 	 * @param bool $gzip set gzip encoding on/off
-	 * @returns the results of the var and template merge
+ 	 * @param 	bool 	$gzip set gzip encoding on/off
+	 * @returns 	the results of the var and template merge
 	 */
 	public function run($gzip=false)	{
 		//start output buffering

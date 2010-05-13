@@ -6,7 +6,7 @@
 /**
   * User Class
   *
-  * a class for adding or authenticating users against a users table in a database
+  * User manipulation class ( Add / Edit / Delete / Retrieve )
   * 
   * @author Corbin Tarrant
   * @copyright Febuary 20th, 2010
@@ -16,7 +16,7 @@
 class User {
 	/** @var 		DB_MySQLi 	$DB			database object */
 	var $DB = NULL;
-	/** @var 		string 		$json_status	stores the status (success/failure) of user manipulation, to be sent back to javascript */
+	/** @var 		string 		$json_status	stores the status (success/error) of user manipulation, and any other data to be sent back to javascript */
 	var $json_status = NULL;
 	/** @var 			int 		$user_id		users's id */
 	var $user_id = NULL;
@@ -24,7 +24,7 @@ class User {
 	var $nameFirst = NULL;
 	/** @var 			string 	$namelast	user's last name */
 	var $nameLast = NULL;
-	/** @var 			string 	$alias		user's username */
+	/** @var 			string 	$alias		user's alias */
 	var $alias = NULL;
 	/** @var 			string 	$email		user's email */
 	var $email = NULL;
@@ -34,14 +34,17 @@ class User {
 	var $lastLogin = NULL;
 	/** @var 			string 	$ip_address	user's ip address */
 	var $ip_address = NULL;
-	/** @var 			string 	$access_level	user's permissions */
+	/** @var 			int	 	$access_level	user's access_level */
 	var $access_level = NULL;
 	
 	/** 
 	  * Constructor 
-	  *@param array $userInput - array filled with filtered user input : if creating a new user pass keys{ alias, nameFirst, nameLast, password, vpassword, email }, if authenticating an existing user pass keys{ alias, password, vpassword }
-	  *@param bool $newUser - switch to create a new user or retrieve an existing one
-	  *@param function $newUserCallback - function that will be called if a new user is successfully added
+	  *
+	  * Filters input and adds or authenticates a user with the database
+	  *
+	  *@param 	array 	$userInput 		array filled with filtered user input : if creating a new user pass keys{ alias, nameFirst, nameLast, password, vpassword, email }, if authenticating an existing user pass keys{ alias, password, vpassword }
+	  *@param 	bool 	$newUser 		switch to create a new user or retrieve an existing one
+	  *@param 	function 	$newUserCallback 	function that will be called if a new user is successfully added
 	  */
 	function __construct($userInput, $newUser = TRUE, $newUserCallback = NULL) {
 		//make sure $userInput is an array
@@ -120,7 +123,7 @@ class User {
 				return false;			
 			}
 			//encrypt sent password
-			$encPass = $this->encryptPassword($filteredInput['alias'],$filteredInput['password'],$this->regTime);
+			$encPass = $this->encryptPassword($filteredInput['password'],$this->regTime);
 			
 			//attempt to retrieve this user
 			if($this->retrieve($filteredInput['alias'],$encPass)) {
@@ -138,11 +141,12 @@ class User {
 	}
 	/**
 	 * Add a new user to the database
-	 *@param string $alias - new user's alias
-	 *@param string $password - new user's password
-	 *@param string $nameFirst - new user's first name
-	 *@param string $nameLast - new user's last name
-	 *@param string $email - new user's email address
+	 * @param 	string 	$alias 		new user's alias
+	 * @param 	string 	$password 	new user's password
+	 * @param 	string 	$nameFirst 	new user's first name
+	 * @param 	string 	$nameLast 	new user's last name
+	 * @param 	string 	$email 		new user's email address
+	 * 
 	 */
 	public function addNew($alias,$password,$nameFirst,$nameLast,$email) {
 		//check database for duplicate username
@@ -159,7 +163,7 @@ class User {
 		$ip_address = $_SERVER['REMOTE_ADDR'];
 		
 		//generate encrypted password
-		$encPass = $this->encryptPassword($alias,$password,$regTime); 
+		$encPass = $this->encryptPassword($password,$regTime); 
 		//add new user to database
 		if($this->DB->insert("INSERT INTO `users`(`alias`,`nameFirst`,`nameLast`,`password`,`email`,`registered`,`ip_address`) 
 						 VALUES(?,?,?,?,?,?,INET_ATON(?));",
@@ -173,8 +177,8 @@ class User {
 	}
 	/**
 	  * Retrieve a user's information from the database and store to object variables
-	  * @param string $alias - user's alias
-	  * @param string $pass - user's encrypted password
+	  * @param 	string 	$alias 	user's alias
+	  * @param 	string 	$pass 	user's encrypted password
 	  */
 	public function retrieve($alias, $encPass) {
 		//grab user data from database
@@ -213,7 +217,7 @@ class User {
 	}
 	/**
 	   * SELECT users from the database WHERE LIKE $alias
-	   * @param 	string	$alias	The aliases to search for used LIKE '%$alias%'
+	   * @param 	string	$alias	The aliases to search for  ( LIKE '%$alias%' )
 	   * @param 	string 	$rType 	the return type for the users
 	   * @returns 	mixed	the requested database return type
 	   */
@@ -337,20 +341,17 @@ class User {
 	}
 	/**
 	 * Encrypt a password
-	 *@param 	string 	$user		username 
 	 *@param 	string 	$pass		password to encrypt
-	 *@param 	string 	$regTime	the user's registration time
+	 *@param 	string 	$regTime		the user's registration time
 	 *@return 	string 	encrypted password
 	 */
-	public function encryptPassword($user,$pass,$regTime) { 
+	public function encryptPassword($pass,$regTime) { 
 		//create salt from the sha1 of the user's registration time
 		$salt = sha1($regTime);
 		//md5 encrypt the salt+password, then sha1 that whole thing and return the encrypted password
 		return sha1(md5($salt.$pass));
 	}
-	/** 
-	  * Set Authorized Session Variables
-	  */
+	/** Set Authorized Session Variables */
 	public function AUTH() {
 		$_SESSION['auth'] = 1;
 		$_SESSION['alias'] = $this->alias;
@@ -358,9 +359,7 @@ class User {
 		$_SESSION['ip'] = $this->ip_address;
 		$_SESSION['access_level'] = $this->access_level;
 	}
-	/**
-	 * Removed Authorized Session Variables
-	 */
+	/** Removed Authorized Session Variables */
 	public static function NOAUTH() {
 		unset($_SESSION['auth']); //remove authentication
 		unset($_SESSION['alias']); //unset username

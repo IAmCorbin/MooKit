@@ -103,11 +103,7 @@ class Menu {
 	<? endforeach; //$links->links  
 	
 	}
-	/** 
-	  * Create the main menu from database tables using the user's access_level
-	  * @param string $ajax -  the CSS class for ajax links
-	  * @param string $ajax -  the CSS class for ajax sublinks
-	  */
+	/** Create the main menu from database tables using the user's access_level */
 	public static function buildMain() {
 		//grab links for current security clearance
 		$menuLinks = Link::get('',TRUE,"object",false,Security::clearance());

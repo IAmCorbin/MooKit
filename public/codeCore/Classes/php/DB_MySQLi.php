@@ -15,11 +15,11 @@
  * @package MooKit
  */
 class DB_MySQLi { 
-	/** @var 	$mysqli	mysqli database object */ 
+	/** @var 	mysqli		$mysqli		mysqli database object */ 
 	var $mysqli = NULL;
-	/** @var 	$stmt 	holds the current prepared statement */
+	/** @var 	mysqli_stmt	$stmt 		holds the current prepared statement */
 	var $stmt = NULL;
-	/** @var $status - holds 1 or error status **/
+	/** @var 	mixed		$status		holds 1 or error status **/
 	var $STATUS = "1";
 	/**
 	 * Constructor - Create mysqli database object
@@ -168,7 +168,7 @@ class DB_MySQLi {
 	  * Setup a Prepared Statement
 	  * @param 	string	$query	the query to prepare
 	  * @param	bool		$exec	switch to execute the statement
-	  * @return	mysqli->prepare() status
+	  * @return	bool 	status
 	  */
 	public function prepare($query,$exec=FALSE) {
 		if(!$this->stmt = $this->mysqli->prepare($query)) {
@@ -185,6 +185,7 @@ class DB_MySQLi {
 	  * @param 	string	$types		mysqli->bind_param($types)
 	  * @param	array	$vars		the variables to bind
 	  * @param	bool		$exec		switch to execute the statement
+	  * @return	bool 	status
 	  */
 	public function bind_param($types, $vars, $exec=TRUE) {
 		//prepend types to the beginning of variables to pass into the bind_param function
@@ -202,8 +203,7 @@ class DB_MySQLi {
 	}
 	/**
 	  * Executes the current stmt
-	  * @param	bool		$bind	switch to trigger bind_results
-	  * @returns bool
+	  * @return	bool 	status
 	  */
 	public function execute() {
 		if(!$this->stmt->execute()) {
@@ -217,6 +217,7 @@ class DB_MySQLi {
 	  * Bind The Query Results to variables
 	  * @param	array	$results		results will be bound to this array, each row will be an associative array
 	  * @param	bool		$close		switch to close the stmt
+	  * @return	bool 	status
 	  */
 	public function bind_results(&$results, $close=TRUE) {
 		$results = array();
@@ -251,14 +252,14 @@ class DB_MySQLi {
 	}
 	/** 
 	  * Close the current Prepared Statment 
-	  * @returns bool
+	  * @return	bool 	status
 	  */
 	public function closeStmt() {
 		return $this->stmt->close();
 	}
 	/** 
 	  * Close the current mysqli connection 
-	  * @returns bool
+	  * @return	bool 	status
 	  */
 	public function close() {
 		return $this->mysqli->close();
@@ -267,6 +268,7 @@ class DB_MySQLi {
 	  * Change query results to desired format
 	  * @param 	array  	$results		The mysqli result object you want to format
 	  * @param 	string 	$rType		The format you want -  "object" -  array of objects, "assoc"- associative array, "json" - javascript object notation, "enum" - enumerated array
+	  * @return	mixed 	formatted results
 	  */
 	public function formatResults(&$results, $rType="object") {
 		switch($rType) {
@@ -291,6 +293,10 @@ class DB_MySQLi {
 	  * Function to be thrown in the event of an error, logs the error
 	  * @param string $error  string specifying the error to be thrown - send a custom string or one of the following:
 	  * 		E_DB_CONN : error establishing mysqli connection
+	  * 		E_DB_PREPARE : error preparing the query
+	  * 		E_DB_BIND_PARAM : error binding parameters to the prepared query
+	  * 		E_DB_EXEC : error executing prepared query
+	  * 		E_DB_BIND_RESULTS : error binding prepared query results
 	  * 		E_DB_QUERY : error with a sql query 
 	  * @param string $sql  optionally pass in the sql statement that triggered the error
 	  *			

@@ -11,21 +11,22 @@
  * @package MooKit
  */
 class MooKit {
-	/** @var $VERSION				MooKit Version */
-	var $VERSION = 'v0.7';
-	/** @var $scriptsPublic			Public JavaScripts */
+	/** @var 	string		$VERSION		MooKit Version */
+	var $VERSION = 'v0.8';
+	/** @var 	array		$scriptsPublic		Public JavaScripts */
 	var $scriptsPublic;
-	/** @var Array $scriptsSecure		Authorized JavaScripts */
+	/** @var 	array 		$scriptsSecure		Authorized JavaScripts */
 	var $scriptsSecure;
-	/** @var Array $stylesPublic		Public CSS */
+	/** @var 	array 		$stylesPublic		Public CSS */
 	var $stylesPublic;
-	/** @var Array $stylesSecure		Authorized CSS */
+	/** @var 	array 		$stylesSecure		Authorized CSS */
 	var $stylesSecure;
-	/** @var Template $main			Main Template */
+	/** @var	Template 	$main			Main Template */
 	var $main; 
 	/**
 	 * Constructor
 	 *
+	 * Handles the request and returns requested files if allowed
 	 * @param string $request			The application request $_GET['request'] - this is set by .htaccess
 	 *								For Reference:
 	 * 								## Force connections through index.php for handling
@@ -113,9 +114,9 @@ class MooKit {
 	/**
 	  * Add a new CSS stylesheet
 	  *
-	  * @param bool $dir		stylesheet location - directory
-	  * @param bool $style		stylesheet location - file
-	  * @param bool $secure		Secure switch, only allow for authorized users
+	  * @param 	string 	$dir		stylesheet location - directory
+	  * @param 	string 	$style	stylesheet location - file
+	  * @param 	bool 	$secure	Secure switch, only allow for authorized users
 	  */
 	public function addStyle($dir,$style, $secure=NULL) {
 		//make sure file is .css or .css.php
@@ -187,8 +188,8 @@ class MooKit {
 	/**
 	  * Runs the application, outputs to the user's browser
 	  * 
-	  * @param bool styles 		used to disable all the styles
-	  * @param bool scripts		used to disable all the scripts
+	  * @param bool styles 		switch styles on/off
+	  * @param bool scripts		switch scripts on/off
 	  */
 	public function RUN($styles=TRUE,$scripts=TRUE) {
 		if($styles) {

@@ -16,7 +16,7 @@
  class Post {
 	/** @var 	DB_MySQLi 	$DB 		database object */
 	var $DB;
-	/** @var 	string 		$json_status	stores the status (success/failure) of post manipulation, and any variables to be sent back to javascript */
+	/** @var 	string 		$json_status	stores the status (success/error) of post manipulation, and any variables to be sent back to javascript */
 	var $json_status = NULL;
 	/** @var 	int 			$post_id 	 	the post id */
 	var $post_id;
@@ -114,7 +114,7 @@
 	  * @param 	string	$title	the title to search for - optional
 	  * @param 	string	$title	the id of the post to grab - optional
 	  * @param 	string 	$rType 	the return type for the posts
-	  * @returns 	bool 	true on success, false on failure
+	  * @returns 	mixed	results
 	  */
 	public static function get($user_id,$title=NULL,$post_id=NULL,$rType="object") {
 		//filter input
@@ -152,6 +152,8 @@
 	}
 	/**
 	  * Remove a post from the database
+	  * @param 	int	$post_id		the id of the post to delete
+	  * @returns 	json_status
 	  */
 	public static function delete($post_id) {
 		//Filter id 
@@ -249,7 +251,7 @@
 	  * @param 	int 		$post_id 		the post id to add permissions for
 	  * @param 	int 		$access_level	the permission level
 	  * @param 	string 	$rType 		the return type for the permissions
-	  * @returns 	status
+	  * @returns 	int		status
 	  */
 	public static function addUserPerm($user_id, $post_id, $access_level, $rType="object") {
 		//filter input

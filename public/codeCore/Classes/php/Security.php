@@ -14,7 +14,10 @@
  * @package MooKit
  */
  class Security {
-	/** Static Security Check **/
+	/** 
+	  * Security Check 
+	  * $returns 	int	user's current access_level
+	**/
 	public static function clearance() {
 		if(!isset($_SESSION['auth'])) {
 				$_SESSION['auth'] = 0;
@@ -22,12 +25,14 @@
 			return false;
 		}
 		//check for authorization, ip address and valid user
-		if(  $_SESSION['auth'] === 1 && Security::checkIP() && Security::checkUser() )
+		if(  $_SESSION['auth'] === 1 && Security::checkUser() )
 			return $_SESSION['access_level'];
 		else
 			return  false;
 	}
-	/** Validate IP */
+	/** 
+	  * Validate IP 
+	  */
 	public static function checkIP() {
 		return ($_SESSION['ip'] === $_SERVER['REMOTE_ADDR'] ? true : false);
 	}

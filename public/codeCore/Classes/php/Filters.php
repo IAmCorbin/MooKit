@@ -4,7 +4,7 @@
  * @package MooKit
  */
 /**
- *Class to encapsulate php 5.2 filter_var for simple form validation
+ *Class to encapsulate php 5.2 filter_var for simple form validation, also encapulates htmLawed usage
  *
  * @author Corbin Tarrant
  * @copyright Febuary 19th, 2010

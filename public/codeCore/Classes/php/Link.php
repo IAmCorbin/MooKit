@@ -6,7 +6,7 @@
 /**
  * A Class for creating a Link
  *
- * Creates an array of link objects with optional sublink objects
+ * Link objects can also contain optional sublink objects
  *
  * @author Corbin Tarrant
  * @birth March 30th, 2010
@@ -25,16 +25,14 @@ class Link {
 	var $desc;
 	/** @var 	int 			$weight		the link weight - used for display ordering */
 	var $weight;
-	/** @var 	string 		$ajax		ajax link class	*/
+	/** @var 	bool			$ajaxLink		ajax link switch	*/
 	var $ajaxLink;
-	/** @var 	bool 		$menuLink	is this a menu link? */
+	/** @var 	bool 		$menuLink	menu link switch */
 	var $menuLink;
 	/** @var 	int 			$access_level 	the access_level required to use the link */
 	var $access_level;
 	/** @var 	array 		$sublinks		an array of Link objects */
 	var $sublinks;
-	/** @var 	string 		$status    		holds 1 or database errors */	
-	var $status = "1";
 	
 	/**
 	  * Constructor
@@ -168,7 +166,7 @@ class Link {
 	  * @param 	string 	$rType 		the return type for the links
 	  * @param 	bool 	$notSubs 		switch to turn off the sublink table join
 	  * @param 	bool 	$access_level 	the maximum access level of the links to grab
-	  * @returns 	object 	all the found links
+	  * @returns 	mixed 	all the found links
 	  */
 	public static function get($name='',$menuLink=FALSE,$rType="object",$notSubs=FALSE,$access_level=FALSE) {
 		$inputFilter = new Filters;
