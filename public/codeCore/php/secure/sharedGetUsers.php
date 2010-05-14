@@ -1,4 +1,8 @@
 <?php
+/**
+  * Shared - Get User Information from Database
+  * @package MooKit
+  */
 //require Admin or Create Access
 $access_level = Security::clearance();
 if(($access_level & ACCESS_CREATE)||($access_level & ACCESS_ADMIN)) {

@@ -1,4 +1,8 @@
 <?
+/**
+  * Administrator - Decrease User Access
+  * @package MooKit
+  */
 //require Administrator Access
 if(Security::clearance() & ACCESS_ADMIN) {
 	echo User::accessDec($_POST['user_id']);

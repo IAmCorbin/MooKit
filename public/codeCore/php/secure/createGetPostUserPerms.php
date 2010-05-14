@@ -1,4 +1,8 @@
 <?
+/**
+  * Creator - Get User Permissions for a post
+  * @package MooKit
+  */
 //require Create Access
 if(Security::clearance() & ACCESS_CREATE) {
 	echo Post::getUserPerms($_POST['post_id'], $_POST['rType']);

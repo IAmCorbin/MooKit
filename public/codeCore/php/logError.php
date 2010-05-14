@@ -1,4 +1,8 @@
 <?
+/**
+  * Script to trigger an error from javascript
+  * @package MooKit
+  **/
 //decode sent json
 $json = json_decode($_POST['json']);
 

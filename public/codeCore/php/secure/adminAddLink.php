@@ -1,4 +1,8 @@
 <?
+/**
+  * Administrator - Add a new Link
+  * @package MooKit
+  */
 //require Administrator Access
 if(Security::clearance() & ACCESS_ADMIN) {
 	$link = new Link(array('name'=>$_POST['name'],

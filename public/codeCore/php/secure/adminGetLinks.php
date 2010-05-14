@@ -1,4 +1,8 @@
 <?
+/**
+  * Administrator - Get Links from Database
+  * @package MooKit
+  */
 //require Administrator Access
 if(Security::clearance() & ACCESS_ADMIN) {
 	//grab all sublinks by default

@@ -1,4 +1,8 @@
 <?php
+/**
+  * Signup a new user
+  * @package MooKit
+  */
 //Add New User  					
 $user =  new User(array('alias'=>$_POST['alias'],
 				      'nameFirst'=>$_POST['nameFirst'],

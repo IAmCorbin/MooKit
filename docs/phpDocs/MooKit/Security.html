@@ -1,263 +1,168 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-	<title>Docs For Class Security</title>
-	<link rel="stylesheet" type="text/css" id="layout" href="../media/layout.css" media="screen">
-	<link rel="stylesheet" type="text/css" href="../media/style.css" media="all">
-	<link rel="stylesheet" type="text/css" href="../media/print.css" media="print">
-</head>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Security</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Security</h2>
 
-<body>
-<div id="header">
-	<div id="navLinks">
-        
-                                    
-                            	        [ <a href="../classtrees_MooKit.html">Class Tree: MooKit</a> ]
-            [ <a href="../elementindex_MooKit.html">Index: MooKit</a> ]
-        		[ <a href="../elementindex.html">All elements</a> ]		
-	</div>
-	<div id="packagePosition">
-		<div id="packageTitle2">MooKit</div>
-		<div id="packageTitle">MooKit</div>
-		<div id="elementPath"> &middot; </div>
-	</div>
-</div>
-
-<div id="nav" class="small">
-	<div id="packages">
-		Packages:
-					<p><a href="../li_MooKit.html">MooKit</a></p>
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Security Class</p>
+<p class="description"><p>a static class for checking user session credentials</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Corbin Tarrant</li>
+				<li><span class="field">copyright:</span> March 15th, 2010</li>
+				<li><span class="field">link:</span> <a href="http://www.IAmCorbin.net">http://www.IAmCorbin.net</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_codeCore---Classes---php---Security.php.html">/codeCore/Classes/php/Security.php</a> (line <span class="field"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpSecurity.php.html#a16">16</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
 			</div>
+</div>
 
-				<div id="index">
-			<div id="files">
-								Files:<br>
-								<a href="../MooKit/_Database.php.html">		Database.php
-		</a><br>
-			<a href="../MooKit/_Filters.php.html">		Filters.php
-		</a><br>
-			<a href="../MooKit/_htmLawed1.1.9.1.php.html">		htmLawed1.1.9.1.php
-		</a><br>
-			<a href="../MooKit/_Post.php.html">		Post.php
-		</a><br>
-			<a href="../MooKit/_Security.php.html">		Security.php
-		</a><br>
-			<a href="../MooKit/_Template.php.html">		Template.php
-		</a><br>
-			<a href="../MooKit/_User.php.html">		User.php
-		</a><br>
-				</div>
-			<div id="interfaces">
-							</div>
-			<div id="classes">
-				Classes:<br>
-								<a href="../MooKit/DatabaseConnection.html">		DatabaseConnection
-		</a><br>
-			<a href="../MooKit/Filters.html">		Filters
-		</a><br>
-			<a href="../MooKit/Post.html">		Post
-		</a><br>
-			<a href="../MooKit/Security.html">		Security
-		</a><br>
-			<a href="../MooKit/Template.html">		Template
-		</a><br>
-			<a href="../MooKit/User.html">		User
-		</a><br>
-				</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+										
+				<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#checkIP" title="details" class="method-name">checkIP</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#checkUser" title="details" class="method-name">checkUser</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#clearance" title="details" class="method-name">clearance</a>
+										()
+									</div>
+																																							</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodcheckIP" id="checkIP"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static checkIP</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpSecurity.php.html#a36">36</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Validate IP</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">void</span>
+		<span class="method-name">
+			checkIP
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcheckUser" id="checkUser"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static checkUser</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpSecurity.php.html#a40">40</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Validate User</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">void</span>
+		<span class="method-name">
+			checkUser
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodclearance" id="clearance"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static clearance</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpSecurity.php.html#a21">21</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Security Check</p>
+<p class="description"><p>$returns 	int	user's current access_level</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">void</span>
+		<span class="method-name">
+			clearance
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
 		</div>
 	</div>
 
-<div id="body">
-	    		<h1>Class: Security</h1>
-	<p style="margin: 0px;">Source Location: /Security.php</p>
-	
 
-<div class="leftcol">
-	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 17]</span></h3>
-	<div id="classTree"><pre></pre>
-</div>
-	<div class="small">
-	<p>Security Class</p>
-		<h4>Author(s):</h4>
-	<ul>
-								<li>Corbin Tarrant</li>
-																</ul>
-	<h4>Version:</h4>
-	<ul>
-																		</ul>
-
-	<h4>Copyright:</h4>
-	<ul>
-													<li>March 15th, 2010</li>
-											</li>
-	</div>
-</div>
-
-<div class="middlecol">
-	<h3><a href="#class_vars">Variables</a></h3>
-	<ul class="small">
-				<li><a href="../MooKit/Security.html#var$status">$status</a></li>
-			</ul>
-	<h3><a href="#class_consts">Constants</a></h3>
-	<ul class="small">
-			</ul>
-</div>
-<div class="rightcol">
-	<h3><a href="#class_methods">Methods</a></h3>
-	<ul class="small">
-				<li><a href="../MooKit/Security.html#method__construct">__construct</a></li>
-				<li><a href="../MooKit/Security.html#methodcheck">check</a></li>
-				<li><a href="../MooKit/Security.html#methodcheckIP">checkIP</a></li>
-				<li><a href="../MooKit/Security.html#methodcheckUser">checkUser</a></li>
-			</ul>
-</div>
-
-<div id="content">
-<hr>
-	<div class="contents">
-	</div>
-
-	<div class="leftCol">
-    	<h2>Inherited Variables</h2>
-		<h2>Inherited Constants</h2>
-		</div>
-
-	<div class="rightCol">
-	<h2>Inherited Methods</h2>
-		</div>
-	<br clear="all">
-	<hr>
-
-	<a name="class_details"></a>
-	<h2>Class Details</h2>
-	<p align="center"><strong>Security Class
-</strong></p>
-<p>a class for checking user session credentials</p><h4>Tags:</h4>
-<ul>
-	<li><b>author</b> - Corbin Tarrant</li>
-	<li><b>copyright</b> - March 15th, 2010</li>
-	<li><b>link</b> - <a href="http://www.IAmCorbin.net">http://www.IAmCorbin.net</a></li>
-</ul>
-	<p class="small" style="color: #334B66;">[ <a href="#top">Top</a> ]</p>
-
-	<hr>
-	<a name="class_vars"></a>
-	<h2>Class Variables</h2>
-		<a name="var$status"></a>
-	<p></p>
-	<h4>$status</h4>
-	<div class="indent">
-		<p class="linenumber">[line 19]</p>
-		<h4>Tags:</h4>
-<ul>
-	<li><b>var</b> - security status</li>
-</ul>
-		<p><b>Type:</b> bool</p>
-		<p><b>Overrides:</b> </p>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-
-	<hr>
-	<a name="class_methods"></a>
-	<h2>Class Methods</h2>
-	
-	<a name="method__construct"></a>
-	<p></p>
-	<h3>__construct</h3>
-	<div class="indent">
-		<p>
-		<code>bool __construct(
-)</code>
-		</p>
-	
-		<p class="linenumber">[line 24]</p>
-		<p align="center"><strong>check for secure session
-</strong></p>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodcheck"></a>
-	<p></p>
-	<h3>check</h3>
-	<div class="indent">
-		<p>
-		<code>void check(
-)</code>
-		</p>
-	
-		<p class="linenumber">[line 31]</p>
-		<p align="center"><strong>Return Security Status
-</strong></p>
-<h4>Tags:</h4>
-<ul>
-	<li><b>access</b> - public</li>
-</ul>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodcheckIP"></a>
-	<p></p>
-	<h3>checkIP</h3>
-	<div class="indent">
-		<p>
-		<code>void checkIP(
-)</code>
-		</p>
-	
-		<p class="linenumber">[line 35]</p>
-		<p align="center"><strong>Validate IP
-</strong></p>
-<h4>Tags:</h4>
-<ul>
-	<li><b>access</b> - public</li>
-</ul>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-	<a name="methodcheckUser"></a>
-	<p></p>
-	<h3>checkUser</h3>
-	<div class="indent">
-		<p>
-		<code>void checkUser(
-)</code>
-		</p>
-	
-		<p class="linenumber">[line 39]</p>
-		<p align="center"><strong>Validate User
-</strong></p>
-<h4>Tags:</h4>
-<ul>
-	<li><b>access</b> - public</li>
-</ul>
-		
-	
-	<h4>Parameters:</h4>
-	<ul>
-		</ul>
-	</div>
-	<p class="top">[ <a href="#top">Top</a> ]</p>
-
-	<hr>
-	<a name="class_consts"></a>
-	<h2>Class Constants</h2>
-	</div>
-	<div id="credit">
-		<hr>
-		Documentation generated on Wed, 24 Mar 2010 22:30:49 -0400 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
-	</div>
-</div>
-</body>
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 13 May 2010 22:58:41 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
 </html>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs for page functions.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name">/codeCore/php/functions.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gloabl Core Functions</p>
+	<ul class="tags">
+				<li><span class="field">filesource:</span> <a href="../__filesource/fsource_MooKit__codeCorephpfunctions.php.html">Source Code for this file</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functionadminGetLinks" id="functionadminGetLinks"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">adminGetLinks</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCorephpfunctions.php.html#a46">46</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Administrator - Search and return found links from the database</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> links in desired rType</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			adminGetLinks
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">&amp;quot;object&amp;quot;</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">&#039;&#039;</span>], [<span class="var-type">bool</span>&nbsp;<span class="var-name">$menuLink</span> = <span class="var-default">FALSE</span>], [<span class="var-type">bool</span>&nbsp;<span class="var-name">$notSubs</span> = <span class="var-default">FALSE</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$rType</span><span class="var-description">: the return type desired - if &quot;rows&quot; is passed it will build table rows from object</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$name</span><span class="var-description">: the link name to search for</span>			</li>
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$menuLink</span><span class="var-description">: switch to grab only menu links</span>			</li>
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$notSubs</span><span class="var-description">: switch to turn off the sublink table join</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionarray_keys_exist" id="functionarray_keys_exist"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">array_keys_exist</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCorephpfunctions.php.html#a143">143</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">check an array for existing keys, checks each key with array_key_exists</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true/false</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			array_keys_exist
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$keyArray</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$array</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$setBlank</span> = <span class="var-default">FALSE</span>], [<span class="var-type">bool</span>&nbsp;<span class="var-name">$blankChk</span> = <span class="var-default">FALSE</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$array</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$keyArray</span><span class="var-description">: an array containing all the keys to check for</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$array</span><span class="var-description">: the array to test - passed by reference</span>			</li>
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$setBlank</span><span class="var-description">: switch to set missing key values to empty strings instead of returning false</span>			</li>
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$blankChk</span><span class="var-description">: switch to check for blank values and return false if found</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$array</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functioncreateGetPosts" id="functioncreateGetPosts"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">createGetPosts</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCorephpfunctions.php.html#a108">108</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Search and return found posts from the database</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> links in desired rType</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			createGetPosts
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">&amp;quot;object&amp;quot;</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$title</span> = <span class="var-default">NULL</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$post_id</span> = <span class="var-default">NULL</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$rType</span><span class="var-description">: the return type desired - if &quot;rows&quot; is passed it will build table rows from object</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$title</span><span class="var-description">: the post title to search for</span>			</li>
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$post_id</span><span class="var-description">: the post id to search for</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionErrorHandler" id="functionErrorHandler"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">ErrorHandler</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCorephpfunctions.php.html#a207">207</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Error Handling and Logging</p>
+<p class="description"><p>{@see http://php.net/manual/en/function.set-error-handler.php}</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ErrorHandler
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$errno</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$errmsg</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$filename</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$linenum</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$vars</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$errno</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$errmsg</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$filename</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$linenum</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$vars</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functiongetHumanAccess" id="functiongetHumanAccess"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">getHumanAccess</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCorephpfunctions.php.html#a161">161</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Translate a bitwise user access level into a human readable title</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getHumanAccess
+		</span>
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">$access_level</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$access_level</span><span class="var-description">: the access level to translate</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionlinebreak" id="functionlinebreak"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">linebreak</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCorephpfunctions.php.html#a184">184</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">print a line break with an optional centered message - used for debugging</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			linebreak
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$msg</span> = <span class="var-default">NULL</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$rows</span> = <span class="var-default">1</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$char</span> = <span class="var-default">&amp;quot;~&amp;quot;</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$cols</span> = <span class="var-default">100</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$msg</span><span class="var-description">: the message</span>			</li>
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$rows</span><span class="var-description">: the number of rows</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$char</span><span class="var-description">: the character to use</span>			</li>
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$cols</span><span class="var-description">: number of columns</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionsharedGetUsers" id="functionsharedGetUsers"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">sharedGetUsers</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCorephpfunctions.php.html#a15">15</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Search and retrieve user information from the database</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> users in desired rType</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			sharedGetUsers
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">&amp;quot;object&amp;quot;</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$alias</span> = <span class="var-default">NULL</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$rType</span><span class="var-description">: the return type desired - if &quot;rows&quot; is passed it will build table rows from object</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$alias</span><span class="var-description">: the user alias to search for</span>			</li>
+				</ul>
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 13 May 2010 22:58:38 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

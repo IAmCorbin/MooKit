@@ -1,0 +1,290 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @class The Lightbox Class creates a layer that can be toggled on and off and contain multiple elements of content
+<span class='line'>  3</span>  * @birth Febuary 18th, 2010
+<span class='line'>  4</span>  * 
+<span class='line'>  5</span>  * To use:
+<span class='line'>  6</span>  *   1. Create a div on the page with an ID of your choice
+<span class='line'>  7</span>  *   2. Create as many content divs as you need with the class name &lt;ID of div created in step 1>Content
+<span class='line'>  8</span>  *   3. Create another element on the page with ID of &lt;ID of div created in step 1>Close
+<span class='line'>  9</span>  *		Ex:
+<span class='line'> 10</span>  *			&lt;div id="lightbox">&lt;/div>
+<span class='line'> 11</span>  *			&lt;div class="lightboxContent">Place Content Here&lt;/div>
+<span class='line'> 12</span>  *			&lt;span class="lightboxClose">Close Lightbox&lt;/div>
+<span class='line'> 13</span>  *   4. In your mootools domready event create a new lightbox passing in the ID of div from step 1 and any of the options desired
+<span class='line'> 14</span>  *		Ex:
+<span class='line'> 15</span>  *			lightbox = new Lightbox('lightbox');
+<span class='line'> 16</span>  *   5. Create a way to set off the initial trigger
+<span class='line'> 17</span>  *		Ex:
+<span class='line'> 18</span>  *			html : &lt;div id="open">&lt;/div>
+<span class='line'> 19</span>  *			js: $('open').addEvent('click',function() { lightbox.trigger });
+<span class='line'> 20</span>  *   6. Enjoy!
+<span class='line'> 21</span>  *
+<span class='line'> 22</span>  *			~~~~~~~~~~~~~~~
+<span class='line'> 23</span>  *			~~Free for all to use~~
+<span class='line'> 24</span>  *			~~~~~~~~~~~~~~~
+<span class='line'> 25</span>  *
+<span class='line'> 26</span>  * @author Corbin Tarrant
+<span class='line'> 27</span> *   ___            ___         __ 
+<span class='line'> 28</span>  *    |   /\  |\/| |       __   |_/  |__   -   _
+<span class='line'> 29</span>  *  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |
+<span class='line'> 30</span>  * 
+<span class='line'> 31</span>  * @link http://www.IAmCorbin.net
+<span class='line'> 32</span>  * @version 1.0
+<span class='line'> 33</span>  *
+<span class='line'> 34</span>  * @requires MooTools 1.2
+<span class='line'> 35</span>  * {@link http://mootools.net/}
+<span class='line'> 36</span>  * 
+<span class='line'> 37</span>  * @package MooKit
+<span class='line'> 38</span>  *
+<span class='line'> 39</span>  * @property	{Element}  	lightbox 				the lightbox element
+<span class='line'> 40</span>  * @property	{bool}	 	hidden				visablility flag
+<span class='line'> 41</span>  * @property	{Element}	closeButton		 	the element that closes the lightbox
+<span class='line'> 42</span>  * @property	{Element[]}	content 				array of all the content boxes in the lightbox
+<span class='line'> 43</span>  *
+<span class='line'> 44</span>  * @property	{bool}		options.fade 			Should the lightbox fade or just snap in and out
+<span class='line'> 45</span>  * @property	{int}		options.fadeSpeed 		(if fade = true) how long should the lightbox take to fade in and out
+<span class='line'> 46</span>  * @property	{int}		options.removeDelay 	Delay before lightbox is removed from display - time starts after fade is complete
+<span class='line'> 47</span>  * @property	{$empty}	options.onShow		Fires immediately after lightbox is added to display and fades in
+<span class='line'> 48</span>  * @property	{$empty}	options.onHide			Fires immediately after a trigger() call when lightbox is already displayed
+<span class='line'> 49</span>  * @property	{$empty}	options.onRemove		Fires when lightbox has been removed from display
+<span class='line'> 50</span>  */</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">LightBox</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">Options</span><span class="PUNC">,</span><span class="NAME">Events</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="NAME">options</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">		</span><span class="NAME">fade</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">		</span><span class="NAME">fadeSpeed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'200'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">		</span><span class="NAME">removeDelay</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'0'</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">		</span><span class="COMM">/*
+<span class='line'> 58</span> 		onShow: $empty,
+<span class='line'> 59</span> 		onHide: $empty.
+<span class='line'> 60</span> 		onRemove: $empty
+<span class='line'> 61</span> 		*/</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 64</span> 	  * @constructor
+<span class='line'> 65</span> 	  * @param {string} 	lightbox 		the ID of the lightbox
+<span class='line'> 66</span> 	  * @param {array} 	options 		passed in options
+<span class='line'> 67</span> 	  */</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">lightbox</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">		</span><span class="NAME">this.setOptions</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">		</span><span class="COMM">//make sure the delay for removing the lightbox takes at least as long as the fade</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">		</span><span class="NAME">this.options.removeDelay</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.options.removeDelay.toInt</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="NAME">this.options.fadeSpeed.toInt</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">		</span><span class="COMM">//visability flag - hidden at start</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">		</span><span class="NAME">this.hidden</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">		</span><span class="COMM">//get lightbox and make transparent</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">		</span><span class="NAME">this.lightbox</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">lightbox</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">		</span><span class="NAME">this.lightbox.set</span><span class="PUNC">(</span><span class="STRN">'tween'</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="NAME">duration</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.fadeSpeed</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">		</span><span class="COMM">//if fading fade out initially</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.options.fade</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">			</span><span class="NAME">this.lightbox.fade</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">		</span><span class="COMM">//lightbox close button</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">		</span><span class="NAME">this.closeButton</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">lightbox</span><span class="PUNC">+</span><span class="STRN">'Close'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">		</span><span class="NAME">this.closeButton.set</span><span class="PUNC">(</span><span class="STRN">'tween'</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="NAME">duration</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.fadeSpeed</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.options.fade</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">			</span><span class="NAME">this.closeButton.fade</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">		</span><span class="COMM">//set up close butter to trigger</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">		</span><span class="NAME">this.closeButton.addEvent</span><span class="PUNC">(</span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">this.trigger</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">		</span><span class="COMM">//get lightbox content</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">		</span><span class="NAME">this.content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$$</span><span class="PUNC">(</span><span class="STRN">'.'</span><span class="PUNC">+</span><span class="NAME">lightbox</span><span class="PUNC">+</span><span class="STRN">'Content'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">		
+<span class='line'> 90</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 92</span> 	  * @function used to show or hide the lightbox layer
+<span class='line'> 93</span> 	  */</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">	</span><span class="NAME">trigger</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 95</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.hidden</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">			</span><span class="COMM">//show lightbox and content blocks</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">			</span><span class="NAME">this.lightbox.setStyle</span><span class="PUNC">(</span><span class="STRN">'display'</span><span class="PUNC">,</span><span class="STRN">'block'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">			</span><span class="NAME">this.closeButton.setStyle</span><span class="PUNC">(</span><span class="STRN">'display'</span><span class="PUNC">,</span><span class="STRN">'block'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">			</span><span class="NAME">this.content.setStyle</span><span class="PUNC">(</span><span class="STRN">'display'</span><span class="PUNC">,</span><span class="STRN">'block'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.options.fade</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">				</span><span class="COMM">//fade in lightbox</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">				</span><span class="NAME">this.lightbox.fade</span><span class="PUNC">(</span><span class="PUNC">.</span><span class="NUMB">5</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">				</span><span class="NAME">this.closeButton.fade</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">			</span><span class="NAME">this.fireEvent</span><span class="PUNC">(</span><span class="STRN">'show'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">			</span><span class="COMM">//set visability flag</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">			</span><span class="NAME">this.hidden</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">			</span><span class="NAME">this.fireEvent</span><span class="PUNC">(</span><span class="STRN">'hide'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>113</span> 	  * @function this will begin the lightbox fade
+<span class='line'>114</span> 	  */</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">	</span><span class="NAME">fadeLightbox</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.options.fade</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">			</span><span class="COMM">//fade out lightbox</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">			</span><span class="NAME">this.lightbox.fade</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">			</span><span class="COMM">//fade closebutton with a delay</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">			</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">this.closeButton.fade</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">delay</span><span class="PUNC">(</span><span class="NAME">this.options.fadeSpeed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">		</span><span class="NAME">this.removeLightbox.delay</span><span class="PUNC">(</span><span class="NAME">this.options.removeDelay</span><span class="PUNC">,</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>125</span> 	  * @function removeLightbox: removes lightbox from display
+<span class='line'>126</span> 	  */</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="NAME">removeLightbox</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">		</span><span class="COMM">//hide lightbox and content</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">		</span><span class="NAME">this.content.setStyle</span><span class="PUNC">(</span><span class="STRN">'display'</span><span class="PUNC">,</span><span class="STRN">'none'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">		</span><span class="NAME">this.closeButton.setStyle</span><span class="PUNC">(</span><span class="STRN">'display'</span><span class="PUNC">,</span><span class="STRN">'none'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">		</span><span class="NAME">this.lightbox.setStyle</span><span class="PUNC">(</span><span class="STRN">'display'</span><span class="PUNC">,</span><span class="STRN">'none'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">		</span><span class="COMM">//set visability flag</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">		</span><span class="NAME">this.hidden</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">		</span><span class="NAME">this.fireEvent</span><span class="PUNC">(</span><span class="STRN">'remove'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>137</span> 
+<span class='line'>138</span> </span><span class="COMM">/**
+<span class='line'>139</span>  * @class The ConfirmBox Class creates a LightBox object used to ask the user a simple question before continuing with processing
+<span class='line'>140</span>  * @birth April 22nd, 2010
+<span class='line'>141</span>  * @author Corbin Tarrant
+<span class='line'>142</span>  *  ___            ___         __ 
+<span class='line'>143</span>  *    |   /\  |\/| |       __   |_/  |__   -   _
+<span class='line'>144</span>  *  _|_ /  \ |  | |___  |__|  | \  |__|  |  |  |
+<span class='line'>145</span>  * 
+<span class='line'>146</span>  * @link http://www.IAmCorbin.net
+<span class='line'>147</span>  * @version 1.0
+<span class='line'>148</span>  *
+<span class='line'>149</span>  * @requires MooTools 1.2, LightBox
+<span class='line'>150</span>  * {@link http://mootools.net/}
+<span class='line'>151</span>  *
+<span class='line'>152</span>  * @package MooKit
+<span class='line'>153</span>  * 
+<span class='line'>154</span>  *
+<span class='line'>155</span>  * @property	{bool}		options.name 			The name of the confirmationBox
+<span class='line'>156</span>  * @property	{bool}		options.font 			The Font
+<span class='line'>157</span>  * @property	{bool}		options.fontSize		The Font size
+<span class='line'>158</span>  * @property	{bool}		options.back 			The color of the lightbox
+<span class='line'>159</span>  * @property	{bool}		options.color 			text color
+<span class='line'>160</span>  * @property	{bool}		options.boxBorder 		border style of the box
+<span class='line'>161</span>  * @property	{bool}		options.boxCurved 		Used to add an optional classname to apply a curved style to the box and buttons, defaults to an empty string
+<span class='line'>162</span>  * @property	{bool}		options.boxBack 		background color of the box
+<span class='line'>163</span>  * @property	{bool}		options.boxButtonColor	Box Button color
+<span class='line'>164</span>  * @property	{bool}		options.boxMSG 		The Box Message
+<span class='line'>165</span>  * @property	{bool}		options.boxYES 		The Confirm Button Text
+<span class='line'>166</span>  * @property	{bool}		options.boxNO			The Cancel Button Text
+<span class='line'>167</span>  * @property	{$empty}	options.onDisplay		Event fired when ConfirmBox is displayed
+<span class='line'>168</span>  * @property	{$empty}	options.onConfirm		Event fired when Confirm Button is Clicked
+<span class='line'>169</span>  */</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ConfirmBox</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">	</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">Options</span><span class="PUNC">,</span><span class="NAME">Events</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">	</span><span class="NAME">options</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">		</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'confirmBox'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">		</span><span class="NAME">font</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'Monospace'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">		</span><span class="NAME">fontSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'23px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">		</span><span class="NAME">back</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'#AAA'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">		</span><span class="NAME">color</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'#FFF'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">		</span><span class="NAME">boxBorder</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'solid black 2px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">		</span><span class="NAME">boxCurved</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">		</span><span class="NAME">boxBack</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'#333'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">		</span><span class="NAME">boxButtonColor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'#555'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">		</span><span class="NAME">boxMSG</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'Are You Sure?'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">		</span><span class="NAME">boxYES</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'YES'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">		</span><span class="NAME">boxNO</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'NO&nbsp;'</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">		</span><span class="COMM">/*
+<span class='line'>186</span> 		onDisplay: $empty,
+<span class='line'>187</span> 		onConfirm: $empty
+<span class='line'>188</span> 		*/</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>191</span> 	  * @constructor
+<span class='line'>192</span> 	  *
+<span class='line'>193</span> 	  * Creates the elements needs for the confirmation box using the passed in options, then creates a lightbox with the element and trggers it
+<span class='line'>194</span> 	  *
+<span class='line'>195</span> 	  * @param {string[]} 	options 		passed in options
+<span class='line'>196</span> 	  */</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">		</span><span class="NAME">this.setOptions</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">		
+<span class='line'>200</span> 		</span><span class="COMM">//The Background Layer</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">		</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Element</span><span class="PUNC">(</span><span class="STRN">'div'</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">			</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.name</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">			</span><span class="NAME">styles</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>204</span> 				</span><span class="NAME">position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'fixed'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">left</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'0'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">top</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'0'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">				</span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'100%'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'100%'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">				</span><span class="NAME">display</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'none'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">				</span><span class="NAME">background</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.back</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">				</span><span class="NAME">zIndex</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'10000'</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">			
+<span class='line'>211</span> 		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">inject</span><span class="PUNC">(</span><span class="NAME">document.body</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">		</span><span class="COMM">//Button Styles</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">		</span><span class="NAME">buttonStyles</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Hash</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">			</span><span class="NAME">float</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'left'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">			</span><span class="NAME">fontWeight</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'bold'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fontSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.fontSize</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fontFamily</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.font</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">			</span><span class="NAME">cursor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'pointer'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">			</span><span class="NAME">border</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'solid black 1px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">			</span><span class="NAME">background</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.boxButtonColor</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">			</span><span class="NAME">marginLeft</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'30px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">			</span><span class="NAME">margin</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'20px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">			</span><span class="NAME">padding</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'10px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">			</span><span class="NAME">position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'absolute'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">left</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'10%'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bottom</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'0'</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">		</span><span class="COMM">//The Confirm Button</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">		</span><span class="NAME">confirmButton</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Element</span><span class="PUNC">(</span><span class="STRN">'span'</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">			</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.name</span><span class="PUNC">+</span><span class="STRN">'Confirm'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">			</span><span class="NAME">styles</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">buttonStyles</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">			</span><span class="NAME">class</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.boxCurved</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">			</span><span class="NAME">html</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.boxYES</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">		</span><span class="COMM">//The Close Button</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">		</span><span class="NAME">buttonStyles.erase</span><span class="PUNC">(</span><span class="STRN">'left'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">		</span><span class="NAME">buttonStyles.set</span><span class="PUNC">(</span><span class="STRN">'right'</span><span class="PUNC">,</span><span class="STRN">'10%'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">		</span><span class="NAME">closeButton</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Element</span><span class="PUNC">(</span><span class="STRN">'span'</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">			</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.name</span><span class="PUNC">+</span><span class="STRN">'Close'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">			</span><span class="NAME">styles</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">buttonStyles</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">			</span><span class="NAME">class</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.boxCurved</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">			</span><span class="NAME">html</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.boxNO</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">		</span><span class="COMM">//The Message Box</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">		</span><span class="NAME">confirmBox</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Element</span><span class="PUNC">(</span><span class="STRN">'div'</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">			</span><span class="NAME">class</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.boxCurved</span><span class="PUNC">+</span><span class="STRN">' '</span><span class="PUNC">+</span><span class="NAME">this.options.name</span><span class="PUNC">+</span><span class="STRN">'Content'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">			</span><span class="NAME">styles</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">				</span><span class="NAME">position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'fixed'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">left</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'40%'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">top</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'100px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">				</span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.boxMSG.length</span><span class="PUNC">*</span><span class="NAME">this.options.fontSize</span><span class="PUNC">+</span><span class="STRN">'px'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">confirmButton.getStyle</span><span class="PUNC">(</span><span class="STRN">'lineHeight'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toInt</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">*</span><span class="NUMB">5</span><span class="PUNC">+</span><span class="STRN">'px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">				</span><span class="NAME">fontFamily</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.font</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fontSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.fontSize</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.color</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">				</span><span class="NAME">display</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'none'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">				</span><span class="NAME">border</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.boxBorder</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">				</span><span class="NAME">backgroundColor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.boxBack</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">				</span><span class="NAME">padding</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'10px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">				</span><span class="NAME">zIndex</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'10001'</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">			</span><span class="NAME">html</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'&lt;div>'</span><span class="PUNC">+</span><span class="NAME">this.options.boxMSG</span><span class="PUNC">+</span><span class="STRN">'&lt;/div>&lt;br />'</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">		</span><span class="COMM">//inject buttons into box</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">		</span><span class="NAME">confirmButton.inject</span><span class="PUNC">(</span><span class="NAME">confirmBox</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">		</span><span class="NAME">closeButton.inject</span><span class="PUNC">(</span><span class="NAME">confirmBox</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">		</span><span class="COMM">//add confirmBox to DOM</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">		</span><span class="NAME">confirmBox.inject</span><span class="PUNC">(</span><span class="NAME">document.body</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="COMM">//Create the Lightbox</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">		</span><span class="NAME">this.confirmLB</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">LightBox</span><span class="PUNC">(</span><span class="NAME">this.options.name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">			</span><span class="NAME">onShow</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">				</span><span class="NAME">this.fireEvent</span><span class="PUNC">(</span><span class="STRN">'display'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">			</span><span class="NAME">onHide</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>266</span> 				</span><span class="NAME">this.fadeLightbox.delay</span><span class="PUNC">(</span><span class="STRN">'200'</span><span class="PUNC">,</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">			</span><span class="NAME">onRemove</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">				</span><span class="COMM">//destroy confirmation box</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">this.options.name</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">this.options.name</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">destroy</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">$$</span><span class="PUNC">(</span><span class="STRN">'.'</span><span class="PUNC">+</span><span class="NAME">this.options.name</span><span class="PUNC">+</span><span class="STRN">'Content'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">$$</span><span class="PUNC">(</span><span class="STRN">'.'</span><span class="PUNC">+</span><span class="NAME">this.options.name</span><span class="PUNC">+</span><span class="STRN">'Content'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">destroy</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">	
+<span class='line'>273</span> 		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">		</span><span class="NAME">this.confirmLB.trigger</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">		
+<span class='line'>276</span> 		</span><span class="COMM">//Add Confirm Button Event</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">this.options.name</span><span class="PUNC">+</span><span class="STRN">'Confirm'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addEvent</span><span class="PUNC">(</span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">			</span><span class="NAME">this.fireEvent</span><span class="PUNC">(</span><span class="STRN">'confirm'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">			</span><span class="NAME">this.confirmLB.trigger</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">		
+<span class='line'>282</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

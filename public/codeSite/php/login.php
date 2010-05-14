@@ -1,5 +1,8 @@
 <?php 
-
+/**
+  * Authenticate a user
+  * @package MooKit
+  */
 //don't do anything if already logged in
 //~ if($_SESSION['auth'] === 1) {
 	//~ echo json_encode(array('status'=>"IN"));

@@ -1,4 +1,8 @@
 <?
+/**
+  * Creator - Get Posts
+  * @package MooKit
+  */
 //require Create Access
 if(Security::clearance() & ACCESS_CREATE) {
 	if(!isset($_POST['title'])) $_POST['title'] = NULL;

@@ -1,4 +1,8 @@
 <?php
+/**
+  * Administration Panel
+  * @package MooKit
+  */
 //require Administrator Access
 if(Security::clearance() & ACCESS_ADMIN) {
 ?>

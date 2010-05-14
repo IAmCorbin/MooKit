@@ -1,0 +1,909 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - SortingTable</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/ConfirmBox.html">ConfirmBox</a></li>
+	
+	<li><a href="../symbols/DeepLinker.html">DeepLinker</a></li>
+	
+	<li><a href="../symbols/Function.html">Function</a></li>
+	
+	<li><a href="../symbols/LightBox.html">LightBox</a></li>
+	
+	<li><a href="../symbols/Object.html">Object</a></li>
+	
+	<li><a href="../symbols/PaginatingTable.html">PaginatingTable</a></li>
+	
+	<li><a href="../symbols/SortingTable.html">SortingTable</a></li>
+	
+	<li><a href="../symbols/SubDisplay.html">SubDisplay</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class SortingTable
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				Make a table sortable by clicking on the headers
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/public_codeCore_Classes_js_SortingTable.js.html">SortingTable.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class SortingTable.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/SortingTable.html#constructor">SortingTable</a></b>()
+							</div>
+							<div class="description"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class SortingTable.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.conversion_function">conversion_function</a></b>
+								</div>
+								<div class="description">conversion function in use</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.conversion_matcher">conversion_matcher</a></b>
+								</div>
+								<div class="description">conversion matcher in use</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.conversions">conversions</a></b>
+								</div>
+								<div class="description">stores conversion matchers and functions</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.headers">headers</a></b>
+								</div>
+								<div class="description">the table headers</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.options.details">options.details</a></b>
+								</div>
+								<div class="description">row details switch</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.options.dont_sort_class">options.dont_sort_class</a></b>
+								</div>
+								<div class="description">class for non sorted columns</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.options.forward_sort_class">options.forward_sort_class</a></b>
+								</div>
+								<div class="description">class for forward sorted column header</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.options.onSorted">options.onSorted</a></b>
+								</div>
+								<div class="description">event fired on sort</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.options.paginator">options.paginator</a></b>
+								</div>
+								<div class="description">the table paginator</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.options.reverse_sort_class">options.reverse_sort_class</a></b>
+								</div>
+								<div class="description">class for reverse sorted column header</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.options.zebra">options.zebra</a></b>
+								</div>
+								<div class="description">zebra stripe rows switch</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.removeAltClassRe">removeAltClassRe</a></b>
+								</div>
+								<div class="description">regular expression</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.sort_column">sort_column</a></b>
+								</div>
+								<div class="description">the current sort by column</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.table">table</a></b>
+								</div>
+								<div class="description">the table to add sorting to</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SortingTable.<b><a href="../symbols/SortingTable.html#.tbody">tbody</a></b>
+								</div>
+								<div class="description">the body of the table</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class SortingTable.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SortingTable.<b><a href="../symbols/SortingTable.html#.stripe_table">stripe_table</a></b>(tr_elements)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>SortingTable</b>()
+				</div>
+				
+				<div class="description">
+					
+					<br /><i>Author: </i>added this documentation May 13, 2010, .
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+						<dl class="detailList">
+						<dt class="heading">Requires:</dt>
+						
+							<dd>MooTools 1.2 http://mootools.net/
+// new SortingTable( 'my_table', {
+// zebra: true, // Stripe the table, also on initialize
+// details: false, // Has details every other row
+// paginator: false, // Pass a paginator object
+// onSorted: function(){}, // Callback to run after sort
+// dont_sort_class: 'nosort', // Class name on th's that don't sort
+// forward_sort_class: 'forward_sort', // Class applied to forward sort th's
+// reverse_sort_class: 'reverse_sort' // Class applied to reverse sort th's
+// });
+//
+// The above were the defaults. The regexes in load_conversions test a cell
+// begin sorted for a match, then use that conversion for all elements on that
+// column.
+//
+// Requires mootools Class, Array, Function, Element, Element.Selectors,
+// Element.Event, and you should probably get Window.DomReady if you're smart.</dd>
+						
+						</dl>
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name=".conversion_function"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{string}</span>
+					<span class="light">SortingTable.</span><b>conversion_function</b>
+					
+					</div>
+					<div class="description">
+						conversion function in use
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".conversion_matcher"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{string}</span>
+					<span class="light">SortingTable.</span><b>conversion_matcher</b>
+					
+					</div>
+					<div class="description">
+						conversion matcher in use
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".conversions"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Array}</span>
+					<span class="light">SortingTable.</span><b>conversions</b>
+					
+					</div>
+					<div class="description">
+						stores conversion matchers and functions
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".headers"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Array}</span>
+					<span class="light">SortingTable.</span><b>headers</b>
+					
+					</div>
+					<div class="description">
+						the table headers
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".options.details"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{bool}</span>
+					<span class="light">SortingTable.</span><b>options.details</b>
+					
+					</div>
+					<div class="description">
+						row details switch
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".options.dont_sort_class"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{string}</span>
+					<span class="light">SortingTable.</span><b>options.dont_sort_class</b>
+					
+					</div>
+					<div class="description">
+						class for non sorted columns
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".options.forward_sort_class"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{string}</span>
+					<span class="light">SortingTable.</span><b>options.forward_sort_class</b>
+					
+					</div>
+					<div class="description">
+						class for forward sorted column header
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".options.onSorted"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/_global_.html#$empty">$empty</a>}</span>
+					<span class="light">SortingTable.</span><b>options.onSorted</b>
+					
+					</div>
+					<div class="description">
+						event fired on sort
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".options.paginator"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/PaginatingTable.html">PaginatingTable</a>}</span>
+					<span class="light">SortingTable.</span><b>options.paginator</b>
+					
+					</div>
+					<div class="description">
+						the table paginator
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".options.reverse_sort_class"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{string}</span>
+					<span class="light">SortingTable.</span><b>options.reverse_sort_class</b>
+					
+					</div>
+					<div class="description">
+						class for reverse sorted column header
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".options.zebra"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{int}</span>
+					<span class="light">SortingTable.</span><b>options.zebra</b>
+					
+					</div>
+					<div class="description">
+						zebra stripe rows switch
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".removeAltClassRe"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{RegExp}</span>
+					<span class="light">SortingTable.</span><b>removeAltClassRe</b>
+					
+					</div>
+					<div class="description">
+						regular expression
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".sort_column"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{element}</span>
+					<span class="light">SortingTable.</span><b>sort_column</b>
+					
+					</div>
+					<div class="description">
+						the current sort by column
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".table"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{element}</span>
+					<span class="light">SortingTable.</span><b>table</b>
+					
+					</div>
+					<div class="description">
+						the table to add sorting to
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".tbody"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{element}</span>
+					<span class="light">SortingTable.</span><b>tbody</b>
+					
+					</div>
+					<div class="description">
+						the body of the table
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".stripe_table"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SortingTable.</span><b>stripe_table</b>(tr_elements)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>tr_elements</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2 on Fri May 14 2010 00:51:10 GMT-0400 (EDT)
+		</div>
+	</body>
+</html>

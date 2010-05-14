@@ -1,4 +1,8 @@
 <?php
+/**
+  * Creator - Edit an Existing Post
+  * @package MooKit
+  */
 //require Create Access
 if(Security::clearance() & ACCESS_CREATE) {
 	$post = new Post(array('post_id'=>$_POST['post_id'],

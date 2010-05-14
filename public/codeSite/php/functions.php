@@ -1,4 +1,8 @@
 <?
+/**
+  * Global Site Functions
+  * @package MooKit
+  */
 /** update User Info Box **/
 function updateUserInfo() {
 	return "<div>".(isset($_SESSION['alias'])? "Welcome ".$_SESSION['alias']." (".getHumanAccess($_SESSION['access_level']).")" : "Welcome Guest - Please Sign Up or Log In to access more features")

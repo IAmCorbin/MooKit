@@ -5,10 +5,6 @@
 	
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	
-	<script type="text/javascript" src="js/mootools-1.2.1-core.js"></script>
-	<script type="text/javascript" src="js/mootools-1.2-more.js"></script>
-	<script type="text/javascript" src="js/ImageZoom.js"></script>
-	
 	<title>MooKit Documentation</title>
 	<style type="text/css">
 		* { margin: 0; text-align: center; }
@@ -17,20 +13,10 @@
 		#phpDoc { float: left; width: 50%; height: 600px; }
 		#jsDoc { float: left; width: 50%; height: 600px; }
 		#jsDoc iframe { background: #FFF;  }
-		#DIA {  }
 	</style>
 </head>
 <body>
-	
-	<div id="container">
-		<!-- Image zoom start -->
-		<div id="zoomer_thumb">
-			<a href="MooKit.big.png" target="_blank"><img src="MooKit.small.png" width="20%" height="20%" /></a>
-		</div>
-		<div id="zoomer_big_container"></div>
-		<!-- Image zoom end -->
-		<p id="report"> Move the grey rectangle on the thumbnail to see the zoomed area. You can also drag the "big" image and see the region zoomed getting updated on the thumbnail.</p>
-	</div>
+	Click <a href="MooKit.png" />HERE</a> to view a diagram of the system made with <a href="http://projects.gnome.org/dia/"><img src="dia.png" alt="dia drawing program" /></a> (Note: the diagram is very large, it may be easier to view if you download and view it with an image program)
 	<div id="phpDoc">
 		PHP Documentation
 		<iframe src="phpDocs/index.html" width="100%" height="100%"> </iframe> 

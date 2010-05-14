@@ -1,4 +1,8 @@
 <?php
+/**
+  * Site Settings (Directories, Timezone, DEBUG flag)
+  * @package MooKit
+  */
 //*************
 //Site Settings
 //*************

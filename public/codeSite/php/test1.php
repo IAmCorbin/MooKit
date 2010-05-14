@@ -1,4 +1,8 @@
 <?php 
+/**
+  * Test Script
+  * @package MooKit
+  */
 $DB = new DB_MySQLi;
 
 $users = $DB->get_rows("SELECT * FROM `users`");

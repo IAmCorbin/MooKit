@@ -1,4 +1,8 @@
 <?php
+/**
+  * Creator - Delete A User Post Permission
+  * @package MooKit
+  */
 //require Create Access
 if(Security::clearance() & ACCESS_CREATE) {
 	echo Post::deleteUserPerm($_POST['user_id'],$_POST['post_id'],$_POST['rType']);

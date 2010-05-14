@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class DB_MySQLi</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class DB_MySQLi</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">class DB_MySQLi</p>
+<p class="description"><p>DB_MySQL Database Connection class  Encapsulates a mysqli database object and privides methods for working with the database ( Includes Prepared Statements )</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Corbin Tarrant</li>
+				<li><span class="field">link:</span> <a href="http://www.IAmCorbin.net">http://www.IAmCorbin.net</a></li>
+				<li><span class="field">birth:</span> May 5th, 2010</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_codeCore---Classes---php---DB_MySQLi.php.html">/codeCore/Classes/php/DB_MySQLi.php</a> (line <span class="field"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a17">17</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																								<div class="var-title">
+					<span class="var-type">mysqli</span>
+					<a href="#$mysqli" title="details" class="var-name">$mysqli</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$STATUS" title="details" class="var-name">$STATUS</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mysqli_stmt</span>
+					<a href="#$stmt" title="details" class="var-name">$stmt</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																														
+				<div class="method-definition">
+											<span class="method-result">DB_MySQLi</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$user</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$pass</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$db</span> = <span class="var-default">NULL</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#bind_param" title="details" class="method-name">bind_param</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$exec</span> = <span class="var-default">TRUE</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#bind_results" title="details" class="method-name">bind_results</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$results</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$close</span> = <span class="var-default">TRUE</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$results</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#close" title="details" class="method-name">close</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#closeStmt" title="details" class="method-name">closeStmt</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#delete" title="details" class="method-name">delete</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">NULL</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#execute" title="details" class="method-name">execute</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#formatResults" title="details" class="method-name">formatResults</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$results</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">&quot;object&quot;</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$results</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#get_row" title="details" class="method-name">get_row</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">&quot;object&quot;</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#get_rows" title="details" class="method-name">get_rows</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">&quot;object&quot;</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#insert" title="details" class="method-name">insert</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">NULL</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#prepare" title="details" class="method-name">prepare</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$exec</span> = <span class="var-default">FALSE</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#trigger_DB_error" title="details" class="method-name">trigger_DB_error</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$error</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span> = <span class="var-default">NULL</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#update" title="details" class="method-name">update</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">NULL</span>])
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$mysqli" id="$mysqli"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mysqli</span>
+			<span class="var-name">$mysqli</span>
+			 = <span class="var-default"> NULL</span>			(line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a19">19</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> mysqli database object</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$STATUS" id="$STATUS"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$STATUS</span>
+			 = <span class="var-default"> &quot;1&quot;</span>			(line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a23">23</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> holds 1 or error status *</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$stmt" id="$stmt"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mysqli_stmt</span>
+			<span class="var-name">$stmt</span>
+			 = <span class="var-default"> NULL</span>			(line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a21">21</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> holds the current prepared statement</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a33">33</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor - Create mysqli database object</p>
+	
+	<div class="method-signature">
+		<span class="method-result">DB_MySQLi</span>
+		<span class="method-name">
+			__construct
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$user</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$pass</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$db</span> = <span class="var-default">NULL</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$host</span><span class="var-description">: the db host</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$user</span><span class="var-description">: the db user</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$pass</span><span class="var-description">: the db user password</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$db</span><span class="var-description">: the db to use</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodbind_param" id="bind_param"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">bind_param</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a190">190</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Bind prepared statement query variables</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> status</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			bind_param
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$exec</span> = <span class="var-default">TRUE</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$types</span><span class="var-description">: mysqli-&gt;bind_param($types)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$vars</span><span class="var-description">: the variables to bind</span>			</li>
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$exec</span><span class="var-description">: switch to execute the statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodbind_results" id="bind_results"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">bind_results</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a222">222</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Bind The Query Results to variables</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> status</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			bind_results
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$results</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$close</span> = <span class="var-default">TRUE</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$results</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$results</span><span class="var-description">: results will be bound to this array, each row will be an associative array</span>			</li>
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$close</span><span class="var-description">: switch to close the stmt</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$results</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodclose" id="close"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">close</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a264">264</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Close the current mysqli connection</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> status</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			close
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcloseStmt" id="closeStmt"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">closeStmt</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a257">257</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Close the current Prepared Statment</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> status</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			closeStmt
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methoddelete" id="delete"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">delete</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a163">163</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Delete Database Rows</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the number rows affected</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			delete
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">NULL</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$query</span><span class="var-description">: The Update sql</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$types</span><span class="var-description">: mysqli-&gt;bind_param($types)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$vars</span><span class="var-description">: the variables to bind</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$rType</span><span class="var-description">: optionally (used to get a json return)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodexecute" id="execute"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">execute</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a208">208</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Executes the current stmt</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> status</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			execute
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodformatResults" id="formatResults"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">formatResults</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a273">273</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Change query results to desired format</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> formatted results</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			formatResults
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$results</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">&quot;object&quot;</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$results</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$results</span><span class="var-description">: The mysqli result object you want to format</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$rType</span><span class="var-description">: The format you want -  &quot;object&quot; -  array of objects, &quot;assoc&quot;- associative array, &quot;json&quot; - javascript object notation, &quot;enum&quot; - enumerated array</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$results</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodget_row" id="get_row"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">get_row</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a50">50</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks for LIMIT 1 on query and adds it if not existent, runs through get_rows, and then returns the first result</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> returns the row in the desired format or false</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			get_row
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">&quot;object&quot;</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$query</span><span class="var-description">: a valid mysql query to prepare and excecute</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$types</span><span class="var-description">: mysqli-&gt;bind_param($types)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$vars</span><span class="var-description">: the variables to bind</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$rType</span><span class="var-description">: {@see formatResults}</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodget_rows" id="get_rows"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">get_rows</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a70">70</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Grab an array of rows from the database</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array of results or false</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			get_rows
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">&quot;object&quot;</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$query</span><span class="var-description">: a valid mysql query to prepare and excecute</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$types</span><span class="var-description">: mysqli-&gt;bind_param($types)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$vars</span><span class="var-description">: the variables to bind</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$rType</span><span class="var-description">: {@see formatResults}</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodinsert" id="insert"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">insert</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a114">114</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Insert a new row in the Database</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the number rows affected</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			insert
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">NULL</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$query</span><span class="var-description">: The Insert sql</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$types</span><span class="var-description">: mysqli-&gt;bind_param($types)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$vars</span><span class="var-description">: the variables to bind</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$rType</span><span class="var-description">: optionally (used to get a json return)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodprepare" id="prepare"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">prepare</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a173">173</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Setup a Prepared Statement</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> status</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			prepare
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$exec</span> = <span class="var-default">FALSE</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$query</span><span class="var-description">: the query to prepare</span>			</li>
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$exec</span><span class="var-description">: switch to execute the statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodtrigger_DB_error" id="trigger_DB_error"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">trigger_DB_error</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a304">304</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Function to be thrown in the event of an error, logs the error</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			trigger_DB_error
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$error</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span> = <span class="var-default">NULL</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$error</span><span class="var-description">: string specifying the error to be thrown - send a custom string or one of the following:          E_DB_CONN : error establishing mysqli connection          E_DB_PREPARE : error preparing the query          E_DB_BIND_PARAM : error binding parameters to the prepared query          E_DB_EXEC : error executing prepared query          E_DB_BIND_RESULTS : error binding prepared query results          E_DB_QUERY : error with a sql query</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sql</span><span class="var-description">: optionally pass in the sql statement that triggered the error</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodupdate" id="update"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">update</span> (line <span class="line-number"><a href="../__filesource/fsource_MooKit__codeCoreClassesphpDB_MySQLi.php.html#a151">151</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Update Database Rows</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the number rows affected</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			update
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$types</span> = <span class="var-default">NULL</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$vars</span> = <span class="var-default">NULL</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$rType</span> = <span class="var-default">NULL</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$query</span><span class="var-description">: The Update sql</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$types</span><span class="var-description">: mysqli-&gt;bind_param($types)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$vars</span><span class="var-description">: the variables to bind</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$rType</span><span class="var-description">: optionally (used to get a json return)</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 13 May 2010 22:58:37 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
