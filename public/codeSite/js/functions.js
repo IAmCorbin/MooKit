@@ -5,9 +5,7 @@ function updateApp() {
 	refreshMenu();
 	refreshUserInfo();
 }
-/**
-  * @function refresh the site menu
-  */ 
+/** @function refresh the site menu */ 
 function refreshMenu() {
 	new Request.HTML({
 		url: 'codeSite/php/updateMenu.php',
@@ -20,6 +18,7 @@ function refreshMenu() {
 		}
 	}).send();
 }
+/** @function refresh the user info box */ 
 function refreshUserInfo() {
 	new Request({
 			url: 'codeSite/php/updateUserInfo.php',
