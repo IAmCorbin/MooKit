@@ -27,14 +27,14 @@ class MooKit {
 	 * Constructor
 	 *
 	 * Handles the request and returns requested files if allowed
-	 * @param string $request			The application request $_GET['request'] - this is set by .htaccess
-	 *								For Reference:
-	 * 								## Force connections through index.php for handling
-	 * 								## if not already index.php
-	 *								RewriteCond %{REQUEST_URI} !/index\.php$
-	 *								## and request has not already been set
-	 *								RewriteCond %{QUERY_STRING} !request=
-	 *								RewriteRule ^(.+)$ /index.php?request=$1 [L]
+	 * @param 	string 	$request			The application request $_GET['request'] - this is set by .htaccess
+	 *									For Reference:
+	 * 									## Force connections through index.php for handling
+	 *									## if not already index.php
+	 *									RewriteCond %{REQUEST_URI} !/index\.php$
+	 *									## and request has not already been set
+	 *									RewriteCond %{QUERY_STRING} !request=
+	 *									RewriteRule ^(.+)$ /index.php?request=$1 [L]
 	 */
 	
 	public function __construct($request) {
@@ -46,45 +46,10 @@ class MooKit {
 		//Start Session and regenerate Session ID for security
 		session_start();
 		session_regenerate_id();
-		
 		$_SESSION['SYSNAME'] = 'MooKit';
-		
-		//SECURITY
-		//require authorized user for /secure/ files
-		preg_match("/\/secure\//",$request)? $secure=true : $secure = false;
-		if($secure) {
-			//Security Check
-			if(!Security::clearance()) {
-				//if not authorized return here without returning the file
-				return;
-			}
-		}
-
-		//FILE HANDLING
-		if(is_readable($request) && !is_dir($request) ) {
-			
-			if(preg_match('/\.(php|css|js)$/',$request)) {
-				//return file if a valid type
-				include $request;
-				exit();
-			}
-			if(preg_match('/\.(gif|jpg|jpeg|png)$/',$request,$type)) {
-				//return image
-				if($type[0]=='.jpg' || $type[0]=='.jpeg') $type='jpeg';
-				if($type[0]=='.gif') $type='gif';
-				if($type[0]=='.png') $type='png';
-				//set content type
-				header('Content-Type: image/'.$type[0]);
-				//output image
-				readfile($request);
-				exit();
-			}
-		}
-		
-		//~ if(file_exists('cache/cache.htm')) {
-			//~ require ROOT_DIR.'cache.htm';
-			//~ exit("CACHED!");
-		//~ }
+	
+		//Handle Request
+		new RequestHandler($request);
 	}
 	/**
 	  * Application Initialization
