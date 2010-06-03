@@ -191,7 +191,7 @@ class DB_MySQLi {
 		//prepend types to the beginning of variables to pass into the bind_param function
 		array_unshift($vars,$types);
 		//bind the variables
-		if(!call_user_func_array(array($this->stmt,'bind_param'),$vars)) {
+		if(!call_user_func_array(array($this->stmt,'bind_param'),makeValuesReferenced($vars))) {
 			$this->trigger_DB_error("E_DB_BIND_PARAM");
 			$this->closeStmt();
 			return false;

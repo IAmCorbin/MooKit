@@ -175,6 +175,19 @@ function getHumanAccess($access_level) {
 }
 
 /**
+  * return references for an array of values
+  * @param	array	$arr		the array to return references for
+  */ 
+function makeValuesReferenced($arr){
+    $refs = array();
+    foreach($arr as $key => $value)
+        $refs[$key] = &$arr[$key];
+    return $refs;
+
+}
+
+
+/**
   * print a line break with an optional centered message - used for debugging
   * @param	string	$msg	the message
   * @param	int		$rows	the number of rows
