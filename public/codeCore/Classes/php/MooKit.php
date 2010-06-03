@@ -12,7 +12,7 @@
  */
 class MooKit {
 	/** @var 	string		$VERSION		MooKit Version */
-	var $VERSION = 'v0.8';
+	var $VERSION = '0.1.0';
 	/** @var 	array		$scriptsPublic		Public JavaScripts */
 	var $scriptsPublic;
 	/** @var 	array 		$scriptsSecure		Authorized JavaScripts */

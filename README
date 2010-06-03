@@ -1,5 +1,5 @@
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---  MooKit V 0.1	Alpha																					    --
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--  MooKit V 0.1.0																						    --
 --  																									    --
 --  My Object Oriented Toolkit																				    --
 --  																									    --
@@ -53,11 +53,11 @@ MooKit is a web development toolkit using these technologies at it's core:
 
 Goals:
 																							--
-	- The MooKit is a robust and scalable solution to any webDevelopment challange.							--
+	- The MooKit is a robust and scalable solution that allows multiple users to manage content in a simple fashion	--
 																							--
 	- The Mookit eliminates redundant data and creates a nicely organized structure							--
 																							--
-	- The MooKit provides object oriented pieces you can snap together to create a site 						--
+	- The MooKit provides object oriented pieces you can snap together to create an application				--
 																							--
 	- The MooKit allows for the creation of a solid structure(context), that can then be filled with dynamic content	--
 																							--
