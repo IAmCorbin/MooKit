@@ -1,0 +1,56 @@
+MooKit -- ( OOdea - object oriented development environment for applications - got an idea? make it an oodea )
+
+- Groups
+  - Alter DB table to store creator_id
+  - Group Class
+  - Group Management in Creator Area
+  
+- Email 
+  - new Class
+  - New User Validation
+  - Password Reset
+  
+- Post
+  - Orphen posts on deleted users
+  - chmod replace *
+  - Revision History
+  - Comment System
+
+- Tags
+  - Optional images instead of text
+  
+- Documentation
+  - Create General
+  
+- Link
+  - "Add Link" JavaScript Validator *
+  - Expand for infinate recursion
+  
+- Caching System
+  - CSS & JS concat and Minify (rebuild on fileModTime)
+  
+- JavaScript
+  - Improve LightBox Class
+  - Improve AJAX return handling ( JavaScript AJAX loading : requestJavaScript)
+  - DeepLinker pull ajaxLink actions from Database?
+  - TemplateLoad Class *
+  - Improve SubDisplay Class
+  
+- Aggregator Class
+  - Research
+  
+-phpmysqlautobackup
+ - Analyze and integrate similar
+
+- Other
+  - Templates for Core Modules ( core tpl folder) *
+  -  Admin Code Area (editarea_0_8_2 ? )
+  - WYSYWG Editing (xhtml complient)
+  - Anti-Hammer
+  - Allow Resources to be uploaded
+  - Make Security System more fine-grain/customizable
+  - Traffic Monitoring and statistics
+  - Catch Ctrl-S for posting/saving
+  
+  
+* High Priority
